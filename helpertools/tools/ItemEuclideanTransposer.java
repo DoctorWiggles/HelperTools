@@ -1,4 +1,4 @@
-package helpertools.items;
+package helpertools.tools;
 
 import java.util.List;
 
@@ -33,17 +33,11 @@ import net.minecraftforge.event.world.ChunkEvent;
 
 public class ItemEuclideanTransposer extends ItemSpade
 {
-    private static final String __OBFID = "CL_00000035";
-
-  
-   
-
     public ItemEuclideanTransposer(ToolMaterial material)
     {
     	super (material);
         this.maxStackSize = 1;  
         setUnlocalizedName("euclideantransposer");
-        //setCreativeTab(Helpertoolscore.HelperTools);
         setCreativeTab(HelpTab.HelperTools);
         setTextureName("helpertools:EuWand1");
     }
@@ -53,13 +47,6 @@ public class ItemEuclideanTransposer extends ItemSpade
     {
     par3List.add(EnumChatFormatting.ITALIC + "sets patterns");
     }
-    /*
-    public String getItemStackDisplayName(ItemStack p_77653_1_)
-    {
-        return (EnumChatFormatting.GREEN + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(p_77653_1_) + ".name")).trim();
-    }
-    */
-   
     /////////////////////////////////////////////////////////////
     public int getMode(ItemStack itemStack)
    	{
@@ -165,35 +152,7 @@ public class ItemEuclideanTransposer extends ItemSpade
 		}
     
     //////////////////////////////////////////////////////////////
-    
-    //////////////////////////////////////////////////////////////
-    
-    
-    
-    
-    
-	//private int mode = 2;
-	//declares mode integer
-	
-	//
-	
-	//
-	//
-	//(theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
-    //
-	//Auto generated stuff
-	//Allows modes to be seen and set outside of class
-	//public int getMode() {
-	//	return mode;
-	//}
-	//public void setMode(int mode) {
-	//	this.mode = mode;
-	//}
-
-
-	//tileEntity.setFacing((short)change);
-	//tileBlock.setFacing((short)theface);
-	 
+   
 	
 	//Generic tool stuff
 	public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_)
@@ -288,10 +247,16 @@ public class ItemEuclideanTransposer extends ItemSpade
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.lava 
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.water)
     				{
-    					
+    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))){
     					theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     					theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
-        		
+    					
+    					if (!theplayer.capabilities.isCreativeMode){
+    						 theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
+    						 thestaff.damageItem(1, theplayer);
+    					}
+    					}
+    					
         
     				}
     			

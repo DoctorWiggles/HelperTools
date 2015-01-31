@@ -13,8 +13,8 @@ package helpertools.models;
 
 import org.lwjgl.opengl.GL11;
 
-import helpertools.items.ItemStaffofExpansion;
-import helpertools.items.ItemTorchLauncher;
+import helpertools.tools.ItemStaffofExpansion;
+import helpertools.tools.ItemTorchLauncher;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

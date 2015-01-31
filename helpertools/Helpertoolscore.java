@@ -4,13 +4,10 @@ import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
-import helpertools.items.ItemDebugTool;
+import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
-import helpertools.items.ItemEuclideanTransposer;
-import helpertools.items.ItemStaffofExpansion;
-import helpertools.items.ItemStaffofTransformation2;
-import helpertools.items.ItemTorchLauncher;
+import helpertools.items.ItemMilkBottle;
 import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
@@ -20,6 +17,13 @@ import java.lang.reflect.Proxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import helpertools.tools.ItemDebugTool;
+import helpertools.tools.ItemEuclideanTransposer;
+import helpertools.tools.ItemStaffofExpansion;
+import helpertools.tools.ItemStaffofTransformation2;
+import helpertools.tools.ItemTorchLauncher;
+import helpertools.util.ForgeEventHandler;
+import mofmod.Mofmodcore;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -31,6 +35,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -78,10 +84,14 @@ public class Helpertoolscore {
 		
 		public static Item dynamitebolt;
 		public static Item dirtbomb;
+		public static Item bottledmilk;
+		public static Item chocolatemilk;
+		
 		public static Item debugtool;		
 		
     			
 		//Forge Support
+		public static ForgeEventHandler eventHandler = new ForgeEventHandler();
 		public static final Logger logger = LogManager.getLogger("HelperToolsID");
 		
 		
@@ -210,6 +220,14 @@ public class Helpertoolscore {
         	//debugtool = new ItemDebugTool();	
         	dynamitebolt = new ItemDynamiteBolt();        	
         	dirtbomb = new ItemDirtBomb();
+        	bottledmilk = new ItemMilkBottle();
+        	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
+        	
+        	
+        	//////////////
+        	/**Forge Handlers**/
+        	FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
+        	MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
         	
         	
         }
@@ -240,6 +258,10 @@ public class Helpertoolscore {
                 GameRegistry.registerItem(Helpertoolscore.dynamitebolt, "dynamitebolt");
                 
                 GameRegistry.registerItem(Helpertoolscore.dirtbomb, "dirtbomb");
+                
+                GameRegistry.registerItem(Helpertoolscore.bottledmilk, "bottledmilk");
+                GameRegistry.registerItem(Helpertoolscore.chocolatemilk, "chocolatemilk");
+                //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
               
                 
                 //Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
@@ -401,6 +423,25 @@ public class Helpertoolscore {
         			"ZXZ",
         			"ZZZ", Character.valueOf('X'), Items.gunpowder, Character.valueOf('Z'), Blocks.dirt}));
             	}
+        	
+        	ItemStack BucketOut = new ItemStack(Items.milk_bucket.setContainerItem(Items.bucket));
+        	//ItemStack BottleOut = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(Items.glass_bottle));
+        	//I don't know but once set it overrides it for every other recipe, setting it to null only override the other.
+        	//.oncreated --consume item seems to balance this with only a minor dupe bug for the first in the inventory
+        	//Recipes shouldn't require this much effort, what the hell
+        	ItemStack Bottledestroy = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(null));
+        	
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.bottledmilk, 1 , 0), new Object[]{
+        		 BucketOut, Items.glass_bottle}));
+        	
+        	//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.milk_bucket, 1 , 0), new Object[]{
+        	//	BottleOut, Items.bucket}));
+        	
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.chocolatemilk, 1 , 0), new Object[]{
+        		Bottledestroy, new ItemStack(Items.dye, 1, 3)}));
+        	
+        	
+        	
         	
         	
         	/**Extra Dictionaries**/

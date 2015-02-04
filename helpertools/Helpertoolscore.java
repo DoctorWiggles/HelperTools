@@ -441,6 +441,9 @@ public class Helpertoolscore {
         		Bottledestroy, new ItemStack(Items.dye, 1, 3)}));
         	
         	
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Blocks.dirt, 1 , 2), new Object[]{
+        		Blocks.dirt, "treeLeaves"}));
+        	
         	
         	
         	

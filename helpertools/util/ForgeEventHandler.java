@@ -1,6 +1,11 @@
 package helpertools.util;
 import helpertools.Helpertoolscore;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -12,6 +17,8 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -66,9 +73,51 @@ public class ForgeEventHandler {
 
 		 event.setCanceled(true);
 	}
-
-	    
 	
+	/**
+	@SubscribeEvent
+	public void PigletLitter(LivingSpawnEvent event)
+    {
+		if (event.isCanceled() || (event.world.isRemote) ||!(event.entity instanceof EntityPig)) { 
+		      return;
+		    }
+		
+		float i1 = event.x;
+        float j1 = event.y;
+        float k1 = event.z;
+        ////////////////////////////  
+       if(event.hasResult()){
+        EntityCow entityskeleton = new EntityCow(event.world);
+        entityskeleton.setLocationAndAngles(i1+.5, j1+.2, k1+.5, 0, 0.0F);
+        entityskeleton.onSpawnWithEgg((IEntityLivingData)null);
+        event.world.spawnEntityInWorld(entityskeleton);
+        }
+        
+        EntityPig entityskeleton2 = new EntityPig(event.world);
+        entityskeleton2.setLocationAndAngles(i1+.5, j1+.2, k1+.5, 0, 0.0F);
+        entityskeleton2.onSpawnWithEgg((IEntityLivingData)null);
+        ((EntityAgeable) event.entity).setGrowingAge(6000);
+        event.world.spawnEntityInWorld(entityskeleton2);
+        
+        
+       // EntityAgeable entityageable = ((EntityAgeable) event.entity).createChild(this);
+
+        
+        //p_70876_1_.setGrowingAge(6000);
+        //event.entity.inLove = 0;
+       // event.entity.breeding = 0;
+       // event.entity.entityToAttack = null;
+       // p_70876_1_.entityToAttack = null;
+       // p_70876_1_.breeding = 0;
+        //p_70876_1_.inLove = 0;
+       // entityageable.setGrowingAge(-24000);
+        //event.entity.setFire(20);
+        
+        //event.setCanceled(true);
+        //return;
+        
+    }
+	**/
 
 	/**
 	  @SubscribeEvent

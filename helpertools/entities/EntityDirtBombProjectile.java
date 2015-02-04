@@ -61,6 +61,57 @@ public class EntityDirtBombProjectile extends EntityThrowable{
    @Override
   protected void onImpact(MovingObjectPosition mop) {
       
+	   
+	   int sideHit = mop.sideHit;
+	   
+	   if(this.worldObj.isRemote){
+		      Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+		      Block pblock = Helpertoolscore.LooseDirtBlock;
+		      
+		      if (mop.entityHit != null )
+		      {
+		    	 return;
+		      }
+		      int i4 = mop.blockX-1;
+		      int j4 = mop.blockY-1;
+		      int k4 = mop.blockZ-2;
+		      
+		      if(sideHit == 0){
+		    	  j4 = j4-2;
+		    	  
+		      }
+		      
+		      short short1 =32;
+				for (int lp = 0; lp < short1; ++lp)
+		       {
+		           double d6 = (double)lp / ((double)short1 - 1.0D);
+		           float f = (this.growrand.nextFloat()*3) ;
+		           float f1 = (this.growrand .nextFloat()*3 );
+		           float f2 = (this.growrand .nextFloat()*3 );
+		           
+		           float p1 = (this.growrand .nextFloat()/5 ) ;
+		           float p = (this.growrand .nextFloat()-.5F )/5 ;
+		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;
+		           //float p2 = (this.growrand .nextFloat()-.5F/5 ) ;
+		           
+		           this.worldObj.spawnParticle("cloud", i4+f-.5, j4+f1+.5, k4+f2+.5, p, p1, p2);
+		           
+		       }
+				short short2 = 8;
+				for (int lp = 0; lp < short2; ++lp)
+		       {
+		           double d6 = (double)lp / ((double)short1 - 1.0D);
+		           float f = (this.growrand.nextFloat()*4) ;
+		           float f1 = (this.growrand .nextFloat()*4 );
+		           float f2 = (this.growrand .nextFloat()*4 );		          
+		           float p1 = (this.growrand .nextFloat()/3 ) ;
+		           float p = (this.growrand .nextFloat()-.5F )/5 ;
+		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;
+		           
+		           this.worldObj.spawnParticle("largesmoke", i4+f-.5, j4+f1, k4+f2+.5, p, p1, p2);
+		           
+		       }
+	   }
 	   if(!this.worldObj.isRemote){
 	  //The block it lands on in the world
       Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
@@ -84,6 +135,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
       //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.3, true);
       this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
       
+      
       int P = 3;
       int i1 = mop.blockX-1;
       int j1 = mop.blockY;
@@ -97,6 +149,11 @@ public class EntityDirtBombProjectile extends EntityThrowable{
       int j3 = mop.blockY+1;
       int k3 = mop.blockZ-1;
       ////////////////
+      if(sideHit == 0){
+    	  j1 = j1-3;
+    	  j2 = j2-3;
+    	  j3 = j3-3;
+      }
       
   		for (int G2 = 0; G2 < 5; ++G2)
   		{
@@ -116,9 +173,11 @@ public class EntityDirtBombProjectile extends EntityThrowable{
     	  ||  worldObj.getBlock(i1+U, j1+1+l, k1+G2).getMaterial()== Material.water)
       {
     	  this.worldObj.setBlock(i1+U, j1+1+l, k1+G2, pblock);  
+    	  
       }
       else {
     	  pblock.dropBlockAsItem(worldObj,i1+U, j1+1+l, k1+G2, 0, 0);
+    	 
       }
   					}
   			}}}
@@ -146,6 +205,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
       }
       else {
     	  pblock.dropBlockAsItem(worldObj,i2+U, j2+1+l, k2+G2, 0, 0);
+    	  
       }
   					}
   			}}}
@@ -171,6 +231,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
       }
       else {
     	  pblock.dropBlockAsItem(worldObj,i3+U, j3+1+l, k3+G2, 0, 0);
+    	  
       }
   					
   			}}}

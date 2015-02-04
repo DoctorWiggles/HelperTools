@@ -1,6 +1,7 @@
 package helpertools.tools;
 
 import java.util.List;
+import java.util.Random;
 
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
@@ -41,6 +42,12 @@ public class ItemEuclideanTransposer extends ItemSpade
         setCreativeTab(HelpTab.HelperTools);
         setTextureName("helpertools:EuWand1");
     }
+    //////////////////
+    protected static Random growrand = new Random();
+    ////////////////////////////////////////////////
+    
+    
+    
     //flavor text
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
@@ -159,14 +166,15 @@ public class ItemEuclideanTransposer extends ItemSpade
     {
         if ((double)p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D)
         {
-            p_150894_1_.damageItem(1, p_150894_7_);
+            p_150894_1_.damageItem(2, p_150894_7_);
         }
 
         return true;
     }
 	public boolean hitEntity(ItemStack p_77644_1_, EntityLivingBase p_77644_2_, EntityLivingBase p_77644_3_)
     {
-        p_77644_1_.damageItem(2, p_77644_3_);
+        p_77644_1_.damageItem(2, p_77644_3_);        
+        
         return true;
     }
 	//Custom mode changing code
@@ -226,7 +234,9 @@ public class ItemEuclideanTransposer extends ItemSpade
 	 * -> And finally depending on which gamemode to remove durability and items**/
     public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int i1, int j1, int k1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
-    	int P = 13;
+    	
+    	int successful = 0;
+    	int P = 5;
     	if (!theplayer.isSneaking()){
     	for (int G2 = 0; G2 < P; ++G2)
         {
@@ -243,13 +253,37 @@ public class ItemEuclideanTransposer extends ItemSpade
 					((EntityPlayer) theplayer)
 							.addChatComponentMessage(chatcomponenttranslation);
     				**/
+    				if (returnTBlock(thestaff, Nbtcounter) != Blocks.air){
+    				
     				if (theblock.isAirBlock(i1+U, j1+1+l, k1+G2)
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.lava 
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.water)
     				{
     					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))){
-    					theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
+    					//theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     					theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
+    					successful = 1;
+    					short short1 = 32;
+    					for (int lp = 0; lp < short1; ++lp)
+    		            {
+    		                double d6 = (double)lp / ((double)short1 - 1.0D);
+    		                /*
+    		                float f = (this.growrand.nextFloat() - 1.2F) * 0.2F;
+    		                float f1 = (this.growrand .nextFloat() - 1.2F) * 0.2F;
+    		                float f2 = (this.growrand .nextFloat() - 1.2F) * 0.2F;
+    		                */
+    		                float f = (this.growrand.nextFloat() - .5F) * 1.4F;
+    		                float f1 = (this.growrand .nextFloat() - .5F) * 1.4F;
+    		                float f2 = (this.growrand .nextFloat() - .5F) * 1.4F;
+    		                
+    		                float p = (this.growrand.nextFloat()) ;
+    		                float p1 = (this.growrand .nextFloat() ) ;
+    		                float p2 = (this.growrand .nextFloat() ) ;
+    		                //double d7 = d3 + (this.posX - d3) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
+    		                //double d8 = d4 + (this.posY - d4) * d6 + this.growrand .nextDouble() * (double)this.height;
+    		                //double d9 = d5 + (this.posZ - d5) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
+    		                theblock.spawnParticle("portal", i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
+    		            }
     					
     					if (!theplayer.capabilities.isCreativeMode){
     						 theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
@@ -259,11 +293,26 @@ public class ItemEuclideanTransposer extends ItemSpade
     					
         
     				}
-    			
+    			}
     			
     				}
     			}
+    		
+    		
         }
+    	if (successful == 1){
+			
+    		float py = (this.growrand .nextFloat()) ;
+			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .5F+py);
+			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.7F, .5F+py);
+			successful = 0;
+			return true;
+		}
+		if (successful ==0){
+			theplayer.worldObj.playSoundAtEntity(theplayer, "random.click",.4F, itemRand.nextFloat() * 0.4F + 0.5F);
+			successful = 0;
+			return true;
+		}
     	}
     	if (theplayer.isSneaking()){
     		
@@ -295,6 +344,9 @@ public class ItemEuclideanTransposer extends ItemSpade
         				}
         			}
             }
+    		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
+    				(double)k1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		
     	}
     	return false;
     }

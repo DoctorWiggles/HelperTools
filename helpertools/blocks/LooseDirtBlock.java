@@ -79,8 +79,11 @@ public class LooseDirtBlock extends BlockFalling
         {
             this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
         }
-        if(p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_) == Blocks.snow_layer)
+        if(p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_) == Blocks.snow_layer
+        		||  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()== Material.plants
+        		||  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()== Material.vine)
         {
+        	//p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).dropBlockAsItem(p_149674_1_,p_149674_2_, p_149674_3_, p_149674_4_, 0, 0);
         	p_149674_1_.setBlock(p_149674_2_, p_149674_3_-1, p_149674_4_, Blocks.air);
         }
         int ig = growrand.nextInt(10);
@@ -93,6 +96,8 @@ public class LooseDirtBlock extends BlockFalling
     		 &&  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-2, p_149674_4_).getMaterial()!= Material.lava
       	  &&  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-2, p_149674_4_).getMaterial()!= Material.water
         		&&p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_) != Blocks.snow_layer
+        		&&p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()!= Material.plants
+        		&&p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()!= Material.vine
         		
         		
         		)

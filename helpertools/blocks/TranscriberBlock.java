@@ -8,8 +8,10 @@ import helpertools.entities.EntityDynamiteProjectile;
 import java.util.List;
 import java.util.Random;
 
+import mofmod.blocks.tiles.TileEntitySmasher;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -28,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TranscriberBlock extends Block
+public class TranscriberBlock extends Block implements ITileEntityProvider
 {
     @SideOnly(Side.CLIENT)
     private IIcon field_150200_a;
@@ -111,59 +114,133 @@ public class TranscriberBlock extends Block
     
     
     
+    /**
+     * Tile entity construction
+     * @Orange Tutorials 
+     * 
+     */
     
-    
-    
-    public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
-    {
-        if (p_149727_1_.isRemote)
-        {
-            
-            return true;
-        }
-        if(!player.isSneaking()){
-        	
-        	
 
-        	int i1 = p_149727_2_;
-        	int j1 = p_149727_3_ ;
-        	int k1 = p_149727_4_;
-        	EntitySkeleton entityskeleton = new EntitySkeleton(p_149727_1_);
-            entityskeleton.setLocationAndAngles(i1+.5, j1+.3, k1+.5, 0, 0.0F);
-            //entityskeleton.onSpawnWithEgg((IEntityLivingData)null);
-            p_149727_1_.spawnEntityInWorld(entityskeleton);
-            
-        	//player.displayGUIWorkbench(p_149727_2_, p_149727_3_, p_149727_4_);
-        	return false;
-        }
-        	
-        if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_)== 0)
-        {
-            //int i1 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
-            //int j1 = i1 & 7;
-            //int k1 = 8 - (i1 & 8);
-            p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, 1, 2);
-            p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
-            //p_149727_1_.notifyBlocksOfNeighborChange(p_149727_2_, p_149727_3_, p_149727_4_, this);
+    @Override
+    public TileEntity createNewTileEntity(World world, int meta) {
+        return new TileEntityTranscriber();
+    }
 
-            return true;
-        }
-        else if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_)== 1)
-        {
-            //int i1 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
-            //int j1 = i1 & 7;
-            //int k1 = 8 - (i1 & 8);
-            p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, 0, 2);
-            p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
-            //p_149727_1_.notifyBlocksOfNeighborChange(p_149727_2_, p_149727_3_, p_149727_4_, this);
+    @Override
+    public boolean hasTileEntity(int metadata) {
 
-            return true;
-        }
-        else {
-        	return false;
-        }
+        return true;
     }
     
+    public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer player, int side, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+    {
+    	
+    		//tileentityhopper
+    	TileEntityTranscriber tile = (TileEntityTranscriber)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+
+            
+            if (tile != null)
+            {
+            	ItemStack itemstack = player.inventory.getCurrentItem();
+            	/**
+                if (itemstack != null && itemstack.getItem() == Items.bowl && !player.capabilities.isCreativeMode)
+                {
+                	
+                }
+                **/
+                if (itemstack != null)
+                {
+                	return false;
+                }
+                //p_149727_5_.func_146093_a(tileentityhopper);
+                	//(tileentityhopper).atck7 = 6;
+            	if(!player.isSneaking()){
+
+                    p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
+            		
+            	//bottom / top
+                if (side == 0){
+                	(tile).offY = (tile).offY +1;
+                }
+                if (side == 1){
+                	(tile).offY = (tile).offY -1;
+                }
+                //North South
+                if (side == 2){
+                	(tile).offZ = (tile).offZ +1;
+                }
+                if (side == 3){
+                	(tile).offZ = (tile).offZ -1;
+                }
+              //West East
+                if (side == 4){
+                	(tile).offX = (tile).offX +1;
+                }
+                if (side == 5){
+                	(tile).offX = (tile).offX -1;
+                }
+                  
+            	}
+            	
+            	//on off?
+            	if(player.isSneaking()){
+            		p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.6F);
+            		//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation((tile).offX +"X " + (tile).offY +"Y " + (tile).offZ +"Z ", new Object[0]);
+            	   	// player.addChatComponentMessage(chatcomponenttranslation); 
+            		
+            	   //bottom / top
+                     if (side == 0){
+                     	(tile).offY = (tile).offY -1;
+                     }
+                     if (side == 1){
+                     	(tile).offY = (tile).offY +1;
+                     }
+                     //North South
+                     if (side == 2){
+                     	(tile).offZ = (tile).offZ -1;
+                     }
+                     if (side == 3){
+                     	(tile).offZ = (tile).offZ +1;
+                     }
+                   //West East
+                     if (side == 4){
+                     	(tile).offX = (tile).offX -1;
+                     }
+                     if (side == 5){
+                     	(tile).offX = (tile).offX +1;
+                     }
+            	}
+            	
+            	
+            	
+            	int maxb = 9;
+                //max bounds
+                if((tile).offX >= maxb){
+                	tile.offX = maxb;
+                }
+                if((tile).offX <= -maxb){
+                	tile.offX = -maxb;
+                }
+                
+                if((tile).offY >= maxb){
+                	tile.offY = maxb;
+                }
+                if((tile).offY <= -maxb){
+                	tile.offY = -maxb;
+                }
+                
+                if((tile).offZ >= maxb){
+                	tile.offZ = maxb;
+                }
+                if((tile).offZ <= -maxb){
+                	tile.offZ = -maxb;
+                }
+                
+            }
+
+            return true;
+        
+    }
     
     
     

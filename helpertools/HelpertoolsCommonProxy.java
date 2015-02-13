@@ -1,5 +1,8 @@
 package helpertools;
 
+import helpertools.blocks.TileEntityTranscriber;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class HelpertoolsCommonProxy {
 
         // Serverside stuff
@@ -13,5 +16,10 @@ public class HelpertoolsCommonProxy {
 			// TODO Auto-generated method stub
 			
 		}
+		
+		public void registerTileEntities() {
+			 
+	        GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
+	    }
 		
 }

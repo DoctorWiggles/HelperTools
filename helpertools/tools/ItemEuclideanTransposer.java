@@ -5,6 +5,7 @@ import java.util.Random;
 
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
+import helpertools.blocks.TileEntityTranscriber;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -160,6 +161,18 @@ public class ItemEuclideanTransposer extends ItemSpade
     
     //////////////////////////////////////////////////////////////
    
+		/** should make an complex interface like this to cut down on space, using string tree to call... Zzzzz
+		public int getTMeta(ItemStack itemStack, int Nbtcount, String get)
+		{
+			if(itemStack.stackTagCompound == null)
+			{
+				return 0;
+			}
+
+			return itemStack.stackTagCompound.getInteger("TMeta" + Nbtcount);
+			
+		}
+		**/
 	
 	//Generic tool stuff
 	public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_)
@@ -197,14 +210,14 @@ public class ItemEuclideanTransposer extends ItemSpade
 			{
 		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
 		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Extend Mode", new Object[0]);
+				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Flush Mode", new Object[0]);
 				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
 				setMode(stack,2);
 				return true;
 			}
 			else if (getMode(stack) == 2)
 			{			
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Flat Mode", new Object[0]);
+				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Submerged -1", new Object[0]);
 				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
 			//entityLiving.playSound("mob.chicken.plop", .3F, 3.0F);}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", .3F, 3.0F);
@@ -234,10 +247,51 @@ public class ItemEuclideanTransposer extends ItemSpade
 	 * -> And finally depending on which gamemode to remove durability and items**/
     public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int i1, int j1, int k1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
+    	int mOffset = ((((getMode(thestaff)/2)*-1) +1));
+    	
+    	
     	
     	int successful = 0;
     	int P = 5;
     	if (!theplayer.isSneaking()){
+
+    		//dynamic placement offsets
+        	//W/E_T/B_N/S
+        	if (theface == 0){    	
+        		j1 = j1 - mOffset -6;
+        		i1 = i1 - 2;
+        		k1 = k1 - 2;
+            	}
+        	if (theface == 1){    	
+        		j1 = mOffset + j1;
+        		i1 = i1 - 2;
+        		k1 = k1 - 2;
+        	}
+        	//North south
+        	if (theface == 2){    	
+        		j1 = j1-3;
+        		i1 = i1 - 2;
+        		k1 = k1 - 5 -mOffset;
+            	}
+        	if (theface == 3){    	
+        		j1 = j1-3;
+        		i1 = i1 - 2;
+        		k1 = k1 +1 +mOffset;
+            	}
+        	//West East
+        	if (theface == 4){    	
+        		j1 = j1-3;
+        		i1 = i1 - 5 -mOffset;
+        		k1 = k1 -2 ;
+            	}
+        	if (theface == 5){    	
+        		j1 = j1-3;
+        		i1 = i1 +1 +mOffset;
+        		k1 = k1 -2 ;
+            	}
+        	
+    		
+    		
     	for (int G2 = 0; G2 < P; ++G2)
         {
     		int G2counter = G2*P*P;
@@ -247,6 +301,9 @@ public class ItemEuclideanTransposer extends ItemSpade
     			for (int l = 0; l < P; ++l)
     			{
     				int Nbtcounter = G2counter+Ucounter+l+1;
+    				
+    	    		//j1 = j1 +1;
+    	    		
     				/**
     				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
 							"Counter is? : " + (Nbtcounter), new Object[0]);
@@ -255,12 +312,23 @@ public class ItemEuclideanTransposer extends ItemSpade
     				**/
     				if (returnTBlock(thestaff, Nbtcounter) != Blocks.air){
     				
+    					/** displacement whitelist **/
     				if (theblock.isAirBlock(i1+U, j1+1+l, k1+G2)
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.lava 
-    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.water)
+    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.water
+    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.plants 
+    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine )
     				{
     					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))){
     					//theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
+    						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
+    						if (theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine
+    	    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.plants) 
+    						{
+    							(theblock.getBlock(i1+U, j1+1+l, k1+G2)).dropBlockAsItem(theblock,i1+U, j1+1+l, k1+G2, (theblock.getBlockMetadata(i1+U, j1+1+l, k1+G2)), 0);
+    						}
+    						
+    						theblock.setBlock(i1+U, j1+1+l, k1+G2, Blocks.dirt);
     					theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
     					successful = 1;
     					short short1 = 32;
@@ -316,6 +384,22 @@ public class ItemEuclideanTransposer extends ItemSpade
     	}
     	if (theplayer.isSneaking()){
     		
+    		if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.TranscriberBlock){
+    			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);
+    			if (tile != null)
+                {
+
+    				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+    						"Tile Detected" + (tile).offX, new Object[0]);
+    				((EntityPlayer) theplayer)
+    						.addChatComponentMessage(chatcomponenttranslation);
+                }
+    		}
+    		
+    		
+    		i1 = i1 - 2;
+    		k1 = k1 - 2;
+    		
     		for (int G2 = 0; G2 < P; ++G2)
             {
         		int G2counter = G2*P*P;
@@ -338,7 +422,7 @@ public class ItemEuclideanTransposer extends ItemSpade
         					//theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter));
             		
             
-        				
+        					
         			
         			
         				}

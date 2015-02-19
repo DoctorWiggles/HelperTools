@@ -3,12 +3,11 @@ package helpertools.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
+import helpertools.Helpertoolscore;
 import helpertools.entities.EntityDynamiteProjectile;
 
 import java.util.List;
 import java.util.Random;
-
-import mofmod.blocks.tiles.TileEntitySmasher;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
@@ -49,6 +48,11 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
         this.setHardness(0.6F);
         
         
+    }
+    
+    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+		return Item.getItemFromBlock(Helpertoolscore.TranscriberBlock);
     }
     
    
@@ -189,6 +193,11 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             	   	// player.addChatComponentMessage(chatcomponenttranslation); 
             		
             	   //bottom / top
+            		/**
+            		 if (side == 0 && tile.offY++ <= maxb){
+                      	(tile).offY = (tile).offY -1;
+                      }
+            		 **/
                      if (side == 0){
                      	(tile).offY = (tile).offY -1;
                      }
@@ -213,7 +222,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             	
             	
             	
-            	int maxb = 9;
+            	int maxb = 10;
                 //max bounds
                 if((tile).offX >= maxb){
                 	tile.offX = maxb;

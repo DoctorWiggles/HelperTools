@@ -987,7 +987,6 @@ public class ItemStaffofTransformation2 extends ItemSpade
 		return false;
     	
     }
-    //Standard line that allows 3D rendering
     @SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {

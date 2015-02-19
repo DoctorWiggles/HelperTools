@@ -31,7 +31,7 @@ public class TileEntityTranscriber extends TileEntity{
 	      int j4 = this.yCoord;
 	      int k4 = this.zCoord;
 	      
- 
+ /*
         if(!worldObj.isRemote) {
  
             tick++;
@@ -41,6 +41,7 @@ public class TileEntityTranscriber extends TileEntity{
                 tick = 0;
             }
         }
+        */
         if(worldObj.isRemote){
         	int i = growrand.nextInt(2);
         	//if(i ==1){
@@ -71,7 +72,7 @@ public class TileEntityTranscriber extends TileEntity{
 		           
 		           //this.worldObj.spawnParticle("cloud", finX+f-.5, finY+f1+.5, finZ+f2+.5, p, p1, p2);
 		           //this.worldObj.spawnParticle("magicCrit", finX+f+.2, finY+.5+f1, finZ+f2+.3, 0, 0, 0);
-		           this.worldObj.spawnParticle("reddust", finX+f+.2+2, finY+.5+f1, finZ+f2+.3+2, 0, 0, 0);
+		           this.worldObj.spawnParticle("reddust", finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 0, 0, 0);
 		           
 		           //this.worldObj.spawnParticle("slime", finX-.5, finY+.5, finZ+.5, 0, 0, 0);
 		           

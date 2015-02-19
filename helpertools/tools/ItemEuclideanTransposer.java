@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -53,7 +54,7 @@ public class ItemEuclideanTransposer extends ItemSpade
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    par3List.add(EnumChatFormatting.ITALIC + "sets patterns");
+    par3List.add(EnumChatFormatting.ITALIC + "sets patterns 5x5");
     }
     /////////////////////////////////////////////////////////////
     public int getMode(ItemStack itemStack)
@@ -247,14 +248,79 @@ public class ItemEuclideanTransposer extends ItemSpade
 	 * -> And finally depending on which gamemode to remove durability and items**/
     public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int i1, int j1, int k1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
+    	float py = (this.growrand .nextFloat()) ;
     	int mOffset = ((((getMode(thestaff)/2)*-1) +1));
     	
+    	if (getOffMode(thestaff)== 0)
+   		{
+		   setOffMode(thestaff, 2);
+   		}
+    	
+    	/**
+    	//in game repair via fuel
+    	if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.MagicalFuelBlock
+    			||theblock.getBlock(i1, j1, k1) == Helpertoolscore.ActiveMagicalFuelBlock){
+
+			 int damage;
+			//thestaff.setItemDamage(0);
+			 damage = thestaff.getItemDamage();
+			 ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+						"Damage is? : " + (damage), new Object[0]);
+				((EntityPlayer) theplayer)
+						.addChatComponentMessage(chatcomponenttranslation);
+				if (damage > 8){
+					thestaff.setItemDamage(damage - 1);					
+					theblock.setBlock(i1, j1, k1, Blocks.air);
+					
+					float py = (this.growrand .nextFloat()) ;
+					theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .8F+py);
+					//theblock.spawnEntityInWorld(new EntityLightningBolt(theblock,i1, j1, k1));
+					for (int l = 0; l < 64; ++l){
+						 float f = (this.growrand.nextFloat()/5F) ;
+				           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
+				           float f1 = (this.growrand .nextFloat()/5F );
+				           float f2 = (this.growrand .nextFloat()/5F );
+						//theblock.spawnParticle("magicCrit", i1+f1*1.4+.1, j1+f1*1.4+.5, k1+f2*1.2+.1, f*3, f1*3, f2*3);
+						theblock.spawnParticle("reddust", i1+f1*5+.1, j1+f1*5+.5, k1+f2*5+.1, 30, f1*30, 30);
+						//this.worldObj.spawnParticle("magicCrit", finX+f+.2, finY+.5+f1, finZ+f2+.3, 0, 0, 0);
+					}
+					
+				}
+				return true;
+    	}
+    	**/
     	
     	
+    	/////////////////////////////
+    	/** placement and get code**/
+    	////////////////////////////
     	int successful = 0;
     	int P = 5;
+    	int proxyskip = 0;
     	if (!theplayer.isSneaking()){
+    		
+    		//placement via transcriber proxy
+    		if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.TranscriberBlock){
+    			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);
+    			if (tile != null)
+                {
 
+    				//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+    				//		"Tile Detected" + (tile).offX, new Object[0]);
+    				//((EntityPlayer) theplayer)
+    				//		.addChatComponentMessage(chatcomponenttranslation);
+    				
+    				i1 = i1 -2 + (tile.offX);
+    				j1 = j1 -1 + (tile.offY);
+    				k1 = k1 -2 + (tile.offZ);
+    				proxyskip = 1;
+                }
+    		}
+    		
+    		//placement via staff
+    		if(theblock.getBlock(i1, j1, k1) != Helpertoolscore.TranscriberBlock
+    				&& proxyskip == 0){
+    			    		
     		//dynamic placement offsets
         	//W/E_T/B_N/S
         	if (theface == 0){    	
@@ -290,7 +356,7 @@ public class ItemEuclideanTransposer extends ItemSpade
         		k1 = k1 -2 ;
             	}
         	
-    		
+    		}
     		
     	for (int G2 = 0; G2 < P; ++G2)
         {
@@ -319,7 +385,8 @@ public class ItemEuclideanTransposer extends ItemSpade
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.plants 
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine )
     				{
-    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))){
+    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
+    							){
     					//theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
     						if (theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine
@@ -327,8 +394,8 @@ public class ItemEuclideanTransposer extends ItemSpade
     						{
     							(theblock.getBlock(i1+U, j1+1+l, k1+G2)).dropBlockAsItem(theblock,i1+U, j1+1+l, k1+G2, (theblock.getBlockMetadata(i1+U, j1+1+l, k1+G2)), 0);
     						}
-    						
     						theblock.setBlock(i1+U, j1+1+l, k1+G2, Blocks.dirt);
+    						
     					theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
     					successful = 1;
     					short short1 = 32;
@@ -370,7 +437,7 @@ public class ItemEuclideanTransposer extends ItemSpade
         }
     	if (successful == 1){
 			
-    		float py = (this.growrand .nextFloat()) ;
+    		
 			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .5F+py);
 			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.7F, .5F+py);
 			successful = 0;
@@ -389,10 +456,12 @@ public class ItemEuclideanTransposer extends ItemSpade
     			if (tile != null)
                 {
 
-    				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-    						"Tile Detected" + (tile).offX, new Object[0]);
-    				((EntityPlayer) theplayer)
-    						.addChatComponentMessage(chatcomponenttranslation);
+    				
+    				//theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.2F, .2F+py/5);
+    				
+    				i1 = i1 + (tile.offX);
+    				j1 = j1 + (tile.offY);
+    				k1 = k1 + (tile.offZ);
                 }
     		}
     		
@@ -428,8 +497,17 @@ public class ItemEuclideanTransposer extends ItemSpade
         				}
         			}
             }
-    		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-    				(double)k1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		if(theplayer.worldObj.isRemote){
+				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+						EnumChatFormatting.GRAY + "Pattern Saved", new Object[0]);
+				((EntityPlayer) theplayer)
+						.addChatComponentMessage(chatcomponenttranslation);
+    		theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.2F, .2F+py/4);
+    		//theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
+    		//		(double)k1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		}
+    		setOffMode(thestaff, 4);
+    		return true;
     		
     	}
     	return false;

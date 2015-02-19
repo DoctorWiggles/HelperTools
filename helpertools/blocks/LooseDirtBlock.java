@@ -34,7 +34,7 @@ public class LooseDirtBlock extends BlockFalling
         //this.setCreativeTab(CreativeTabs.tabBlock);
         this.setTickRandomly(true);
         
-        setCreativeTab(HelpTab.HelperTools);
+        //setCreativeTab(HelpTab.HelperTools);
         this.setBlockTextureName("dirt");
         //this.setBlockTextureName("mofmod:GhastlyDust");
        

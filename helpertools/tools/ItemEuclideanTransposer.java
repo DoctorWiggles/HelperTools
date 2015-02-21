@@ -497,12 +497,12 @@ public class ItemEuclideanTransposer extends ItemSpade
         				}
         			}
             }
-    		if(theplayer.worldObj.isRemote){
+    		if(!theplayer.worldObj.isRemote){
 				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
 						EnumChatFormatting.GRAY + "Pattern Saved", new Object[0]);
 				((EntityPlayer) theplayer)
 						.addChatComponentMessage(chatcomponenttranslation);
-    		theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.2F, .2F+py/4);
+    		theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.5F, .2F+py/4);
     		//theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
     		//		(double)k1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
     		}

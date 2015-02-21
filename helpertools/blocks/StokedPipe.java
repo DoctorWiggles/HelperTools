@@ -37,12 +37,13 @@ public class StokedPipe extends Block
 
     public StokedPipe()
     {
-        super(Material.iron);
+        super(Material.clay);
         //this.setTickRandomly(true);
         this.setBlockName("StokedPipe");
         this.setCreativeTab(HelpTab.HelperTools);       
         this.setBlockTextureName("helpertools:stoked2");
         this.setHardness(0.6F);
+        setHarvestLevel("pickaxe",0);
        // this.slipperiness = 1F;
         this.setBlockBounds(0.33F, 0.0F, 0.33F, 0.66F, 1.0F, 0.66F);
         

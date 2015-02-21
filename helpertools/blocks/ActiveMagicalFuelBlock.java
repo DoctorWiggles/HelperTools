@@ -39,13 +39,13 @@ public class ActiveMagicalFuelBlock extends Block
 
     public ActiveMagicalFuelBlock()
     {
-        super(Material.iron);
+        super(Material.clay);
         //this.setTickRandomly(true);
         this.setBlockName("ActiveMagicalFuelBlock");
         //this.setCreativeTab(HelpTab.HelperTools);       
         this.setBlockTextureName("helpertools:MagicalFuel3");
         this.setHardness(0.6F);
-      
+        setHarvestLevel("pickaxe",0);
         this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 1.0F, 0.8F);
         
         this.setLightLevel(1F);

@@ -40,12 +40,13 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
 
     public TranscriberBlock()
     {
-        super(Material.rock);
+        super(Material.clay);
         this.setBlockName("TranscriberBlock");
         this.setCreativeTab(HelpTab.HelperTools);       
         //this.setCreativeTab(CreativeTabs.tabBlock);
         this.setBlockTextureName("helpertools:Transcriber");
         this.setHardness(0.6F);
+        setHarvestLevel("pickaxe",0);
         
         
     }
@@ -82,12 +83,12 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             this.nonactive[4] = reg.registerIcon(this.textureName + "_" + 2);
             this.nonactive[5] = reg.registerIcon(this.textureName + "_" + 2);
             
-            this.active[0] = reg.registerIcon(this.textureName + "_" + 1);
-            this.active[1] = reg.registerIcon(this.textureName + "2_" + 3);
-            this.active[2] = reg.registerIcon(this.textureName + "2_" + 2);
-            this.active[3] = reg.registerIcon(this.textureName + "2_" + 2);
-            this.active[4] = reg.registerIcon(this.textureName + "2_" + 2);
-            this.active[5] = reg.registerIcon(this.textureName + "2_" + 2);
+            //this.active[0] = reg.registerIcon(this.textureName + "_" + 1);
+            //this.active[1] = reg.registerIcon(this.textureName + "2_" + 3);
+            //this.active[2] = reg.registerIcon(this.textureName + "2_" + 2);
+            //this.active[3] = reg.registerIcon(this.textureName + "2_" + 2);
+            //this.active[4] = reg.registerIcon(this.textureName + "2_" + 2);
+            //this.active[5] = reg.registerIcon(this.textureName + "2_" + 2);
             
         //}
     }

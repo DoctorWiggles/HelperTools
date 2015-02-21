@@ -1,4 +1,5 @@
 package helpertools;
+import helpertools.blocks.TileEntityTranscriber;
 import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
@@ -23,7 +24,6 @@ import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
 import helpertools.util.ForgeEventHandler;
-import mofmod.Mofmodcore;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -60,7 +60,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.4c")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.4f")
 //@NetworkMod(clientSideRequired=true) // not used in 1.7
 public class Helpertoolscore {
 	
@@ -314,6 +314,14 @@ public class Helpertoolscore {
                 EntityRegistry.registerModEntity(EntityBoltProjectile.class, "CrossBolt", 13, this, 350, 10, true);
                 EntityRegistry.registerModEntity(EntityDirtBombProjectile.class, "DirtBomb", 14, this, 350, 30, true);
                 //class, stringname, entity ID, thisobject, loading range, update polls, velocity updates
+                
+               
+       			//Tile Entities - Tile Entities - Tile Entities - Tile Entities
+                //////////////////////////////////////////////////////////////////////////////////////////////
+        	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
+        	   //     Helpertoolscore.logger.info("TILE ENTITY");
+        	    
+                
         }
        
         @EventHandler // used in 1.6.2

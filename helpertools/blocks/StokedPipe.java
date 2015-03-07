@@ -37,12 +37,13 @@ public class StokedPipe extends Block
 
     public StokedPipe()
     {
-        super(Material.iron);
+        super(Material.clay);
         //this.setTickRandomly(true);
         this.setBlockName("StokedPipe");
         this.setCreativeTab(HelpTab.HelperTools);       
         this.setBlockTextureName("helpertools:stoked2");
         this.setHardness(0.6F);
+        setHarvestLevel("pickaxe",0);
        // this.slipperiness = 1F;
         this.setBlockBounds(0.33F, 0.0F, 0.33F, 0.66F, 1.0F, 0.66F);
         
@@ -107,9 +108,11 @@ public class StokedPipe extends Block
     public void updateTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
     	super.updateTick(p_149734_1_,p_149734_2_,p_149734_3_, p_149734_4_,p_149734_5_);
-    	
+    	short short1 =8;
+		for (int lp = 0; lp < short1; ++lp)
+       {
     	 p_149734_1_.spawnParticle("largesmoke", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
-     
+       }
     }
     /**
      * A randomly called display update to be able to add particles or other items for display

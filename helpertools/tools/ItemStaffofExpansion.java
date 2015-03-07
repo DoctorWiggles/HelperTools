@@ -1,4 +1,4 @@
-package helpertools.items;
+package helpertools.tools;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class ItemStaffofExpansion extends ItemSpade
         //setCreativeTab(Helpertoolscore.HelperTools);
         setCreativeTab(HelpTab.HelperTools);
         setTextureName("helpertools:wand7");
-        this.setMaxDamage(1428);
+        //this.setMaxDamage(1428);
     }
     //flavor text
     @Override

@@ -37,13 +37,14 @@ public class StokedBlock extends Block
 
     public StokedBlock()
     {
-        super(Material.iron);
+        super(Material.clay);
         //this.setTickRandomly(true);
         this.setBlockName("StokedBlock");
         this.setCreativeTab(HelpTab.HelperTools);       
         //this.setCreativeTab(CreativeTabs.tabBlock);
         this.setBlockTextureName("helpertools:stoked2");
         this.setHardness(0.6F);
+        setHarvestLevel("pickaxe",0);
        // this.slipperiness = 1F;
        // this.setBlockBounds(0.33F, 0.0F, 0.33F, 0.66F, 1.0F, 0.66F);
         

@@ -1,7 +1,7 @@
 package helpertools.renders;
 
-import helpertools.items.ItemStaffofExpansion;
 import helpertools.models.ModelEuclideanTransposer;
+import helpertools.tools.ItemStaffofExpansion;
 
 import java.lang.ref.Reference;
 

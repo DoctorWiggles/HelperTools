@@ -11,7 +11,7 @@
 
 package helpertools.models;
 
-import helpertools.items.ItemStaffofExpansion;
+import helpertools.tools.ItemStaffofExpansion;
 
 import org.lwjgl.opengl.GL11;
 

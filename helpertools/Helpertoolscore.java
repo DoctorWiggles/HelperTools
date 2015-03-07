@@ -244,7 +244,7 @@ public class Helpertoolscore {
         	euclideantransposer = new ItemEuclideanTransposer(EUStaffMaterial); 
         	torchlauncher = new ItemTorchLauncher(TorchMaterial);        	
         	
-        	//debugtool = new ItemDebugTool();	
+        	debugtool = new ItemDebugTool();	
         	dynamitebolt = new ItemDynamiteBolt();        	
         	dirtbomb = new ItemDirtBomb();
         	bottledmilk = new ItemMilkBottle();
@@ -258,6 +258,7 @@ public class Helpertoolscore {
         	FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
         	MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
         	}
+        	GameRegistry.registerFuelHandler(new HelperFuel());
         	
         }
        
@@ -277,7 +278,7 @@ public class Helpertoolscore {
                 GameRegistry.registerItem(Helpertoolscore.torchlauncher, "torchlauncher");                
                 GameRegistry.registerItem(Helpertoolscore.euclideantransposer, "euclideantransposer");
              
-                //GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
+                GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
                 //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");
                 
                

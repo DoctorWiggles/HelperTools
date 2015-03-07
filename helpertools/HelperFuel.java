@@ -1,0 +1,35 @@
+package helpertools;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.IFuelHandler;
+
+public class HelperFuel implements IFuelHandler {
+	/**
+	 * @credit The_Fireplace
+	 */
+
+	@Override
+	public int getBurnTime(ItemStack fuel) {
+		Block blockFuel = Block.getBlockFromItem(fuel.getItem());
+		Item itemFuel = fuel.getItem();
+		
+		 if(blockFuel == Helpertoolscore.MagicalFuelBlock)
+			 return 4000;
+		 if(blockFuel == Helpertoolscore.ActiveMagicalFuelBlock)
+			 return 4000;
+		 if(itemFuel == Helpertoolscore.staffofexpansion)
+			 return 2000;
+		 if(itemFuel == Helpertoolscore.euclideantransposer)
+			 return 2000;
+		 if(itemFuel == Helpertoolscore.staffoftransformation2)
+			 return 2000;
+		 if(itemFuel == Helpertoolscore.torchlauncher)
+			 return 800;
+		 else		
+			 return 0;
+		 
+	}
+
+}

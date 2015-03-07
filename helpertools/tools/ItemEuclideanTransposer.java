@@ -418,6 +418,15 @@ public class ItemEuclideanTransposer extends ItemSpade
     		                //double d8 = d4 + (this.posY - d4) * d6 + this.growrand .nextDouble() * (double)this.height;
     		                //double d9 = d5 + (this.posZ - d5) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
     		                theblock.spawnParticle("portal", i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
+    		                
+    		                //int crackid = getIdFromItem(Helpertoolscore.euclideantransposer);
+    		                //int crackid2 = getIdFromItem(getItemFromBlock(Helpertoolscore.LooseDirtBlock));
+    		                //int crackid3 = getIdFromItem(getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));
+    		                //theblock.spawnParticle("iconcrack_" + (crackid3), i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
+    		                //theblock.spawnParticle("iconcrack_" + (crackid3), i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, 0, 2, 0);
+    		                
+    		               // theblock.spawnParticle("tilecrack_" + (Blocks.anvil), i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
+    		                
     		            }
     					
     					if (!theplayer.capabilities.isCreativeMode){

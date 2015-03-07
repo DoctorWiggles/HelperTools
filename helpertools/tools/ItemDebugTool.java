@@ -5,14 +5,19 @@ import java.util.List;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.ClassUtils;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
@@ -44,6 +49,7 @@ public class ItemDebugTool extends Item {
 	   
 	   }
 	   **/
+	 
 	  ////////////////////////////////////////////////////////////////////////
 	  public int getMode(ItemStack itemStack)
 		{
@@ -172,6 +178,62 @@ public class ItemDebugTool extends Item {
 	        itemStack.stackTagCompound.setInteger("nbtmode", (int)0);
 	        
 	    }    
+	    
+	    short timer =  360;
+	    //update test
+	    /**
+	    public void onUpdate(ItemStack p_77663_1_, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
+	    	
+	    	ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+					"Timer: " + (timer), new Object[0]);
+			((EntityPlayer) entity)
+					.addChatComponentMessage(chatcomponenttranslation);
+			if (timer == 0){
+				timer =  360;
+			}
+			else 
+				timer--;
+			
+	    			
+	    }
+	    **/
+	    
+	    ////////////////////////////////////////////////////////////////////////
+		  public int getSpinDec(ItemStack itemStack) {
+				if (itemStack.stackTagCompound == null) {
+					return 360;
+				}
+
+				return itemStack.stackTagCompound.getShort("SpinDec");
+
+			}		
+			public void setSpinDec(ItemStack itemStack, short Value) {
+				if (itemStack.stackTagCompound == null) {
+					itemStack.setTagCompound(new NBTTagCompound());
+				}
+
+				itemStack.stackTagCompound.setShort("SpinDec",  Value);			
+			}
+	  /////////////////////////////////////////////////////////////////////
+	    public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
+	    	
+	    	if(!entity.worldObj.isRemote){
+	    		return;
+	    	}
+	    	ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+					"Timer: " + (getSpinDec(stack)), new Object[0]);
+			((EntityPlayer) entity)
+					.addChatComponentMessage(chatcomponenttranslation);
+			if (getSpinDec(stack)== 0){
+				setSpinDec(stack, (short) 360);
+			}
+			else 
+				setSpinDec(stack, (short)(getSpinDec(stack)-1));
+				//timer--;
+			
+	    			
+	    }
+	    
 	    
 	    /** key code stuffs **/
 	    //////////////////////
@@ -330,6 +392,48 @@ public class ItemDebugTool extends Item {
 			
 			if (!theplayer.isSneaking()){
 				
+				if(theblock.getBlock(i1, j1, k1) == Blocks.grass ){
+
+					ChatComponentTranslation chatcomponenttranslation4 = new ChatComponentTranslation(
+							"Grass test " , new Object[0]);
+					((EntityPlayer) theplayer)
+							.addChatComponentMessage(chatcomponenttranslation4);
+				}
+				//Class[] classes = ClassUtils.getClass(theblock.getBlock(i1, j1, k1));
+				
+				//if(theblock instanceof IGrowable){}
+				Block zablock = theblock.getBlock(i1,j1,k1);
+				if(zablock == Blocks.dirt ||
+						zablock == Helpertoolscore.LooseDirtBlock){
+					theblock.setBlock(i1,j1,k1, Blocks.grass);
+				}
+				
+				if (IGrowable.class.isAssignableFrom((theblock.getBlock(i1, j1, k1).getClass()))) {
+					ChatComponentTranslation chatcomponenttranslation4 = new ChatComponentTranslation(
+							"Growable???? " , new Object[0]);
+					((EntityPlayer) theplayer)
+							.addChatComponentMessage(chatcomponenttranslation4);
+					
+					ItemDye.applyBonemeal(thestaff, theblock, i1, j1, k1, theplayer);
+					
+					for (int i2 = 0; i2 < 20; ++i2)
+		            {
+		                double d0 = itemRand.nextGaussian() * 0.02D;
+		                double d1 = itemRand.nextGaussian() * 0.02D;
+		                double d2 = itemRand.nextGaussian() * 0.02D;
+		                float d3 = i2/10;
+		                Block block = theblock.getBlock(i1, j1, k1);
+		                theblock.spawnParticle("happyVillager", (double)((float)i1 + itemRand.nextFloat()), (double)j1 + (double)itemRand.nextFloat() * block.getBlockBoundsMaxY()+(d3), (double)((float)k1 + itemRand.nextFloat()), d0, d1, d2);
+		            }
+					/**
+					short short1 = 32;
+					for (int lp = 0; lp < short1; ++lp)
+		            {
+					theblock.spawnParticle("portal", i1+.5, j1+.6, k1+.5, .5, .5, .5);
+		            }
+		            **/
+				}
+				/**
 		if (!theblock.isAirBlock(i1, j1, k1)
         		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
         		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
@@ -354,7 +458,7 @@ public class ItemDebugTool extends Item {
         
         }
 		
-		
+		**/
 			}
 			if (theplayer.isSneaking()){
 

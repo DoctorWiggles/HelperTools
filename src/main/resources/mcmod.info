@@ -1,0 +1,16 @@
+[
+{
+  "modid": "HelperToolsID",
+  "name": "HelperTools",
+  "description": "A simple mod dedicated to adding alternative tools for helping around with survival mode construction and more.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["DoctorWiggles"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

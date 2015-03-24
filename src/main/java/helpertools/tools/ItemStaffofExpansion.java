@@ -61,7 +61,54 @@ public class ItemStaffofExpansion extends ItemSpade
         return (EnumChatFormatting.GREEN + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(p_77653_1_) + ".name")).trim();
     }
     */
+    
+    
+    ////////////////////////////////////////////////////////////////////////
+	  public int getSpinDec(ItemStack itemStack) {
+			if (itemStack.stackTagCompound == null) {
+				return 360;
+			}
+
+			return itemStack.stackTagCompound.getShort("SpinDec");
+
+		}		
+		public void setSpinDec(ItemStack itemStack, short Value) {
+			if (itemStack.stackTagCompound == null) {
+				itemStack.setTagCompound(new NBTTagCompound());
+			}
+
+			itemStack.stackTagCompound.setShort("SpinDec",  Value);			
+		}
+/////////////////////////////////////////////////////////////////////
+  public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
+  	
+  	if(entity.worldObj.isRemote){
+  		return;  	}
+  	//Item item = entity.inventory.currentItem;
+  	 ItemStack item = ((EntityPlayer) entity).getCurrentEquippedItem();
+  	 Item item2 = item.getItem();
+  	if (!(item2 == this)){
+  	//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+  	//				"Not being held" + (getSpinDec(stack)), new Object[0]);
+  	//		((EntityPlayer) entity)
+  	//				.addChatComponentMessage(chatcomponenttranslation);
+  		return;
+  	}
+  	//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+	//			"Timer: " + (getSpinDec(stack)), new Object[0]);
+	//	((EntityPlayer) entity)
+	//			.addChatComponentMessage(chatcomponenttranslation);
+		if (getSpinDec(stack)== 0){
+			setSpinDec(stack, (short) 360);
+		}
+		else 
+			setSpinDec(stack, (short)(getSpinDec(stack)-1));
+			//timer--;
+		
+  			
+  }
    
+ 
     /////////////////////////////////////////////////////////////
     public int getMode(ItemStack itemStack)
    	{

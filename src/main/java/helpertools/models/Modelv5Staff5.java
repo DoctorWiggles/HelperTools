@@ -101,25 +101,26 @@ public class Modelv5Staff5 extends ModelBase
       setRotation(CapRight, 0F, 0F, 0F);
       Core = new ModelRenderer(this, 0, 26);
       Core.addBox(1F, -1F, -1F, 1, 2, 2);
-      Core.setRotationPoint(-2F, -5F, 0F);
+      Core.setRotationPoint(-0F, -0F, 0F);
       Core.setTextureSize(64, 32);
       Core.mirror = true;
       setRotation(Core, -0.1487144F, 0F, 0F);
       Core2 = new ModelRenderer(this, 0, 25);
       Core2.addBox(2F, -1F, -1F, 1, 2, 2);
-      Core2.setRotationPoint(-2F, -5F, 0F);
+      //Core3.setRotationPoint(-2F, -5F, 0F);
+      Core2.setRotationPoint(-0F, -0F, 0F);
       Core2.setTextureSize(64, 32);
       Core2.mirror = true;
       setRotation(Core2, -0.3866576F, 0F, 0F);
       Core3 = new ModelRenderer(this, 0, 24);
       Core3.addBox(3F, -1F, -1F, 1, 2, 2);
-      Core3.setRotationPoint(-2F, -5F, 0F);
+      Core3.setRotationPoint(-0F, -0F, 0F);
       Core3.setTextureSize(64, 32);
       Core3.mirror = true;
       setRotation(Core3, -0.7733151F, 0F, 0F);
       Core4 = new ModelRenderer(this, 1, 26);
       Core4.addBox(0F, -1F, -1F, 1, 2, 2);
-      Core4.setRotationPoint(-2F, -5F, 0F);
+      Core4.setRotationPoint(-0F, -0F, 0F);
       Core4.setTextureSize(64, 32);
       Core4.mirror = true;
       setRotation(Core4, 0.1189716F, 0F, 0F);
@@ -211,6 +212,23 @@ public class Modelv5Staff5 extends ModelBase
 		  GL11.glPopMatrix();
 	  }
 	  **/
+	  
+	  ///////////////////////////////
+	  if (entitywolf.getMode(item) == 4){
+		  GL11.glPushMatrix();
+		  //GL11.glTranslatef(0.0F, -8.0F * f5, 0.0F);
+		  //Rod1.render(f5);
+		  //
+		  GL11.glTranslatef(-1.25F,-3F,0F);
+		  GL11.glRotatef(entitywolf.getSpinDec(item), 1F,0F,0F);
+		  Core.render(f5);
+		    Core2.render(f5);
+		    Core3.render(f5);
+		    Core4.render(f5);
+		  //
+		  GL11.glPopMatrix();
+	  }
+	  //////////////////////////////
 	Rod1.render(f5);
     Ornbase.render(f5);
     OrnLeft.render(f5);
@@ -219,19 +237,23 @@ public class Modelv5Staff5 extends ModelBase
     CapBase.render(f5);
     CapLeft.render(f5);
     CapRight.render(f5);
-    Core.render(f5);
-    Core2.render(f5);
-    Core3.render(f5);
-    Core4.render(f5);
+    //Core.render(f5);
+    //Core2.render(f5);
+    //Core3.render(f5);
+    //Core4.render(f5);
+    WrapLeft.render(f5);
+    WrapRight.render(f5);    
     TopperLeft1.render(f5);
     TopperLeft2.render(f5);
     TopperRight1.render(f5);
-    TopperRight2.render(f5);
-    WrapLeft.render(f5);
-    WrapRight.render(f5);
+    TopperRight2.render(f5);    
     TopperTop1.render(f5);
     TopperTop2.render(f5);
     TopperTop3.render(f5);
+    
+   
+	  
+    
   }
   
 

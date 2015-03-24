@@ -40,7 +40,7 @@ public class StokedBlock extends Block
         super(Material.clay);
         //this.setTickRandomly(true);
         this.setBlockName("StokedBlock");
-        this.setCreativeTab(HelpTab.HelperTools);       
+        //this.setCreativeTab(HelpTab.HelperTools);       
         //this.setCreativeTab(CreativeTabs.tabBlock);
         this.setBlockTextureName("helpertools:stoked2");
         this.setHardness(0.6F);

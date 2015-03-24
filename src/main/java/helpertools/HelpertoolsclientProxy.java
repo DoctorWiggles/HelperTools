@@ -10,6 +10,7 @@ import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
 import helpertools.renders.RenderBoltProjectile;
+import helpertools.renders.RenderDirtBombProjectile;
 import helpertools.renders.RenderDynamiteProjectile;
 import helpertools.renders.RenderRedTorchProjectile;
 import helpertools.renders.RenderTorchProjectile;
@@ -48,6 +49,8 @@ public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
                 //
                 RenderingRegistry.registerEntityRenderingHandler(EntityBoltProjectile.class, new RenderBoltProjectile());
                 //
+                
+                RenderingRegistry.registerEntityRenderingHandler(EntityDirtBombProjectile.class, new RenderDirtBombProjectile(1));
         }
        
         

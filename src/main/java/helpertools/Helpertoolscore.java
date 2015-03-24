@@ -37,7 +37,10 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.DungeonHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -60,7 +63,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.4f")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5a")
 //@NetworkMod(clientSideRequired=true) // not used in 1.7
 public class Helpertoolscore {
 	
@@ -322,7 +325,11 @@ public class Helpertoolscore {
         	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
         	   //     Helpertoolscore.logger.info("TILE ENTITY");
         	    
-                
+        	    
+        	    //DungeonHooks.addDungeonLoot(new ItemStack(youritem), 10, 2, 5);
+        	    //ChestGenHooks.addDungeonLoot(ChestGenHooks(String category, WeightedRandomChestContent[] items, int min, int max));
+        	    //(ChestGenHooks("villageBlacksmith"), (new ItemStack(Helpertoolscore.staffoftransformation2)) , 100, 1, 1);
+               addLoot();
         }
        
         @EventHandler // used in 1.6.2
@@ -527,6 +534,17 @@ public class Helpertoolscore {
         	 OreDictionary.registerOre("helpbonemeal", new ItemStack(Items.dye, 1, 15));
         	//  
         	 
+        }
+        
+        //Chest Loot
+        /** Credit @ Tcon**/
+        public void addLoot()
+        
+        {	//Min stack, Max stack, Weight/rarity
+        	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.staffoftransformation2), 1, 1, 10));
+        	ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.chocolatemilk), 1, 8, 5));
+        	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.dynamitebolt), 1, 3, 50));
+        	logger.info("Chest Things Loaded");
         }
          
 }

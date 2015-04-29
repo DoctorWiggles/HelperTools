@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 import helpertools.tools.ItemDebugTool;
 import helpertools.tools.ItemEuclideanTransposer;
+import helpertools.tools.ItemRfDebugTool;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
@@ -37,9 +38,13 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.DungeonHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -60,7 +65,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.4f")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5g")
 //@NetworkMod(clientSideRequired=true) // not used in 1.7
 public class Helpertoolscore {
 	
@@ -75,6 +80,7 @@ public class Helpertoolscore {
 		public final static Block MagicalFuelBlock = new helpertools.blocks.MagicalFuelBlock();	
 		public final static Block ActiveMagicalFuelBlock = new helpertools.blocks.ActiveMagicalFuelBlock();	
 		public final static Block LooseDirtBlock= new helpertools.blocks.LooseDirtBlock(Material.sand);
+		public final static Block SugarBlock= new helpertools.blocks.SugarBlock(Material.sand);
 		
 	 	//Items & Tools - Items & Tools - Items & Tools - Items & Tools - Items & Tools 
 		public static Item staffofexpansion;  
@@ -88,7 +94,8 @@ public class Helpertoolscore {
 		public static Item bottledmilk;
 		public static Item chocolatemilk;
 		
-		public static Item debugtool;		
+		public static Item debugtool;
+		public static Item rfdebugtool;
 		
     			
 		//Forge Support
@@ -144,7 +151,8 @@ public class Helpertoolscore {
 		//Handler enables
 		public static boolean HandlerBottledmilk;
 		
-		
+		/** @ NotGyro **/
+		public static Configuration config;
 		
 		
 		
@@ -166,56 +174,82 @@ public class Helpertoolscore {
         	/** Config Core **/
         	//////////////////       	        	
         	
-        	Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        	config = new Configuration(event.getSuggestedConfigurationFile());
         	
+        	Property ToolDurability = config.get("1 Tool Durabilities", "", "");
+        	ToolDurability.comment = "Assign custom balance of tool durabilies";
+        	
+        	Property Recipes = config.get("2 Recipes", "", "");
+            Recipes.comment = "Enable or disable specific recipes";
+        	
+        	//Property BlocksRecipes = config.get("2 Recipes", "", "");
+        	//BlocksRecipes.comment = "Assign custom recipe creation results";            
+            
+            //Property BlocksOutput = config.get("3 Item Results", "", "");
+            //BlocksOutput.comment = "Assign custom balance for recipe creation results";
+            
+            //Property ItemsRecipes = config.get("2 Recipes", "", "");
+            //ItemsRecipes.comment = "Assign custom recipe creation results"; 
+            
+            Property ItemsOutput = config.get("3 Item Results", "", "");
+            ItemsOutput.comment = "Assign custom balance for recipe creation results";       
+            
+            Property Extra = config.get("5 Extra Settings", "", "");
+            //Extra.comment = "Enable or disable special 3d models for Tools, will rollback to 2d sprites";
+            Extra.comment = "Enable or disable back engine features";
+            
+            //Property Interactions = config.get("Custom Interactions", "", "");
+            //Interactions.comment = "Enable or disable world interactions";
+            
+            
         	config.load();
         	
         	logger.info("Loading Configs");
         	//Tools
-        	DurabilityExpandingRod = config.get(Configuration.CATEGORY_GENERAL, "DurabilityExpandingRod", 1024).getInt();
-        	DurabilityMetamorphicStaff = config.get(Configuration.CATEGORY_GENERAL, "DurabilityMetamorphicStaff", 1024).getInt();
-        	DurabilityTorchLauncher = config.get(Configuration.CATEGORY_GENERAL, "DurabilityTorchLauncher", 1428).getInt();
-        	DurabilityEuclideanStaff = config.get(Configuration.CATEGORY_GENERAL, "DurabilityEuclideanStaff", 1148).getInt();
+        	DurabilityExpandingRod = config.get("1 Tool Durabilities", "DurabilityExpandingRod", 1024).getInt();
+        	DurabilityMetamorphicStaff = config.get("1 Tool Durabilities", "DurabilityMetamorphicStaff", 1024).getInt();
+        	DurabilityTorchLauncher = config.get("1 Tool Durabilities", "DurabilityTorchLauncher", 1428).getInt();
+        	DurabilityEuclideanStaff = config.get("1 Tool Durabilities", "DurabilityEuclideanStaff", 1148).getInt();
         	//Items
-        	OutputDynamiteBolt = config.get(Configuration.CATEGORY_GENERAL, "OutputDynamiteBolt", 4).getInt();
+        	OutputDynamiteBolt = config.get("3 Item Results", "OutputDynamiteBolt", 4).getInt();
         	//Blocks
-        	OutputImitationBedrock = config.get(Configuration.CATEGORY_GENERAL, "OutputImitationBedrock", 4).getInt();
-        	OutputChimneyPipe = config.get(Configuration.CATEGORY_GENERAL, "OutputChimneyPipe", 8).getInt();
-        	OutputMagicalFuel = config.get(Configuration.CATEGORY_GENERAL, "OutputMagicalFuel", 1).getInt();
-        	OutputDirtBomb = config.get(Configuration.CATEGORY_GENERAL, "OutputDirtBomb", 4).getInt();
+        	OutputImitationBedrock = config.get("3 Item Results", "OutputImitationBedrock", 4).getInt();
+        	OutputChimneyPipe = config.get("3 Item Results", "OutputChimneyPipe", 8).getInt();
+        	OutputMagicalFuel = config.get("3 Item Results", "OutputMagicalFuel", 1).getInt();
+        	OutputDirtBomb = config.get("3 Item Results", "OutputDirtBomb", 4).getInt();
         	//Boolean Enables
         	/**3D models **/
-        	Render3DStaffModels = config.get(Configuration.CATEGORY_GENERAL, "Render3DStaffModels", true).getBoolean(true);
-        	Render3DCrossbowModel = config.get(Configuration.CATEGORY_GENERAL, "Render3DCrossbowModel", true).getBoolean(true);
+        	Render3DStaffModels = config.get("5 Extra Settings", "Render3DStaffModels", true).getBoolean(true);
+        	Render3DCrossbowModel = config.get("5 Extra Settings", "Render3DCrossbowModel", true, "Enable or disable special 3d models for Tools, will rollback to 2d sprites").getBoolean(true);
         	//Expansion Staff Recipes
-        	RecipeDiamondsForExpansionStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipeDiamondsForExpansionStaff", true).getBoolean(true);
-        	RecipeEmeraldsForExpansionStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipeEmeraldsForExpansionStaff", true).getBoolean(true);
-        	RecipePearlsForExpansionStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipePearlsForExpansionStaff", true).getBoolean(true);
+        	RecipeDiamondsForExpansionStaff = config.get("2 Recipes", "RecipeDiamondsForExpansionStaff", true).getBoolean(true);
+        	RecipeEmeraldsForExpansionStaff = config.get("2 Recipes", "RecipeEmeraldsForExpansionStaff", true).getBoolean(true);
+        	RecipePearlsForExpansionStaff = config.get("2 Recipes", "RecipePearlsForExpansionStaff", true).getBoolean(true);
         	//Metamorphic Staff Recipes
-        	RecipeDiamondsForMetamorphicStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipeDiamondsForMetamorphicStaff", true).getBoolean(true);
-        	RecipeEmeraldsForMetamorphicStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipeEmeraldsForMetamorphicStaff", true).getBoolean(true);
-        	RecipePearlsForMetamorphicStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipePearlsForMetamorphicStaff", true).getBoolean(true);
+        	RecipeDiamondsForMetamorphicStaff = config.get("2 Recipes", "RecipeDiamondsForMetamorphicStaff", true).getBoolean(true);
+        	RecipeEmeraldsForMetamorphicStaff = config.get("2 Recipes", "RecipeEmeraldsForMetamorphicStaff", true).getBoolean(true);
+        	RecipePearlsForMetamorphicStaff = config.get("2 Recipes", "RecipePearlsForMetamorphicStaff", true).getBoolean(true);
         	//Euclidian Staff
-        	RecipeDiamondsForEuclideanStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipeDiamondsForEuclideanStaff", true).getBoolean(true);
-        	RecipeEmeraldsForEuclideanStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipeEmeraldsForEuclideanStaff", true).getBoolean(true);
-        	RecipePearlsForEuclideanStaff = config.get(Configuration.CATEGORY_GENERAL, "RecipePearlsForEuclideanStaff", true).getBoolean(true);
+        	RecipeDiamondsForEuclideanStaff = config.get("2 Recipes", "RecipeDiamondsForEuclideanStaff", true, "Diamonds Option").getBoolean(true);
+        	RecipeEmeraldsForEuclideanStaff = config.get("2 Recipes", "RecipeEmeraldsForEuclideanStaff", true, "Emeralds Option").getBoolean(true);
+        	RecipePearlsForEuclideanStaff = config.get("2 Recipes", "RecipePearlsForEuclideanStaff", true, "Ender Pearls Option").getBoolean(true);
         	//Torch Launcher
-        	RecipeTorchLauncher = config.get(Configuration.CATEGORY_GENERAL, "RecipeTorchLauncher", true).getBoolean(true);
+        	RecipeTorchLauncher = config.get("2 Recipes", "RecipeTorchLauncher", true, "Torch Launcher").getBoolean(true);
         	//Dynamite Bolt
-        	RecipeStringForDynamiteBolt = config.get(Configuration.CATEGORY_GENERAL, "RecipeStringForDynamiteBolt", true).getBoolean(true);
-        	RecipeSlimeForDynamiteBolt = config.get(Configuration.CATEGORY_GENERAL, "RecipeSlimeForDynamiteBolt", true).getBoolean(true);
+        	RecipeStringForDynamiteBolt = config.get("2 Recipes", "RecipeStringForDynamiteBolt", true).getBoolean(true);
+        	RecipeSlimeForDynamiteBolt = config.get("2 Recipes", "RecipeSlimeForDynamiteBolt", true).getBoolean(true);
         	//Blocks
-        	RecipeImitationBedrock = config.get(Configuration.CATEGORY_GENERAL, "RecipeImitationBedrock", true).getBoolean(true);
-        	RecipeMagicalFuel = config.get(Configuration.CATEGORY_GENERAL, "RecipeMagicalFuel", true).getBoolean(true);
-        	RecipeChimenyPipes = config.get(Configuration.CATEGORY_GENERAL, "RecipeChimenyPipes", false).getBoolean(true);
-        	RecipeEuclideanBlock = config.get(Configuration.CATEGORY_GENERAL, "RecipeEuclideanBlock", true).getBoolean(true);
-        	RecipePodzol = config.get(Configuration.CATEGORY_GENERAL, "RecipePodzol", true).getBoolean(true);
+        	RecipeImitationBedrock = config.get("2 Recipes", "RecipeImitationBedrock", true).getBoolean(true);
+        	RecipeMagicalFuel = config.get("2 Recipes", "RecipeMagicalFuel", true).getBoolean(true);
+        	RecipeChimenyPipes = config.get("2 Recipes", "RecipeChimenyPipes", false).getBoolean(true);
+        	RecipeEuclideanBlock = config.get("2 Recipes", "RecipeEuclideanBlock", true).getBoolean(true);
+        	RecipePodzol = config.get("2 Recipes", "RecipePodzol", true).getBoolean(true);
         	//Items
-        	RecipeDirtBomb = config.get(Configuration.CATEGORY_GENERAL, "RecipeDirtBomb", false).getBoolean(true);
-        	RecipeBottledmilk = config.get(Configuration.CATEGORY_GENERAL, "RecipeBottledmilk", true).getBoolean(true);
-        	RecipeChocolatemilk = config.get(Configuration.CATEGORY_GENERAL, "RecipeChocolatemilk", true).getBoolean(true);
+        	RecipeDirtBomb = config.get("2 Recipes", "RecipeDirtBomb", false).getBoolean(true);
+        	RecipeBottledmilk = config.get("2 Recipes", "RecipeBottledmilk", true).getBoolean(true);
+        	RecipeChocolatemilk = config.get("2 Recipes", "RecipeChocolatemilk", true).getBoolean(true);
         	//Handlers
-        	HandlerBottledmilk = config.get(Configuration.CATEGORY_GENERAL, "HandlerBottledmilk", true).getBoolean(true);
+        	HandlerBottledmilk = config.get("5 Extra Settings", "HandlerBottledmilk", true, "Enable or disable bottle interaction with cows").getBoolean(true);
         	
         	config.save(); 
         	logger.info("Configurations Saved");
@@ -245,6 +279,7 @@ public class Helpertoolscore {
         	torchlauncher = new ItemTorchLauncher(TorchMaterial);        	
         	
         	debugtool = new ItemDebugTool();	
+        	rfdebugtool = new ItemRfDebugTool();
         	dynamitebolt = new ItemDynamiteBolt();        	
         	dirtbomb = new ItemDirtBomb();
         	bottledmilk = new ItemMilkBottle();
@@ -279,6 +314,7 @@ public class Helpertoolscore {
                 GameRegistry.registerItem(Helpertoolscore.euclideantransposer, "euclideantransposer");
              
                 GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
+                GameRegistry.registerItem(Helpertoolscore.rfdebugtool, "rfdebugtool");
                 //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");
                 
                
@@ -304,6 +340,7 @@ public class Helpertoolscore {
                 GameRegistry.registerBlock(MagicalFuelBlock, "MagicalFuelBlock");
                 GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
                 GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
+                GameRegistry.registerBlock(SugarBlock, "SugarBlock");
                
                 
                 //Entities - Entities - Entities - Entities - Entities - Entities
@@ -322,7 +359,11 @@ public class Helpertoolscore {
         	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
         	   //     Helpertoolscore.logger.info("TILE ENTITY");
         	    
-                
+        	    
+        	    //DungeonHooks.addDungeonLoot(new ItemStack(youritem), 10, 2, 5);
+        	    //ChestGenHooks.addDungeonLoot(ChestGenHooks(String category, WeightedRandomChestContent[] items, int min, int max));
+        	    //(ChestGenHooks("villageBlacksmith"), (new ItemStack(Helpertoolscore.staffoftransformation2)) , 100, 1, 1);
+               addLoot();
         }
        
         @EventHandler // used in 1.6.2
@@ -483,10 +524,15 @@ public class Helpertoolscore {
         		"ingotIron", "helpbonemeal", "gemLapis"}));
         	}
         	//Debugging tool
-        	/**          	
+        	        	
         	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.debugtool, 1 , 0), new Object[]{
         		Items.nether_star, Blocks.bedrock, }));
-        		**/
+        		
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.rfdebugtool, 1 , 0), new Object[]{
+        		Items.nether_star, Blocks.redstone_block, }));
+        		
+        		
+        		
         	if(RecipeDirtBomb == true){
             	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(dirtbomb, OutputDirtBomb, 0), true, new Object[]{
             		"ZZZ",
@@ -523,10 +569,21 @@ public class Helpertoolscore {
         	/**Extra Dictionaries**/
         	///////////////////////
         	OreDictionary.registerOre("helpstring", Items.string);
-        	 OreDictionary.registerOre("helpgravel", Blocks.gravel);
-        	 OreDictionary.registerOre("helpbonemeal", new ItemStack(Items.dye, 1, 15));
+        	OreDictionary.registerOre("helpgravel", Blocks.gravel);
+        	OreDictionary.registerOre("helpbonemeal", new ItemStack(Items.dye, 1, 15));
         	//  
         	 
+        }
+        
+        //Chest Loot
+        /** Credit @ Tcon**/
+        public void addLoot()
+        
+        {	//Min stack, Max stack, Weight/rarity
+        	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.staffoftransformation2), 1, 1, 10));
+        	ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.chocolatemilk), 1, 8, 5));
+        	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.dynamitebolt), 1, 3, 50));
+        	logger.info("Chest Things Loaded");
         }
          
 }

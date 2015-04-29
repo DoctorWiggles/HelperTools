@@ -2,6 +2,7 @@ package helpertools.tools;
 
 import java.util.List;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
@@ -10,6 +11,7 @@ import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
+import net.minecraft.block.Block;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,6 +29,8 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+
 
 public class ItemTorchLauncher extends ItemSpade{
 
@@ -127,10 +131,45 @@ public class ItemTorchLauncher extends ItemSpade{
 	int offmode = 2;
 	///////////////
 	
-	//if theplayer.inventory.hasItem(Item.getItemFromBlock(Tblock))
-	//  || 
+
+	//Tinker's Construct Stone Torch Support
 	
+	String TinkTorch = "TConstruct:decoration.stonetorch";
+	//String TinkTorch = "HelperToolsID:SugarBlock";
+	String Tcon = "TConstruct";
+	//String Tcon = "HelperToolsID";
 	
+	public boolean StoneTorchSearch(EntityLivingBase entityLiving) {
+		
+		if(Loader.isModLoaded(Tcon))
+		 {			
+			 return ((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Block.getBlockFromName(TinkTorch)));
+			 
+			}
+		 else
+			return false;
+			};
+			
+	public boolean StoneTorchConsume(EntityLivingBase entityLiving) {
+		
+		if(Loader.isModLoaded(Tcon))
+		 {			
+			 return ((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Item.getItemFromBlock(Block.getBlockFromName(TinkTorch)));
+					 
+			}
+		 else
+			return false;
+			};
+			
+			
+			
+			
+			// || StoneTorch(entityLiving)
+			// ((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.torch))
+			// par3EntityPlayer.inventory.hasItem(Item.getItemFromBlock(Blocks.torch)) && getMode(stack) == 2
+			
+	
+			
    
    /**
     * Ammo Modes
@@ -139,6 +178,11 @@ public class ItemTorchLauncher extends ItemSpade{
    @Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
    {
+	   
+	  
+	   
+	   
+	   
 	   if (getMode(stack)== 0)
    		{
 		   setMode(stack, 2);
@@ -163,8 +207,7 @@ public class ItemTorchLauncher extends ItemSpade{
 				{
 					//To Red torches
 					if(((EntityPlayer) entityLiving).capabilities.isCreativeMode || 
-							((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.redstone_torch)))
-						{
+							((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.redstone_torch)))						{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 4);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
@@ -257,6 +300,19 @@ public class ItemTorchLauncher extends ItemSpade{
 						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
 						return false;
 						}
+					//To Stone Torches
+					else if(StoneTorchSearch(entityLiving))
+						{
+						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
+						setMode(stack, 2);
+						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Blocks.redstone_torch), 0.0F);						
+							StoneTorchConsume(entityLiving); /** **/
+						}
+						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Torches loaded", new Object[0]);
+						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+						return false;
+						}
 					else
 					{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);
@@ -297,6 +353,19 @@ public class ItemTorchLauncher extends ItemSpade{
 						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
 						return false;
 						}
+					//Skip To Stone Torches
+					else if(StoneTorchSearch(entityLiving))
+						{
+						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
+						setMode(stack, 2);
+						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Helpertoolscore.dynamitebolt), 0.0F);
+							StoneTorchConsume(entityLiving); /** **/
+						}
+						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Torches loaded", new Object[0]);
+						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+						return false;
+						}
 					//Skip To Red torches
 					else if(!((EntityPlayer) entityLiving).capabilities.isCreativeMode && 
 							((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.redstone_torch)))
@@ -324,7 +393,8 @@ public class ItemTorchLauncher extends ItemSpade{
 				{
 					//To Torches
 					if(((EntityPlayer) entityLiving).capabilities.isCreativeMode || 
-							((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.torch)))
+							((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.torch))
+							|| StoneTorchSearch(entityLiving))
 						{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 2);
@@ -336,6 +406,20 @@ public class ItemTorchLauncher extends ItemSpade{
 						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
 						return false;
 						}
+					//To Stone Torches
+					if(StoneTorchSearch(entityLiving))
+						{
+						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
+						setMode(stack, 2);
+						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Items.arrow), 0.0F);
+							StoneTorchConsume(entityLiving); /** **/
+						}
+						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Torches loaded", new Object[0]);
+						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+						return false;
+						}
+					
 					//Skip To Red torches
 					else if(!((EntityPlayer) entityLiving).capabilities.isCreativeMode && 
 							((EntityPlayer) entityLiving).inventory.hasItem(Item.getItemFromBlock(Blocks.redstone_torch)))
@@ -465,8 +549,10 @@ public class ItemTorchLauncher extends ItemSpade{
 	   		/**If player is sneaking attempt to load ammo **/
 	   		////////////////////////////
 	   		//Mode 2 Load
+	   		//Coal Torches
 	   		if(par3EntityPlayer.capabilities.isCreativeMode && getMode(stack) == 2||
-	   				par3EntityPlayer.inventory.hasItem(Item.getItemFromBlock(Blocks.torch)) && getMode(stack) == 2){
+	   				par3EntityPlayer.inventory.hasItem(Item.getItemFromBlock(Blocks.torch)) && getMode(stack) == 2)
+	   		{
 	   			setTload(stack, 2);
 	   			par3EntityPlayer.worldObj.playSoundAtEntity(par3EntityPlayer, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);
 	   			if (!par3EntityPlayer.capabilities.isCreativeMode){                	
@@ -475,7 +561,20 @@ public class ItemTorchLauncher extends ItemSpade{
 				   }
 	   			stack.damageItem(2, par3EntityPlayer);
 	   			return stack;}
+	   		//Tcon Mode 2 Load
+	   		//Stone Toches
+	   		else if( StoneTorchSearch(par3EntityPlayer)&& getMode(stack) == 2)
+	   		{
+	   			setTload(stack, 2);
+	   			par3EntityPlayer.worldObj.playSoundAtEntity(par3EntityPlayer, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);
+	   			if (!par3EntityPlayer.capabilities.isCreativeMode){                	
+	   				StoneTorchConsume(par3EntityPlayer);
+					   //stack.damageItem(2, par3EntityPlayer);
+				   }
+	   			stack.damageItem(2, par3EntityPlayer);
+	   			return stack;}
 	   		//Mode 4 Load
+	   		//Redstone
 	   		else if(par3EntityPlayer.capabilities.isCreativeMode && getMode(stack) == 4||
 	   				par3EntityPlayer.inventory.hasItem(Item.getItemFromBlock(Blocks.redstone_torch)) && getMode(stack) == 4){
 	   			setTload(stack, 2);
@@ -487,6 +586,7 @@ public class ItemTorchLauncher extends ItemSpade{
 	   			stack.damageItem(2, par3EntityPlayer);
 	   			return stack;}
 	   		//Mode 6 Load
+	   		//Dynamite
 	   		else if(par3EntityPlayer.capabilities.isCreativeMode && getMode(stack) == 6||
 	   				par3EntityPlayer.inventory.hasItem(Helpertoolscore.dynamitebolt) && getMode(stack) == 6){
 	   			setTload(stack, 2);
@@ -498,6 +598,7 @@ public class ItemTorchLauncher extends ItemSpade{
 	   			stack.damageItem(3, par3EntityPlayer);
 	   			return stack;}
 	   		//Mode 8 Load
+	   		//Arrows
 	   		else if(par3EntityPlayer.capabilities.isCreativeMode && getMode(stack) == 8||
 	   				par3EntityPlayer.inventory.hasItem(Items.arrow) && getMode(stack) == 8){
 	   			setTload(stack, 2);

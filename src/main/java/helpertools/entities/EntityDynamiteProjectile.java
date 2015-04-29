@@ -1,8 +1,12 @@
 package helpertools.entities;
 
+import helpertools.util.HelperExplosions;
+
+import java.util.Random;
 import java.util.Stack;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.passive.EntityChicken;
@@ -12,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -50,6 +55,7 @@ public class EntityDynamiteProjectile extends EntityThrowable{
    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 
    }
+   protected static Random rand = new Random();
    
    @Override
   protected void onImpact(MovingObjectPosition mop) {
@@ -126,7 +132,9 @@ public class EntityDynamiteProjectile extends EntityThrowable{
       
       //once it has hit anything
       //create and explosion
-      this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)4, true);
+      //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)4, true);
+      //doExplosionU(worldObj, 4, this.posX, this.posY, this.posZ);
+      	HelperExplosions.doExplosionG(worldObj, 5, (int)this.posX, (int)this.posY, (int)this.posZ);
       
       //Ensures the entity itself is deleted once its objective is reached
       //otherwise it will slide along the ground for a while

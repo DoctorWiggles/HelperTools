@@ -214,7 +214,7 @@ public class Modelv5Staff5 extends ModelBase
 	  **/
 	  
 	  ///////////////////////////////
-	  
+	  if (entitywolf.getMode(item) == 4){
 		  GL11.glPushMatrix();
 		  //GL11.glTranslatef(0.0F, -8.0F * f5, 0.0F);
 		  //Rod1.render(f5);
@@ -227,9 +227,8 @@ public class Modelv5Staff5 extends ModelBase
 		    Core4.render(f5);
 		  //
 		  GL11.glPopMatrix();
-	  
+	  }
 	  //////////////////////////////
-	  
 	Rod1.render(f5);
     Ornbase.render(f5);
     OrnLeft.render(f5);
@@ -238,13 +237,10 @@ public class Modelv5Staff5 extends ModelBase
     CapBase.render(f5);
     CapLeft.render(f5);
     CapRight.render(f5);
-    /**
-    Core.render(f5);
-    Core2.render(f5);
-    Core3.render(f5);
-    Core4.render(f5);
-     **/
-     
+    //Core.render(f5);
+    //Core2.render(f5);
+    //Core3.render(f5);
+    //Core4.render(f5);
     WrapLeft.render(f5);
     WrapRight.render(f5);    
     TopperLeft1.render(f5);

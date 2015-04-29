@@ -41,8 +41,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
        super.onUpdate();
        for (i = 0; i < 1; ++i)
        {
-    	   this.worldObj.spawnParticle("smoke", this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, 0 , 0);
-           this.worldObj.spawnParticle("cloud", this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, .1 , 0);
+           //this.worldObj.spawnParticle("crit", this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
        }   
    }
    //uniqueness for each projectile entity
@@ -73,11 +72,9 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		      {
 		    	 return;
 		      }
-		      
 		      int i4 = mop.blockX-1;
 		      int j4 = mop.blockY-1;
 		      int k4 = mop.blockZ-2;
-		      
 		      
 		      if(sideHit == 0){
 		    	  j4 = j4-2;
@@ -100,7 +97,6 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		           this.worldObj.spawnParticle("cloud", i4+f-.5, j4+f1+.5, k4+f2+.5, p, p1, p2);
 		           
 		       }
-				
 				short short2 = 8;
 				for (int lp = 0; lp < short2; ++lp)
 		       {

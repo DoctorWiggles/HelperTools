@@ -73,54 +73,38 @@ public class LooseDirtBlock extends BlockFalling
 	 protected static Random growrand = new Random();
 	 
 	//////////////
-	public void updateTick(World world, int j1, int k1, int l1, Random rand1)
+	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
-		
-        if (!world.isRemote)
+        if (!p_149674_1_.isRemote)
         {
-            this.func_149830_m(world, j1, k1, l1);
+            this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
         }
-
-        int Gmeta = 0;	
-        Gmeta =  world.getBlockMetadata(j1, k1-1, l1); 
-        
-        if(  world.getBlock(j1, k1-1, l1).getMaterial()== Material.plants
-        		||  world.getBlock(j1, k1-1, l1).getMaterial()== Material.vine
-        		||	world.getBlock(j1, k1-1, l1) == Blocks.snow_layer)
+        if(p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_) == Blocks.snow_layer
+        		||  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()== Material.plants
+        		||  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()== Material.vine)
         {
-        	world.getBlock(j1, k1-1, l1).dropBlockAsItem(world, j1, k1-1, l1, Gmeta, 0);
-        	world.setBlock(j1, k1-1, l1, Blocks.air);
-        	return;
-        }
-        
-        
-        
-        if(world.getBlock(j1, k1-1, l1) == Blocks.snow_layer
-        		||  world.getBlock(j1, k1-1, l1).getMaterial()== Material.plants
-        		||  world.getBlock(j1, k1-1, l1).getMaterial()== Material.vine)
-        {
-        	//world.getBlock(j1, k1-1, l1).dropBlockAsItem(world,j1, k1, l1, 0, 0);
-        	world.setBlock(j1, k1-1, l1, Blocks.air);
+        	//p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).dropBlockAsItem(p_149674_1_,p_149674_2_, p_149674_3_, p_149674_4_, 0, 0);
+        	p_149674_1_.setBlock(p_149674_2_, p_149674_3_-1, p_149674_4_, Blocks.air);
         }
         int ig = growrand.nextInt(10);
 			if (ig >= 8){
-        if(world.getBlock(j1, k1-1, l1) != Blocks.air
-         		 &&  world.getBlock(j1, k1-1, l1).getMaterial()!= Material.lava
-           	  &&  world.getBlock(j1, k1-1, l1).getMaterial()!= Material.water
+        if(p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_) != Blocks.air
+         		 &&  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()!= Material.lava
+           	  &&  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()!= Material.water
            	  &&
-           	world.getBlock(j1, k1-2, l1) != Blocks.air
-    		 &&  world.getBlock(j1, k1-2, l1).getMaterial()!= Material.lava
-      	  &&  world.getBlock(j1, k1-2, l1).getMaterial()!= Material.water
-        		&&world.getBlock(j1, k1-1, l1) != Blocks.snow_layer
-        		&&world.getBlock(j1, k1-1, l1).getMaterial()!= Material.plants
-        		&&world.getBlock(j1, k1-1, l1).getMaterial()!= Material.vine
+           	p_149674_1_.getBlock(p_149674_2_, p_149674_3_-2, p_149674_4_) != Blocks.air
+    		 &&  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-2, p_149674_4_).getMaterial()!= Material.lava
+      	  &&  p_149674_1_.getBlock(p_149674_2_, p_149674_3_-2, p_149674_4_).getMaterial()!= Material.water
+        		&&p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_) != Blocks.snow_layer
+        		&&p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()!= Material.plants
+        		&&p_149674_1_.getBlock(p_149674_2_, p_149674_3_-1, p_149674_4_).getMaterial()!= Material.vine
         		
         		
         		)
          		{ 
        
          
-        	world.setBlock(j1, k1, l1, Blocks.dirt);
+        	p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Blocks.dirt);
          		}
 			}
     }

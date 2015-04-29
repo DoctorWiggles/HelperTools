@@ -425,11 +425,6 @@ public class ItemDebugTool extends Item {
 		                Block block = theblock.getBlock(i1, j1, k1);
 		                theblock.spawnParticle("happyVillager", (double)((float)i1 + itemRand.nextFloat()), (double)j1 + (double)itemRand.nextFloat() * block.getBlockBoundsMaxY()+(d3), (double)((float)k1 + itemRand.nextFloat()), d0, d1, d2);
 		            }
-					
-					
-					
-					
-					
 					/**
 					short short1 = 32;
 					for (int lp = 0; lp < short1; ++lp)

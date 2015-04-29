@@ -85,13 +85,6 @@ public class ItemStaffofExpansion extends ItemSpade
   	if(entity.worldObj.isRemote){
   		return;  	}
   	//Item item = entity.inventory.currentItem;
-  	if (!(entity instanceof EntityPlayer)){
-			return;
-		}
-  	if(((EntityPlayer) entity).getCurrentEquippedItem() == null){
-  		return;
-  		}
-  		
   	 ItemStack item = ((EntityPlayer) entity).getCurrentEquippedItem();
   	 Item item2 = item.getItem();
   	if (!(item2 == this)){

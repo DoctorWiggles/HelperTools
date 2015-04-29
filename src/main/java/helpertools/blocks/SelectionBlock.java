@@ -8,7 +8,6 @@ import helpertools.Helpertoolscore;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,8 +27,6 @@ public class SelectionBlock extends Block
         //setCreativeTab(Helpertoolscore.HelperTools);
         setCreativeTab(HelpTab.HelperTools);
         this.setBlockTextureName("helpertools:DebugBlock1");
-        //this.setBlockTextureName("helpertools:sugar4");
-        
         this.setResistance(20F);
         this.setHardness(15.0F);
         //this.setBlockBounds(-1F, -1.0F, -1F, 2F, 2.0F, 2F);
@@ -37,7 +34,7 @@ public class SelectionBlock extends Block
         
     }
     
-   @Override
+    @Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}

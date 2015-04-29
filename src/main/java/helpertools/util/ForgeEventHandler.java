@@ -28,8 +28,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class ForgeEventHandler {
   
-	//Usefull debugging tool
-	//Stick into an action like below or around ticking things to spot pesky problems.
+	//Usefull debugging tool	
 	/**
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerLoggedInEvent event){

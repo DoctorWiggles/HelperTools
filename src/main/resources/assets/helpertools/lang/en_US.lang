@@ -7,8 +7,8 @@ item.staffoftransformation2.name=§aMetamorphic Staff
 item.staffofexpansion.name=§aExpanding Rod
 item.torchlauncher.name=§eTorch Launcher
 item.dynamitebolt.name=§6Dynamite Bolt
-item.euclideantransposer.name=§3Euclidean Transposer §9[W.I.P.]
-item.dirtbomb.name=§7Dirt Bomb §9[W.I.P.]
+item.euclideantransposer.name=§3Euclidean Transposer
+item.dirtbomb.name=Dirt Bomb §9[W.I.P.]
 item.bottledmilk.name=Bottle of Milk
 item.chocolatemilk.name=Chocolate Milk
 
@@ -23,13 +23,14 @@ entity.DynamiteBolt.name=Dynamite Bolt
 #        #
 # Blocks #
 tile.Imitation Bedrock.name=§7Imitation Bedrock
-tile.StokedPipe.name=Stoked Pipe §9[W.I.P.]
+tile.StokedPipe.name=§7ChimneyPipe §9[W.I.P.]
 tile.StokedBlock.name=Stoked Block §9[W.I.P.]
-tile.TranscriberBlock.name=§3Euclidean Transcriber §9[W.I.P.]
+tile.TranscriberBlock.name=§3Euclidean Transcriber
 tile.SelectionBlock.name=§4Selection Block §5[DEV]
 tile.MagicalFuelBlock.name=§3Magical Fuel §9[W.I.P.]
 tile.ActiveMagicalFuelBlock.name=§3Active Magical Fuel §9[W.I.P.]
 tile.LooseDirtBlock.name=Loose Dirt §9[W.I.P.]
+tile.SugarBlock.name=Sugar Cube
 
 
 #      #

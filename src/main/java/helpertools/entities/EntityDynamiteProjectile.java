@@ -132,9 +132,9 @@ public class EntityDynamiteProjectile extends EntityThrowable{
       
       //once it has hit anything
       //create and explosion
-      //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)4, true);
+      this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)4, true);
       //doExplosionU(worldObj, 4, this.posX, this.posY, this.posZ);
-      	HelperExplosions.doExplosionG(worldObj, 5, (int)this.posX, (int)this.posY, (int)this.posZ);
+      //HelperExplosions.doExplosionG(worldObj, 5, (int)this.posX, (int)this.posY, (int)this.posZ);
       
       //Ensures the entity itself is deleted once its objective is reached
       //otherwise it will slide along the ground for a while

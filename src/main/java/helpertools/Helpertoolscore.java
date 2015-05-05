@@ -1,4 +1,5 @@
 package helpertools;
+import helpertools.blocks.TileEntityObelisk;
 import helpertools.blocks.TileEntityTranscriber;
 import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDirtBombProjectile;
@@ -9,6 +10,7 @@ import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
 import helpertools.items.ItemMilkBottle;
+import helpertools.items.ItemPowerCrystal;
 import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
@@ -65,7 +67,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5g")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5h")
 //@NetworkMod(clientSideRequired=true) // not used in 1.7
 public class Helpertoolscore {
 	
@@ -80,7 +82,10 @@ public class Helpertoolscore {
 		public final static Block MagicalFuelBlock = new helpertools.blocks.MagicalFuelBlock();	
 		public final static Block ActiveMagicalFuelBlock = new helpertools.blocks.ActiveMagicalFuelBlock();	
 		public final static Block LooseDirtBlock= new helpertools.blocks.LooseDirtBlock(Material.sand);
+		
 		public final static Block SugarBlock= new helpertools.blocks.SugarBlock(Material.sand);
+		public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
+		public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
 		
 	 	//Items & Tools - Items & Tools - Items & Tools - Items & Tools - Items & Tools 
 		public static Item staffofexpansion;  
@@ -93,6 +98,8 @@ public class Helpertoolscore {
 		public static Item dirtbomb;
 		public static Item bottledmilk;
 		public static Item chocolatemilk;
+		//
+		public static Item powercrystal;
 		
 		public static Item debugtool;
 		public static Item rfdebugtool;
@@ -176,10 +183,10 @@ public class Helpertoolscore {
         	
         	config = new Configuration(event.getSuggestedConfigurationFile());
         	
-        	Property ToolDurability = config.get("1 Tool Durabilities", "", "");
+        	Property ToolDurability = config.get("1 Tool Durabilities", " ", " ");
         	ToolDurability.comment = "Assign custom balance of tool durabilies";
         	
-        	Property Recipes = config.get("2 Recipes", "", "");
+        	Property Recipes = config.get("2 Recipes", " ", " ");
             Recipes.comment = "Enable or disable specific recipes";
         	
         	//Property BlocksRecipes = config.get("2 Recipes", "", "");
@@ -191,10 +198,10 @@ public class Helpertoolscore {
             //Property ItemsRecipes = config.get("2 Recipes", "", "");
             //ItemsRecipes.comment = "Assign custom recipe creation results"; 
             
-            Property ItemsOutput = config.get("3 Item Results", "", "");
+            Property ItemsOutput = config.get("3 Item Results", " ", " ");
             ItemsOutput.comment = "Assign custom balance for recipe creation results";       
             
-            Property Extra = config.get("5 Extra Settings", "", "");
+            Property Extra = config.get("5 Extra Settings", " ", " ");
             //Extra.comment = "Enable or disable special 3d models for Tools, will rollback to 2d sprites";
             Extra.comment = "Enable or disable back engine features";
             
@@ -266,7 +273,12 @@ public class Helpertoolscore {
     		ToolMaterial TorchMaterial = EnumHelper.addToolMaterial("TorchMaterial", 0, DurabilityTorchLauncher, 0.8F, 4F, 15);
     		//name, harvest level, max uses, efficiency, damage, enchantability
         	
-        	
+    		powercrystal = new ItemPowerCrystal();
+    		ExpRodMaterial.setRepairItem(new ItemStack(powercrystal));
+    		MetaStaffMaterial.setRepairItem(new ItemStack(powercrystal));
+    		EUStaffMaterial.setRepairItem(new ItemStack(powercrystal));
+    		TorchMaterial.setRepairItem(new ItemStack(Items.stick));
+    		
             
         	  ////////////////
         	 /**  Casts   **/
@@ -284,6 +296,8 @@ public class Helpertoolscore {
         	dirtbomb = new ItemDirtBomb();
         	bottledmilk = new ItemMilkBottle();
         	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
+        	
+        	//powercrystal = new ItemPowerCrystal();
         	
         	
         	//////////////
@@ -328,7 +342,7 @@ public class Helpertoolscore {
                 GameRegistry.registerItem(Helpertoolscore.bottledmilk, "bottledmilk");
                 GameRegistry.registerItem(Helpertoolscore.chocolatemilk, "chocolatemilk");
                 //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
-              
+                GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");
                 
                 //Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
                 //////////////////////////////////////////////////////
@@ -340,7 +354,10 @@ public class Helpertoolscore {
                 GameRegistry.registerBlock(MagicalFuelBlock, "MagicalFuelBlock");
                 GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
                 GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
+                //
                 GameRegistry.registerBlock(SugarBlock, "SugarBlock");
+                GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
+                GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
                
                 
                 //Entities - Entities - Entities - Entities - Entities - Entities
@@ -356,7 +373,10 @@ public class Helpertoolscore {
                
        			//Tile Entities - Tile Entities - Tile Entities - Tile Entities
                 //////////////////////////////////////////////////////////////////////////////////////////////
+                
         	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
+        	    GameRegistry.registerTileEntity(TileEntityObelisk.class, TileEntityObelisk.publicName);
+        	    
         	   //     Helpertoolscore.logger.info("TILE ENTITY");
         	    
         	    

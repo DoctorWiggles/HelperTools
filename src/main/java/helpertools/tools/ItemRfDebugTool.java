@@ -13,8 +13,13 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cofh.api.energy.ItemEnergyContainer;
+//import helpertools.rfenergy.ItemEnergyContainer;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.common.Optional.Method;
 
-
+//optional @ A&M&T Mod
+@cpw.mods.fml.common.Optional.InterfaceList({@cpw.mods.fml.common.Optional.Interface(iface="cofh.api.energy.ItemEnergyContainer", modid="CoFHCore")})
 public class ItemRfDebugTool extends ItemEnergyContainer {
 
 	  public ItemRfDebugTool() {

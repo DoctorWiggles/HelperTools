@@ -27,6 +27,7 @@ import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
 import helpertools.util.ForgeEventHandler;
+import helpertools.util.GuiHandler;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -62,13 +63,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5h")
-//@NetworkMod(clientSideRequired=true) // not used in 1.7
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5J")
 public class Helpertoolscore {
 	
 		
@@ -384,6 +385,8 @@ public class Helpertoolscore {
         	    //ChestGenHooks.addDungeonLoot(ChestGenHooks(String category, WeightedRandomChestContent[] items, int min, int max));
         	    //(ChestGenHooks("villageBlacksmith"), (new ItemStack(Helpertoolscore.staffoftransformation2)) , 100, 1, 1);
                addLoot();
+               NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+              
         }
        
         @EventHandler // used in 1.6.2
@@ -605,5 +608,7 @@ public class Helpertoolscore {
         	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.dynamitebolt), 1, 3, 50));
         	logger.info("Chest Things Loaded");
         }
+        
+       
          
 }

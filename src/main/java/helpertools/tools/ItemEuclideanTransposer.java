@@ -6,6 +6,7 @@ import java.util.Random;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.blocks.TileEntityTranscriber;
+import helpertools.util.InventoryUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -16,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -385,7 +387,10 @@ public class ItemEuclideanTransposer extends ItemSpade
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.plants 
     						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine )
     				{
-    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
+    					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
+    					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0);
+    					//if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
+    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItemStack(stacky)
     							){
     					//theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
@@ -430,7 +435,9 @@ public class ItemEuclideanTransposer extends ItemSpade
     		            }
     					
     					if (!theplayer.capabilities.isCreativeMode){
-    						 theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
+    						//theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
+    						//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0); 
+    						InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);
     						 thestaff.damageItem(1, theplayer);
     					}
     					}

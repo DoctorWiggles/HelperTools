@@ -2,6 +2,7 @@ package helpertools.blocks;
 
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
+import helpertools.util.GUIs;
 
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -86,12 +88,6 @@ public class ObeliskBlock extends Block implements ITileEntityProvider{
             this.nonactive[4] = reg.registerIcon(this.textureName + "_" + 2);
             this.nonactive[5] = reg.registerIcon(this.textureName + "_" + 2);
             
-            //this.active[0] = reg.registerIcon(this.textureName + "_" + 1);
-            //this.active[1] = reg.registerIcon(this.textureName + "2_" + 3);
-            //this.active[2] = reg.registerIcon(this.textureName + "2_" + 2);
-            //this.active[3] = reg.registerIcon(this.textureName + "2_" + 2);
-            //this.active[4] = reg.registerIcon(this.textureName + "2_" + 2);
-            //this.active[5] = reg.registerIcon(this.textureName + "2_" + 2);
             
         //}
     }
@@ -139,5 +135,27 @@ public class ObeliskBlock extends Block implements ITileEntityProvider{
 
         return true;
     }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ) {
+        if(world.isRemote) {
+            if (world.getTileEntity(x, y, z) != null)
+                player.openGui(Helpertoolscore.instance, GUIs.SMASHER.ordinal(), world, x, y, z);
+            return true;
+        }
+        return true;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
     

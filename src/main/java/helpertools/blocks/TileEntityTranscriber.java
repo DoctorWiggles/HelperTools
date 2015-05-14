@@ -2,6 +2,7 @@ package helpertools.blocks;
 
 import java.util.Random;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityTranscriber extends TileEntity{
@@ -21,6 +22,28 @@ public class TileEntityTranscriber extends TileEntity{
     public int offY = 1;
     public int offZ = 0;
     //int actk7 = 0;
+    
+    
+    
+    //Entity manages to reset even with nbt compounds
+    //I'm definitly goofing something up big
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+ 	   
+    	super.readFromNBT(nbt);
+ 	   nbt.setInteger("offX", this.offX);
+ 	  nbt.setInteger("offY", this.offY);
+ 	 nbt.setInteger("offZ", this.offZ);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt) {
+ 	   
+    	super.writeToNBT(nbt);
+ 	   this.offX = nbt.getInteger("offX");
+ 	  this.offY = nbt.getInteger("offY");
+ 	 this.offZ = nbt.getInteger("offZ");
+    }
 	
     protected static Random growrand = new Random();
     

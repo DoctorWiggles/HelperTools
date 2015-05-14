@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -220,6 +221,7 @@ public class ItemDebugTool extends Item {
 	    	if(!entity.worldObj.isRemote){
 	    		return;
 	    	}
+	    	/**
 	    	ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
 					"Timer: " + (getSpinDec(stack)), new Object[0]);
 			((EntityPlayer) entity)
@@ -229,6 +231,7 @@ public class ItemDebugTool extends Item {
 			}
 			else 
 				setSpinDec(stack, (short)(getSpinDec(stack)-1));
+			**/
 				//timer--;
 			
 	    			
@@ -481,8 +484,55 @@ public class ItemDebugTool extends Item {
 				//setTBlock(thestaff, Tblock.getIdFromBlock(Tblock));
 	    		setTBlock(thestaff, theblock.getBlock(i1, j1, k1).getIdFromBlock(theblock.getBlock(i1, j1, k1)));
 	    		setTMeta(thestaff,theblock.getBlockMetadata(i1, j1, k1));
-
+	    		/**
+	    		///Bed test
+	    		 * **/
+	    		//credit http://www.minecraftforge.net/forum/index.php?topic=16041.0
+	    		
+	    		ChunkCoordinates coordinates = theplayer.getBedLocation(0);
+				if (coordinates == null) {
+					coordinates = theblock.getSpawnPoint();
+				}
+				float yOffset = 1.62F;
 				
+				theplayer.setPosition((double)((float)coordinates.posX + 0.5F), (double)((float)coordinates.posY + yOffset + 0.1F), (double)((float)coordinates.posZ + 0.5F));
+				
+				/**
+	    		int posX = 0;
+
+	    		ChunkCoordinates chunkCoords = theplayer.getBedLocation(theplayer.dimension());
+	    	      if (chunkCoords == null) {
+	    	        chunkCoords = world.func_175694_M();
+	    	      }
+	    	      chunkCoords = CWSettings.verifyRespawnCoordinates(theblock, chunkCoords, false);
+	    	      if (chunkCoords == null) {
+	    	        chunkCoords = world.func_175694_M();
+	    	      }
+	    	      
+	    		ChunkCoordinates chunkcoordinates1 = EntityPlayer.verifyRespawnCoordinates(theblock, null, false);
+	    		 
+	    		ChunkCoordinates chunkcoordinates1 = theblock.getBlock(ChunkCoordinates.posX, theblock.posY, theblock.posZ).getBedSpawnPosition(p_71056_0_, p_71056_1_.posX, p_71056_1_.posY, p_71056_1_.posZ, null);
+	    		
+	    		
+	    		ChunkCoordinates chunkcoordinates = theplayer.playerLocation;
+	            ChunkCoordinates chunkcoordinates1 = theplayer.playerLocation;
+	            Block block = (chunkcoordinates == null ? null : worldObj.getBlock(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ));
+
+	            if (chunkcoordinates != null && block.isBed(worldObj, chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, this))
+	            {
+	                block.setBedOccupied(this.worldObj, chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, this, false);
+	                chunkcoordinates1 = block.getBedSpawnPosition(this.worldObj, chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, this);
+
+	                if (chunkcoordinates1 == null)
+	                {
+	                    chunkcoordinates1 = new ChunkCoordinates(chunkcoordinates.posX, chunkcoordinates.posY + 1, chunkcoordinates.posZ);
+	                }
+				**/
+	                
+	            //}
+	            /**
+	            /////Bed test
+				**/
 				
 				//getMode(stack)
 				/*

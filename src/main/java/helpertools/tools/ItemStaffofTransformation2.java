@@ -40,9 +40,12 @@ public class ItemStaffofTransformation2 extends ItemSpade
     }
     //Adds fancy flavor text for item
     @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
     par3List.add(EnumChatFormatting.ITALIC + "swaps blocks");
+    if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
+    	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
+    }
     }
     /**
     public String getItemStackDisplayName(ItemStack p_77653_1_)
@@ -53,6 +56,43 @@ public class ItemStaffofTransformation2 extends ItemSpade
     //
     /**Declarations, that are used for processing later **/
     //
+    public String whatModeString(ItemStack stack){	  
+  		String modestring = "null";
+  		
+  		if (getMode(stack) == 2){
+  			modestring = "Single";
+  		}
+  		else if(getMode(stack) == 4){
+  			modestring = "Cube";
+  		}
+  		else if(getMode(stack) == 6){
+  			modestring = "Wall";
+  		}
+  		else{
+  			modestring = "null";
+  		}  		
+  		
+  		
+  		return modestring;
+  	};
+   
+  	public String whatBlockString(ItemStack stack){
+  		
+  		String modestring = "null";
+  		
+  		if (getTBlock(stack) == 0){
+  			modestring = "null";
+  		}
+  		
+  		if (getTBlock(stack) != 0){
+  			modestring = returnTBlock(stack).getLocalizedName() + " ";  			
+  			return modestring;
+  		} 
+  		return modestring;
+  		
+  	};
+    
+    
 	// ///////////////////////////////////////////////////////////
 	public int getMode(ItemStack itemStack) {
 		if (itemStack.stackTagCompound == null) {

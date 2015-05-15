@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -92,7 +93,15 @@ public class ItemRfDebugTool extends ItemEnergyContainer {
 	  
 	  public ItemStack onItemRightClick(ItemStack stack, World par2World,
 				EntityPlayer entityLiving) {
+		  
+		  String stringy = entityLiving.getCommandSenderName();
+		  entityLiving.setHealth(0);
+					
+		  
 			if (!entityLiving.worldObj.isRemote) {
+				ChatComponentTranslation chatcomponenttranslation8 = new ChatComponentTranslation(stringy + " was kill", new Object[0]);
+				((EntityPlayer) entityLiving)
+						.addChatComponentMessage(chatcomponenttranslation8);
 				
 				if(!entityLiving.isSneaking()){
 					this.receiveEnergy(stack, 50, false);

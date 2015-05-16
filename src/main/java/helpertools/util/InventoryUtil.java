@@ -19,7 +19,7 @@ public class InventoryUtil{
 	        {	        	
 	        	 if (entity.mainInventory[i] != null && entity.mainInventory[i].isItemEqual(stack))
 		            {
-	        		 System.out.println("Stack Return? : " + i);
+	        		 //System.out.println("Stack Return? : " + i);
 	                return i;
 	            }
 	        }

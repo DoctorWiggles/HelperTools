@@ -1,15 +1,18 @@
 package helpertools.tools;
 
 import java.util.List;
+import java.util.Random;
 
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
+import helpertools.util.InventoryUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +26,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -49,11 +53,17 @@ public class ItemStaffofExpansion2 extends ItemSpade
         setTextureName("helpertools:wand7");
         //this.setMaxDamage(1428);
     }
+    
+    protected static Random growrand = new Random();
     //flavor text
     @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    par3List.add(EnumChatFormatting.ITALIC + "sets blocks");
+    	
+    	par3List.add(EnumChatFormatting.ITALIC + "sets blocks");
+    if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
+    	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
+    }
     }
     /*
     public String getItemStackDisplayName(ItemStack p_77653_1_)
@@ -95,16 +105,17 @@ public class ItemStaffofExpansion2 extends ItemSpade
   	 ItemStack item = ((EntityPlayer) entity).getCurrentEquippedItem();
   	 Item item2 = item.getItem();
   	if (!(item2 == this)){
-  	//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-  	//				"Not being held" + (getSpinDec(stack)), new Object[0]);
-  	//		((EntityPlayer) entity)
-  	//				.addChatComponentMessage(chatcomponenttranslation);
   		return;
   	}
   	//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
 	//			"Timer: " + (getSpinDec(stack)), new Object[0]);
 	//	((EntityPlayer) entity)
 	//			.addChatComponentMessage(chatcomponenttranslation);
+  	/**
+  	int eff = EnchantmentHelper.getEnchantmentLevel(32, stack);
+  	
+  	 System.out.println("Testing levels " + eff);
+  	 **/
 		if (getSpinDec(stack)== 0){
 			setSpinDec(stack, (short) 360);
 		}
@@ -114,7 +125,37 @@ public class ItemStaffofExpansion2 extends ItemSpade
 		
   			
   }
+  	public String whatModeString(ItemStack stack){	  
+  		String modestring = "null";
+  		
+  		if (getMode(stack) == 2){
+  			modestring = "Pillar";
+  			}
+  			else if(getMode(stack) == 4){
+  			modestring = "Wall";
+  			}
+  			else if(getMode(stack) == 6){
+  			modestring = "Matching";
+  			}
+  			else{
+  			modestring = "null";
+  			}  
+  		return modestring;
+  	};
    
+  	public String whatBlockString(ItemStack stack){  		
+  		String modestring = "null";
+  		
+  		if (getTBlock(stack) == 0){
+  			modestring = "null";
+  			}  		
+  			if (getTBlock(stack) != 0){
+  			modestring = returnTBlock(stack).getLocalizedName() + " ";  			
+  			return modestring;
+  			} 
+  		return modestring;
+  		
+  	};
  
     /////////////////////////////////////////////////////////////
     public int getMode(ItemStack itemStack)
@@ -202,7 +243,7 @@ public class ItemStaffofExpansion2 extends ItemSpade
 	}
 	
     
-	/** Offmode here prevents getblock from double dipping into switch mode code**/
+	/** Offmode here prevents getblock from double dipping into switch mode code because i suck**/
 	// ///////////////////////////////////////////////////////////
 		public int getOffMode(ItemStack itemStack) {
 			if (itemStack.stackTagCompound == null) {
@@ -224,29 +265,43 @@ public class ItemStaffofExpansion2 extends ItemSpade
     
     //////////////////////////////////////////////////////////////
     
+    /** Tool levels **/
+		public int getToolLevel(ItemStack itemStack) {
+			if (itemStack.stackTagCompound == null) {
+				return 0;
+			}
+
+			return itemStack.stackTagCompound.getInteger("ToolLevel");
+
+		}		
+		public void setToolLevel(ItemStack itemStack, int Value) {
+			if (itemStack.stackTagCompound == null) {
+				itemStack.setTagCompound(new NBTTagCompound());
+			}
+
+			itemStack.stackTagCompound.setInteger("ToolLevel", Value);			
+		}
+		
+		public int getEff2Level(ItemStack itemStack) {
+			if (itemStack == null) {
+				return 0;
+			}
+			int eff = EnchantmentHelper.getEnchantmentLevel(32, itemStack);	
+			
+			if ((eff%2)!=0){
+				//odd
+				eff = eff-1;
+			}
+			if (eff <= 0){
+				eff = 0;
+			}
+			return eff;
+
+		}	
+		
     
-    
-    
-    
-	//private int mode = 2;
-	//declares mode integer
-	
-	//
-	
-	//
-	//
 	//(theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
-    //
-	//Auto generated stuff
-	//Allows modes to be seen and set outside of class
-	//public int getMode() {
-	//	return mode;
-	//}
-	//public void setMode(int mode) {
-	//	this.mode = mode;
-	//}
-
-
+   
 	//tileEntity.setFacing((short)change);
 	//tileBlock.setFacing((short)theface);
 	 
@@ -266,6 +321,7 @@ public class ItemStaffofExpansion2 extends ItemSpade
         p_77644_1_.damageItem(2, p_77644_3_);
         return true;
     }
+	
 	//Custom mode changing code
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
@@ -321,1422 +377,247 @@ public class ItemStaffofExpansion2 extends ItemSpade
 	/**During this, it looks for Which mode -> Which face of the block 
 	 * -> Which blocks are legal -> If they are legal, place or swap
 	 * -> And finally depending on which gamemode to remove durability and items**/
-    public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int i1, int j1, int k1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int x1, int y1, int z1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
+    	//Modifies size based on tool level
+    	int eff = EnchantmentHelper.getEnchantmentLevel(32, thestaff);
+    	int pillar = (getToolLevel(thestaff)+ eff+ 3);
+    	int eff2 = (getEff2Level(thestaff));
+    	int wall = (getToolLevel(thestaff)+ eff2+ 3);
+    		
+    	//if operation is successful set a flag
+    	//boolean successful = false;
+    	float sound1 = (this.growrand .nextFloat()) ;
+    	
+    	//prevents nulls etc
     	if (getMode(thestaff)== 0)
    		{
 		   setMode(thestaff, 2);
    		}
-    	//if (!theplayer.worldObj.isRemote) {
     	
-    	//
     	//////////////////////////////////////////////////////////////////////////////////
 
 		//Wall mode 4
 		/** if this is true it performs this action **/
     	//Checks to make sure you're not sneaking
-    	if (!theplayer.isSneaking()
-    			&& getMode(thestaff) == 4)
-    	{ 
-    		//////////////////////////////////////
-    		 if (theface == 0)
-    	        {
-    	            --j1;
-    	            //BOTTOM FACE
-    	            //W/E_T/B_N/S
-    	            if (theblock.isAirBlock(i1-1, j1+1, k1)
-    	            		|| theblock.getBlock(i1-1, j1+1, k1).getMaterial() == Material.lava 
-    	            		|| theblock.getBlock(i1-1, j1+1, k1).getMaterial() == Material.water)
-    	            {
-    	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-    	        		{
-    	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    	            		 theblock.setBlock(i1-1, j1+1, k1, Blocks.cobblestone);
-    	            		 theblock.setBlock(i1-1, j1+1, k1, Blocks.air);
-    	            		theblock.setBlock(i1-1, j1+1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-    	            		if (!theplayer.capabilities.isCreativeMode){                	
-    	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-    	                        thestaff.damageItem(1, theplayer);
-    	                        }	
-    	        		}
-    	            
-    	            }
-    	            if (theblock.isAirBlock(i1+1, j1+1, k1)
-    	            		|| theblock.getBlock(i1+1, j1+1, k1).getMaterial() == Material.lava 
-    	            		|| theblock.getBlock(i1+1, j1+1, k1).getMaterial() == Material.water)
-    	            {
-    	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-    	        		{
-    	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    	            		 theblock.setBlock(i1+1, j1+1, k1, Blocks.cobblestone);
-    	            		 theblock.setBlock(i1+1, j1+1, k1, Blocks.air);
-    	            		theblock.setBlock(i1+1, j1+1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-    	            		if (!theplayer.capabilities.isCreativeMode){                	
-    	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-    	                        thestaff.damageItem(1, theplayer);
-    	                        }	
-    	        		}
-    	            
-    	            }
-    	          //W/E_T/B_N/S
-    	            if (theblock.isAirBlock(i1, j1+1, k1-1)
-    	            		|| theblock.getBlock(i1, j1+1, k1-1).getMaterial() == Material.lava 
-    	            		|| theblock.getBlock(i1, j1+1, k1-1).getMaterial() == Material.water)
-    	            {
-    	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-    	        		{
-    	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    	            		 theblock.setBlock(i1, j1+1, k1-1, Blocks.cobblestone);
-    	            		 theblock.setBlock(i1, j1+1, k1-1, Blocks.air);
-    	            		theblock.setBlock(i1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-    	            		if (!theplayer.capabilities.isCreativeMode){                	
-    	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-    	                        thestaff.damageItem(1, theplayer);
-    	                        }	
-    	        		}
-    	            
-    	            }
-    	            if (theblock.isAirBlock(i1-1, j1+1, k1-1)
-    	            		|| theblock.getBlock(i1-1, j1+1, k1-1).getMaterial() == Material.lava 
-    	            		|| theblock.getBlock(i1-1, j1+1, k1-1).getMaterial() == Material.water)
-    	            {
-    	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-    	        		{
-    	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    	            		 theblock.setBlock(i1-1, j1+1, k1-1, Blocks.cobblestone);
-    	            		 theblock.setBlock(i1-1, j1+1, k1-1, Blocks.air);
-    	            		theblock.setBlock(i1-1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-    	            		if (!theplayer.capabilities.isCreativeMode){                	
-    	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-    	                        thestaff.damageItem(1, theplayer);
-    	                        }	
-    	        		}
-    	            
-    	            }
-    	            if (theblock.isAirBlock(i1+1, j1+1, k1-1)
-    	            		|| theblock.getBlock(i1+1, j1+1, k1-1).getMaterial() == Material.lava 
-    	            		|| theblock.getBlock(i1+1, j1+1, k1-1).getMaterial() == Material.water)
-    	            {
-    	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-    	        		{
-    	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    	            		 theblock.setBlock(i1+1, j1+1, k1-1, Blocks.cobblestone);
-    	            		 theblock.setBlock(i1+1, j1+1, k1-1, Blocks.air);
-    	            		theblock.setBlock(i1+1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-    	            		if (!theplayer.capabilities.isCreativeMode){                	
-    	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-    	                        thestaff.damageItem(1, theplayer);
-    	                        }	
-    	        		}
-    	            
-    	            }
-
-      	          //W/E_T/B_N/S
-      	            if (theblock.isAirBlock(i1, j1+1, k1+1)
-      	            		|| theblock.getBlock(i1, j1+1, k1+1).getMaterial() == Material.lava 
-      	            		|| theblock.getBlock(i1, j1+1, k1+1).getMaterial() == Material.water)
-      	            {
-      	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-      	        		{
-      	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-      	            		 theblock.setBlock(i1, j1+1, k1+1, Blocks.cobblestone);
-      	            		 theblock.setBlock(i1, j1+1, k1+1, Blocks.air);
-      	            		theblock.setBlock(i1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-      	            		if (!theplayer.capabilities.isCreativeMode){                	
-      	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-      	                        thestaff.damageItem(1, theplayer);
-      	                        }	
-      	        		}
-      	            
-      	            }
-      	            if (theblock.isAirBlock(i1-1, j1+1, k1+1)
-      	            		|| theblock.getBlock(i1-1, j1+1, k1+1).getMaterial() == Material.lava 
-      	            		|| theblock.getBlock(i1-1, j1+1, k1+1).getMaterial() == Material.water)
-      	            {
-      	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-      	        		{
-      	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-      	            		 theblock.setBlock(i1-1, j1+1, k1+1, Blocks.cobblestone);
-      	            		 theblock.setBlock(i1-1, j1+1, k1+1, Blocks.air);
-      	            		theblock.setBlock(i1-1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-      	            		if (!theplayer.capabilities.isCreativeMode){                	
-      	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-      	                        thestaff.damageItem(1, theplayer);
-      	                        }	
-      	        		}
-      	            
-      	            }
-      	            if (theblock.isAirBlock(i1+1, j1+1, k1+1)
-      	            		|| theblock.getBlock(i1+1, j1+1, k1+1).getMaterial() == Material.lava 
-      	            		|| theblock.getBlock(i1+1, j1+1, k1+1).getMaterial() == Material.water)
-      	            {
-      	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-      	        		{
-      	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-      	            		 theblock.setBlock(i1+1, j1+1, k1+1, Blocks.cobblestone);
-      	            		 theblock.setBlock(i1+1, j1+1, k1+1, Blocks.air);
-      	            		theblock.setBlock(i1+1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-      	            		if (!theplayer.capabilities.isCreativeMode){                	
-      	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-      	                        thestaff.damageItem(1, theplayer);
-      	                        }	
-      	        		}
-      	            
-      	            }
-      	            
-    	            //////////////////
-    	            {
-
-    	        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-    	        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-    	            }
-    	            //East/west axis, Vertical axis, North/south axis
-    	            return true;
-    	        }
-   ////////////// 	/////////////////////	////////// /////////////////////////////////////////////////////////////
-    		  if (theface == 1)
-    	        {
-    	            ++j1;
-    	            //TOP FACE
- 	            //W/E_T/B_N/S
- 	            if (theblock.isAirBlock(i1-1, j1-1, k1)
- 	            		|| theblock.getBlock(i1-1, j1-1, k1).getMaterial() == Material.lava 
- 	            		|| theblock.getBlock(i1-1, j1-1, k1).getMaterial() == Material.water)
- 	            {
- 	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
- 	        		{
- 	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
- 	            		 theblock.setBlock(i1-1, j1-1, k1, Blocks.cobblestone);
- 	            		 theblock.setBlock(i1-1, j1-1, k1, Blocks.air);
- 	            		theblock.setBlock(i1-1, j1-1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
- 	            		if (!theplayer.capabilities.isCreativeMode){                	
- 	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
- 	                        thestaff.damageItem(1, theplayer);
- 	                        }	
- 	        		}
- 	            
- 	            }
- 	            if (theblock.isAirBlock(i1+1, j1-1, k1)
- 	            		|| theblock.getBlock(i1+1, j1-1, k1).getMaterial() == Material.lava 
- 	            		|| theblock.getBlock(i1+1, j1-1, k1).getMaterial() == Material.water)
- 	            {
- 	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
- 	        		{
- 	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
- 	            		 theblock.setBlock(i1+1, j1-1, k1, Blocks.cobblestone);
- 	            		 theblock.setBlock(i1+1, j1-1, k1, Blocks.air);
- 	            		theblock.setBlock(i1+1, j1-1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
- 	            		if (!theplayer.capabilities.isCreativeMode){                	
- 	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
- 	                        thestaff.damageItem(1, theplayer);
- 	                        }	
- 	        		}
- 	            
- 	            }
- 	          //W/E_T/B_N/S
- 	            if (theblock.isAirBlock(i1, j1-1, k1-1)
- 	            		|| theblock.getBlock(i1, j1-1, k1-1).getMaterial() == Material.lava 
- 	            		|| theblock.getBlock(i1, j1-1, k1-1).getMaterial() == Material.water)
- 	            {
- 	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
- 	        		{
- 	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
- 	            		 theblock.setBlock(i1, j1-1, k1-1, Blocks.cobblestone);
- 	            		 theblock.setBlock(i1, j1-1, k1-1, Blocks.air);
- 	            		theblock.setBlock(i1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
- 	            		if (!theplayer.capabilities.isCreativeMode){                	
- 	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
- 	                        thestaff.damageItem(1, theplayer);
- 	                        }	
- 	        		}
- 	            
- 	            }
- 	            if (theblock.isAirBlock(i1-1, j1-1, k1-1)
- 	            		|| theblock.getBlock(i1-1, j1-1, k1-1).getMaterial() == Material.lava 
- 	            		|| theblock.getBlock(i1-1, j1-1, k1-1).getMaterial() == Material.water)
- 	            {
- 	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
- 	        		{
- 	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
- 	            		 theblock.setBlock(i1-1, j1-1, k1-1, Blocks.cobblestone);
- 	            		 theblock.setBlock(i1-1, j1-1, k1-1, Blocks.air);
- 	            		theblock.setBlock(i1-1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
- 	            		if (!theplayer.capabilities.isCreativeMode){                	
- 	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
- 	                        thestaff.damageItem(1, theplayer);
- 	                        }	
- 	        		}
- 	            
- 	            }
- 	            if (theblock.isAirBlock(i1+1, j1-1, k1-1)
- 	            		|| theblock.getBlock(i1+1, j1-1, k1-1).getMaterial() == Material.lava 
- 	            		|| theblock.getBlock(i1+1, j1-1, k1-1).getMaterial() == Material.water)
- 	            {
- 	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
- 	        		{
- 	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
- 	            		 theblock.setBlock(i1+1, j1-1, k1-1, Blocks.cobblestone);
- 	            		 theblock.setBlock(i1+1, j1-1, k1-1, Blocks.air);
- 	            		theblock.setBlock(i1+1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
- 	            		if (!theplayer.capabilities.isCreativeMode){                	
- 	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
- 	                        thestaff.damageItem(1, theplayer);
- 	                        }	
- 	        		}
- 	            
- 	            }
-
-   	          //W/E_T/B_N/S
-   	            if (theblock.isAirBlock(i1, j1-1, k1+1)
-   	            		|| theblock.getBlock(i1, j1-1, k1+1).getMaterial() == Material.lava 
-   	            		|| theblock.getBlock(i1, j1-1, k1+1).getMaterial() == Material.water)
-   	            {
-   	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-   	        		{
-   	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-   	            		 theblock.setBlock(i1, j1-1, k1+1, Blocks.cobblestone);
-   	            		 theblock.setBlock(i1, j1-1, k1+1, Blocks.air);
-   	            		theblock.setBlock(i1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-   	            		if (!theplayer.capabilities.isCreativeMode){                	
-   	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-   	                        thestaff.damageItem(1, theplayer);
-   	                        }	
-   	        		}
-   	            
-   	            }
-   	            if (theblock.isAirBlock(i1-1, j1-1, k1+1)
-   	            		|| theblock.getBlock(i1-1, j1-1, k1+1).getMaterial() == Material.lava 
-   	            		|| theblock.getBlock(i1-1, j1-1, k1+1).getMaterial() == Material.water)
-   	            {
-   	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-   	        		{
-   	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-   	            		 theblock.setBlock(i1-1, j1-1, k1+1, Blocks.cobblestone);
-   	            		 theblock.setBlock(i1-1, j1-1, k1+1, Blocks.air);
-   	            		theblock.setBlock(i1-1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-   	            		if (!theplayer.capabilities.isCreativeMode){                	
-   	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-   	                        thestaff.damageItem(1, theplayer);
-   	                        }	
-   	        		}
-   	            
-   	            }
-   	            if (theblock.isAirBlock(i1+1, j1-1, k1+1)
-   	            		|| theblock.getBlock(i1+1, j1-1, k1+1).getMaterial() == Material.lava 
-   	            		|| theblock.getBlock(i1+1, j1-1, k1+1).getMaterial() == Material.water)
-   	            {
-   	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-   	        		{
-   	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-   	            		 theblock.setBlock(i1+1, j1-1, k1+1, Blocks.cobblestone);
-   	            		 theblock.setBlock(i1+1, j1-1, k1+1, Blocks.air);
-   	            		theblock.setBlock(i1+1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-   	            		if (!theplayer.capabilities.isCreativeMode){                	
-   	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-   	                        thestaff.damageItem(1, theplayer);
-   	                        }	
-   	        		}
-   	            
-   	            }
-   	            
- 	            //////////////////
- 	            {
-
- 	        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
- 	        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
- 	            }
- 	            //East/west axis, Vertical axis, North/south axis
- 	            return true;
- 	        }
-   //////////////////////////////////////////////////////////////////////////////////// 		  	
-    		  if (theface == 2)
-    	        {
-    	            --k1;
-    	            //NORTH FACE
-  	            //W/E_T/B_N/S
-  	            if (theblock.isAirBlock(i1, j1+1, k1+1)
-  	            		|| theblock.getBlock(i1, j1+1, k1+1).getMaterial() == Material.lava 
-  	            		|| theblock.getBlock(i1, j1+1, k1+1).getMaterial() == Material.water)
-  	            {
-  	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-  	        		{
-  	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-  	            		 theblock.setBlock(i1, j1+1, k1+1, Blocks.cobblestone);
-  	            		 theblock.setBlock(i1, j1+1, k1+1, Blocks.air);
-  	            		theblock.setBlock(i1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-  	            		if (!theplayer.capabilities.isCreativeMode){                	
-  	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-  	                        thestaff.damageItem(1, theplayer);
-  	                        }	
-  	        		}
-  	            
-  	            }
-  	          if (theblock.isAirBlock(i1, j1-1, k1+1)
-	            		|| theblock.getBlock(i1, j1-1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1-1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1-1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1-1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-  	        //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1+1, k1+1)
-	            		|| theblock.getBlock(i1+1, j1+1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1+1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1+1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1+1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1, j1+1, k1+1)
-	            		|| theblock.getBlock(i1, j1+1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1+1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1+1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1+1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1-1, j1+1, k1+1)
-	            		|| theblock.getBlock(i1-1, j1+1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1+1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1+1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1+1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1, k1+1)
-	            		|| theblock.getBlock(i1+1, j1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1, j1, k1+1)
-	            		|| theblock.getBlock(i1, j1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1, j1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1-1, j1, k1+1)
-	            		|| theblock.getBlock(i1-1, j1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1-1, k1+1)
-	            		|| theblock.getBlock(i1+1, j1-1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1-1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1-1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1-1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1, j1-1, k1+1)
-	            		|| theblock.getBlock(i1, j1-1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1-1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1-1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1-1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1-1, j1-1, k1+1)
-	            		|| theblock.getBlock(i1-1, j1-1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1-1, k1+1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1-1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1-1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-  	            //////////////////
-  	            {
-
-  	        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-  	        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-  	            }
-  	            //East/west axis, Vertical axis, North/south axis
-  	            return true;
-    	        } 
-     //////////////////////////////////////////////////////////////////////////////////////
-    		  if (theface == 3)
-    	        {
-    	            ++k1;
-    	         //SOUTH FACE
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1, j1+1, k1-1)
-	            		|| theblock.getBlock(i1, j1+1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1+1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1+1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1+1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	          if (theblock.isAirBlock(i1, j1-1, k1-1)
-	            		|| theblock.getBlock(i1, j1-1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1-1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1-1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1-1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	        //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1+1, k1-1)
-	            		|| theblock.getBlock(i1+1, j1+1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1+1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1+1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1+1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1, j1+1, k1-1)
-	            		|| theblock.getBlock(i1, j1+1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1+1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1+1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1+1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1-1, j1+1, k1-1)
-	            		|| theblock.getBlock(i1-1, j1+1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1+1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1+1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1+1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1, k1-1)
-	            		|| theblock.getBlock(i1+1, j1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1, j1, k1-1)
-	            		|| theblock.getBlock(i1, j1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1, j1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1-1, j1, k1-1)
-	            		|| theblock.getBlock(i1-1, j1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1-1, k1-1)
-	            		|| theblock.getBlock(i1+1, j1-1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1-1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1-1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1-1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1, j1-1, k1-1)
-	            		|| theblock.getBlock(i1, j1-1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1, j1-1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1, j1-1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1, j1-1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            if (theblock.isAirBlock(i1-1, j1-1, k1-1)
-	            		|| theblock.getBlock(i1-1, j1-1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1-1, k1-1).getMaterial() == Material.water)
-	            {
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        		{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1-1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1-1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        }	
-	        		}
-	            
-	            }
-	            //////////////////
-	            {
-
-	        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-	        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-	            }
-	            //East/west axis, Vertical axis, North/south axis
-	            return true;
-  	        } 
- //////////////////////////////////////////////////////////// //////////////////////
-    		 
-    		  if (theface == 4)
-    	        {
-    	            --i1;
-    	            //WEST FACE
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1, k1-1)
-	            		|| theblock.getBlock(i1+1, j1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1, k1-1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1+1, j1, k1+1)
-	            		|| theblock.getBlock(i1+1, j1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1, k1+1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1+1, k1-1)
-	            		|| theblock.getBlock(i1+1, j1+1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1+1, k1-1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1+1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1+1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1+1, j1+1, k1)
-	            		|| theblock.getBlock(i1+1, j1+1, k1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1+1, k1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1+1, k1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1+1, k1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1+1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1+1, j1+1, k1+1)
-	            		|| theblock.getBlock(i1+1, j1+1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1+1, k1+1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1+1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1+1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	          //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1+1, j1-1, k1-1)
-	            		|| theblock.getBlock(i1+1, j1-1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1-1, k1-1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1-1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1-1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1+1, j1-1, k1)
-	            		|| theblock.getBlock(i1+1, j1-1, k1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1-1, k1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1-1, k1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1-1, k1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1-1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1+1, j1-1, k1+1)
-	            		|| theblock.getBlock(i1+1, j1-1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1+1, j1-1, k1+1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1+1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1+1, j1-1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1+1, j1-1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1+1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            	  //////////////////
-		            {
-
-		        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-		        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-		            }
-		            //East/west axis, Vertical axis, North/south axis
-		            return true;
-	  	        } 
-   ////////////////////////////////////////////////////////////////////////////
-
-    		  if (theface == 5)
-    	        {
-    	            ++i1;
-    	            //EAST FACE
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1-1, j1, k1-1)
-	            		|| theblock.getBlock(i1-1, j1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1, k1-1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1-1, j1, k1+1)
-	            		|| theblock.getBlock(i1-1, j1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1, k1+1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1-1, j1+1, k1-1)
-	            		|| theblock.getBlock(i1-1, j1+1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1+1, k1-1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1+1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1+1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1+1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1-1, j1+1, k1)
-	            		|| theblock.getBlock(i1-1, j1+1, k1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1+1, k1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1+1, k1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1+1, k1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1+1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1-1, j1+1, k1+1)
-	            		|| theblock.getBlock(i1-1, j1+1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1+1, k1+1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1+1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1+1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1+1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1+1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	          //W/E_T/B_N/S
-	            if (theblock.isAirBlock(i1-1, j1-1, k1-1)
-	            		|| theblock.getBlock(i1-1, j1-1, k1-1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1-1, k1-1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1-1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1-1, k1-1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1-1, k1-1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1-1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1-1, j1-1, k1)
-	            		|| theblock.getBlock(i1-1, j1-1, k1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1-1, k1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1-1, k1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1-1, k1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1-1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            if (theblock.isAirBlock(i1-1, j1-1, k1+1)
-	            		|| theblock.getBlock(i1-1, j1-1, k1+1).getMaterial() == Material.lava 
-	            		|| theblock.getBlock(i1-1, j1-1, k1+1).getMaterial() == Material.water)
-	            	{
-	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-	        			{
-	            		 theblock.playSoundEffect((double)((float)i1-1 + 0.5F), (double)((float)j1-1 + 0.5F), (double)((float)k1+1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-	            		 theblock.setBlock(i1-1, j1-1, k1+1, Blocks.cobblestone);
-	            		 theblock.setBlock(i1-1, j1-1, k1+1, Blocks.air);
-	            		theblock.setBlock(i1-1, j1-1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-	            		if (!theplayer.capabilities.isCreativeMode){                	
-	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-	                        thestaff.damageItem(1, theplayer);
-	                        	}	
-	        			}
-	            	}
-	            	  //////////////////
-		            {
-
-		        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-		        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-		            }
-		            //East/west axis, Vertical axis, North/south axis
-		            return true;
-	  	        } 
-    /////////////		 ///////////////////////////////////////
-    	}
     	
-///////////////////////////////////////////////////////////////////////////////////////
-    	/** //pillar mode   //pillar mode   //pillar mode   //pillar mode   //pillar mode   //// name = new ////(arguments); <--- Thanks eclipse for the autocomplete.**/
-   /////////////////////////////////////////////////////////////////////////////////// ////////////////////
-    	//If true perfroms the pillar generation
-    	//
     	if (!theplayer.isSneaking()
     			&& getMode(thestaff) == 2)
     	{ 
+    		//int successful = 0;
+    	            //--z1; 
+    	            //BOTTOM FACE
+    	            //W/E_T/B_N/S
     		
-        if (theface == 0)
-        {
-            --j1;
-            //BOTTOM FACE
-            if (theblock.isAirBlock(i1, j1, k1)
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            
-            }
-            if (theblock.isAirBlock(i1, j1-1, k1)
-            		|| theblock.getBlock(i1, j1-1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1-1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{	
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1-1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1-1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1-1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }            
-            if (theblock.isAirBlock(i1, j1-2, k1)
-            		|| theblock.getBlock(i1, j1-2, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1-2, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1-2, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1-2, k1, Blocks.air);
-            		theblock.setBlock(i1, j1-2, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            {
+        			for (int l = 0; l < pillar; ++l)
+        			{        		
+        				int x3 = 0;
+        	            int y3 = 0;
+        	            int z3 = 0;
+        	    		//////////////////////////////////////
+        	    		 switch(theface){
+        	    		 //Bottom
+        	    		 case 0:	y3 = y3 -1 - l; 			 
+        	    			 break;
+        	    		//Top
+        	    		 case 1:	y3 = y3 +1 + l; 			 
+        	    			 break;
+        	    		//North
+        	    		 case 2:	z3 = z3 -1 - l;
+        	    			 break;
+        	    		//South
+        	    		 case 3:	z3 = z3 +1 + l; 
+        	    			 break;
+        	    		//West
+        	    		 case 4:   	x3 = x3 -1 -l; 			 
+        	    			 break;
+        	    		//East
+        	    		 case 5:	x3 = x3 +1 +l;  
+        	    			 break;
+        	    			 default:
+        	    				
+        		 
+        	    			 
+        	    		 }
+        				int x2 = x1 + x3;
+        	            int y2 = y1 + y3;
+        	            int z2 = z1 + z3;
+        	            
+        	            //Whitelist Placement
+        				if (theblock.isAirBlock(x2, y2, z2)
+        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.lava 
+        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.water
+        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants 
+        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine 
+        						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer)
+        	            {
+        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+        	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
+        	        		{
+        	            		//destroys and returns blocks like grass
+        	            		if (theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine
+        	    						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants
+        	    						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer) 
+        						{
+        							(theblock.getBlock(x2, y2, z2)).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
+        						}
+        	            		 theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+        	            		 theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
+        	            		//theblock.setBlock(x2, y2, z2, Blocks.air);
+        	            		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+        	            		//successful = 1;
+        	            		
+        	            		if (!theplayer.capabilities.isCreativeMode){                	
+        	            			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
+        	                        thestaff.damageItem(1, theplayer);
+        	                        }	
+        	        		}
+        	            
+        	            }
+        			}
+        			
+    	            //////////////////
+    	            //if (successful == 0){
 
-        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-            }
-            //East/west axis, Vertical axis, North/south axis
-            return true;
-        }
+    	        		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    	        				(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+    	        		//successful = 0;
+    	        		 return true;
+    	            //}
+    	            /**
+    	            if (successful == 1){
 
-        if (theface == 1)
-        {
-            ++j1;
-            //TOP FACE
-            if (theblock.isAirBlock(i1, j1, k1)
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            
-            }
-            if (theblock.isAirBlock(i1, j1+1, k1)
-            		|| theblock.getBlock(i1, j1+1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1+1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1+1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1+1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1+1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            
-            }
-            
-            if (theblock.isAirBlock(i1, j1+2, k1)
-            		|| theblock.getBlock(i1, j1+2, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1+2, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1+2, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1+2, k1, Blocks.air);
-            		theblock.setBlock(i1, j1+2, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-                    (theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            
-            }
-            {
+    	            	theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .5F+sound1);
+    	            	successful = 0;
+    	            	 return true;
+    	            }
+    	            **/
+    	            //East/west axis, Vertical axis, North/south axis
+    	            //return true;
+    	        }
+    	///////////////////////////////////////////////////////////////////////////
+    	/**    ~~~~~~~~                  Wall Mode               ~~~~~~~~~~~~~  **/
+    	/////////////////////////////////////////////////////////////////////////
+    	
 
-        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-            }
-            return true;	
-            
-        }
-
-        if (theface == 2)
-        {
-            --k1;
-            //NORTH FACE
-            if (theblock.isAirBlock(i1, j1, k1)
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            
-            }
-            if (theblock.isAirBlock(i1, j1, k1-1)
-            		|| theblock.getBlock(i1, j1, k1-1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1-1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1-1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1-1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            if (theblock.isAirBlock(i1, j1, k1-2)
-            		|| theblock.getBlock(i1, j1, k1-2).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1-2).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1-2, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1-2, Blocks.air);
-            		theblock.setBlock(i1, j1, k1-2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            {
-
-        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-            }
-            return true;
-        }
-
-        if (theface == 3)
-        {
-            ++k1;
-            //SOUTH FACE
-            if (theblock.isAirBlock(i1, j1, k1)
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            
-            }
-            if (theblock.isAirBlock(i1, j1, k1+1)
-            		|| theblock.getBlock(i1, j1, k1+1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1+1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1+1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1+1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            if (theblock.isAirBlock(i1, j1, k1+2)
-            		|| theblock.getBlock(i1, j1, k1+2).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1+2).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1+2, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1+2, Blocks.air);
-            		theblock.setBlock(i1, j1, k1+2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            {
-
-        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-            }
-            return true;
-        }
-
-        if (theface == 4)
-        {
-            --i1;
-            //WEST FACE
-            if (theblock.isAirBlock(i1, j1, k1)
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            	
-            }
-            if (theblock.isAirBlock(i1-1, j1, k1)
-            		|| theblock.getBlock(i1-1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1-1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1-1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1-1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1-1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            if (theblock.isAirBlock(i1-2, j1, k1)
-            		|| theblock.getBlock(i1-2, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1-2, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(i1-2, j1, k1, Blocks.cobblestone);
-            		theblock.setBlock(i1-2, j1, k1, Blocks.air);
-            		theblock.setBlock(i1-2, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-            		
-        		}
-            }
-            {
-
-        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-            }
-            return true;
-        }
-
-        if (theface == 5)
-        {
-            ++i1;
-            //EAST FACE
-            if (theblock.isAirBlock(i1, j1, k1)
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }	
-        		}
-            
-            }
-            if (theblock.isAirBlock(i1+1, j1, k1)
-            		|| theblock.getBlock(i1+1, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1+1, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1+1, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1+1, j1, k1, Blocks.air);
-            		theblock.setBlock(i1+1, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            if (theblock.isAirBlock(i1+2, j1, k1)
-            		|| theblock.getBlock(i1+2, j1, k1).getMaterial() == Material.lava 
-            		|| theblock.getBlock(i1+2, j1, k1).getMaterial() == Material.water)
-            {
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
-        		{
-            		 theblock.playSoundEffect((double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-            		 theblock.setBlock(i1+2, j1, k1, Blocks.cobblestone);
-            		 theblock.setBlock(i1+2, j1, k1, Blocks.air);
-            		theblock.setBlock(i1+2, j1, k1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		}
-            }
-            {
-
-        		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-        				(double)k1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-            }
-            return true;
-        }
+    	if (!theplayer.isSneaking()
+    			&& getMode(thestaff) == 4)
+    	{ 
+    		//int successful = 0;
+    	            //--z1; 
+    	            //BOTTOM FACE
+    	            //W/E_T/B_N/S
+    		
+        			for (int l = 0; l < wall; ++l)
+        			{   
+        				for (int ml = 0; ml < wall; ++ml)
+            			{ 
+        					for (int sl = 0; sl < 4; ++sl)
+                			{ 
+        					
+        				int offy = (wall-1)/2;
+        				int x3 = 0;
+        	            int y3 = 0;
+        	            int z3 = 0;
+        	    		//////////////////////////////////////
+        	    		 switch(theface){
+        	    		 //Bottom
+        	    		 case 0:	z3 = z3 +offy - l; 
+	    			 				x3 = x3 +offy - ml;        	    			 		
+        	    			 break;
+        	    		//Top
+        	    		 case 1:	z3 = z3 +offy - l; 
+        	    			 		x3 = x3 +offy - ml;
+        	    			 break;
+        	    		//North
+        	    		 case 2:	y3 = y3 +offy - l; 
+			 						x3 = x3 +offy - ml; 
+        	    			 break;
+        	    		//South
+        	    		 case 3:	y3 = y3 +offy - l; 
+	 								x3 = x3 +offy - ml;
+	 						break;
+        	    		//West
+        	    		 case 4:   y3 = y3 +offy - l; 
+	 							   z3 = z3 +offy - ml;			 
+        	    			 break;
+        	    		//East
+        	    		 case 5:	 y3 = y3 +offy - l; 
+						   			 z3 = z3 +offy - ml;	
+        	    			 break;
+        	    			 default: 
+        	    		 }
+        				int x2 = x1 + x3;
+        	            int y2 = y1 + y3;
+        	            int z2 = z1 + z3;
+        	            
+        	            //Whitelist Placement
+        				if (theblock.isAirBlock(x2, y2, z2)
+        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.lava 
+        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.water
+        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants 
+        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine 
+        						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer)
+        	            {
+        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+        	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
+        	        		{
+        	            		//destroys and returns blocks like grass
+        	            		if (theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine
+        	    						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants
+        	    						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer) 
+        						{
+        							(theblock.getBlock(x2, y2, z2)).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
+        						}
+        	            		 theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+        	            		 theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
+        	            		//theblock.setBlock(x2, y2, z2, Blocks.air);
+        	            		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+        	            		//successful = 1;
+        	            		
+        	            		if (!theplayer.capabilities.isCreativeMode){                	
+        	            			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
+        	                        thestaff.damageItem(1, theplayer);
+        	                        }	
+        	        			}
+        	           
+                			   }
+                			}
+        	            }
+        			}
+        			
+    	            
+    	        	theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    	        				(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+    	        		
+    	        	return true;
+    	          
+    	        }
+    	
+   ////////////// 	/////////////////////	////////// /////////////////////////////////////////////////////////////
+    		 /** if (theface == 1)
+    	        {
+    	            ++y1;
+    	            //TOP FACE
+ 	            //W/E_T/B_N/S
+ 	            if (theblock.isAirBlock(x1-1, y1-1, z1)
+ 	            		|| theblock.getBlock(x1-1, y1-1, z1).getMaterial() == Material.lava 
+ 	            		|| theblock.getBlock(x1-1, y1-1, z1).getMaterial() == Material.water)
+ 	            {
+ 	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff))))
+ 	        		{
+ 	            		 theblock.playSoundEffect((double)((float)x1-1 + 0.5F), (double)((float)y1-1 + 0.5F), (double)((float)z1 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+ 	            		 theblock.setBlock(x1-1, y1-1, z1, Blocks.cobblestone);
+ 	            		 theblock.setBlock(x1-1, y1-1, z1, Blocks.air);
+ 	            		theblock.setBlock(x1-1, y1-1, z1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
+ 	            		if (!theplayer.capabilities.isCreativeMode){                	
+ 	                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff)));	
+ 	                        thestaff.damageItem(1, theplayer);
+ 	                        }	
+ 	        		}
+ 	            
+ 	            }
+    	**/
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 		
@@ -1746,21 +627,21 @@ public class ItemStaffofExpansion2 extends ItemSpade
 		
         
         //////////////////////////
-        if (!theplayer.canPlayerEdit(i1, j1, k1, theface, thestaff))
+        if (!theplayer.canPlayerEdit(x1, y1, z1, theface, thestaff))
         {
             return false;
         }
         
-    	}
+    	
     	//////
     	if (theplayer.isSneaking())
     	{ 
-    		setTBlock(thestaff, theblock.getBlock(i1, j1, k1).getIdFromBlock(theblock.getBlock(i1, j1, k1)));
-    		setTMeta(thestaff,theblock.getBlockMetadata(i1, j1, k1)); 		
+    		setTBlock(thestaff, theblock.getBlock(x1, y1, z1).getIdFromBlock(theblock.getBlock(x1, y1, z1)));
+    		setTMeta(thestaff,theblock.getBlockMetadata(x1, y1, z1)); 		
     		//
     		
-    		theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-    				(double)k1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
     		
     		 setOffMode(thestaff, 4);
  			return true;

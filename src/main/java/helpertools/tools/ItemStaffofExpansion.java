@@ -329,7 +329,16 @@ public class ItemStaffofExpansion extends ItemSpade
 		if (!entityLiving.worldObj.isRemote) {
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
     	{ 
-			if (getMode(stack) == 4)
+			if (getMode(stack) == 6)
+			{
+		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
+		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
+				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Flat Mode", new Object[0]);
+				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+				setMode(stack,4);
+				return true;
+			}
+			else if (getMode(stack) == 4)
 			{
 		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
 		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
@@ -340,11 +349,11 @@ public class ItemStaffofExpansion extends ItemSpade
 			}
 			else if (getMode(stack) == 2)
 			{			
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Flat Mode", new Object[0]);
+				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Matching Mode", new Object[0]);
 				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
 			//entityLiving.playSound("mob.chicken.plop", .3F, 3.0F);}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", .3F, 3.0F);
-			setMode(stack,4);
+			setMode(stack,6);
     	}
 			return true;
     	}
@@ -385,7 +394,7 @@ public class ItemStaffofExpansion extends ItemSpade
     	
     	//////////////////////////////////////////////////////////////////////////////////
 
-		//Wall mode 4
+		//Pillar Mode 2
 		/** if this is true it performs this action **/
     	//Checks to make sure you're not sneaking
     	
@@ -604,6 +613,146 @@ public class ItemStaffofExpansion extends ItemSpade
         	        			}
         	           
                 			   }
+                			}
+        	            }
+        			}
+        			
+    	            
+    	        	theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    	        				(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+    	        		
+    	        	return true;
+    	          
+    	        }
+    	/////////////////////////////////////////////////////////////////////////
+    	/** Matching Mode 6 **/
+    	/////////////////////////////////////////////////////////////////////////
+    	if (!theplayer.isSneaking()
+    			&& getMode(thestaff) == 6)
+    	{ 
+    		//int successful = 0;
+    	            //--z1; 
+    	            //BOTTOM FACE
+    	            //W/E_T/B_N/S
+    		
+        			for (int l = 0; l < wall; ++l)
+        			{   
+        				for (int ml = 0; ml < wall; ++ml)
+            			{ 
+        					for (int sl = 0; sl < 4; ++sl)
+                			{ 
+        						int sectA =1;
+        						int sectB =1;
+        						switch(sl){
+        						case 0:
+        							break;
+        						case 1: sectA= -1;       						
+        							break;        							
+        						case 2:	sectA= -1;
+        								sectB= -1;
+        							break;
+        						case 3:	sectB= -1;
+        							break;
+        							
+        						}
+        						//z3 = z3 +offy - l*sectA; 
+    	    			 		//x3 = x3 +offy - ml*sectB;
+        					
+        				//int offy = (wall-1)/2;        				
+        				int x3 = 0;
+        	            int y3 = 0;
+        	            int z3 = 0;
+        	            //Matching block offset
+        	            int x5 = 0;
+        	            int y5 = 0;
+        	            int z5 = 0; 
+        	    		//////////////////////////////////////
+        	    		 switch(theface){
+        	    		 //Bottom
+        	    		 case 0:	z3 = z3 - l*sectA; 
+	    			 				x3 = x3 - ml*sectB; 
+	    			 				y5 = y5 - 1;
+        	    			 break;
+        	    		//Top
+        	    		 case 1:	z3 = z3 - l*sectA; 
+        	    			 		x3 = x3 - ml*sectB;
+        	    			 		y5 = y5 + 1;        	    			 		
+        	    			 break;
+        	    		//North
+        	    		 case 2:	y3 = y3 - l*sectA; 
+			 						x3 = x3 - ml*sectB; 
+			 						z5 = z5 - 1;
+        	    			 break;
+        	    		//South
+        	    		 case 3:	y3 = y3 - l*sectA; 
+	 								x3 = x3 - ml*sectB;
+	 								z5 = z5 + 1;
+	 						break;
+        	    		//West
+        	    		 case 4:   y3 = y3 - l*sectA; 
+	 							   z3 = z3 - ml*sectB;
+	 							   x5 = x5 - 1;
+        	    			 break;
+        	    		//East
+        	    		 case 5:	y3 = y3 - l*sectA; 
+						   			z3 = z3 - ml*sectB;
+						   			x5 = x5 + 1;
+        	    			 break;
+        	    			 default: 
+        	    		 }
+        	    		//Target Matching blocks
+        				int x2 = x1 + x3;
+        	            int y2 = y1 + y3;
+        	            int z2 = z1 + z3;
+        	            //Matching blocks to be placed
+        	            int xT4 = x2 + x5;
+        	            int yT4 = y2 + y5;
+        	            int zT4 = z2 + z5;   
+        	            if (theblock.getBlockMetadata(x2, y2, z2) == returnTMeta(thestaff) && 
+        	            		theblock.getBlock(x2, y2, z2) == returnTBlock(thestaff)){
+        	            
+        	            //Whitelist Placement
+        				if (theblock.isAirBlock(xT4, yT4, zT4)
+        	            		|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.lava 
+        	            		|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.water
+        						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.plants 
+        						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.vine 
+        						|| theblock.getBlock(xT4, yT4, zT4) == Blocks.snow_layer)
+        	            {
+        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+        	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
+        	        		{
+        	            		//destroys and returns blocks like grass
+        	            		if (theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.vine
+        	    						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.plants
+        	    						|| theblock.getBlock(xT4, yT4, zT4) == Blocks.snow_layer) 
+        						{
+        							(theblock.getBlock(xT4, yT4, zT4)).dropBlockAsItem(theblock,xT4, yT4, zT4, (theblock.getBlockMetadata(xT4, yT4, zT4)), 0);
+        						}
+        	            		 theblock.playSoundEffect((double)((float)xT4 + 0.5F), (double)((float)yT4 + 0.5F), (double)((float)zT4 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+        	            		 theblock.setBlock(xT4, yT4, zT4, Blocks.cobblestone);
+        	            		//theblock.setBlock(xT4, yT4, zT4, Blocks.air);
+        	            		theblock.setBlock(xT4, yT4, zT4, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+        	            		
+        	            		int crackid = (getTBlock(thestaff));
+        		                int crackmeta = (returnTMeta(thestaff));
+        		                String particle = "blockcrack_" + crackid + "_" + crackmeta;
+        	            		for (int pl = 0; pl < 5; ++pl)
+                    			{
+        	            		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+        		                float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+        		                float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+        	            		theblock.spawnParticle(particle, xT4+f, yT4+f1+.3, zT4+f2, 0, 0, 0);        	            		
+                    			}
+        	            		//successful = 1;
+        	            		if (!theplayer.capabilities.isCreativeMode){                	
+        	            			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
+        	                        thestaff.damageItem(1, theplayer);
+        	                        }	
+        	        			}
+        	           
+                			   }
+                			}
                 			}
         	            }
         			}

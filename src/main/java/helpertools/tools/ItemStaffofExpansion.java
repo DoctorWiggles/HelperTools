@@ -82,6 +82,19 @@ public class ItemStaffofExpansion extends ItemSpade
 			itemStack.stackTagCompound.setShort("SpinDec",  Value);			
 		}
 		
+		public void DecreaseSpinDec(ItemStack itemStack) {
+			if (itemStack.stackTagCompound == null) {
+				itemStack.setTagCompound(new NBTTagCompound());
+				}
+			short shorty;
+			shorty = (short)getSpinDec(itemStack);
+			if(shorty <= 0){
+				shorty = 360;
+			}
+			-- shorty;
+			itemStack.stackTagCompound.setShort("SpinDec",  shorty);			
+		}
+		
 /////////////////////////////////////////////////////////////////////
   public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
   	
@@ -109,13 +122,29 @@ public class ItemStaffofExpansion extends ItemSpade
   	
   	 System.out.println("Testing levels " + eff);
   	 **/
-		if (getSpinDec(stack)== 0){
+  	//holy butts i don't even know what's going wrong
+  	//but setting the nbt with a getnbt variable prevents
+  	//you from breaking blocks
+  	DecreaseSpinDec(stack);
+  	/**
+  	short shorty = (short)getSpinDec(stack);
+  	
+		if (shorty== 0){
 			setSpinDec(stack, (short) 360);
 		}
-		else 
-			setSpinDec(stack, (short)(getSpinDec(stack)-1));
+		//
+		//else  {
+		short shorty2;
+		shorty2 = (short)getSpinDec(stack);
+			//setSpinDec(stack, (short)(getSpinDec(stack)-1));
+			-- shorty2;
+			short muhshort;
+			muhshort = shorty2;
+			setSpinDec(stack,shorty2);
+		//}
+		 */
 			//timer--;
-		
+		return;
   			
   }
   	public String whatModeString(ItemStack stack){	  
@@ -155,7 +184,7 @@ public class ItemStaffofExpansion extends ItemSpade
    	{
    		if(itemStack.stackTagCompound == null)
    		{
-   			return 0;
+   			return 2;
    		}
    		return itemStack.stackTagCompound.getInteger("mode");   		
    	}
@@ -271,7 +300,7 @@ public class ItemStaffofExpansion extends ItemSpade
 
 			itemStack.stackTagCompound.setInteger("ToolLevel", Value);			
 		}
-		
+		/** returns a rounded number for tool levels**/
 		public int getEff2Level(ItemStack itemStack) {
 			if (itemStack == null) {
 				return 0;
@@ -318,10 +347,7 @@ public class ItemStaffofExpansion extends ItemSpade
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
 		
-		if (getMode(stack)== 0)
-   		{
-		   setMode(stack, 2);
-   		}
+		
 		if (getOffMode(stack)== 0)
    		{
 		   setOffMode(stack, 2);
@@ -329,32 +355,31 @@ public class ItemStaffofExpansion extends ItemSpade
 		if (!entityLiving.worldObj.isRemote) {
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
     	{ 
-			if (getMode(stack) == 6)
-			{
-		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
-		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Flat Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
-				setMode(stack,4);
-				return true;
+			//Chat Messege and mode switcher
+			setMode(stack, getMode(stack)+2);
+			if (getMode(stack) > 6){
+				setMode(stack, 2);
 			}
-			else if (getMode(stack) == 4)
-			{
-		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
-		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Extend Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
-				setMode(stack,2);
-				return true;
+			String Messy = "";
+			double loud1 = 3;
+			double loud2 = 0.3;
+			
+			switch(getMode(stack)){
+			case 2: Messy = "Pillar Mode";
+			break;
+			case 4: Messy = "Wall Mode";
+					loud1 = 0.3;
+					loud2 = 3;
+			break;
+			case 6: Messy = "Matching Mode";
+			break;
+			default:
+			break;
 			}
-			else if (getMode(stack) == 2)
-			{			
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Matching Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
-			//entityLiving.playSound("mob.chicken.plop", .3F, 3.0F);}
-			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", .3F, 3.0F);
-			setMode(stack,6);
-    	}
+			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
+			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+			
 			return true;
     	}
 		}
@@ -383,14 +408,7 @@ public class ItemStaffofExpansion extends ItemSpade
     	int wall = (getToolLevel(thestaff)+ eff2+ 2);
     		
     	//if operation is successful set a flag
-    	//boolean successful = false;
-    	float sound1 = (this.growrand .nextFloat()) ;
-    	
-    	//prevents nulls etc
-    	if (getMode(thestaff)== 0)
-   		{
-		   setMode(thestaff, 2);
-   		}
+    	//boolean successful = false;   	
     	
     	//////////////////////////////////////////////////////////////////////////////////
 

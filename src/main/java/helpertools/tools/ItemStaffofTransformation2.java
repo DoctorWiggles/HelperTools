@@ -60,10 +60,10 @@ public class ItemStaffofTransformation2 extends ItemSpade
   			modestring = "Single";
   		}
   		else if(getMode(stack) == 4){
-  			modestring = "Cube";
+  			modestring = "Wall";
   		}
   		else if(getMode(stack) == 6){
-  			modestring = "Wall";
+  			modestring = "Mass";
   		}
   		else{
   			modestring = "null";
@@ -93,7 +93,10 @@ public class ItemStaffofTransformation2 extends ItemSpade
 	// ///////////////////////////////////////////////////////////
 	public int getMode(ItemStack itemStack) {
 		if (itemStack.stackTagCompound == null) {
-			return 0;
+			return 2;
+		}
+		if (itemStack.stackTagCompound.getInteger("mode") == 0){
+			setMode(itemStack, 2); 
 		}
 
 		return itemStack.stackTagCompound.getInteger("mode");
@@ -258,43 +261,44 @@ public class ItemStaffofTransformation2 extends ItemSpade
 	/** Custom loop, during swings that allows modes to change **/
 	//Checks if sneaking and which mode it currently is in to change further
 	//
+
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
-		if (getMode(stack)== 0)
-   		{
-		   setMode(stack, 2);
-   		}
+		
+		
 		if (getOffMode(stack)== 0)
    		{
 		   setOffMode(stack, 2);
    		}
 		if (!entityLiving.worldObj.isRemote) {
-		if (entityLiving.isSneaking() && getOffMode(stack)== 2)
+		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
     	{ 
-			if (getMode(stack) == 6)
-			{
-		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
-		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Mass Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
-				setMode(stack,4);
-				return true;
-			}
-			else if (getMode(stack) == 4)
-			{
-				entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, 0.3F);
-		   		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Single Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+			//Chat Messege and mode switcher
+			setMode(stack, getMode(stack)+2);
+			if (getMode(stack) > 6){
 				setMode(stack, 2);
 			}
-			else if (getMode(stack) == 2)
-			{			
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Wall Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
-				entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", .3F, 3.0F);
-			setMode(stack, 6);
-			}
+			String Messy = "";
+			double loud1 = 3;
+			double loud2 = 0.3;
 			
+			switch(getMode(stack)){
+			case 2: Messy = "Single Mode";
+			break;
+			case 4: Messy = "Wall Mode";
+					loud1 = 0.3;
+					loud2 = 3;
+			break;
+			case 6: Messy = "Mass Mode";
+			break;
+			default:
+			break;
+			}
+			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
+			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+			
+			return true;
     	}
 		}
 		if (getOffMode(stack)== 4)
@@ -323,11 +327,9 @@ public class ItemStaffofTransformation2 extends ItemSpade
     	int pillar = (getToolLevel(thestaff)+ eff+ 3);
     	int eff2 = (getEff2Level(thestaff));
     	int wall = (getToolLevel(thestaff)+ eff2+ 2);
+    	int mass = eff + 3;
     		
-    	if (getMode(thestaff)== 0)
-   		{
-		   setMode(thestaff, 2);
-   		}
+    	
     	if (getOffMode(thestaff)== 0)
    		{
 		   setOffMode(thestaff, 2);
@@ -338,7 +340,9 @@ public class ItemStaffofTransformation2 extends ItemSpade
     	Gblock = theblock.getBlock(x1, y1, z1);
 		Gmeta = theblock.getBlockMetadata(x1, y1, z1); 
 		
-		//Small mode 2
+		////////////////////////////////////////////////////////////////
+		/**      ~~~~~~~~      Small Mode       ~~~~~~~~             **/
+		////////////////////////////////////////////////////////////////
 		/** if this is true it performs this action **/
 		if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
       			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
@@ -377,696 +381,20 @@ public class ItemStaffofTransformation2 extends ItemSpade
           				(double)z2 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * .1F + .6F);
       			return true;
       		}
-      	//
-      	}
-		
-		//large mode 4
-		/** If these are true perform the large area mode **/
-		//
-    	if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-    			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
-    			&& getMode(thestaff) == 4
-    					||
-    			!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-    			&& theplayer.capabilities.isCreativeMode
-    			&& getMode(thestaff) == 4)
-    	{ 
-    		int x2= x1;
-        	int y2= y1;
-        	int z2= z1;
-    		
-    		//&& theblock.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
-    		
-    		//The block that is being hit
-    		
-    		//center 1
-    		if (theblock.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
-            		|| theblock.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2, z2) == (returnTBlock(thestaff)))
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2, z2, Blocks.air);
-            		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		//theblock.setBlock(x2-1, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//WestC
-    		if (theblock.getBlock(x2-1, y2, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        			{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2, z2, Blocks.cobblestone);
-            		theblock.setBlock(x2-1, y2, z2, Blocks.air);
-            		theblock.setBlock(x2-1, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        			} 
-    			}
-    		//EastC
-    		if (theblock.getBlock(x2+1, y2, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        			{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2, z2, Blocks.cobblestone);
-            		theblock.setBlock(x2+1, y2, z2, Blocks.air);
-            		theblock.setBlock(x2+1, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        			}
-    			}
-    		//y+1 y+1 y+1
-    		//center +1y
-    		if (theblock.getBlock(x2, y2+1, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2+1, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2+1, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2+1, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2+1, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2+1, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2+1, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2+1, z2, Blocks.air);
-            		theblock.setBlock(x2, y2+1, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//West +1y
-    		if (theblock.getBlock(x2-1, y2+1, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2+1, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2+1, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2+1, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2+1, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2+1, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2+1, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2+1, z2, Blocks.air);
-            		theblock.setBlock(x2-1, y2+1, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//East +1y
-    		if (theblock.getBlock(x2+1, y2+1, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2+1, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2+1, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2+1, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2+1, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2+1, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2+1, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2+1, z2, Blocks.air);
-            		theblock.setBlock(x2+1, y2+1, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//y-1 y-1 y-1
-    		//center -1y
-    		if (theblock.getBlock(x2, y2-1, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2-1, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2-1, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2-1, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2-1, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2-1, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2-1, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2-1, z2, Blocks.air);
-            		theblock.setBlock(x2, y2-1, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//West -1y
-    		if (theblock.getBlock(x2-1, y2-1, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2-1, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2-1, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2-1, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2-1, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2-1, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2-1, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2-1, z2, Blocks.air);
-            		theblock.setBlock(x2-1, y2-1, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//East -1y
-    		if (theblock.getBlock(x2+1, y2-1, z2) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2-1, z2) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2-1, z2) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2-1, z2) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2-1, z2) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2-1, z2) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2-1, z2) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2-1, z2, Blocks.air);
-            		theblock.setBlock(x2+1, y2-1, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		////////////////////////////////////////////////////////////////////////////////////////////
-    		
-    		//+1z
-
-    		//center 1
-    		if (theblock.getBlock(x2, y2, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2, z2+1, Blocks.air);
-            		theblock.setBlock(x2, y2, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		//theblock.setBlock(x2-1, y2, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//WestC
-    		if (theblock.getBlock(x2-1, y2, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        			{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2, z2+1, Blocks.cobblestone);
-            		theblock.setBlock(x2-1, y2, z2+1, Blocks.air);
-            		theblock.setBlock(x2-1, y2, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        			} 
-    			}
-    		//EastC
-    		if (theblock.getBlock(x2+1, y2, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        			{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2, z2+1, Blocks.cobblestone);
-            		theblock.setBlock(x2+1, y2, z2+1, Blocks.air);
-            		theblock.setBlock(x2+1, y2, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        			}
-    			}
-    		//y+1 y+1 y+1
-    		//center +1y
-    		if (theblock.getBlock(x2, y2+1, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2+1, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2+1, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2+1, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2+1, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2+1, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2+1, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2+1, z2+1, Blocks.air);
-            		theblock.setBlock(x2, y2+1, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//West +1y
-    		if (theblock.getBlock(x2-1, y2+1, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2+1, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2+1, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2+1, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2+1, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2+1, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2+1, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2+1, z2+1, Blocks.air);
-            		theblock.setBlock(x2-1, y2+1, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//East +1y
-    		if (theblock.getBlock(x2+1, y2+1, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2+1, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2+1, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2+1, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2+1, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2+1, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2+1, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2+1, z2+1, Blocks.air);
-            		theblock.setBlock(x2+1, y2+1, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//y-1 y-1 y-1
-    		//center -1y
-    		if (theblock.getBlock(x2, y2-1, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2-1, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2-1, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2-1, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2-1, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2-1, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2-1, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2-1, z2+1, Blocks.air);
-            		theblock.setBlock(x2, y2-1, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//West -1y
-    		if (theblock.getBlock(x2-1, y2-1, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2-1, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2-1, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2-1, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2-1, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2-1, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2-1, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2-1, z2+1, Blocks.air);
-            		theblock.setBlock(x2-1, y2-1, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//East -1y
-    		if (theblock.getBlock(x2+1, y2-1, z2+1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2-1, z2+1) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2-1, z2+1) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2-1, z2+1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2-1, z2+1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2-1, z2+1) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2-1, z2+1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2+1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2-1, z2+1, Blocks.air);
-            		theblock.setBlock(x2+1, y2-1, z2+1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		
-    		
-    		
-    		///////////////////////////////////////////////////////////////////////////////////
-    		
-    		
-
-    		//-1z
-
-    		//center 1
-    		if (theblock.getBlock(x2, y2, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2, z2-1, Blocks.air);
-            		theblock.setBlock(x2, y2, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		//theblock.setBlock(x2-1, y2, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//WestC
-    		if (theblock.getBlock(x2-1, y2, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        			{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2, z2-1, Blocks.cobblestone);
-            		theblock.setBlock(x2-1, y2, z2-1, Blocks.air);
-            		theblock.setBlock(x2-1, y2, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        			} 
-    			}
-    		//EastC
-    		if (theblock.getBlock(x2+1, y2, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        			{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2, z2-1, Blocks.cobblestone);
-            		theblock.setBlock(x2+1, y2, z2-1, Blocks.air);
-            		theblock.setBlock(x2+1, y2, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        			}
-    			}
-    		//y+1 y+1 y+1
-    		//center +1y
-    		if (theblock.getBlock(x2, y2+1, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2+1, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2+1, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2+1, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2+1, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2+1, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2+1, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2+1, z2-1, Blocks.air);
-            		theblock.setBlock(x2, y2+1, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//West +1y
-    		if (theblock.getBlock(x2-1, y2+1, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2+1, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2+1, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2+1, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2+1, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2+1, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2+1, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2+1, z2-1, Blocks.air);
-            		theblock.setBlock(x2-1, y2+1, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//East +1y
-    		if (theblock.getBlock(x2+1, y2+1, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2+1, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2+1, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2+1, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2+1, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2+1, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2+1, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2+1, z2-1, Blocks.air);
-            		theblock.setBlock(x2+1, y2+1, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//y-1 y-1 y-1
-    		//center -1y
-    		if (theblock.getBlock(x2, y2-1, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2, y2-1, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2, y2-1, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2, y2-1, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2, y2-1, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2, y2-1, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2, y2-1, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2, y2-1, z2-1, Blocks.air);
-            		theblock.setBlock(x2, y2-1, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//West -1y
-    		if (theblock.getBlock(x2-1, y2-1, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2-1, y2-1, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2-1, y2-1, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2-1, y2-1, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2-1, y2-1, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2-1, y2-1, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2-1, y2-1, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2-1, y2-1, z2-1, Blocks.air);
-            		theblock.setBlock(x2-1, y2-1, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		//East -1y
-    		if (theblock.getBlock(x2+1, y2-1, z2-1) != (returnTBlock(thestaff))
-    				&& theblock.getBlock(x2+1, y2-1, z2-1) == Gblock
-    				&& theblock.getBlockMetadata(x2+1, y2-1, z2-1) == Gmeta
-            		|| theblock.getBlockMetadata(x2+1, y2-1, z2-1) != (returnTMeta(thestaff))
-                     && theblock.getBlock(x2+1, y2-1, z2-1) == (returnTBlock(thestaff))
-     				&& theblock.getBlock(x2+1, y2-1, z2-1) == Gblock
-     				&& theblock.getBlockMetadata(x2+1, y2-1, z2-1) == Gmeta)
-    			{
-    			//The block that is being transformed
-            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
-        		{	
-            		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2-1 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-            		theblock.setBlock(x2+1, y2-1, z2-1, Blocks.air);
-            		theblock.setBlock(x2+1, y2-1, z2-1, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-            		Gblock.dropBlockAsItem(theblock,x2, y2, z2, Gmeta, 0);
-            		
-            		if (!theplayer.capabilities.isCreativeMode){                	
-                        theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                        thestaff.damageItem(1, theplayer);
-                        }
-        		        		}
-            		}
-    		else
-    		{
-
-        		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
-        				(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * .1F + .6F);
-    			return true;
-    		}
-    	//
-    	}
-    		
-    		////////////////////////////////////////////////////////////////////////
-    		///////////////////////////////////////////////////////////////////////////
+      	
+      	} 
+    		////////////////////////////////////////////////////////////////////////////
     		/**    ~~~~~~~~                  Wall Mode               ~~~~~~~~~~~~~  **/
-    		/////////////////////////////////////////////////////////////////////////
+    		////////////////////////////////////////////////////////////////////////////
 
 
     	if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
       			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
-      			&& getMode(thestaff) == 6
+      			&& getMode(thestaff) == 4
       					||
       			!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
       			&& theplayer.capabilities.isCreativeMode
-      			&& getMode(thestaff) == 6)
+      			&& getMode(thestaff) == 4)
       	{  
     			
     			//int successful = 0;
@@ -1179,6 +507,98 @@ public class ItemStaffofTransformation2 extends ItemSpade
     						}
     					}
     				}
+    			}
+
+
+    			theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+
+    			return true;
+
+    		}
+
+		/////////////////////////////////////////////////////////////////////////
+		/**          ~~~~~~~         Mass mode 6        ~~~~~~~             **/
+		////////////////////////////////////////////////////////////////////////
+		if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
+      			&& getMode(thestaff) == 6
+      					||
+      			!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& theplayer.capabilities.isCreativeMode
+      			&& getMode(thestaff) == 6)
+      	{  
+    			
+    			//int successful = 0;
+    			//--z1; 
+    			//BOTTOM FACE
+    			//W/E_T/B_N/S
+
+    			for (int xl = 0; xl < mass; ++xl)
+    			{   
+    				for (int yl = 0; yl < mass; ++yl)
+    				{ 
+    					for (int zl = 0; zl < mass; ++zl)
+        				{
+    						
+    						//z3 = z3 +offy - l*sectA; 
+    						//x3 = x3 +offy - ml*sectB;
+
+    						int offy = (mass-1)/2;
+    						int x3 = xl - offy;
+    						int y3 = yl - offy;
+    						int z3 = zl - offy;
+    						//////////////////////////////////////
+    						int x2 = x1 + x3;
+    						int y2 = y1 + y3;
+    						int z2 = z1 + z3;
+
+    						//Whitelist Placement
+    						
+    							if (theblock.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
+    				    				&& theblock.getBlock(x2, y2, z2) == Gblock
+    				    				&& theblock.getBlockMetadata(x2, y2, z2) == Gmeta
+    				            		|| theblock.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
+    				                     && theblock.getBlock(x2, y2, z2) == (returnTBlock(thestaff))
+    				     				&& theblock.getBlock(x2, y2, z2) == Gblock
+    				     				&& theblock.getBlockMetadata(x2, y2, z2) == Gmeta)
+    				    			{
+    							ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+    							if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
+    							{
+    								//destroys and returns blocks like grass
+    								
+    								theblock.getBlock(x2, y2, z2).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
+    								
+    								theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+    								theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
+    								//theblock.setBlock(x2, y2, z2, Blocks.air);
+    								theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+
+    								int crackid = (getTBlock(thestaff));
+    								int crackmeta = (returnTMeta(thestaff));
+    								//int crackid = Gblock.getIdFromBlock(Gblock);
+    								//int crackmeta = Gmeta;
+    								String particle = "blockcrack_" + crackid + "_" + crackmeta;
+    								for (int pl = 0; pl < 5; ++pl)
+    								{
+    									float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+    									float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+    									float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+    									theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
+    								}
+    								//successful = 1;
+    								if (!theplayer.capabilities.isCreativeMode){                	
+    									InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
+    									thestaff.damageItem(1, theplayer);
+    										}	
+    									}
+    				    			
+
+    				    			}
+    						}
+        				}
+    				
     			}
 
 

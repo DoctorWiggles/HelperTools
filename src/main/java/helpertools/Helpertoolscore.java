@@ -586,6 +586,23 @@ public class Helpertoolscore {
         		Blocks.dirt, "treeLeaves"}));
         	
         	}
+        	//Slab Recipes
+        	Block Fullslab = Block.getBlockById(43);
+        	//Double Slab
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Fullslab, 1, 0 ), new Object[]{
+        		Blocks.stone_slab, Blocks.stone_slab
+        	}));
+        	//Full Slab        	
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Fullslab, 2, 8 ),true, new Object[]{
+        		"ss ",
+        		"ss ",
+        		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 0 )}));
+        	//Full Sandstone Slab
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Fullslab, 2, 9 ),true, new Object[]{
+        		"ss ",
+        		"ss ",
+        		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 1 )}));
+    	
         	
         	
         	

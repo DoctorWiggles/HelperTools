@@ -389,6 +389,9 @@ public class ItemStaffofExpansion extends ItemSpade
    		}
 		 return false;
     }
+	
+	//Hud Render Hooky
+	public static ItemStack HudHook  ;
 		
 	
 	
@@ -737,7 +740,7 @@ public class ItemStaffofExpansion extends ItemSpade
         						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.vine 
         						|| theblock.getBlock(xT4, yT4, zT4) == Blocks.snow_layer)
         	            {
-        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff));        					
         	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
         	        		{
         	            		//destroys and returns blocks like grass
@@ -796,6 +799,9 @@ public class ItemStaffofExpansion extends ItemSpade
     		setTBlock(thestaff, theblock.getBlock(x1, y1, z1).getIdFromBlock(theblock.getBlock(x1, y1, z1)));
     		setTMeta(thestaff,theblock.getBlockMetadata(x1, y1, z1)); 		
     		//
+    		
+    		ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+			HudHook = stacky2;
     		
     		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);

@@ -360,17 +360,31 @@ public class ItemStaffofTransformation2 extends ItemSpade
                        && theblock.getBlock(x2, y2, z2) == (returnTBlock(thestaff)))
       		{
       			//The block that is being transformed
-              	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItem(Item.getItemFromBlock((returnTBlock(thestaff)))))
+      			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+				if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
           		{	
               		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
               		theblock.setBlock(x2, y2, z2, Blocks.air);
               		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
               		Gblock.dropBlockAsItem(theblock, x2, y2, z2, Gmeta, 0);
               		
-              		if (!theplayer.capabilities.isCreativeMode){                	
-                          theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock((returnTBlock(thestaff))));	
-                          thestaff.damageItem(1, theplayer);
-                          }
+              		int crackid = (getTBlock(thestaff));
+					int crackmeta = (returnTMeta(thestaff));
+					//int crackid = Gblock.getIdFromBlock(Gblock);
+					//int crackmeta = Gmeta;
+					String particle = "blockcrack_" + crackid + "_" + crackmeta;
+					for (int pl = 0; pl < 5; ++pl)
+					{
+						float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+						float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+						float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+						theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
+					}
+					//successful = 1;
+					if (!theplayer.capabilities.isCreativeMode){                	
+						InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
+						thestaff.damageItem(1, theplayer);
+							}
               		return true;
           		}
       		}

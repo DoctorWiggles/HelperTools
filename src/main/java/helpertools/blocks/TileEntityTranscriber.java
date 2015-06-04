@@ -31,18 +31,20 @@ public class TileEntityTranscriber extends TileEntity{
     public void readFromNBT(NBTTagCompound nbt) {
  	   
     	super.readFromNBT(nbt);
- 	   nbt.setInteger("offX", this.offX);
- 	  nbt.setInteger("offY", this.offY);
- 	 nbt.setInteger("offZ", this.offZ);
+    	this.offX = nbt.getInteger("offX");
+   	  this.offY = nbt.getInteger("offY");
+   	 this.offZ = nbt.getInteger("offZ");
+ 	   
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
  	   
     	super.writeToNBT(nbt);
- 	   this.offX = nbt.getInteger("offX");
- 	  this.offY = nbt.getInteger("offY");
- 	 this.offZ = nbt.getInteger("offZ");
+    	nbt.setInteger("offX", this.offX);
+   	  nbt.setInteger("offY", this.offY);
+   	 nbt.setInteger("offZ", this.offZ);
+ 	   
     }
 	
     protected static Random growrand = new Random();
@@ -53,6 +55,8 @@ public class TileEntityTranscriber extends TileEntity{
 	      int i4 = this.xCoord;
 	      int j4 = this.yCoord;
 	      int k4 = this.zCoord;
+	      
+	   
 	      
  /*
         if(!worldObj.isRemote) {

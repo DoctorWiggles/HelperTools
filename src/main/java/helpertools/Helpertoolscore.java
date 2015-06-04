@@ -6,6 +6,7 @@ import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
+import helpertools.gui.GuiBuffBar;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
@@ -31,6 +32,7 @@ import helpertools.util.GuiHandler;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
@@ -69,7 +71,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5J")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5I")
 public class Helpertoolscore {
 	
 		
@@ -108,6 +110,7 @@ public class Helpertoolscore {
     			
 		//Forge Support
 		public static ForgeEventHandler eventHandler = new ForgeEventHandler();
+		//public static ForgeEventHandler eventHandler2 = new ForgeEventHandler();
 		public static final Logger logger = LogManager.getLogger("HelperToolsID");
 		
 		
@@ -178,89 +181,11 @@ public class Helpertoolscore {
         @EventHandler
         public void preInit(FMLPreInitializationEvent event) {
         	
-        	////////////////////
-        	/** Config Core **/
-        	//////////////////       	        	
+        	/////////////////////////////////////
+        	/** Configuration assembly moved **/
+        	///////////////////////////////////        	
+        	ConfigurationFactory.ProcessConfiguration(event);
         	
-        	config = new Configuration(event.getSuggestedConfigurationFile());
-        	
-        	Property ToolDurability = config.get("1 Tool Durabilities", " ", " ");
-        	ToolDurability.comment = "Assign custom balance of tool durabilies";
-        	
-        	Property Recipes = config.get("2 Recipes", " ", " ");
-            Recipes.comment = "Enable or disable specific recipes";
-        	
-        	//Property BlocksRecipes = config.get("2 Recipes", "", "");
-        	//BlocksRecipes.comment = "Assign custom recipe creation results";            
-            
-            //Property BlocksOutput = config.get("3 Item Results", "", "");
-            //BlocksOutput.comment = "Assign custom balance for recipe creation results";
-            
-            //Property ItemsRecipes = config.get("2 Recipes", "", "");
-            //ItemsRecipes.comment = "Assign custom recipe creation results"; 
-            
-            Property ItemsOutput = config.get("3 Item Results", " ", " ");
-            ItemsOutput.comment = "Assign custom balance for recipe creation results";       
-            
-            Property Extra = config.get("5 Extra Settings", " ", " ");
-            //Extra.comment = "Enable or disable special 3d models for Tools, will rollback to 2d sprites";
-            Extra.comment = "Enable or disable back engine features";
-            
-            //Property Interactions = config.get("Custom Interactions", "", "");
-            //Interactions.comment = "Enable or disable world interactions";
-            
-            
-        	config.load();
-        	
-        	logger.info("Loading Configs");
-        	//Tools
-        	DurabilityExpandingRod = config.get("1 Tool Durabilities", "DurabilityExpandingRod", 1024).getInt();
-        	DurabilityMetamorphicStaff = config.get("1 Tool Durabilities", "DurabilityMetamorphicStaff", 1024).getInt();
-        	DurabilityTorchLauncher = config.get("1 Tool Durabilities", "DurabilityTorchLauncher", 1428).getInt();
-        	DurabilityEuclideanStaff = config.get("1 Tool Durabilities", "DurabilityEuclideanStaff", 1148).getInt();
-        	//Items
-        	OutputDynamiteBolt = config.get("3 Item Results", "OutputDynamiteBolt", 4).getInt();
-        	//Blocks
-        	OutputImitationBedrock = config.get("3 Item Results", "OutputImitationBedrock", 4).getInt();
-        	OutputChimneyPipe = config.get("3 Item Results", "OutputChimneyPipe", 8).getInt();
-        	OutputMagicalFuel = config.get("3 Item Results", "OutputMagicalFuel", 1).getInt();
-        	OutputDirtBomb = config.get("3 Item Results", "OutputDirtBomb", 4).getInt();
-        	//Boolean Enables
-        	/**3D models **/
-        	Render3DStaffModels = config.get("5 Extra Settings", "Render3DStaffModels", true).getBoolean(true);
-        	Render3DCrossbowModel = config.get("5 Extra Settings", "Render3DCrossbowModel", true, "Enable or disable special 3d models for Tools, will rollback to 2d sprites").getBoolean(true);
-        	//Expansion Staff Recipes
-        	RecipeDiamondsForExpansionStaff = config.get("2 Recipes", "RecipeDiamondsForExpansionStaff", true).getBoolean(true);
-        	RecipeEmeraldsForExpansionStaff = config.get("2 Recipes", "RecipeEmeraldsForExpansionStaff", true).getBoolean(true);
-        	RecipePearlsForExpansionStaff = config.get("2 Recipes", "RecipePearlsForExpansionStaff", true).getBoolean(true);
-        	//Metamorphic Staff Recipes
-        	RecipeDiamondsForMetamorphicStaff = config.get("2 Recipes", "RecipeDiamondsForMetamorphicStaff", true).getBoolean(true);
-        	RecipeEmeraldsForMetamorphicStaff = config.get("2 Recipes", "RecipeEmeraldsForMetamorphicStaff", true).getBoolean(true);
-        	RecipePearlsForMetamorphicStaff = config.get("2 Recipes", "RecipePearlsForMetamorphicStaff", true).getBoolean(true);
-        	//Euclidian Staff
-        	RecipeDiamondsForEuclideanStaff = config.get("2 Recipes", "RecipeDiamondsForEuclideanStaff", true, "Diamonds Option").getBoolean(true);
-        	RecipeEmeraldsForEuclideanStaff = config.get("2 Recipes", "RecipeEmeraldsForEuclideanStaff", true, "Emeralds Option").getBoolean(true);
-        	RecipePearlsForEuclideanStaff = config.get("2 Recipes", "RecipePearlsForEuclideanStaff", true, "Ender Pearls Option").getBoolean(true);
-        	//Torch Launcher
-        	RecipeTorchLauncher = config.get("2 Recipes", "RecipeTorchLauncher", true, "Torch Launcher").getBoolean(true);
-        	//Dynamite Bolt
-        	RecipeStringForDynamiteBolt = config.get("2 Recipes", "RecipeStringForDynamiteBolt", true).getBoolean(true);
-        	RecipeSlimeForDynamiteBolt = config.get("2 Recipes", "RecipeSlimeForDynamiteBolt", true).getBoolean(true);
-        	//Blocks
-        	RecipeImitationBedrock = config.get("2 Recipes", "RecipeImitationBedrock", true).getBoolean(true);
-        	RecipeMagicalFuel = config.get("2 Recipes", "RecipeMagicalFuel", true).getBoolean(true);
-        	RecipeChimenyPipes = config.get("2 Recipes", "RecipeChimenyPipes", false).getBoolean(true);
-        	RecipeEuclideanBlock = config.get("2 Recipes", "RecipeEuclideanBlock", true).getBoolean(true);
-        	RecipePodzol = config.get("2 Recipes", "RecipePodzol", true).getBoolean(true);
-        	//Items
-        	RecipeDirtBomb = config.get("2 Recipes", "RecipeDirtBomb", false).getBoolean(true);
-        	RecipeBottledmilk = config.get("2 Recipes", "RecipeBottledmilk", true).getBoolean(true);
-        	RecipeChocolatemilk = config.get("2 Recipes", "RecipeChocolatemilk", true).getBoolean(true);
-        	//Handlers
-        	HandlerBottledmilk = config.get("5 Extra Settings", "HandlerBottledmilk", true, "Enable or disable bottle interaction with cows").getBoolean(true);
-        	
-        	config.save(); 
-        	logger.info("Configurations Saved");
         	
         	//////////////////////////////
     		/**Material Configurations**/
@@ -274,6 +199,10 @@ public class Helpertoolscore {
     		ToolMaterial TorchMaterial = EnumHelper.addToolMaterial("TorchMaterial", 0, DurabilityTorchLauncher, 0.8F, 4F, 15);
     		//name, harvest level, max uses, efficiency, damage, enchantability
         	
+    		
+    		///////////////////////
+    		/** Repair Materials **/
+    		///////////////////////
     		powercrystal = new ItemPowerCrystal();
     		ExpRodMaterial.setRepairItem(new ItemStack(powercrystal));
     		MetaStaffMaterial.setRepairItem(new ItemStack(powercrystal));
@@ -309,6 +238,9 @@ public class Helpertoolscore {
         	MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
         	}
         	GameRegistry.registerFuelHandler(new HelperFuel());
+        	
+        	MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
+        	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Helpertoolscore.eventHandler));
         	
         }
        
@@ -393,230 +325,14 @@ public class Helpertoolscore {
         //@PostInit   // used in 1.5.2
         public void postInit(FMLPostInitializationEvent event) {
         	
-        	
-
-        	/**Recipes Tool //Recipes Tools	//Recipes Tools	//Recipes Tools	//Recipes Tools **/
-        	
-        	//None Ore dictionary version
-        	
-        	//GameRegistry.addRecipe(new ItemStack(staffofexpansion), new Object[]
-        			//{"XZX",
-        			//" Y ",
-        			//" Y ",
-        			//'X', Items.iron_ingot, 'Y', Items.stick, 'Z', Items.diamond
-        			//});
-        	
-        	
-        	//Expansion Recipes
-        	///////////////////
-        	if(RecipeDiamondsForExpansionStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffofexpansion), true, new Object[]{
-        		"XZX",
-    			" Y ",
-    			" Y ", Character.valueOf('X'),"ingotIron", Character.valueOf('Z'),"gemDiamond",
-    			Character.valueOf('Y'),"stickWood"}));
-        	}
-        	if(RecipeEmeraldsForExpansionStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffofexpansion), true, new Object[]{
-        		"XZX",
-    			" Y ",
-    			" Y ", Character.valueOf('X'),"ingotIron", Character.valueOf('Z'),"gemEmerald",
-    			Character.valueOf('Y'),"stickWood"}));
-        	}
-        	if(RecipePearlsForExpansionStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffofexpansion), true, new Object[]{
-        		"XZX",
-    			" Y ",
-    			" Y ", Character.valueOf('X'),"ingotIron", Character.valueOf('Z'), Items.ender_pearl,
-    			Character.valueOf('Y'),"stickWood"}));
-        	}
-        	//Transformation Recipes
-        	/////////////////////////
-        	if(RecipeDiamondsForExpansionStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffoftransformation2), true, new Object[]{
-        		"XZX",
-    			" Y ",
-    			" Y ", Character.valueOf('X'),"ingotGold", Character.valueOf('Z'),"gemDiamond",
-    			Character.valueOf('Y'),"stickWood"}));
-        	}
-        	if(RecipeEmeraldsForExpansionStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffoftransformation2), true, new Object[]{
-        		"XZX",
-    			" Y ",
-    			" Y ", Character.valueOf('X'),"ingotGold", Character.valueOf('Z'),"gemEmerald",
-    			Character.valueOf('Y'),"stickWood"}));
-        	}
-        	if(RecipePearlsForExpansionStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffoftransformation2), true, new Object[]{
-        		"XZX",
-    			" Y ",
-    			" Y ", Character.valueOf('X'),"ingotGold", Character.valueOf('Z'), Items.ender_pearl,
-    			Character.valueOf('Y'),"stickWood"}));
-        	}
-        	//EU Staff Recipes
-        	/////////////////////////
-        	if(RecipeDiamondsForEuclideanStaff == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(euclideantransposer), true, new Object[]{
-        		"SZS",
-    			"LYL",
-    			" Y ", Character.valueOf('S'),"sandstone", Character.valueOf('L'),"gemLapis",
-    			Character.valueOf('Z'),"gemDiamond",Character.valueOf('Y'),Items.reeds}));
-        	}
-        	if(RecipeEmeraldsForEuclideanStaff == true){
-            	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(euclideantransposer), true, new Object[]{
-            		"SZS",
-        			"LYL",
-        			" Y ", Character.valueOf('S'),"sandstone", Character.valueOf('L'),"gemLapis",
-        			Character.valueOf('Z'),"gemEmerald",Character.valueOf('Y'),Items.reeds}));
-            	}
-        	if(RecipePearlsForEuclideanStaff == true){
-            	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(euclideantransposer), true, new Object[]{
-            		"SZS",
-        			"LYL",
-        			" Y ", Character.valueOf('S'),"sandstone", Character.valueOf('L'),"gemLapis",
-        			Character.valueOf('Z'), Items.ender_pearl, Character.valueOf('Y'),Items.reeds}));
-            	}
-        	        	
-        	//Torch Launcher Recipes
-        	////////////////////////       
-        	if(RecipeTorchLauncher == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(torchlauncher),true, new Object[]{
-        		"   ",
-        		"FBR",
-        		"   ", Character.valueOf('B'), Items.bow, Character.valueOf('F'), Items.flint_and_steel,
-    			 Character.valueOf('R'), "plankWood"}));
-        	
-        	
-        	//Torch Launcher Alternate Recipes
-        	//////////////////////////////////        	
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(torchlauncher),true, new Object[]{
-        		"FWS",
-        		"W S",
-        		"RWS", Character.valueOf('S'), "helpstring", Character.valueOf('F'), Items.flint_and_steel,
-        		Character.valueOf('R'), "plankWood",
-    			Character.valueOf('W'), "stickWood"}));
-        	
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(torchlauncher,1, 0), new Object[]{
-        		Items.bow, Items.flint_and_steel, "plankWood"}));
-        	}
-        	
-        	
-        	//Dynamite bolt Recipes
-        	////////////////////////
-        	if(RecipeStringForDynamiteBolt == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.dynamitebolt, OutputDynamiteBolt, 0), new Object[]{
-        		Blocks.tnt, Items.arrow, Items.arrow, Items.arrow,Items.arrow, "string"}));
-        	}
-        	if(RecipeSlimeForDynamiteBolt == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.dynamitebolt, OutputDynamiteBolt, 0), new Object[]{
-        		Blocks.tnt, Items.arrow, Items.arrow, Items.arrow, Items.arrow, "slimeball"}));
-        	}
-        	
-        	
-        	
-        	
-        	//Imitation bedrock recipes
-        	
-        	//GameRegistry.addShapelessRecipe(new ItemStack(Helpertoolscore.Ibedrock, 2 , 0), new Object[]
-        	//		{ Items.redstone, Blocks.sandstone, Blocks.cobblestone, Blocks.gravel
-        	//		});
-        	
-        	/*
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.Ibedrock, 2 , 0), new Object[]{
-        		"dustRedstone", "cobblestone", "sandstone", "gravel" }));
-        	*/
-        	if(RecipeImitationBedrock == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.Ibedrock, OutputImitationBedrock , 0), new Object[]{
-        		"cobblestone", "cobblestone", "cobblestone", Blocks.coal_block }));
-        	}
-        	
-        	if(RecipeEuclideanBlock == true){
-            	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Helpertoolscore.TranscriberBlock),true, new Object[]{
-                		" L ",
-                		"LsL",
-                		" L ", Character.valueOf('s'), "sandstone", Character.valueOf('L'), "gemLapis"}));
-            	}
-        	
-        	
-        	if(RecipeChimenyPipes == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.StokedPipe, OutputChimneyPipe , 0), new Object[]{
-        		"ingotIron", Items.coal, "ingotIron"}));
-        	}
-        	if(RecipeMagicalFuel == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.MagicalFuelBlock, OutputMagicalFuel , 0), new Object[]{
-        		"ingotIron", "helpbonemeal", "gemLapis"}));
-        	}
-        	//Debugging tool
-        	        	
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.debugtool, 1 , 0), new Object[]{
-        		Items.nether_star, Blocks.bedrock, }));
-        		
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.rfdebugtool, 1 , 0), new Object[]{
-        		Items.nether_star, Blocks.redstone_block, }));
-        		
-        		
-        		
-        	if(RecipeDirtBomb == true){
-            	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(dirtbomb, OutputDirtBomb, 0), true, new Object[]{
-            		"ZZZ",
-        			"ZXZ",
-        			"ZZZ", Character.valueOf('X'), Items.gunpowder, Character.valueOf('Z'), Blocks.dirt}));
-            	}
-        	
-        	ItemStack BucketOut = new ItemStack(Items.milk_bucket.setContainerItem(Items.bucket));
-        	//ItemStack BottleOut = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(Items.glass_bottle));
-        	//I don't know but once set it overrides it for every other recipe, setting it to null only override the other.
-        	//.oncreated --consume item seems to balance this with only a minor dupe bug for the first in the inventory
-        	//Recipes shouldn't require this much effort, what the hell
-        	ItemStack Bottledestroy = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(null));
-        	if(RecipeBottledmilk == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.bottledmilk, 1 , 0), new Object[]{
-        		 BucketOut, Items.glass_bottle}));
-        	}
-        	//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.milk_bucket, 1 , 0), new Object[]{
-        	//	BottleOut, Items.bucket}));
-        	if(RecipeChocolatemilk == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.chocolatemilk, 1 , 0), new Object[]{
-        		Bottledestroy, new ItemStack(Items.dye, 1, 3)}));
-        	}
-        	
-        	//podzol recipe
-        	if(RecipePodzol == true){
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Blocks.dirt, 1 , 2), new Object[]{
-        		Blocks.dirt, "treeLeaves"}));
-        	
-        	}
-        	//Slab Recipes
-        	Block Fullslab = Block.getBlockById(43);
-        	//Double Slab
-        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Fullslab, 1, 0 ), new Object[]{
-        		Blocks.stone_slab, Blocks.stone_slab
-        	}));
-        	//Full Slab        	
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Fullslab, 2, 8 ),true, new Object[]{
-        		"ss ",
-        		"ss ",
-        		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 0 )}));
-        	//Full Sandstone Slab
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Fullslab, 2, 9 ),true, new Object[]{
-        		"ss ",
-        		"ss ",
-        		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 1 )}));
-    	
-        	
-        	
-        	
-        	/**Extra Dictionaries**/
-        	///////////////////////
-        	OreDictionary.registerOre("helpstring", Items.string);
-        	OreDictionary.registerOre("helpgravel", Blocks.gravel);
-        	OreDictionary.registerOre("helpbonemeal", new ItemStack(Items.dye, 1, 15));
-        	//  
-        	 
+        	////////////////////////////////////////
+        	/** Recipes Moved to their own path **/
+        	///////////////////////////////////////
+        	RecipeFactory.RegisterRecipes();
         }
         
         //Chest Loot
-        /** Credit @ Tcon**/
+        /** @ Tcon**/
         public void addLoot()
         
         {	//Min stack, Max stack, Weight/rarity

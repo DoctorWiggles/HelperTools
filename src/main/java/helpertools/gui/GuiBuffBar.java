@@ -176,10 +176,7 @@ public class GuiBuffBar extends Gui
     if(event.isCancelable() || event.type != ElementType.EXPERIENCE)
     {      
       return;
-    }
-    
-    
-    
+    }    
 
     // Starting position for the buff bar - 2 pixels from the top left corner.
     int xPos = 2;
@@ -189,20 +186,11 @@ public class GuiBuffBar extends Gui
     if (!collection.isEmpty())
     {
     **/
-      //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      //GL11.glDisable(GL11.GL_LIGHTING);      
-      //Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/Staff6.png")); 
-      //this.mc.renderEngine.bindTexture("/gui/inventory.png"); 
-      //IIcon giraffe = (Blocks.dirt).getIcon(1, 0);
-      //Minecraft.getMinecraft().renderEngine.getTexture(giraffe); 
-      //Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("/gui/container/inventory.png")); 
       
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
 		      return;
 		    }
-		 //ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-		 //ItemStack StackyHelper = new ItemStack (Item.getItemFromBlock(Blocks.dirt));
 		 
 		 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
 		 //ItemStack stacky = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
@@ -236,11 +224,11 @@ public class GuiBuffBar extends Gui
 		 //drawPlayerModel(xPos + 51, yPos + 75, 30, (float)(xPos + 51) - 64, (float)(yPos + 75 - 50) - 64, this.mc.thePlayer);
 		 
 		 //blockRender.renderBlockAsItem(Tool.returnTBlock(heldItem),Tool.returnTMeta(heldItem),10F);
-		 
-		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab.png");
-		  
-		  int xSize = 250;
-	      int ySize = 240;
+		 int Modo = Tool.getMode(heldItem);
+		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab2.png");
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_" + Modo + ".png"); 
+		  int xSize = 256;
+	      int ySize = 256;
 	      
 	      
 	      GL11.glPushMatrix();
@@ -254,7 +242,7 @@ public class GuiBuffBar extends Gui
 		        GL11.glScalef(.18F,.1F,.1F); 
 		        GL11.glScalef(.8F,.80F,0F); 
 
-		        GL11.glTranslatef(120F, 230F, 0.0F);
+		        GL11.glTranslatef(120F, 225F, 0.0F);
 		        this.drawTexturedModalRect(xPos+20, yPos+20, 0, 0, xSize,  ySize);
 		        
 		        

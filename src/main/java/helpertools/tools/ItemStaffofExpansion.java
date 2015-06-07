@@ -319,6 +319,28 @@ public class ItemStaffofExpansion extends ItemSpade
 
 		}	
 		
+		
+		
+		//Hud Render Hooky
+		//public static ItemStack HudHook  ;
+		/** 1 = true 0 = false **/
+		public static  void set_HudHookBoolean(ItemStack itemStack, int Value) {
+			if (itemStack.stackTagCompound == null) {
+				itemStack.setTagCompound(new NBTTagCompound());
+			}
+
+			itemStack.stackTagCompound.setInteger("HudHookBoolean", Value);			
+		}
+		public int get_HudHookBoolean(ItemStack itemStack) {
+			if (itemStack.stackTagCompound == null) {
+				return 0;
+			}
+
+			return itemStack.stackTagCompound.getInteger("HudHookBoolean");
+
+		}	
+		
+		
     
 	//(theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
    
@@ -390,8 +412,7 @@ public class ItemStaffofExpansion extends ItemSpade
 		 return false;
     }
 	
-	//Hud Render Hooky
-	public static ItemStack HudHook  ;
+	
 		
 	
 	
@@ -801,7 +822,8 @@ public class ItemStaffofExpansion extends ItemSpade
     		//
     		
     		ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-			HudHook = stacky2;
+    		
+    		set_HudHookBoolean(thestaff, 1);
     		
     		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);

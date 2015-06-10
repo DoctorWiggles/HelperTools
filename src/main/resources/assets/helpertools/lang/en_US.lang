@@ -35,6 +35,12 @@ tile.ActiveMagicalFuelBlock.name=§3Active Magical Fuel §9[W.I.P.]
 tile.LooseDirtBlock.name=Loose Dirt §9[W.I.P.]
 tile.SugarBlock.name=Sugar Cube
 
+#        #
+#Keybinds#
+key.ding=Primary
+key.dong=Alternate
+key.categories.helpertools=§9§oHelper Tools
+
 
 #      #
 # Tabs #

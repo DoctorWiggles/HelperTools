@@ -73,7 +73,7 @@ public class GuiBuffBar extends Gui
   {
 	  
       GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-      GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+      //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       RenderHelper.enableStandardItemLighting();
       GL11.glDisable(GL11.GL_LIGHTING);  
       this.zLevel = 2.0F;
@@ -84,6 +84,7 @@ public class GuiBuffBar extends Gui
       //itemRender.renderItemAndEffectIntoGUI(null, this.mc.getTextureManager(), itemstack, X1, Y1);      
       
       itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
+      GL11.glColor4f(0F, 0F, 0F, 0F);
       
       //itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1 );
       this.zLevel = 0.0F;
@@ -179,8 +180,10 @@ public class GuiBuffBar extends Gui
     }    
 
     // Starting position for the buff bar - 2 pixels from the top left corner.
-    int xPos = 2;
-    int yPos = 2;
+    //int xPos = 150;
+    //int yPos = 230;
+    int xPos = 20;
+    int yPos = 20;
     /**
     Collection collection = this.mc.thePlayer.getActivePotionEffects();
     if (!collection.isEmpty())
@@ -204,7 +207,7 @@ public class GuiBuffBar extends Gui
 		 //if ( Tool.get_HudHookBoolean(heldItem) == 1) {
 		//	 System.out.println(" " +Tool.get_HudHookBoolean(heldItem) );
 	      try{
-		 this.drawItemStack(StackyHelper, xPos+20, yPos+20, (String)null);
+		 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
 	      }
 	      catch(NullPointerException exception){
 	    	 // System.out.println("Erra!");	    	 
@@ -226,30 +229,27 @@ public class GuiBuffBar extends Gui
 		 //blockRender.renderBlockAsItem(Tool.returnTBlock(heldItem),Tool.returnTMeta(heldItem),10F);
 		 int Modo = Tool.getMode(heldItem);
 		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab2.png");
-		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_" + Modo + ".png"); 
-		  int xSize = 256;
-	      int ySize = 256;
+		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_" + Modo + ".png");
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_14.png");
+		  //int xSize = 256;
+	      //int ySize = 256;
 	      
-	      
-	      GL11.glPushMatrix();
-	        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		        this.mc.getTextureManager().bindTexture(backgroundimage);
-		        int x = (20 - xSize) / 2;
-		        int y = (20 - ySize) / 2;
-		       
-		       
-		        
-		        GL11.glScalef(.18F,.1F,.1F); 
-		        GL11.glScalef(.8F,.80F,0F); 
+	      int xSize = 38+2;
+	      int ySize = 20+2;
 
-		        GL11.glTranslatef(120F, 225F, 0.0F);
-		        this.drawTexturedModalRect(xPos+20, yPos+20, 0, 0, xSize,  ySize);
-		        
-		        
 
-		        GL11.glPopMatrix();
-		 
-		 
+	      	GL11.glPushMatrix();
+	      	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	      	//GL11.glAlphaFunc(func, ref);
+	      	this.mc.getTextureManager().bindTexture(backgroundimage);
+	      	//GL11.glScalef(.18F,.1F,.1F); 
+	      	//GL11.glScalef(.8F,.80F,0F); 
+
+	      	//GL11.glTranslatef(120F, 225F, 0.0F);
+	      	this.drawTexturedModalRect(xPos-1, yPos-1, 16-1, 15+16*(Modo)-1, xSize,  ySize);
+	      	GL11.glPopMatrix();
+
+
       /**
       for (Iterator iterator = this.mc.thePlayer.getActivePotionEffects()
           .iterator(); iterator.hasNext(); xPos += BUFF_ICON_SPACING)

@@ -161,6 +161,25 @@ public class ItemEuclideanTransposer extends ItemSpade
 
 			itemStack.stackTagCompound.setInteger("OffMode", Value);			
 		}
+		
+		
+		////////////////////////
+		/** Rotation Counter**/
+		public int getCorner(ItemStack itemStack) {
+			if (itemStack.stackTagCompound == null) {
+				return 0;
+			}
+
+			return itemStack.stackTagCompound.getInteger("Corner");
+
+		}		
+		public void setCorner(ItemStack itemStack, int Value) {
+			if (itemStack.stackTagCompound == null) {
+				itemStack.setTagCompound(new NBTTagCompound());
+			}
+
+			itemStack.stackTagCompound.setInteger("Corner", Value);			
+		}
     
     //////////////////////////////////////////////////////////////
    
@@ -235,6 +254,7 @@ public class ItemEuclideanTransposer extends ItemSpade
    		}
 		 return false;
     }
+	
 		
 	
 		
@@ -325,6 +345,7 @@ public class ItemEuclideanTransposer extends ItemSpade
     			    		
     		//dynamic placement offsets
         	//W/E_T/B_N/S
+    			
         	if (theface == 0){    	
         		j1 = j1 - mOffset -6;
         		i1 = i1 - 2;
@@ -370,7 +391,11 @@ public class ItemEuclideanTransposer extends ItemSpade
     			{
     				int Nbtcounter = G2counter+Ucounter+l+1;
     				
-    	    		//j1 = j1 +1;
+    				int X_1 = i1+U;
+    				int Y_1 = j1+1+l;
+    				int Z_1 = k1+G2;
+    				
+    	    		
     	    		
     				/**
     				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
@@ -381,27 +406,27 @@ public class ItemEuclideanTransposer extends ItemSpade
     				if (returnTBlock(thestaff, Nbtcounter) != Blocks.air){
     				
     					/** displacement whitelist **/
-    				if (theblock.isAirBlock(i1+U, j1+1+l, k1+G2)
-    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.lava 
-    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.water
-    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.plants 
-    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine )
+    				if (theblock.isAirBlock(X_1 , Y_1 , Z_1 )
+    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.lava 
+    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.water
+    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.plants 
+    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.vine )
     				{
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
     					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0);
     					//if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
     					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItemStack(stacky)
     							){
-    					//theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
+    					//theblock.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
-    						if (theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.vine
-    	    						|| theblock.getBlock(i1+U, j1+1+l, k1+G2).getMaterial() == Material.plants) 
+    						if (theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.vine
+    	    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.plants) 
     						{
-    							(theblock.getBlock(i1+U, j1+1+l, k1+G2)).dropBlockAsItem(theblock,i1+U, j1+1+l, k1+G2, (theblock.getBlockMetadata(i1+U, j1+1+l, k1+G2)), 0);
+    							(theblock.getBlock(X_1 , Y_1 , Z_1 )).dropBlockAsItem(theblock,X_1 , Y_1 , Z_1 , (theblock.getBlockMetadata(X_1 , Y_1 , Z_1 )), 0);
     						}
-    						theblock.setBlock(i1+U, j1+1+l, k1+G2, Blocks.dirt);
+    						theblock.setBlock(X_1 , Y_1 , Z_1 , Blocks.dirt);
     						
-    					theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
+    					theblock.setBlock(X_1 , Y_1 , Z_1 , returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
     					successful = 1;
     					short short1 = 32;
     					for (int lp = 0; lp < short1; ++lp)
@@ -422,15 +447,15 @@ public class ItemEuclideanTransposer extends ItemSpade
     		                //double d7 = d3 + (this.posX - d3) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
     		                //double d8 = d4 + (this.posY - d4) * d6 + this.growrand .nextDouble() * (double)this.height;
     		                //double d9 = d5 + (this.posZ - d5) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
-    		                theblock.spawnParticle("portal", i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
+    		                theblock.spawnParticle("portal", X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);
     		                
     		                //int crackid = getIdFromItem(Helpertoolscore.euclideantransposer);
     		                //int crackid2 = getIdFromItem(getItemFromBlock(Helpertoolscore.LooseDirtBlock));
     		                //int crackid3 = getIdFromItem(getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));
-    		                //theblock.spawnParticle("iconcrack_" + (crackid3), i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
-    		                //theblock.spawnParticle("iconcrack_" + (crackid3), i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, 0, 2, 0);
+    		                //theblock.spawnParticle("iconcrack_" + (crackid3), X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);
+    		                //theblock.spawnParticle("iconcrack_" + (crackid3), X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, 0, 2, 0);
     		                
-    		               // theblock.spawnParticle("tilecrack_" + (Blocks.anvil), i1+U+p+.1, j1+.6+l+p1, k1+G2+p2+.1, f, f1, f2);
+    		               // theblock.spawnParticle("tilecrack_" + (Blocks.anvil), X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);
     		                
     		            }
     					
@@ -465,6 +490,9 @@ public class ItemEuclideanTransposer extends ItemSpade
 			return true;
 		}
     	}
+    	
+    	/////////////////////////////
+    	/** Pattern Collection **/
     	if (theplayer.isSneaking()){
     		
     		if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.TranscriberBlock){
@@ -484,13 +512,15 @@ public class ItemEuclideanTransposer extends ItemSpade
     		
     		i1 = i1 - 2;
     		k1 = k1 - 2;
-    		
+    		/** Z **/
     		for (int G2 = 0; G2 < P; ++G2)
             {
         		int G2counter = G2*P*P;
+        		/** X **/
         		for (int U = 0; U < P; ++U)
         		{
         			int Ucounter = U*P;
+        			/** Y **/
         			for (int l = 0; l < P; ++l)
         			{
         				int Nbtcounter = G2counter+Ucounter+l+1;

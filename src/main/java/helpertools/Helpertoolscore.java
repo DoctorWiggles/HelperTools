@@ -16,7 +16,6 @@ import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
 
-import java.lang.reflect.Proxy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +28,8 @@ import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
 import helpertools.util.ForgeEventHandler;
 import helpertools.util.GuiHandler;
+import helpertools.util.KeyBindings;
+import helpertools.util.KeyInputHandler;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -185,6 +186,13 @@ public class Helpertoolscore {
         	/** Configuration assembly moved **/
         	///////////////////////////////////        	
         	ConfigurationFactory.ProcessConfiguration(event);
+            
+        	
+        	///////////////////
+        	/** Keybinding **/
+        	/////////////////
+        	FMLCommonHandler.instance().bus().register(new KeyInputHandler());
+        	KeyBindings.init();
         	
         	
         	//////////////////////////////

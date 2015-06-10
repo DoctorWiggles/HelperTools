@@ -1,6 +1,6 @@
 package helpertools;
 
-import helpertools.blocks.TileEntityTranscriber;
+import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class HelpertoolsCommonProxy {

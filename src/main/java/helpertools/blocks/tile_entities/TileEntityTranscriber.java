@@ -1,4 +1,4 @@
-package helpertools.blocks;
+package helpertools.blocks.tile_entities;
 
 import java.util.Random;
 

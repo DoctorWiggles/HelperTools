@@ -6,6 +6,7 @@ import java.util.Random;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.util.InventoryUtil;
+import helpertools.util.KeyBindings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -144,6 +145,8 @@ public class ItemStaffofExpansion extends ItemSpade
 		//}
 		 */
 			//timer--;
+  	
+  	
 		return;
   			
   }

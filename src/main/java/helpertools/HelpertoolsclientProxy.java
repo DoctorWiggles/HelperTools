@@ -1,6 +1,6 @@
 package helpertools;
 
-import helpertools.blocks.TileEntityObelisk;
+import helpertools.blocks.tile_entities.TileEntityObelisk;
 import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;

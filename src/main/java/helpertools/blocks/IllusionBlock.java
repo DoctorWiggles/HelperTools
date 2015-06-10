@@ -4,13 +4,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
-import helpertools.blocks.tile_entities.TileEntityTranscriber;
+import helpertools.blocks.tile_entities.TileEntityIllusion;
 import helpertools.entities.EntityDynamiteProjectile;
 
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -32,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TranscriberBlock extends Block implements ITileEntityProvider
+public class IllusionBlock extends BlockBreakable implements ITileEntityProvider
 {
     @SideOnly(Side.CLIENT)
     private IIcon field_150200_a;
@@ -40,13 +41,13 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     private IIcon field_150199_b;
     private static final String __OBFID = "CL_00000273";
 
-    public TranscriberBlock()
+    public IllusionBlock(Material glass, boolean b, String name)
     {
-        super(Material.clay);
-        this.setBlockName("TranscriberBlock");
+    	 super(name, glass, b);
+        this.setBlockName("IllusionBlock");
         this.setCreativeTab(HelpTab.HelperTools);       
         //this.setCreativeTab(CreativeTabs.tabBlock);
-        this.setBlockTextureName("helpertools:Transcriber");
+        this.setBlockTextureName("helpertools:IllusionFace");
         this.setHardness(0.6F);
         setHarvestLevel("pickaxe",0);
         
@@ -55,7 +56,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-		return Item.getItemFromBlock(Helpertoolscore.TranscriberBlock);
+		return Item.getItemFromBlock(Helpertoolscore.IllusionBlock);
     }
     
    
@@ -68,6 +69,13 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     
     public IIcon[] icons = new IIcon[6];
     
+    @SideOnly(Side.CLIENT)
+    public int getRenderBlockPass()
+    {
+        return 1;
+    }
+    
+    
     @Override
     public void registerBlockIcons(IIconRegister reg) {
        // for (int i = 0; i < 6; i ++) {
@@ -79,11 +87,11 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             this.icons[5] = reg.registerIcon(this.textureName + "_" + 2);
             
             this.nonactive[0] = reg.registerIcon(this.textureName + "_" + 1);
-            this.nonactive[1] = reg.registerIcon(this.textureName + "_" + 3);
-            this.nonactive[2] = reg.registerIcon(this.textureName + "_" + 2);
-            this.nonactive[3] = reg.registerIcon(this.textureName + "_" + 2);
-            this.nonactive[4] = reg.registerIcon(this.textureName + "_" + 2);
-            this.nonactive[5] = reg.registerIcon(this.textureName + "_" + 2);
+            this.nonactive[1] = reg.registerIcon(this.textureName + "_" + 1);
+            this.nonactive[2] = reg.registerIcon(this.textureName + "_" + 1);
+            this.nonactive[3] = reg.registerIcon(this.textureName + "_" + 1);
+            this.nonactive[4] = reg.registerIcon(this.textureName + "_" + 1);
+            this.nonactive[5] = reg.registerIcon(this.textureName + "_" + 1);
             
             //this.active[0] = reg.registerIcon(this.textureName + "_" + 1);
             //this.active[1] = reg.registerIcon(this.textureName + "2_" + 3);
@@ -130,7 +138,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileEntityTranscriber();
+        return new TileEntityIllusion();
     }
 
     @Override
@@ -143,7 +151,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     {
     	
     		//tileentityhopper
-    	TileEntityTranscriber tile = (TileEntityTranscriber)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+    	TileEntityIllusion tile = (TileEntityIllusion)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
             
             if (tile != null)
@@ -164,90 +172,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             	if(!player.isSneaking()){
 
                     p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
-            		
-            	//bottom / top
-                if (side == 0){
-                	(tile).offY = (tile).offY +1;
-                }
-                if (side == 1){
-                	(tile).offY = (tile).offY -1;
-                }
-                //North South
-                if (side == 2){
-                	(tile).offZ = (tile).offZ +1;
-                }
-                if (side == 3){
-                	(tile).offZ = (tile).offZ -1;
-                }
-              //West East
-                if (side == 4){
-                	(tile).offX = (tile).offX +1;
-                }
-                if (side == 5){
-                	(tile).offX = (tile).offX -1;
-                }
-                  
             	}
-            	
-            	//on off?
-            	if(player.isSneaking()){
-            		p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.6F);
-            		//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation((tile).offX +"X " + (tile).offY +"Y " + (tile).offZ +"Z ", new Object[0]);
-            	   	// player.addChatComponentMessage(chatcomponenttranslation); 
-            		
-            	   //bottom / top
-            		/**
-            		 if (side == 0 && tile.offY++ <= maxb){
-                      	(tile).offY = (tile).offY -1;
-                      }
-            		 **/
-                     if (side == 0){
-                     	(tile).offY = (tile).offY -1;
-                     }
-                     if (side == 1){
-                     	(tile).offY = (tile).offY +1;
-                     }
-                     //North South
-                     if (side == 2){
-                     	(tile).offZ = (tile).offZ -1;
-                     }
-                     if (side == 3){
-                     	(tile).offZ = (tile).offZ +1;
-                     }
-                   //West East
-                     if (side == 4){
-                     	(tile).offX = (tile).offX -1;
-                     }
-                     if (side == 5){
-                     	(tile).offX = (tile).offX +1;
-                     }
-            	}
-            	
-            	
-            	
-            	int maxb = 10;
-                //max bounds
-                if((tile).offX >= maxb){
-                	tile.offX = maxb;
-                }
-                if((tile).offX <= -maxb){
-                	tile.offX = -maxb;
-                }
-                
-                if((tile).offY >= maxb){
-                	tile.offY = maxb;
-                }
-                if((tile).offY <= -maxb){
-                	tile.offY = -maxb;
-                }
-                
-                if((tile).offZ >= maxb){
-                	tile.offZ = maxb;
-                }
-                if((tile).offZ <= -maxb){
-                	tile.offZ = -maxb;
-                }
-                
             }
 
             return true;

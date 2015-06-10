@@ -1,6 +1,7 @@
 package helpertools;
-import helpertools.blocks.TileEntityObelisk;
-import helpertools.blocks.TileEntityTranscriber;
+import helpertools.blocks.tile_entities.TileEntityIllusion;
+import helpertools.blocks.tile_entities.TileEntityObelisk;
+import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
@@ -15,6 +16,8 @@ import helpertools.items.ItemPowerCrystal;
 import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
+
+
 
 
 import org.apache.logging.log4j.LogManager;
@@ -80,14 +83,14 @@ public class Helpertoolscore {
 		//Blocks - Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
 		public final static Block Ibedrock = new helpertools.blocks.ImitationBedrock();
 		public final static Block StokedPipe = new helpertools.blocks.StokedPipe();
-		//public final static Block StokedBlock = new helpertools.blocks.StokedBlock();
-		public final static Block SelectionBlock = new helpertools.blocks.SelectionBlock();		
+		//public final static Block StokedBlock = new helpertools.blocks.StokedBlock();		
 		public final static Block TranscriberBlock = new helpertools.blocks.TranscriberBlock();	
 		public final static Block MagicalFuelBlock = new helpertools.blocks.MagicalFuelBlock();	
 		public final static Block ActiveMagicalFuelBlock = new helpertools.blocks.ActiveMagicalFuelBlock();	
-		public final static Block LooseDirtBlock= new helpertools.blocks.LooseDirtBlock(Material.sand);
+		public final static Block LooseDirtBlock = new helpertools.blocks.LooseDirtBlock(Material.sand);
 		
-		public final static Block SugarBlock= new helpertools.blocks.SugarBlock(Material.sand);
+		public final static Block IllusionBlock = new helpertools.blocks.IllusionBlock(Material.glass, false, "helpertools:IllusionFace");	
+		public final static Block SugarBlock = new helpertools.blocks.SugarBlock(Material.sand);
 		public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
 		public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
 		
@@ -109,14 +112,16 @@ public class Helpertoolscore {
 		public static Item rfdebugtool;
 		
     			
-		//Forge Support
+		//Event Handler
+		/** Chocolate milk etc **/
 		public static ForgeEventHandler eventHandler = new ForgeEventHandler();
 		//public static ForgeEventHandler eventHandler2 = new ForgeEventHandler();
+		
 		public static final Logger logger = LogManager.getLogger("HelperToolsID");
 		
 		
-		///////////////////////////////
-		/** Configuration calls **/
+		////////////////////////////
+		/** Configuration       **/
 		//////////////////////////
 		//Tool durability
 		public static int  DurabilityExpandingRod;
@@ -290,11 +295,12 @@ public class Helpertoolscore {
                 GameRegistry.registerBlock(Ibedrock, "Imitation Bedrock");
                 GameRegistry.registerBlock(StokedPipe, "StokedPipe");
                 //GameRegistry.registerBlock(StokedBlock, "StokedBlock");
-                //GameRegistry.registerBlock(SelectionBlock, "SelectionBlock");
                 GameRegistry.registerBlock(TranscriberBlock, "TranscriberBlock");
                 GameRegistry.registerBlock(MagicalFuelBlock, "MagicalFuelBlock");
                 GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
                 GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
+                //
+                GameRegistry.registerBlock(IllusionBlock, "IllusionBlock");
                 //
                 GameRegistry.registerBlock(SugarBlock, "SugarBlock");
                 GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
@@ -316,6 +322,7 @@ public class Helpertoolscore {
                 //////////////////////////////////////////////////////////////////////////////////////////////
                 
         	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
+        	    GameRegistry.registerTileEntity(TileEntityIllusion.class, TileEntityIllusion.publicName);
         	    GameRegistry.registerTileEntity(TileEntityObelisk.class, TileEntityObelisk.publicName);
         	    
         	   //     Helpertoolscore.logger.info("TILE ENTITY");

@@ -5,7 +5,7 @@ import java.util.Random;
 
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
-import helpertools.blocks.TileEntityTranscriber;
+import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import helpertools.util.InventoryUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

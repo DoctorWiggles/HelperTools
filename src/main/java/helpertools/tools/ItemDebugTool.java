@@ -4,6 +4,7 @@ import java.util.List;
 
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
+import helpertools.util.KeyBindings;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
@@ -217,6 +218,9 @@ public class ItemDebugTool extends Item {
 			}
 	  /////////////////////////////////////////////////////////////////////
 	    public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
+	    	
+
+	    	
 	    	
 	    	if(!entity.worldObj.isRemote){
 	    		return;

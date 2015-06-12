@@ -1,5 +1,10 @@
 package helpertools.util;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import helpertools.tools.ItemStaffofExpansion;
+import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -34,6 +39,17 @@ public class NetworkMessage implements IMessage {
         @Override
         public IMessage onMessage(NetworkMessage message, MessageContext ctx) {
             System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
+            EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
+            ItemStack heldItem = theplayer.inventory.getCurrentItem();
+            
+            if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
+            	System.out.println("Returned null Erra!!!"); 
+  		      return null;
+  		    }
+  		 
+            ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+            Tool.ToolEmpower(heldItem, theplayer);
+  		 
             return null; // no response in this case
         }
     }

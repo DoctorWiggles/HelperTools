@@ -80,11 +80,11 @@ public class IllusionBlock extends BlockBreakable implements ITileEntityProvider
     public void registerBlockIcons(IIconRegister reg) {
        // for (int i = 0; i < 6; i ++) {
             this.icons[0] = reg.registerIcon(this.textureName + "_" + 1);
-            this.icons[1] = reg.registerIcon(this.textureName + "_" + 3);
-            this.icons[2] = reg.registerIcon(this.textureName + "_" + 2);
-            this.icons[3] = reg.registerIcon(this.textureName + "_" + 2);
-            this.icons[4] = reg.registerIcon(this.textureName + "_" + 2);
-            this.icons[5] = reg.registerIcon(this.textureName + "_" + 2);
+            this.icons[1] = reg.registerIcon(this.textureName + "_" + 1);
+            this.icons[2] = reg.registerIcon(this.textureName + "_" + 1);
+            this.icons[3] = reg.registerIcon(this.textureName + "_" + 1);
+            this.icons[4] = reg.registerIcon(this.textureName + "_" + 1);
+            this.icons[5] = reg.registerIcon(this.textureName + "_" + 1);
             
             this.nonactive[0] = reg.registerIcon(this.textureName + "_" + 1);
             this.nonactive[1] = reg.registerIcon(this.textureName + "_" + 1);

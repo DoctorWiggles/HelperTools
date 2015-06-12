@@ -303,12 +303,31 @@ public class ItemStaffofExpansion extends ItemSpade
 
 			itemStack.stackTagCompound.setInteger("ToolLevel", Value);			
 		}
+		
+		public void ToolEmpower(ItemStack itemStack, EntityLivingBase entityLiving){
+			int Toolmax = EnchantmentHelper.getEnchantmentLevel(32, itemStack);
+			int NextLevel = (getToolLevel(itemStack))+1;
+			if(NextLevel>Toolmax){
+				setToolLevel(itemStack,0);
+				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));
+			}
+			if(NextLevel<=Toolmax){
+				setToolLevel(itemStack,NextLevel);
+				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			}
+			
+			System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 
+		}
+		
+		
+		
 		/** returns a rounded number for tool levels**/
 		public int getEff2Level(ItemStack itemStack) {
 			if (itemStack == null) {
 				return 0;
 			}
-			int eff = EnchantmentHelper.getEnchantmentLevel(32, itemStack);	
+			//int eff = EnchantmentHelper.getEnchantmentLevel(32, itemStack);
+			int eff = (getToolLevel(itemStack));
 			
 			if ((eff%2)!=0){
 				//odd
@@ -429,11 +448,14 @@ public class ItemStaffofExpansion extends ItemSpade
     public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int x1, int y1, int z1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
     	//Modifies size based on tool level
-    	int eff = EnchantmentHelper.getEnchantmentLevel(32, thestaff);
-    	int pillar = (getToolLevel(thestaff)+ eff+ 3);
-    	int eff2 = (getEff2Level(thestaff));
-    	int wall = (getToolLevel(thestaff)+ eff2+ 2);
+    	//int eff = EnchantmentHelper.getEnchantmentLevel(32, thestaff);
+    	//int pillar = (getToolLevel(thestaff)+ eff+ 3);
+    	//int eff2 = (getEff2Level(thestaff));
+    	//int wall = (getToolLevel(thestaff)+ eff2+ 2);
     		
+    	int pillar = (getToolLevel(thestaff)+ 3);    	
+    	int wall = (getEff2Level(thestaff)+ 2);
+    	
     	//if operation is successful set a flag
     	//boolean successful = false;   	
     	

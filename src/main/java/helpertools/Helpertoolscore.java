@@ -17,9 +17,6 @@ import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
 
-
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +30,7 @@ import helpertools.util.ForgeEventHandler;
 import helpertools.util.GuiHandler;
 import helpertools.util.KeyBindings;
 import helpertools.util.KeyInputHandler;
+import helpertools.util.NetworkMessage;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -70,25 +68,25 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5I")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5J")
 public class Helpertoolscore {
 	
-		
-	
+			
 		//Blocks - Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
 		public final static Block Ibedrock = new helpertools.blocks.ImitationBedrock();
-		public final static Block StokedPipe = new helpertools.blocks.StokedPipe();
-		//public final static Block StokedBlock = new helpertools.blocks.StokedBlock();		
+		public final static Block StokedPipe = new helpertools.blocks.StokedPipe();		
 		public final static Block TranscriberBlock = new helpertools.blocks.TranscriberBlock();	
 		public final static Block MagicalFuelBlock = new helpertools.blocks.MagicalFuelBlock();	
 		public final static Block ActiveMagicalFuelBlock = new helpertools.blocks.ActiveMagicalFuelBlock();	
 		public final static Block LooseDirtBlock = new helpertools.blocks.LooseDirtBlock(Material.sand);
-		
+		//
 		public final static Block IllusionBlock = new helpertools.blocks.IllusionBlock(Material.glass, false, "helpertools:IllusionFace");	
 		public final static Block SugarBlock = new helpertools.blocks.SugarBlock(Material.sand);
 		public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
@@ -99,23 +97,28 @@ public class Helpertoolscore {
 		public static Item staffoftransformation2;
 		public static Item euclideantransposer;
 		public static Item torchlauncher;
-		
-		
+		//		
 		public static Item dynamitebolt;
 		public static Item dirtbomb;
 		public static Item bottledmilk;
 		public static Item chocolatemilk;
 		//
 		public static Item powercrystal;
-		
+		//
 		public static Item debugtool;
 		public static Item rfdebugtool;
 		
-    			
-		//Event Handler
+		
+    	////////////////////		
+		/** Forge Stuffs **/
+		////////////////////
+		
 		/** Chocolate milk etc **/
 		public static ForgeEventHandler eventHandler = new ForgeEventHandler();
 		//public static ForgeEventHandler eventHandler2 = new ForgeEventHandler();
+		
+		/** packet, network and client sycning, for guis etc**/
+		public static SimpleNetworkWrapper network;
 		
 		public static final Logger logger = LogManager.getLogger("HelperToolsID");
 		
@@ -169,8 +172,7 @@ public class Helpertoolscore {
 		public static boolean HandlerBottledmilk;
 		
 		/** @ NotGyro **/
-		public static Configuration config;
-		
+		public static Configuration config;		
 		
 		
         // The instance of your mod that Forge uses.
@@ -255,6 +257,12 @@ public class Helpertoolscore {
         	MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
         	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Helpertoolscore.eventHandler));
         	
+        	/** Networking & Packets **/
+        	network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");
+        	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
+            network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
+            // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+        	
         }
        
         @EventHandler
@@ -332,6 +340,7 @@ public class Helpertoolscore {
         	    //ChestGenHooks.addDungeonLoot(ChestGenHooks(String category, WeightedRandomChestContent[] items, int min, int max));
         	    //(ChestGenHooks("villageBlacksmith"), (new ItemStack(Helpertoolscore.staffoftransformation2)) , 100, 1, 1);
                addLoot();
+               
                NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
               
         }

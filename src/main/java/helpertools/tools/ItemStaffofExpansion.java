@@ -315,7 +315,7 @@ public class ItemStaffofExpansion extends ItemSpade
 				setToolLevel(itemStack,NextLevel);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
-			
+			//
 			System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 
 		}
 		
@@ -454,7 +454,8 @@ public class ItemStaffofExpansion extends ItemSpade
     	//int wall = (getToolLevel(thestaff)+ eff2+ 2);
     		
     	int pillar = (getToolLevel(thestaff)+ 3);    	
-    	int wall = (getEff2Level(thestaff)+ 2);
+    	//int wall = (getEff2Level(thestaff)+ 2);
+    	int wall = (getToolLevel(thestaff)+ 2); 
     	
     	//if operation is successful set a flag
     	//boolean successful = false;   	

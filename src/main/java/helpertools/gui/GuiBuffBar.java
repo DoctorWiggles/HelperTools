@@ -73,10 +73,10 @@ public class GuiBuffBar extends Gui
   {
 	  
       GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-      //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+      GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       RenderHelper.enableStandardItemLighting();
       GL11.glDisable(GL11.GL_LIGHTING);  
-      this.zLevel = 2.0F;
+      //this.zLevel = 2.0F;
       itemRender.zLevel = 2.0F;
       FontRenderer font = null;
       //if (itemstack != null) font = itemstack.getItem().getFontRenderer(itemstack);
@@ -87,83 +87,35 @@ public class GuiBuffBar extends Gui
       GL11.glColor4f(0F, 0F, 0F, 0F);
       
       //itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1 );
-      this.zLevel = 0.0F;
+      //this.zLevel = 0.0F;
       itemRender.zLevel = 0.0F;
       
   }
   
-  public static void drawPlayerModel(int par0, int par1, int par2, float par3, float par4, EntityLivingBase par5EntityLivingBase)
+  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, ItemStack heldItem, ItemStaffofExpansion tool, int Empowerment){
+	  
+	  //int xSize = 0; 
+      int xSize = Empowerment*7+1;
+      
 
-  {
 
-	  GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+      	GL11.glPushMatrix();
+      	//GL11.glEnable(32826);
+      	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+      	//GL11.glDepthFunc(1);
+      	//GL11.glAlphaFunc(func, ref);
+      	this.mc.getTextureManager().bindTexture(Image);
+      	//GL11.glScalef(.18F,.1F,.1F); 
+      	//GL11.glScalef(.8F,.80F,0F); 
 
-	  GL11.glPushMatrix();
-
-	  GL11.glTranslatef((float)par0, (float)par1, 50.0F);
-
-	  GL11.glScalef((float)(-par2), (float)par2, (float)par2);
-
-	  GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-
-	  float f2 = par5EntityLivingBase.renderYawOffset;
-
-	  float f3 = par5EntityLivingBase.rotationYaw;
-
-	  float f4 = par5EntityLivingBase.rotationPitch;
-
-	  float f5 = par5EntityLivingBase.prevRotationYawHead;
-
-	  float f6 = par5EntityLivingBase.rotationYawHead;
-
-	  GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-
-	  RenderHelper.enableStandardItemLighting();
-
-	  GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-
-	  GL11.glRotatef(-((float)Math.atan((double)(par4 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-
-	  par5EntityLivingBase.renderYawOffset = (float)Math.atan((double)(par3 / 40.0F)) * 20.0F;
-
-	  par5EntityLivingBase.rotationYaw = (float)Math.atan((double)(par3 / 40.0F)) * 40.0F;
-
-	  par5EntityLivingBase.rotationPitch = -((float)Math.atan((double)(par4 / 40.0F))) * 20.0F;
-
-	  par5EntityLivingBase.rotationYawHead = par5EntityLivingBase.rotationYaw;
-
-	  par5EntityLivingBase.prevRotationYawHead = par5EntityLivingBase.rotationYaw;
-
-	  GL11.glTranslatef(0.0F, par5EntityLivingBase.yOffset, 0.0F);
-
-	  RenderManager.instance.playerViewY = 180.0F;
-
-	  RenderManager.instance.renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-
-	  par5EntityLivingBase.renderYawOffset = f2;
-
-	  par5EntityLivingBase.rotationYaw = f3;
-
-	  par5EntityLivingBase.rotationPitch = f4;
-
-	  par5EntityLivingBase.prevRotationYawHead = f5;
-
-	  par5EntityLivingBase.rotationYawHead = f6;
-
-	  GL11.glPopMatrix();
-
-	  RenderHelper.disableStandardItemLighting();
-
-	  GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-
-	  OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-
-	  GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-	  OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
-
+      	//GL11.glTranslatef(120F, 225F, 0.0F);
+      	this.drawTexturedModalRect(xPos+2, yPos+20, 69, 34, xSize,  3);
+      	//GL11.glDisable(32826);
+      	GL11.glPopMatrix();
+	  
+	  
   }
- 
+  
   
   @SubscribeEvent(priority = EventPriority.NORMAL)
   public void onRenderExperienceBar(RenderGameOverlayEvent event)
@@ -230,16 +182,18 @@ public class GuiBuffBar extends Gui
 		 int Modo = Tool.getMode(heldItem);
 		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab2.png");
 		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_" + Modo + ".png");
-		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_14.png");
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_17.png");
 		  //int xSize = 256;
 	      //int ySize = 256;
 	      
 	      int xSize = 38+2;
-	      int ySize = 20+2;
+	      int ySize = 26+2;
 
 
 	      	GL11.glPushMatrix();
+	      	//GL11.glEnable(32826);
 	      	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	      	//GL11.glDepthFunc(1);
 	      	//GL11.glAlphaFunc(func, ref);
 	      	this.mc.getTextureManager().bindTexture(backgroundimage);
 	      	//GL11.glScalef(.18F,.1F,.1F); 
@@ -247,7 +201,13 @@ public class GuiBuffBar extends Gui
 
 	      	//GL11.glTranslatef(120F, 225F, 0.0F);
 	      	this.drawTexturedModalRect(xPos-1, yPos-1, 16-1, 15+16*(Modo)-1, xSize,  ySize);
+	      	//GL11.glDisable(32826);
 	      	GL11.glPopMatrix();
+	      	
+	      	int Empowerment = Tool.getToolLevel(heldItem);
+	      	if(Empowerment >0){
+	      	drawEmpoweredBar(xPos, yPos,backgroundimage, heldItem, Tool, Empowerment);
+	      	}
 
 
       /**

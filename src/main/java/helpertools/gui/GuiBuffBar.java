@@ -71,7 +71,7 @@ public class GuiBuffBar extends Gui
   
   private void drawItemStack(ItemStack itemstack, int X1, int Y1, String p_146982_4_)
   {
-	  
+	  GL11.glPushMatrix();
       GL11.glTranslatef(0.0F, 0.0F, 32.0F);
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       RenderHelper.enableStandardItemLighting();
@@ -81,39 +81,74 @@ public class GuiBuffBar extends Gui
       FontRenderer font = null;
       //if (itemstack != null) font = itemstack.getItem().getFontRenderer(itemstack);
       //if (font == null) font = fontRendererObj;
+      
       //itemRender.renderItemAndEffectIntoGUI(null, this.mc.getTextureManager(), itemstack, X1, Y1);      
       
       itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
       GL11.glColor4f(0F, 0F, 0F, 0F);
-      
+      //RenderHelper.disableStandardItemLighting();
       //itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1 );
       //this.zLevel = 0.0F;
       itemRender.zLevel = 0.0F;
+      GL11.glPopMatrix();
       
   }
-  
-  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, ItemStack heldItem, ItemStaffofExpansion tool, int Empowerment){
+
+  private void drawHudFrame(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, ItemStaffofExpansion tool, int modo) {
+
+      int xSize = 38+2;
+      int ySize = 26+2;
+
+
+      	GL11.glPushMatrix();
+      	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
+      	this.mc.getTextureManager().bindTexture(backgroundimage);
+      	this.drawTexturedModalRect(xPos-1, yPos-1, 67-1, 118-1, xSize,  ySize);
+      	GL11.glPopMatrix();
+      	
+      	GL11.glPushMatrix();
+      	//GL11.glEnable(GL11.GL_BLEND);
+      	GL11.glColor4f(.2F, .2F, .2F,.4f); 
+      	this.drawTexturedModalRect(xPos-1, yPos-1, 116-1, 118-1, xSize,  ySize);
+      	//GL11.glDisable(GL11.GL_BLEND);
+      	GL11.glPopMatrix();
+      	
+      	
+      	
 	  
-	  //int xSize = 0; 
-      int xSize = Empowerment*7+1;
-      
+  }
+  
+  private void drawModeIcons(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, ItemStaffofExpansion tool, int modo) {
+	  int xSize = 38+2;
+      int ySize = 26+2;
 
 
       	GL11.glPushMatrix();
       	//GL11.glEnable(32826);
-      	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+      	//GL11.glEnable(GL11.GL_BLEND);
+      	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);      	
       	//GL11.glDepthFunc(1);
       	//GL11.glAlphaFunc(func, ref);
-      	this.mc.getTextureManager().bindTexture(Image);
+      	this.mc.getTextureManager().bindTexture(backgroundimage);
       	//GL11.glScalef(.18F,.1F,.1F); 
       	//GL11.glScalef(.8F,.80F,0F); 
 
       	//GL11.glTranslatef(120F, 225F, 0.0F);
-      	this.drawTexturedModalRect(xPos+2, yPos+20, 69, 34, xSize,  3);
+      	this.drawTexturedModalRect(xPos-1, yPos-1, 16-1, 15+16*(modo)-1, xSize,  ySize);
       	//GL11.glDisable(32826);
+      	//GL11.glDisable(GL11.GL_BLEND);
       	GL11.glPopMatrix();
+	}
+  
+  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, ItemStack heldItem, ItemStaffofExpansion tool, int Empowerment){
 	  
-	  
+      int xSize = Empowerment*7+1; 
+
+      	GL11.glPushMatrix();
+      	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+      	this.mc.getTextureManager().bindTexture(Image);
+      	this.drawTexturedModalRect(xPos+2, yPos+20, 68, 92, xSize,  3);
+      	GL11.glPopMatrix();
   }
   
   
@@ -132,8 +167,7 @@ public class GuiBuffBar extends Gui
     }    
 
     // Starting position for the buff bar - 2 pixels from the top left corner.
-    //int xPos = 150;
-    //int yPos = 230;
+    
     int xPos = 20;
     int yPos = 20;
     /**
@@ -151,25 +185,11 @@ public class GuiBuffBar extends Gui
 		 //ItemStack stacky = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 		 ItemStack StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 		 //ItemStack StackyHelper = ItemStaffofExpansion.HudHook;
-		 
-		 
-		//Most techinal blocks don't derive and item stack from themselves, returning a null pointer
-	      //and making me exploder, catching it here and setting the texture to use a ? placeholder
-		 
-		 //if ( Tool.get_HudHookBoolean(heldItem) == 1) {
-		//	 System.out.println(" " +Tool.get_HudHookBoolean(heldItem) );
-	      try{
-		 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
-	      }
-	      catch(NullPointerException exception){
-	    	 // System.out.println("Erra!");	    	 
+		  // System.out.println("Erra!");	    	 
 	    	  //Tool.set_HudHookBoolean(heldItem, 0);
-	     
-	         }
-		 //}
-	      
+
 		 //IIcon giraffe = (Blocks.dirt).getIcon(1, 0);
-		 IIcon giraffe = (Tool.returnTBlock(heldItem)).getIcon(4, Tool.returnTMeta(heldItem));
+		 //IIcon giraffe = (Tool.returnTBlock(heldItem)).getIcon(4, Tool.returnTMeta(heldItem));
 		 
 		 //this.drawTexturedModelRectFromIcon(xPos+36, yPos+20, giraffe, 16, 16);
 		 
@@ -179,31 +199,28 @@ public class GuiBuffBar extends Gui
 		 //drawPlayerModel(xPos + 51, yPos + 75, 30, (float)(xPos + 51) - 64, (float)(yPos + 75 - 50) - 64, this.mc.thePlayer);
 		 
 		 //blockRender.renderBlockAsItem(Tool.returnTBlock(heldItem),Tool.returnTMeta(heldItem),10F);
-		 int Modo = Tool.getMode(heldItem);
-		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab2.png");
+		
 		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_" + Modo + ".png");
-		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_17.png");
-		  //int xSize = 256;
-	      //int ySize = 256;
+		 
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_19.png");
+		 int Modo = Tool.getMode(heldItem);
+		 
+		 
+		 /////////////////////////
+		 /** Draw some Things **/
+		 ///////////////////////
+		 
+		 try{
+			 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
+		      }
+		      catch(NullPointerException exception){
+		    	  
+		      }
+		 
+		 drawHudFrame(xPos, yPos,backgroundimage, heldItem, Tool, Modo);
+		 
+		 drawModeIcons(xPos, yPos,backgroundimage, heldItem, Tool, Modo);
 	      
-	      int xSize = 38+2;
-	      int ySize = 26+2;
-
-
-	      	GL11.glPushMatrix();
-	      	//GL11.glEnable(32826);
-	      	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-	      	//GL11.glDepthFunc(1);
-	      	//GL11.glAlphaFunc(func, ref);
-	      	this.mc.getTextureManager().bindTexture(backgroundimage);
-	      	//GL11.glScalef(.18F,.1F,.1F); 
-	      	//GL11.glScalef(.8F,.80F,0F); 
-
-	      	//GL11.glTranslatef(120F, 225F, 0.0F);
-	      	this.drawTexturedModalRect(xPos-1, yPos-1, 16-1, 15+16*(Modo)-1, xSize,  ySize);
-	      	//GL11.glDisable(32826);
-	      	GL11.glPopMatrix();
-	      	
 	      	int Empowerment = Tool.getToolLevel(heldItem);
 	      	if(Empowerment >0){
 	      	drawEmpoweredBar(xPos, yPos,backgroundimage, heldItem, Tool, Empowerment);
@@ -230,4 +247,7 @@ public class GuiBuffBar extends Gui
       **/
     //}
   }
+
+
+
 }

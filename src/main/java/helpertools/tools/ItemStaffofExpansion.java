@@ -187,6 +187,7 @@ public class ItemStaffofExpansion extends ItemSpade
    	{
    		if(itemStack.stackTagCompound == null)
    		{
+   			setMode(itemStack, 2);
    			return 2;
    		}
    		return itemStack.stackTagCompound.getInteger("mode");   		
@@ -214,7 +215,8 @@ public class ItemStaffofExpansion extends ItemSpade
 	{
 		if(itemStack.stackTagCompound == null)
 		{
-			return 0;
+			setTBlock(itemStack, 2);
+			return 2;
 		}
 
 		return itemStack.stackTagCompound.getInteger("TBlock");
@@ -268,7 +270,7 @@ public class ItemStaffofExpansion extends ItemSpade
 	/** Offmode here prevents getblock from double dipping into switch mode code because i suck**/
 	// ///////////////////////////////////////////////////////////
 		public int getOffMode(ItemStack itemStack) {
-			if (itemStack.stackTagCompound == null) {
+			if (itemStack.stackTagCompound == null) {				
 				return 0;
 			}
 

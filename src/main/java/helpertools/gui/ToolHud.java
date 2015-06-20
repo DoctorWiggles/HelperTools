@@ -5,6 +5,7 @@ import helpertools.tools.ItemStaffofExpansion;
 
 import java.awt.Point;
 import java.lang.reflect.Field;
+import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -35,6 +37,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
@@ -70,6 +73,9 @@ public class ToolHud extends Gui
 	  GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);	
       itemRender.zLevel = 2.0F;
       FontRenderer font = null;
+      //RenderHelper.enableGUIStandardItemLighting(); 
+      this.enableGUIStandardItemLighting();
+      //GL11.glDisable(GL11.GL_COLOR_MATERIAL);
       itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
       itemRender.zLevel = 0.0F;
       GL11.glDisable(GL11.GL_BLEND);
@@ -148,12 +154,7 @@ public class ToolHud extends Gui
 		 /** Draw some Things **/
 		 ///////////////////////
 		 
-		 try{
-			 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
-		      }
-		      catch(NullPointerException exception){
-		    	  GL11.glPopMatrix();
-		      }
+		 
 		 
 		 drawHudFrame(xPos, yPos,backgroundimage, heldItem, Tool, Modo);
 		 
@@ -163,8 +164,68 @@ public class ToolHud extends Gui
 	      	if(Empowerment >0){
 	      	drawEmpoweredBar(xPos, yPos,backgroundimage, heldItem, Tool, Empowerment);
 	      	}
+	      	
+	      	try{
+				 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
+			      }
+			      catch(NullPointerException exception){
+			    	  GL11.glPopMatrix();
+			      }
 
 
+  }
+  
+  private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
+  private static final Vec3 field_82884_b = Vec3.createVectorHelper(0.20000000298023224D, 1.0D, -0.699999988079071D).normalize();
+  private static final Vec3 field_82885_c = Vec3.createVectorHelper(-0.20000000298023224D, 1.0D, 0.699999988079071D).normalize();
+  private static final String __OBFID = "CL_00000629";
+  
+  private static FloatBuffer setColorBuffer(float p_74521_0_, float p_74521_1_, float p_74521_2_, float p_74521_3_)
+  {
+      colorBuffer.clear();
+      colorBuffer.put(p_74521_0_).put(p_74521_1_).put(p_74521_2_).put(p_74521_3_);
+      colorBuffer.flip();
+      /** Float buffer used to set OpenGL material colors */
+      return colorBuffer;
+  }
+  private static FloatBuffer setColorBuffer(double p_74517_0_, double p_74517_2_, double p_74517_4_, double p_74517_6_)
+  {
+      /**
+       * Update and return colorBuffer with the RGBA values passed as arguments
+       */
+      return setColorBuffer((float)p_74517_0_, (float)p_74517_2_, (float)p_74517_4_, (float)p_74517_6_);
+  }
+
+  
+  public static void enableStandardItemLighting()
+  {
+      GL11.glEnable(GL11.GL_LIGHTING);
+      GL11.glEnable(GL11.GL_LIGHT0);
+      GL11.glEnable(GL11.GL_LIGHT1);
+      GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+      GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
+      float f = 0.9F;
+      float f1 = 0.6F;
+      float f2 = 0.0F;
+      GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, setColorBuffer(field_82884_b.xCoord, field_82884_b.yCoord, field_82884_b.zCoord, 0.0D));
+      GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION, setColorBuffer(field_82885_c.xCoord, field_82885_c.yCoord, field_82885_c.zCoord, 0.0D));
+      GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
+      GL11.glShadeModel(GL11.GL_FLAT);
+      GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(f, f, f, 1.0F));
+  }
+  
+  public static void enableGUIStandardItemLighting()
+  {
+      GL11.glPushMatrix();
+      GL11.glRotatef(-30.0F, 0.0F, 1.0F, 0.0F);
+      GL11.glRotatef(165.0F, 1.0F, 0.0F, 0.0F);
+      enableStandardItemLighting();
+      GL11.glPopMatrix();
   }
 
 }

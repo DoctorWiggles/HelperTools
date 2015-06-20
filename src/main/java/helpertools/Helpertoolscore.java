@@ -8,6 +8,7 @@ import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.gui.GuiBuffBar;
+import helpertools.gui.ToolHud;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
@@ -75,40 +76,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5J")
-public class Helpertoolscore {
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5K")
+public class Helpertoolscore extends HelperDeclarations{
 	
 			
-		//Blocks - Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
-		public final static Block Ibedrock = new helpertools.blocks.ImitationBedrock();
-		public final static Block StokedPipe = new helpertools.blocks.StokedPipe();		
-		public final static Block TranscriberBlock = new helpertools.blocks.TranscriberBlock();	
-		public final static Block MagicalFuelBlock = new helpertools.blocks.MagicalFuelBlock();	
-		public final static Block ActiveMagicalFuelBlock = new helpertools.blocks.ActiveMagicalFuelBlock();	
-		public final static Block LooseDirtBlock = new helpertools.blocks.LooseDirtBlock(Material.sand);
-		//
-		public final static Block IllusionBlock = new helpertools.blocks.IllusionBlock(Material.glass, false, "helpertools:IllusionFace");	
-		public final static Block SugarBlock = new helpertools.blocks.SugarBlock(Material.sand);
-		public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
-		public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
-		
-	 	//Items & Tools - Items & Tools - Items & Tools - Items & Tools - Items & Tools 
-		public static Item staffofexpansion;  
-		public static Item staffoftransformation2;
-		public static Item euclideantransposer;
-		public static Item torchlauncher;
-		//		
-		public static Item dynamitebolt;
-		public static Item dirtbomb;
-		public static Item bottledmilk;
-		public static Item chocolatemilk;
-		//
-		public static Item powercrystal;
-		//
-		public static Item debugtool;
-		public static Item rfdebugtool;
-		
-		
     	////////////////////		
 		/** Forge Stuffs **/
 		////////////////////
@@ -123,63 +94,13 @@ public class Helpertoolscore {
 		public static final Logger logger = LogManager.getLogger("HelperToolsID");
 		
 		
-		////////////////////////////
-		/** Configuration       **/
-		//////////////////////////
-		//Tool durability
-		public static int  DurabilityExpandingRod;
-		public static int  DurabilityMetamorphicStaff;
-		public static int  DurabilityTorchLauncher;
-		public static int  DurabilityEuclideanStaff;
-		//Items
-		public static int OutputDynamiteBolt;
-		public static int OutputDirtBomb;
-		//Blocks
-		public static int OutputImitationBedrock;
-		public static int OutputChimneyPipe;
-		public static int OutputMagicalFuel;		
-		//Booleans enable
-		/** 3D Models **/
-		public static boolean Render3DStaffModels;
-		public static boolean Render3DCrossbowModel;
-		//ExpStaff
-		public static boolean RecipeEmeraldsForExpansionStaff;
-		public static boolean RecipeDiamondsForExpansionStaff;
-		public static boolean RecipePearlsForExpansionStaff;
-		//MetaStaff
-		public static boolean RecipeEmeraldsForMetamorphicStaff;
-		public static boolean RecipeDiamondsForMetamorphicStaff;
-		public static boolean RecipePearlsForMetamorphicStaff;
-		//EuclideanStaff
-		public static boolean RecipeEmeraldsForEuclideanStaff;
-		public static boolean RecipeDiamondsForEuclideanStaff;
-		public static boolean RecipePearlsForEuclideanStaff;
-		//Torch Launcher
-		public static boolean RecipeTorchLauncher;
-		public static boolean RecipeStringForDynamiteBolt;		
-		public static boolean RecipeSlimeForDynamiteBolt;
-		//Blocks
-		public static boolean RecipeImitationBedrock;
-		public static boolean RecipeMagicalFuel;
-		public static boolean RecipeChimenyPipes;
-		public static boolean RecipeEuclideanBlock;
-		public static boolean RecipePodzol;
-		//Items
-		public static boolean RecipeDirtBomb;
-		public static boolean RecipeBottledmilk;
-		public static boolean RecipeChocolatemilk;
-		//Handler enables
-		public static boolean HandlerBottledmilk;
-		
 		/** @ NotGyro **/
 		public static Configuration config;		
 		
 		
         // The instance of your mod that Forge uses.
         @Instance(value = "HelperToolsID")
-        public static Helpertoolscore instance;
-       
-        
+        public static Helpertoolscore instance; 
         
         // Says where the client and server 'proxy' code is loaded.
         @SidedProxy(clientSide="helpertools.HelpertoolsclientProxy", serverSide="helpertools.HelpertoolsCommonProxy")
@@ -254,7 +175,9 @@ public class Helpertoolscore {
         	}
         	GameRegistry.registerFuelHandler(new HelperFuel());
         	
-        	MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
+        	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
+        	
+        	MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
         	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Helpertoolscore.eventHandler));
         	
         	/** Networking & Packets **/
@@ -268,79 +191,20 @@ public class Helpertoolscore {
         @EventHandler
         public void load(FMLInitializationEvent event) {
                 proxy.registerRenderers();
-                
-              ////////////////
-           	 /**Registries**/
-           	////////////////
-                
-                //Items - Items - Items - Items - Items - Items - Items
-                ///////////////////////////////////////////////////////
-             	
-                GameRegistry.registerItem(Helpertoolscore.staffofexpansion, "staffofexpansion");               
-                GameRegistry.registerItem(Helpertoolscore.staffoftransformation2, "staffoftransformation2");                
-                GameRegistry.registerItem(Helpertoolscore.torchlauncher, "torchlauncher");                
-                GameRegistry.registerItem(Helpertoolscore.euclideantransposer, "euclideantransposer");
-             
-                GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
-                GameRegistry.registerItem(Helpertoolscore.rfdebugtool, "rfdebugtool");
-                //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");
-                
                
+               /////////////////////////////////////////////////
+               /**Registry for blocks, items, entities, etc. */
+               /////////////////////////////////////////////////
+               HelpertoolsRegistry.RegistersomeThings(event);                
                 
-                //Consumable Items//
-                ////////////////////
-                GameRegistry.registerItem(Helpertoolscore.dynamitebolt, "dynamitebolt");
-                
-                GameRegistry.registerItem(Helpertoolscore.dirtbomb, "dirtbomb");
-                
-                GameRegistry.registerItem(Helpertoolscore.bottledmilk, "bottledmilk");
-                GameRegistry.registerItem(Helpertoolscore.chocolatemilk, "chocolatemilk");
-                //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
-                GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");
-                
-                //Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
-                //////////////////////////////////////////////////////
-                GameRegistry.registerBlock(Ibedrock, "Imitation Bedrock");
-                GameRegistry.registerBlock(StokedPipe, "StokedPipe");
-                //GameRegistry.registerBlock(StokedBlock, "StokedBlock");
-                GameRegistry.registerBlock(TranscriberBlock, "TranscriberBlock");
-                GameRegistry.registerBlock(MagicalFuelBlock, "MagicalFuelBlock");
-                GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
-                GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
-                //
-                GameRegistry.registerBlock(IllusionBlock, "IllusionBlock");
-                //
-                GameRegistry.registerBlock(SugarBlock, "SugarBlock");
-                GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
-                GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
+        	   ///////////////////////
+        	   /**Dungeon Looting **/
+        	   /////////////////////
+               DungeonLoot.addLoot(event);              
                
-                
-                //Entities - Entities - Entities - Entities - Entities - Entities
-                /////////////////////////////////////////////////////////////////
-                EntityRegistry.registerModEntity(EntityTorchProjectile.class, "TorchBolt", 10, this, 350, 10, true);
-                EntityRegistry.registerModEntity(EntityRedTorchProjectile.class, "RedTorchBolt", 11, this, 350, 10, true);
-                EntityRegistry.registerModEntity(EntityDynamiteProjectile.class, "DynamiteBolt", 12, this, 350, 30, true);
-                                
-                EntityRegistry.registerModEntity(EntityBoltProjectile.class, "CrossBolt", 13, this, 350, 10, true);
-                EntityRegistry.registerModEntity(EntityDirtBombProjectile.class, "DirtBomb", 14, this, 350, 30, true);
-                //class, stringname, entity ID, thisobject, loading range, update polls, velocity updates
-                
-               
-       			//Tile Entities - Tile Entities - Tile Entities - Tile Entities
-                //////////////////////////////////////////////////////////////////////////////////////////////
-                
-        	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
-        	    GameRegistry.registerTileEntity(TileEntityIllusion.class, TileEntityIllusion.publicName);
-        	    GameRegistry.registerTileEntity(TileEntityObelisk.class, TileEntityObelisk.publicName);
-        	    
-        	   //     Helpertoolscore.logger.info("TILE ENTITY");
-        	    
-        	    
-        	    //DungeonHooks.addDungeonLoot(new ItemStack(youritem), 10, 2, 5);
-        	    //ChestGenHooks.addDungeonLoot(ChestGenHooks(String category, WeightedRandomChestContent[] items, int min, int max));
-        	    //(ChestGenHooks("villageBlacksmith"), (new ItemStack(Helpertoolscore.staffoftransformation2)) , 100, 1, 1);
-               addLoot();
-               
+               //////////////////
+               /** Gui Stuff **/
+               ////////////////
                NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
               
         }
@@ -355,17 +219,4 @@ public class Helpertoolscore {
         	RecipeFactory.RegisterRecipes();
         }
         
-        //Chest Loot
-        /** @ Tcon**/
-        public void addLoot()
-        
-        {	//Min stack, Max stack, Weight/rarity
-        	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.staffoftransformation2), 1, 1, 10));
-        	ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.chocolatemilk), 1, 8, 5));
-        	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.dynamitebolt), 1, 3, 50));
-        	logger.info("Chest Things Loaded");
-        }
-        
-       
-         
 }

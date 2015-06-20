@@ -50,6 +50,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 /**http://www.minecraftforum.net/forums/mapping-and-modding/
  * minecraft-mods/modification-development/1420597-trying-to-render-an-item-within-a-gui**/
 /**http://www.minecraftforge.net/wiki/Gui_Overlay **/
+/**https://www.opengl.org/discussion_boards/showthread.php/156794-How-to-change-the-brightness **/
 
 public class ToolHud extends Gui
 {
@@ -69,16 +70,16 @@ public class ToolHud extends Gui
   {
 	  
 	  GL11.glPushMatrix();
-	  GL11.glEnable(GL11.GL_BLEND);
-	  GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);	
-      itemRender.zLevel = 2.0F;
+	  //GL11.glEnable(GL11.GL_BLEND);
+	  //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);	
+      //itemRender.zLevel = -2.0F;
       FontRenderer font = null;
-      //RenderHelper.enableGUIStandardItemLighting(); 
+      RenderHelper.disableStandardItemLighting();
       this.enableGUIStandardItemLighting();
-      //GL11.glDisable(GL11.GL_COLOR_MATERIAL);
       itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
-      itemRender.zLevel = 0.0F;
-      GL11.glDisable(GL11.GL_BLEND);
+      RenderHelper.disableStandardItemLighting();
+      //itemRender.zLevel = 0.0F;
+      //GL11.glDisable(GL11.GL_BLEND);
       GL11.glPopMatrix();
       
   }
@@ -169,11 +170,16 @@ public class ToolHud extends Gui
 				 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
 			      }
 			      catch(NullPointerException exception){
+			    	  RenderHelper.disableStandardItemLighting();
 			    	  GL11.glPopMatrix();
 			      }
 
 
   }
+  
+  //////////////////////////////////////////////////////////////
+  /** Bunch of crud needed to properly shade blocks selected **/
+  /////////////////////////////////////////////////////////////
   
   private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
   private static final Vec3 field_82884_b = Vec3.createVectorHelper(0.20000000298023224D, 1.0D, -0.699999988079071D).normalize();
@@ -204,16 +210,19 @@ public class ToolHud extends Gui
       GL11.glEnable(GL11.GL_LIGHT1);
       GL11.glEnable(GL11.GL_COLOR_MATERIAL);
       GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
-      float f = 0.9F;
-      float f1 = 0.6F;
+      //Fine tuned the values
+      //Default weren't working properly
+      float f = .5F;
+      float f1 = 4F;
       float f2 = 0.0F;
+      float bright = 0f;
       GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, setColorBuffer(field_82884_b.xCoord, field_82884_b.yCoord, field_82884_b.zCoord, 0.0D));
       GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
-      GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, setColorBuffer(bright, bright, bright, 1.0F));
       GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
       GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION, setColorBuffer(field_82885_c.xCoord, field_82885_c.yCoord, field_82885_c.zCoord, 0.0D));
       GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
-      GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+      GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(bright, bright, bright, 1.0F));
       GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
       GL11.glShadeModel(GL11.GL_FLAT);
       GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(f, f, f, 1.0F));
@@ -222,7 +231,7 @@ public class ToolHud extends Gui
   public static void enableGUIStandardItemLighting()
   {
       GL11.glPushMatrix();
-      GL11.glRotatef(-30.0F, 0.0F, 1.0F, 0.0F);
+      GL11.glRotatef(-40.0F, 0.0F, 1.0F, 0.0F);
       GL11.glRotatef(165.0F, 1.0F, 0.0F, 0.0F);
       enableStandardItemLighting();
       GL11.glPopMatrix();

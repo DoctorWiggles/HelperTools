@@ -52,6 +52,12 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
  * minecraft-mods/modification-development/1420597-trying-to-render-an-item-within-a-gui**/
 /**http://www.minecraftforge.net/wiki/Gui_Overlay **/
 
+////////////////////////////////////
+/** Old Code kept for reference 
+ * Pretty much useless          **/
+//////////////////////////////////
+
+
 public class GuiBuffBar extends Gui
 {
   private Minecraft mc;

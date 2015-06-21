@@ -76,9 +76,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5K")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5L")
 public class Helpertoolscore extends HelperDeclarations{
 	
+		/////////////////////////////////
+		/**Declarations extended now **/
+		////////////////////////////////
 			
     	////////////////////		
 		/** Forge Stuffs **/
@@ -119,9 +122,10 @@ public class Helpertoolscore extends HelperDeclarations{
         	///////////////////
         	/** Keybinding **/
         	/////////////////
+        	if (FMLCommonHandler.instance().getSide().isClient()){
         	FMLCommonHandler.instance().bus().register(new KeyInputHandler());
         	KeyBindings.init();
-        	
+        	}
         	
         	//////////////////////////////
     		/**Material Configurations**/

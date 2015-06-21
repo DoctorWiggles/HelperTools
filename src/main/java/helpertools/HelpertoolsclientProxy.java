@@ -57,6 +57,11 @@ public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
                 //
                 ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new BlockRenderObelisk());
         }
+	
+	
+	
+	
+		
 		
 	
 	

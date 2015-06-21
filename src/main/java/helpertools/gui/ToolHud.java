@@ -70,8 +70,6 @@ public class ToolHud extends Gui
   {
 	  
 	  GL11.glPushMatrix();
-	  //GL11.glEnable(GL11.GL_BLEND);
-	  //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);	
       //itemRender.zLevel = -2.0F;
       FontRenderer font = null;
       RenderHelper.disableStandardItemLighting();
@@ -79,7 +77,6 @@ public class ToolHud extends Gui
       itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
       RenderHelper.disableStandardItemLighting();
       //itemRender.zLevel = 0.0F;
-      //GL11.glDisable(GL11.GL_BLEND);
       GL11.glPopMatrix();
       
   }
@@ -91,18 +88,14 @@ public class ToolHud extends Gui
 
 
       	GL11.glPushMatrix();
-      	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
-      	this.mc.getTextureManager().bindTexture(backgroundimage);
-      	this.drawTexturedModalRect(xPos-1, yPos-1, 67-1, 118-1, xSize,  ySize);
-      	GL11.glPopMatrix();
-      	
-      	GL11.glPushMatrix();
       	GL11.glEnable(GL11.GL_BLEND);
       	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-      	//GL11.glColor4f(.2F, .2F, .2F,.4f); 
-      	this.drawTexturedModalRect(xPos-1, yPos-1, 116-1, 118-1, xSize,  ySize);
+      	//GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
+      	this.mc.getTextureManager().bindTexture(backgroundimage);
+      	this.drawTexturedModalRect(xPos-1, yPos-1, 67-1, 118-1, xSize,  ySize);
       	GL11.glDisable(GL11.GL_BLEND);
       	GL11.glPopMatrix();
+      	
       		  
   }
   
@@ -140,6 +133,7 @@ public class ToolHud extends Gui
 
     int xPos = 20;
     int yPos = 20;
+    
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
 		      return;
@@ -147,7 +141,8 @@ public class ToolHud extends Gui
 		 
 		 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
 		 ItemStack StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
-		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_21.png");
+		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_21.png");
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_1.png");
 		 int Modo = Tool.getMode(heldItem);
 		 
 		 
@@ -176,6 +171,15 @@ public class ToolHud extends Gui
 
 
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   //////////////////////////////////////////////////////////////
   /** Bunch of crud needed to properly shade blocks selected **/

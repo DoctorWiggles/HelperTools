@@ -13,4 +13,4 @@ There is currently an expanding tool, a block swapping tool and a crossbow which
 
 ##Modpack Permissions
 
-As this mod falls under the [MIT License](https://tldrlegal.com/license/mit-license), feel free to use this mod and its source code for modpacks, learning, forks, or whatever you may please. Anything you can think of, you have permission for!
+This mod is licensed under [MIT License](https://tldrlegal.com/license/mit-license), meaning do whatever you want with it, feel free to use this mod and its source code for modpacks, learning, forks, or whatever you may please. Anything you can think of, you have permission for!

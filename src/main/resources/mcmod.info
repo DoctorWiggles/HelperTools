@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["DoctorWiggles"],
   "credits": "",
-  "logoFile": "textures/client/gui/HelperLogo.png",
+  "logoFile": "HelperLogo2.png",
   "screenshots": [],
   "dependencies": []
 }

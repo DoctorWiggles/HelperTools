@@ -32,7 +32,7 @@ public class HelpertoolsRegistry extends Helpertoolscore{
           GameRegistry.registerItem(Helpertoolscore.euclideantransposer, "euclideantransposer");
        
           GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
-          GameRegistry.registerItem(Helpertoolscore.rfdebugtool, "rfdebugtool");
+          //GameRegistry.registerItem(Helpertoolscore.rfdebugtool, "rfdebugtool");
           //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");
           
          
@@ -46,7 +46,7 @@ public class HelpertoolsRegistry extends Helpertoolscore{
           GameRegistry.registerItem(Helpertoolscore.bottledmilk, "bottledmilk");
           GameRegistry.registerItem(Helpertoolscore.chocolatemilk, "chocolatemilk");
           //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
-          GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");
+          //GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");
           
           //Blocks - Blocks - Blocks - Blocks - Blocks - Blocks
           //////////////////////////////////////////////////////

@@ -121,7 +121,7 @@ public class ObeliskBlock extends Block implements ITileEntityProvider{
     
     /**
      * Tile entity construction
-     * @Orange Tutorials 
+     * Orange Tutorials 
      * 
      */
     

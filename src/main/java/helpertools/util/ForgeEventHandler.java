@@ -43,7 +43,7 @@ public class ForgeEventHandler {
     }
     **/
 	////////////////////////////////////
-	/** @credit Wuppy & ToolTorchMod**/
+	/** credit Wuppy & ToolTorchMod**/
 	//////////////////////////////////
 	
 	@SubscribeEvent

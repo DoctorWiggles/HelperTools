@@ -7,7 +7,7 @@ import cpw.mods.fml.common.IFuelHandler;
 
 public class HelperFuel implements IFuelHandler {
 	/**
-	 * @credit The_Fireplace
+	 * credit The_Fireplace
 	 */
 
 	@Override

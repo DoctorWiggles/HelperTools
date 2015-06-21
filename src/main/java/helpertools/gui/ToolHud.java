@@ -74,7 +74,13 @@ public class ToolHud extends Gui
       FontRenderer font = null;
       RenderHelper.disableStandardItemLighting();
       this.enableGUIStandardItemLighting();
+      
+      try{
       itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
+      }
+      catch(NullPointerException exception){
+      }
+      
       RenderHelper.disableStandardItemLighting();
       //itemRender.zLevel = 0.0F;
       GL11.glPopMatrix();
@@ -88,12 +94,12 @@ public class ToolHud extends Gui
 
 
       	GL11.glPushMatrix();
-      	GL11.glEnable(GL11.GL_BLEND);
+      	//GL11.glEnable(GL11.GL_BLEND);
       	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-      	//GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
+      	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
       	this.mc.getTextureManager().bindTexture(backgroundimage);
       	this.drawTexturedModalRect(xPos-1, yPos-1, 67-1, 118-1, xSize,  ySize);
-      	GL11.glDisable(GL11.GL_BLEND);
+      	//GL11.glDisable(GL11.GL_BLEND);
       	GL11.glPopMatrix();
       	
       		  
@@ -161,13 +167,9 @@ public class ToolHud extends Gui
 	      	drawEmpoweredBar(xPos, yPos,backgroundimage, heldItem, Tool, Empowerment);
 	      	}
 	      	
-	      	try{
-				 this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
-			      }
-			      catch(NullPointerException exception){
-			    	  RenderHelper.disableStandardItemLighting();
-			    	  GL11.glPopMatrix();
-			      }
+	      	
+	      	this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
+			     
 
 
   }
@@ -216,7 +218,7 @@ public class ToolHud extends Gui
       GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
       //Fine tuned the values
       //Default weren't working properly
-      float f = .5F;
+      float f = .58F;
       float f1 = 4F;
       float f2 = 0.0F;
       float bright = 0f;

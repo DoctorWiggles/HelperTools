@@ -123,7 +123,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     
     /**
      * Tile entity construction
-     * @Orange Tutorials 
+     * Orange Tutorials 
      * 
      */
     

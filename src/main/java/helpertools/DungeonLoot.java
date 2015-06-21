@@ -9,7 +9,7 @@ public class DungeonLoot extends Helpertoolscore{
 	
 	
 	
-	/** @ Tcon**/
+	/**  Tcon**/
 	public static void addLoot(FMLInitializationEvent event)
     
     {	//Min stack, Max stack, Weight/rarity

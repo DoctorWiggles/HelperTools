@@ -13,7 +13,6 @@ import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
 import helpertools.items.ItemMilkBottle;
-import helpertools.items.ItemPowerCrystal;
 import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
@@ -23,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 
 import helpertools.tools.ItemDebugTool;
 import helpertools.tools.ItemEuclideanTransposer;
-import helpertools.tools.ItemRfDebugTool;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
@@ -76,7 +74,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5L")
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5M")
 public class Helpertoolscore extends HelperDeclarations{
 	
 		/////////////////////////////////
@@ -97,7 +95,7 @@ public class Helpertoolscore extends HelperDeclarations{
 		public static final Logger logger = LogManager.getLogger("HelperToolsID");
 		
 		
-		/** @ NotGyro **/
+		/**  NotGyro **/
 		public static Configuration config;		
 		
 		
@@ -116,16 +114,7 @@ public class Helpertoolscore extends HelperDeclarations{
         	/////////////////////////////////////
         	/** Configuration assembly moved **/
         	///////////////////////////////////        	
-        	ConfigurationFactory.ProcessConfiguration(event);
-            
-        	
-        	///////////////////
-        	/** Keybinding **/
-        	/////////////////
-        	if (FMLCommonHandler.instance().getSide().isClient()){
-        	FMLCommonHandler.instance().bus().register(new KeyInputHandler());
-        	KeyBindings.init();
-        	}
+        	ConfigurationFactory.ProcessConfiguration(event);           
         	
         	//////////////////////////////
     		/**Material Configurations**/
@@ -143,12 +132,14 @@ public class Helpertoolscore extends HelperDeclarations{
     		///////////////////////
     		/** Repair Materials **/
     		///////////////////////
+    		/**
     		powercrystal = new ItemPowerCrystal();
     		ExpRodMaterial.setRepairItem(new ItemStack(powercrystal));
     		MetaStaffMaterial.setRepairItem(new ItemStack(powercrystal));
     		EUStaffMaterial.setRepairItem(new ItemStack(powercrystal));
     		TorchMaterial.setRepairItem(new ItemStack(Items.stick));
-    		
+    		**/
+    		//causing serverside issues for some reason
             
         	  ////////////////
         	 /**  Casts   **/
@@ -161,7 +152,7 @@ public class Helpertoolscore extends HelperDeclarations{
         	torchlauncher = new ItemTorchLauncher(TorchMaterial);        	
         	
         	debugtool = new ItemDebugTool();	
-        	rfdebugtool = new ItemRfDebugTool();
+        	//rfdebugtool = new ItemRfDebugTool();
         	dynamitebolt = new ItemDynamiteBolt();        	
         	dirtbomb = new ItemDirtBomb();
         	bottledmilk = new ItemMilkBottle();
@@ -179,10 +170,15 @@ public class Helpertoolscore extends HelperDeclarations{
         	}
         	GameRegistry.registerFuelHandler(new HelperFuel());
         	
-        	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
-        	
+        	//////////////////////////
+        	/** Keybinding & Huds **/
+        	////////////////////////
+        	if (FMLCommonHandler.instance().getSide().isClient()){
+        		FMLCommonHandler.instance().bus().register(new KeyInputHandler());
+        		KeyBindings.init();  
         	MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
-        	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Helpertoolscore.eventHandler));
+        	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
+        	}
         	
         	/** Networking & Packets **/
         	network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");
@@ -199,7 +195,8 @@ public class Helpertoolscore extends HelperDeclarations{
                /////////////////////////////////////////////////
                /**Registry for blocks, items, entities, etc. */
                /////////////////////////////////////////////////
-               HelpertoolsRegistry.RegistersomeThings(event);                
+               HelpertoolsRegistry.RegistersomeThings(event);
+               
                 
         	   ///////////////////////
         	   /**Dungeon Looting **/
@@ -209,7 +206,9 @@ public class Helpertoolscore extends HelperDeclarations{
                //////////////////
                /** Gui Stuff **/
                ////////////////
+               if (FMLCommonHandler.instance().getSide().isClient()){
                NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+               }
               
         }
        

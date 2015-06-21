@@ -31,10 +31,10 @@ public class HelperDeclarations {
 	public static Item bottledmilk;
 	public static Item chocolatemilk;
 	//
-	public static Item powercrystal;
+	//public static Item powercrystal;
 	//
 	public static Item debugtool;
-	public static Item rfdebugtool;
+	//public static Item rfdebugtool;
 	
 	
 	

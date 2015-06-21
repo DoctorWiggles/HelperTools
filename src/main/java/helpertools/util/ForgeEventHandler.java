@@ -73,6 +73,11 @@ public class ForgeEventHandler {
 		 event.setCanceled(true);
 	}
 	
+	
+	//////////////////////////////////////////////
+	/** notes and old code left for reference **/
+	////////////////////////////////////////////
+	
 	/**
 	@SubscribeEvent
 	public void PigletLitter(LivingSpawnEvent event)

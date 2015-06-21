@@ -201,7 +201,7 @@ public class Helpertoolscore extends HelperDeclarations{
         	   ///////////////////////
         	   /**Dungeon Looting **/
         	   /////////////////////
-               DungeonLoot.addLoot(event);              
+               //DungeonLoot.addLoot(event);              
                
                //////////////////
                /** Gui Stuff **/

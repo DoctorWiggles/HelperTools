@@ -15,7 +15,9 @@ apply plugin: 'maven-publish'
 
 group = package_group
 archivesBaseName = mod_name
-version = "${mc_version}-${mod_version}"
+//version = "${mc_version}-${mod_version}"
+version = "${mc_version}-1.1.5M"
+
 
 import org.ajoberstar.grgit.Grgit
 
@@ -34,7 +36,8 @@ dependencies {
 }
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
+    //version = "${mc_version}-${forge_version}"
+	version = "10.13.4.1448-1.7.10"
     runDir = "run"
 
     if (project.hasProperty('mappings_version'))

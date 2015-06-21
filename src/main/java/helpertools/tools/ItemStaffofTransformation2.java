@@ -197,40 +197,42 @@ public class ItemStaffofTransformation2 extends ItemSpade
 
 	    //////////////////////////////////////////////////////////////
 	    
-	    /** Tool levels **/
-			public int getToolLevel(ItemStack itemStack) {
-				if (itemStack.stackTagCompound == null) {
-					return 0;
-				}
-
-				return itemStack.stackTagCompound.getInteger("ToolLevel");
-
-			}		
-			public void setToolLevel(ItemStack itemStack, int Value) {
-				if (itemStack.stackTagCompound == null) {
-					itemStack.setTagCompound(new NBTTagCompound());
-				}
-
-				itemStack.stackTagCompound.setInteger("ToolLevel", Value);			
+		 /** Tool levels **/
+		public int getToolLevel(ItemStack itemStack) {
+			if (itemStack.stackTagCompound == null) {
+				return 0;
 			}
-			
-			public int getEff2Level(ItemStack itemStack) {
-				if (itemStack == null) {
-					return 0;
-				}
-				int eff = EnchantmentHelper.getEnchantmentLevel(32, itemStack);	
-				
-				if ((eff%2)!=0){
-					//odd
-					eff = eff-1;
-				}
-				eff = eff/2;
-				if (eff <= 0){
-					eff = 0;
-				}
-				return eff;
 
-			}	
+			return itemStack.stackTagCompound.getInteger("ToolLevel");
+
+		}		
+		public void setToolLevel(ItemStack itemStack, int Value) {
+			if (itemStack.stackTagCompound == null) {
+				itemStack.setTagCompound(new NBTTagCompound());
+			}
+
+			itemStack.stackTagCompound.setInteger("ToolLevel", Value);			
+		}
+		
+		public void ToolEmpower(ItemStack itemStack, EntityLivingBase entityLiving){
+			int Toolmax = EnchantmentHelper.getEnchantmentLevel(32, itemStack);
+			int NextLevel = (getToolLevel(itemStack))+1;
+			if(NextLevel>Toolmax){
+				setToolLevel(itemStack,0);
+				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));
+			}
+			if(NextLevel<=Toolmax){
+				setToolLevel(itemStack,NextLevel);
+				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			}
+			if(Helpertoolscore.ToolPowerMesseges == true){	
+				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
+					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+				    }
+			//
+			//System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 
+		}
 
 	//int mode = 2;
 	//
@@ -295,8 +297,11 @@ public class ItemStaffofTransformation2 extends ItemSpade
 			break;
 			}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
+			//config hook
+		    if(Helpertoolscore.ToolModeMesseges == true){
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+		    }
 			
 			return true;
     	}
@@ -323,11 +328,8 @@ public class ItemStaffofTransformation2 extends ItemSpade
     public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int x1, int y1, int z1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
     	//Modifies size based on tool level
-    	int eff = EnchantmentHelper.getEnchantmentLevel(32, thestaff);
-    	int pillar = (getToolLevel(thestaff)+ eff+ 3);
-    	int eff2 = (getEff2Level(thestaff));
-    	int wall = (getToolLevel(thestaff)+ eff2+ 2);
-    	int mass = eff + 3;
+    	int mass = (getToolLevel(thestaff)+ 3);
+    	int wall = (getToolLevel(thestaff)+ 2); 
     		
     	
     	if (getOffMode(thestaff)== 0)

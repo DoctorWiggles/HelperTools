@@ -58,6 +58,9 @@ public class HelperDeclarations {
 	/** 3D Models **/
 	public static boolean Render3DStaffModels;
 	public static boolean Render3DCrossbowModel;
+	public static boolean RenderToolHuds;
+	public static boolean ToolModeMesseges;
+	public static boolean ToolPowerMesseges;
 	//ExpStaff
 	public static boolean RecipeEmeraldsForExpansionStaff;
 	public static boolean RecipeDiamondsForExpansionStaff;

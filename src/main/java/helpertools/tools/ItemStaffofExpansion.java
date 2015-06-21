@@ -317,8 +317,13 @@ public class ItemStaffofExpansion extends ItemSpade
 				setToolLevel(itemStack,NextLevel);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
+			 if(Helpertoolscore.ToolPowerMesseges == true){	
+				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
+					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+				    }
 			//
-			System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 
+			//System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 
 		}
 		
 		
@@ -343,26 +348,6 @@ public class ItemStaffofExpansion extends ItemSpade
 
 		}	
 		
-		
-		
-		//Hud Render Hooky
-		//public static ItemStack HudHook  ;
-		/** 1 = true 0 = false **/
-		public static  void set_HudHookBoolean(ItemStack itemStack, int Value) {
-			if (itemStack.stackTagCompound == null) {
-				itemStack.setTagCompound(new NBTTagCompound());
-			}
-
-			itemStack.stackTagCompound.setInteger("HudHookBoolean", Value);			
-		}
-		public int get_HudHookBoolean(ItemStack itemStack) {
-			if (itemStack.stackTagCompound == null) {
-				return 0;
-			}
-
-			return itemStack.stackTagCompound.getInteger("HudHookBoolean");
-
-		}	
 		
 		
     
@@ -423,8 +408,11 @@ public class ItemStaffofExpansion extends ItemSpade
 			break;
 			}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
+			//config hook
+		    if(Helpertoolscore.ToolModeMesseges == true){		    
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+		    }
 			
 			return true;
     	}
@@ -450,13 +438,8 @@ public class ItemStaffofExpansion extends ItemSpade
     public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int x1, int y1, int z1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
     	//Modifies size based on tool level
-    	//int eff = EnchantmentHelper.getEnchantmentLevel(32, thestaff);
-    	//int pillar = (getToolLevel(thestaff)+ eff+ 3);
-    	//int eff2 = (getEff2Level(thestaff));
-    	//int wall = (getToolLevel(thestaff)+ eff2+ 2);
     		
-    	int pillar = (getToolLevel(thestaff)+ 3);    	
-    	//int wall = (getEff2Level(thestaff)+ 2);
+    	int pillar = (getToolLevel(thestaff)+ 3);
     	int wall = (getToolLevel(thestaff)+ 2); 
     	
     	//if operation is successful set a flag
@@ -851,7 +834,6 @@ public class ItemStaffofExpansion extends ItemSpade
     		
     		ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
     		
-    		set_HudHookBoolean(thestaff, 1);
     		
     		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);

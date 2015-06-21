@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import helpertools.tools.ItemStaffofExpansion;
+import helpertools.tools.ItemStaffofTransformation2;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -43,12 +44,19 @@ public class NetworkMessage implements IMessage {
             ItemStack heldItem = theplayer.inventory.getCurrentItem();
             
             if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
-            	System.out.println("Returned null Erra!!!"); 
+            	if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
+            	//System.out.println("Returned null Erra!!!"); 
   		      return null;
+            	}
   		    }
-  		 
-            ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
-            Tool.ToolEmpower(heldItem, theplayer);
+            if(heldItem.getItem() instanceof ItemStaffofExpansion){
+            	ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+            	Tool.ToolEmpower(heldItem, theplayer);
+            }
+            if(heldItem.getItem() instanceof ItemStaffofTransformation2){
+            	ItemStaffofTransformation2  Tool = (ItemStaffofTransformation2)heldItem.getItem();
+            	Tool.ToolEmpower(heldItem, theplayer);
+            }
   		 
             return null; // no response in this case
         }

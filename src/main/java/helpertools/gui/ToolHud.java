@@ -135,6 +135,11 @@ public class ToolHud extends Gui
     {      
       return;
     }    
+    
+    //config hook
+    if(Helpertoolscore.RenderToolHuds == false){
+    	return;
+    }
 
     int xPos = 20;
     int yPos = 20;
@@ -142,7 +147,7 @@ public class ToolHud extends Gui
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
 			 
-			 if (!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
+			 if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
 		      return;
 			 }
 		    }
@@ -151,7 +156,7 @@ public class ToolHud extends Gui
 		 int Empowerment = 0;
 		 int Modo = 0;
 		 ItemStack StackyHelper = null;
-		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_1.png");
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_4.png");
 		 
 		 
 		 //Exchange Stave Castings
@@ -160,7 +165,7 @@ public class ToolHud extends Gui
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
 			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
-			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_2.png");
+			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_3.png");
 		 }
 		//Expanding Stave Casting
 		 if(heldItem.getItem() instanceof ItemStaffofExpansion){

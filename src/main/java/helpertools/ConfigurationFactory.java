@@ -61,6 +61,10 @@ public class ConfigurationFactory extends Helpertoolscore{
 		/**3D models **/
 		Render3DStaffModels = config.get("5 Extra Settings", "Render3DStaffModels", true).getBoolean(true);
 		Render3DCrossbowModel = config.get("5 Extra Settings", "Render3DCrossbowModel", true, "Enable or disable special 3d models for Tools, will rollback to 2d sprites").getBoolean(true);
+		RenderToolHuds = config.get("5 Extra Settings", "RenderToolHuds", true).getBoolean(true);
+		ToolModeMesseges = config.get("5 Extra Settings", "ToolModeMesseges", true).getBoolean(true);
+		ToolPowerMesseges = config.get("5 Extra Settings", "ToolPowerMesseges", false).getBoolean(true);
+		
 		//Expansion Staff Recipes
 		RecipeDiamondsForExpansionStaff = config.get("2 Recipes", "RecipeDiamondsForExpansionStaff", true).getBoolean(true);
 		RecipeEmeraldsForExpansionStaff = config.get("2 Recipes", "RecipeEmeraldsForExpansionStaff", true).getBoolean(true);

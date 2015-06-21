@@ -151,7 +151,7 @@ public class Helpertoolscore extends HelperDeclarations{
         	euclideantransposer = new ItemEuclideanTransposer(EUStaffMaterial); 
         	torchlauncher = new ItemTorchLauncher(TorchMaterial);        	
         	
-        	debugtool = new ItemDebugTool();	
+        	//debugtool = new ItemDebugTool();	
         	//rfdebugtool = new ItemRfDebugTool();
         	dynamitebolt = new ItemDynamiteBolt();        	
         	dirtbomb = new ItemDirtBomb();

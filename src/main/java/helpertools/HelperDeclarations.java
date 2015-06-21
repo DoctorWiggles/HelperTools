@@ -15,10 +15,10 @@ public class HelperDeclarations {
 	public final static Block ActiveMagicalFuelBlock = new helpertools.blocks.ActiveMagicalFuelBlock();	
 	public final static Block LooseDirtBlock = new helpertools.blocks.LooseDirtBlock(Material.sand);
 	//
-	public final static Block IllusionBlock = new helpertools.blocks.IllusionBlock(Material.glass, false, "helpertools:IllusionFace");	
-	public final static Block SugarBlock = new helpertools.blocks.SugarBlock(Material.sand);
-	public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
-	public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
+	//public final static Block IllusionBlock = new helpertools.blocks.IllusionBlock(Material.glass, false, "helpertools:IllusionFace");	
+	//public final static Block SugarBlock = new helpertools.blocks.SugarBlock(Material.sand);
+	//public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
+	//public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
 	
  	//Items & Tools - Items & Tools - Items & Tools - Items & Tools - Items & Tools 
 	public static Item staffofexpansion;  
@@ -33,7 +33,7 @@ public class HelperDeclarations {
 	//
 	//public static Item powercrystal;
 	//
-	public static Item debugtool;
+	//public static Item debugtool;
 	//public static Item rfdebugtool;
 	
 	

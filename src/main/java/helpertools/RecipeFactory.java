@@ -168,10 +168,10 @@ public class RecipeFactory extends Helpertoolscore{
     		"ingotIron", "helpbonemeal", "gemLapis"}));
     	}
     	//Debugging tool
-    	        	
+    	     /**   	
     	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.debugtool, 1 , 0), new Object[]{
     		Items.nether_star, Blocks.bedrock, }));
-    	
+    	**/
     	/**
     	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.rfdebugtool, 1 , 0), new Object[]{
     		Items.nether_star, Blocks.redstone_block, }));

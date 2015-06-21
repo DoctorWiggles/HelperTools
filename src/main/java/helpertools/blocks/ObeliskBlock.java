@@ -43,10 +43,12 @@ public class ObeliskBlock extends Block implements ITileEntityProvider{
         
     }
     
+    /**
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-		return Item.getItemFromBlock(Helpertoolscore.ObeliskBlock);
+		return Item.getItemFromBlock(Helpertoolscore.ObeliskBlock);		
     }
+    **/
     
     public boolean isOpaqueCube()
     {

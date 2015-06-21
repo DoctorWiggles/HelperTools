@@ -31,7 +31,7 @@ public class HelpertoolsRegistry extends Helpertoolscore{
           GameRegistry.registerItem(Helpertoolscore.torchlauncher, "torchlauncher");                
           GameRegistry.registerItem(Helpertoolscore.euclideantransposer, "euclideantransposer");
        
-          GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
+          //GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
           //GameRegistry.registerItem(Helpertoolscore.rfdebugtool, "rfdebugtool");
           //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");
           
@@ -58,11 +58,10 @@ public class HelpertoolsRegistry extends Helpertoolscore{
           GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
           GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
           //
-          GameRegistry.registerBlock(IllusionBlock, "IllusionBlock");
-          //
-          GameRegistry.registerBlock(SugarBlock, "SugarBlock");
-          GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
-          GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
+          //GameRegistry.registerBlock(IllusionBlock, "IllusionBlock");   
+          //GameRegistry.registerBlock(SugarBlock, "SugarBlock");
+          //GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
+          //GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
          
           
           //Entities - Entities - Entities - Entities - Entities - Entities
@@ -80,8 +79,8 @@ public class HelpertoolsRegistry extends Helpertoolscore{
           //////////////////////////////////////////////////////////////////////////////////////////////
           
   	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
-  	    GameRegistry.registerTileEntity(TileEntityIllusion.class, TileEntityIllusion.publicName);
-  	    GameRegistry.registerTileEntity(TileEntityObelisk.class, TileEntityObelisk.publicName);
+  	    //GameRegistry.registerTileEntity(TileEntityIllusion.class, TileEntityIllusion.publicName);
+  	    //GameRegistry.registerTileEntity(TileEntityObelisk.class, TileEntityObelisk.publicName);
   	    
 	}
 

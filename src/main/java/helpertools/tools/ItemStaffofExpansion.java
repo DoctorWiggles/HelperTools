@@ -126,7 +126,7 @@ public class ItemStaffofExpansion extends ItemSpade
   	//holy butts i don't even know what's going wrong
   	//but setting the nbt with a getnbt variable prevents
   	//you from breaking blocks
-  	DecreaseSpinDec(stack);
+  	//DecreaseSpinDec(stack);
   	/**
   	short shorty = (short)getSpinDec(stack);
   	
@@ -183,15 +183,17 @@ public class ItemStaffofExpansion extends ItemSpade
   	};
  
     /////////////////////////////////////////////////////////////
-    public int getMode(ItemStack itemStack)
-   	{
-   		if(itemStack.stackTagCompound == null)
-   		{
-   			setMode(itemStack, 2);
-   			return 2;
-   		}
-   		return itemStack.stackTagCompound.getInteger("mode");   		
-   	}
+  	public int getMode(ItemStack itemStack) {
+		if (itemStack.stackTagCompound == null) {
+			return 2;
+		}
+		if (itemStack.stackTagCompound.getInteger("mode") == 0){
+			setMode(itemStack, 2); 
+		}
+
+		return itemStack.stackTagCompound.getInteger("mode");
+
+	}
       
       public boolean isMetadataSpecific(ItemStack itemStack)
    	{
@@ -215,8 +217,9 @@ public class ItemStaffofExpansion extends ItemSpade
 	{
 		if(itemStack.stackTagCompound == null)
 		{
-			setTBlock(itemStack, 2);
-			return 2;
+			//setTBlock(itemStack, 2);
+			//return 2;
+			return 0;
 		}
 
 		return itemStack.stackTagCompound.getInteger("TBlock");

@@ -11,15 +11,17 @@ public class KeyInputHandler {
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) { 
-    	//Alternate o
+    	//Primary " O "
         if(KeyBindings.ding.isPressed()){
-            System.out.println("Alternate o"); 
-            Helpertoolscore.network.sendToServer(new NetworkMessage("foobar"));
+            //System.out.println("Primary"); 
+            Helpertoolscore.network.sendToServer(new NetworkMessage("Primary"));
             }
+        /**
         //Primary p
         if(KeyBindings.dong.isPressed()){
             System.out.println("Primary p");
         }
+        **/
     }
 
 }

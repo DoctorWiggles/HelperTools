@@ -39,7 +39,7 @@ public class NetworkMessage implements IMessage {
        
         @Override
         public IMessage onMessage(NetworkMessage message, MessageContext ctx) {
-            System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
+            //System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
             EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
             ItemStack heldItem = theplayer.inventory.getCurrentItem();
             

@@ -82,7 +82,12 @@ public class HelperDeclarations {
 	public static boolean RecipeMagicalFuel;
 	public static boolean RecipeChimenyPipes;
 	public static boolean RecipeEuclideanBlock;
+	//Vanilla Blocks
 	public static boolean RecipePodzol;
+	public static boolean RecipeDoubleSlab;
+	public static boolean RecipeFullSlab;
+	public static boolean RecipeFullSandSlab;
+	
 	//Items
 	public static boolean RecipeDirtBomb;
 	public static boolean RecipeBottledmilk;

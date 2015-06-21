@@ -211,20 +211,25 @@ public class RecipeFactory extends Helpertoolscore{
     	//Slab Recipes
     	Block Fullslab = Block.getBlockById(43);
     	//Double Slab
+    	if(RecipeDoubleSlab == true){
     	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Fullslab, 1, 0 ), new Object[]{
     		Blocks.stone_slab, Blocks.stone_slab
     	}));
-    	//Full Slab        	
+    	}
+    	//Full Slab    
+    	if(RecipeFullSlab == true){
     	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Fullslab, 2, 8 ),true, new Object[]{
     		"ss ",
     		"ss ",
     		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 0 )}));
+    	}
     	//Full Sandstone Slab
+    	if(RecipeFullSandSlab == true){
     	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Fullslab, 2, 9 ),true, new Object[]{
     		"ss ",
     		"ss ",
     		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 1 )}));
-	
+    	}
     	
     	
     	

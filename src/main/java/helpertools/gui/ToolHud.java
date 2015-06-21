@@ -2,6 +2,7 @@ package helpertools.gui;
 
 import helpertools.Helpertoolscore;
 import helpertools.tools.ItemStaffofExpansion;
+import helpertools.tools.ItemStaffofTransformation2;
 
 import java.awt.Point;
 import java.lang.reflect.Field;
@@ -87,7 +88,7 @@ public class ToolHud extends Gui
       
   }
 
-  private void drawHudFrame(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, ItemStaffofExpansion tool, int modo) {
+  private void drawHudFrame(int xPos, int yPos, ResourceLocation backgroundimage) {
 
       int xSize = 38+2;
       int ySize = 26+2;
@@ -105,7 +106,7 @@ public class ToolHud extends Gui
       		  
   }
   
-  private void drawModeIcons(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, ItemStaffofExpansion tool, int modo) {
+  private void drawModeIcons(int xPos, int yPos, ResourceLocation backgroundimage, int modo) {
 	  int xSize = 38+2;
       int ySize = 26+2;
 
@@ -116,7 +117,7 @@ public class ToolHud extends Gui
       	GL11.glPopMatrix();
 	}
   
-  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, ItemStack heldItem, ItemStaffofExpansion tool, int Empowerment){
+  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, int Empowerment){
 	  
       int xSize = Empowerment*7+1; 
 
@@ -126,9 +127,7 @@ public class ToolHud extends Gui
       	this.drawTexturedModalRect(xPos+2, yPos+20, 68, 92, xSize,  3);
       	GL11.glPopMatrix();
   }
-  
-  
-  
+    
   @SubscribeEvent(priority = EventPriority.NORMAL)
   public void onRenderExperienceBar(RenderGameOverlayEvent event)
   {
@@ -142,45 +141,53 @@ public class ToolHud extends Gui
     
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
+			 
+			 if (!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
 		      return;
+			 }
 		    }
 		 
-		 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
-		 ItemStack StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
-		 //ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/DemoTab_21.png");
+		 //Defualting
+		 int Empowerment = 0;
+		 int Modo = 0;
+		 ItemStack StackyHelper = null;
 		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_1.png");
-		 int Modo = Tool.getMode(heldItem);
+		 
+		 
+		 //Exchange Stave Castings
+		 if(heldItem.getItem() instanceof ItemStaffofTransformation2){
+			 ItemStaffofTransformation2  Tool = (ItemStaffofTransformation2)heldItem.getItem();
+			 Empowerment = Tool.getToolLevel(heldItem);
+			 Modo = Tool.getMode(heldItem);
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
+			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_2.png");
+		 }
+		//Expanding Stave Casting
+		 if(heldItem.getItem() instanceof ItemStaffofExpansion){
+			 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+			 Empowerment = Tool.getToolLevel(heldItem);
+			 Modo = Tool.getMode(heldItem);
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
+		 }	 
 		 
 		 
 		 /////////////////////////
 		 /** Draw some Things **/
-		 ///////////////////////
+		 ///////////////////////		 
+		 drawHudFrame(xPos, yPos,backgroundimage);
 		 
-		 
-		 
-		 drawHudFrame(xPos, yPos,backgroundimage, heldItem, Tool, Modo);
-		 
-		 drawModeIcons(xPos, yPos,backgroundimage, heldItem, Tool, Modo);
+		 drawModeIcons(xPos, yPos,backgroundimage, Modo);
 	      
-	      	int Empowerment = Tool.getToolLevel(heldItem);
+	      	
 	      	if(Empowerment >0){
-	      	drawEmpoweredBar(xPos, yPos,backgroundimage, heldItem, Tool, Empowerment);
+	      	drawEmpoweredBar(xPos, yPos,backgroundimage, Empowerment);
 	      	}
 	      	
-	      	
-	      	this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
+	      this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
 			     
 
 
-  }
-  
-  
-  
-  
-  
-  
-  
-  
+  } 
   
   
   //////////////////////////////////////////////////////////////

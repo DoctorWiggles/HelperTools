@@ -321,6 +321,7 @@ public class ItemEuclideanTransposer extends ItemSpade
     	int proxyskip = 0;
     	if (!theplayer.isSneaking()){
     		
+    		
     		//placement via transcriber proxy
     		if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.TranscriberBlock){
     			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);

@@ -45,15 +45,17 @@ public class EntityDirtBombProjectile extends EntityThrowable{
            this.worldObj.spawnParticle("cloud", this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, .1 , 0);
        }   
    }
+   
+   public byte Type = 0;
    //uniqueness for each projectile entity
    @Override
-   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-
+   public void readEntityFromNBT(NBTTagCompound nbt) {
+	   nbt.setByte("Type", this.Type);
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-
+   public void writeEntityToNBT(NBTTagCompound nbt) {
+	   this.Type = nbt.getByte("Type");
    }
    
    //protected Random rand;
@@ -121,6 +123,13 @@ public class EntityDirtBombProjectile extends EntityThrowable{
       Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
       //The torch block to be placed in the world
       Block pblock = Helpertoolscore.LooseDirtBlock;
+      
+      if (Type == 0){
+      pblock = Helpertoolscore.LooseDirtBlock;
+      }
+      if (Type == 2){
+          pblock = Blocks.sand;
+          }
       
       //can be called to simplify things
       //int i = mop.blockX;

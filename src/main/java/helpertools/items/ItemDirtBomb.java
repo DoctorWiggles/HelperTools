@@ -22,19 +22,21 @@ public class ItemDirtBomb extends Item {
 	  
 	  
 	  @Override
-	   public ItemStack onItemRightClick(ItemStack stack, World par2World,
-	           EntityPlayer par3EntityPlayer) {
+	   public ItemStack onItemRightClick(ItemStack stack, World world,
+	           EntityPlayer player) {
 	           
 	           float f = 6.0F;
        f = (f * f + f * 2.0F) / 3.0F;
-       if( par3EntityPlayer.worldObj.isRemote){
+       if( player.worldObj.isRemote){
     	   return stack;
        }
-       
-	  par2World.spawnEntityInWorld(new EntityDirtBombProjectile(par2World, par3EntityPlayer));
+       EntityDirtBombProjectile Bomb = new EntityDirtBombProjectile(world, player);
+       		Bomb.Type=2;
+       		world.spawnEntityInWorld(Bomb);
+       		
 	 
-		   par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+       		world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 		   
-		   return stack;
+       		return stack;
 	   }
 }

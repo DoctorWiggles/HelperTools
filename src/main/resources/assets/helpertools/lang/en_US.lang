@@ -3,14 +3,14 @@
 
 #       #
 # Items #
-item.staffoftransformation2.name=§aMetamorphic Staff
-item.staffofexpansion.name=§aExpanding Rod
-item.torchlauncher.name=§eTorch Launcher
-item.dynamitebolt.name=§6Dynamite Bolt
-item.euclideantransposer.name=§3Euclidean Transposer
-item.dirtbomb.name=Dirt Bomb §9[W.I.P.]
-item.bottledmilk.name=Bottle of Milk
-item.chocolatemilk.name=Chocolate Milk
+item.staffoftransformation2_item.name=§aMetamorphic Staff
+item.staffofexpansion_item.name=§aExpanding Rod
+item.torchlauncher_item.name=§eTorch Launcher
+item.dynamitebolt_item.name=§6Dynamite Bolt
+item.euclideantransposer_item.name=§3Euclidean Transposer
+item.dirtbomb_item.name=Dirt Bomb §9[W.I.P.]
+item.bottledmilk_item.name=Bottle of Milk
+item.chocolatemilk_item.name=Chocolate Milk
 item.powercrystal.name=Lapilite Crystal
 item.powercrystal_0.name=Lapilite Crystal
 item.powercrystal_1.name=Calcified Lapilite

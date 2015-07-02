@@ -1,6 +1,6 @@
 [
 {
-  "modid": "HelperToolsID",
+  "modid": "HelperTools",
   "name": "HelperTools",
   "description": "A simple mod dedicated to adding alternative tools for helping around with survival mode construction and more.",
   "version": "${version}",

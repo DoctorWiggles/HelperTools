@@ -9,8 +9,10 @@ import net.minecraft.item.Item;
 public final class RenderRegistry {
 
 	public static void registerItemRenderer() {
+		Main.logger.info("Registering Renders");
 		reg(ItemRegistry.chocolatemilk);
 		reg(ItemRegistry.milkbottle);
+		reg(ItemRegistry.expandertool);
 	}
 
 	//==========================================================================

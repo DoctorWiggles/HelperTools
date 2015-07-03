@@ -1,5 +1,6 @@
 package helpertools.Common.Tools;
 
+import helpertools.Main;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -8,21 +9,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class Adv_Tool extends ItemSpade{
+
+public class Adv_Tool2 extends ItemSpade{
 
 	//public short aShort;
-
-
-
-	public Adv_Tool(ToolMaterial material) {
+	public Adv_Tool2(ToolMaterial material) {
 		super(material);
 		// TODO Auto-generated constructor stub
 	}
+
+    public boolean isMetadataSpecific(ItemStack itemStack)
+ 	{
+ 		return false;
+ 	}
+    
 
 	/**
 	 public NBTTagCompound writeToNBT(NBTTagCompound nbt)
@@ -35,29 +41,35 @@ public class Adv_Tool extends ItemSpade{
 
 
     /////////////////////////////////////////////////////////////////////
-    public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
-
-    	if(entity.worldObj.isRemote){
-    		return;  	}
-    	//Item item = entity.inventory.currentItem;
-    	if (!(entity instanceof EntityPlayer)){
-    		return;
+    public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {
+    	
+    	if (!stack.hasTagCompound()) {
+    		stack.setTagCompound(new NBTTagCompound());    		
+    		stack.getTagCompound().setInteger("TBlock", 0);
+    		stack.getTagCompound().setInteger("TMeta", 0);
+    		stack.getTagCompound().setInteger("mode", 2);    		
+    		stack.getTagCompound().setInteger("ToolLevel", 0);
+    		stack.getTagCompound().setInteger("OffMode", 0); 
+    		
+    		//String Messy = "No compound";
+    		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+			//((EntityPlayer) entity).addChatComponentMessage(chatmessy);
+    		}
+    	if (stack.hasTagCompound() && (Main.Randy.nextFloat() >= 1)) {
+    		String Messy = "mode " + (getMode(stack) + " Block " + (getTBlock(stack))
+    				+ " Level " + getToolLevel(stack)
+    				+ " Offmode " + getOffMode(stack)
+    				+ " meta " + getTMeta(stack));
+    		ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+			((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     	}
-    	if(((EntityPlayer) entity).getCurrentEquippedItem() == null){
-    		return;
-    	}
+    	
 
-    	ItemStack item = ((EntityPlayer) entity).getCurrentEquippedItem();
-    	Item item2 = item.getItem();
-    	if (!(item2 == this)){
-    		return;
-    	}
-
-
-
-    	return;
+   	
 
     }
+    
+    
     public String whatModeString(ItemStack stack){	  
     	String modestring = "null";
 
@@ -95,75 +107,36 @@ public class Adv_Tool extends ItemSpade{
 
     /////////////////////////////////////////////////////////////
   	public int getMode(ItemStack itemStack) {
-		if (!itemStack.hasTagCompound()) {
-			return 2;
-		}
-		if (itemStack.getTagCompound().getInteger("mode") == 0){
-			setMode(itemStack, 2); 
-		}
-
 		return itemStack.getTagCompound().getInteger("mode");
 
-	}
+	}        
       
-      public boolean isMetadataSpecific(ItemStack itemStack)
-   	{
-   		return false;
-   	}
-      
-      ///////////////////////////////////////////
       public void setMode(ItemStack itemStack, int Value)
    	{
-   		if(!itemStack.hasTagCompound())
-   		{
-   			itemStack.setTagCompound(new NBTTagCompound());
-   		}
-
    		itemStack.getTagCompound().setInteger("mode",  Value );
    		//this.tagMap.put(p_74768_1_, new NBTTagInt(p_74768_2_));
    	} 
+      
    	///////////////////
       
     public int getTBlock(ItemStack itemStack)
 	{
-		if(!itemStack.hasTagCompound())
-		{
-			//setTBlock(itemStack, 2);
-			//return 2;
-			return 0;
-		}
-
 		return itemStack.getTagCompound().getInteger("TBlock");
 		
 	}
 	public void setTBlock(ItemStack itemStack, int Value)
 	{
-		if(!itemStack.hasTagCompound())
-		{
-			itemStack.setTagCompound(new NBTTagCompound());
-		}
-
 		itemStack.getTagCompound().setInteger("TBlock",  Value );
 		//this.tagMap.put(p_74768_1_, new NBTTagInt(p_74768_2_));
 	} 
 	////////
 	public int getTMeta(ItemStack itemStack)
 	{
-		if(!itemStack.hasTagCompound())
-		{
-			return 0;
-		}
-
 		return itemStack.getTagCompound().getInteger("TMeta");
 		
 	}
 	public void setTMeta(ItemStack itemStack, int Value)
 	{
-		if(!itemStack.hasTagCompound())
-		{
-			itemStack.setTagCompound(new NBTTagCompound());
-		}
-
 		itemStack.getTagCompound().setInteger("TMeta",  Value );
 		//this.tagMap.put(p_74768_1_, new NBTTagInt(p_74768_2_));
 	} 
@@ -184,18 +157,12 @@ public class Adv_Tool extends ItemSpade{
 	/** Offmode here prevents getblock from double dipping into switch mode code because i suck**/
 	// ///////////////////////////////////////////////////////////
 		public int getOffMode(ItemStack itemStack) {
-			if (!itemStack.hasTagCompound()) {				
-				return 0;
-			}
-
+			
 			return itemStack.getTagCompound().getInteger("OffMode");
 
 		}		
 		public void setOffMode(ItemStack itemStack, int Value) {
-			if (!itemStack.hasTagCompound()) {
-				itemStack.setTagCompound(new NBTTagCompound());
-			}
-
+			
 			itemStack.getTagCompound().setInteger("OffMode", Value);			
 		}
     
@@ -205,18 +172,12 @@ public class Adv_Tool extends ItemSpade{
     
     /** Tool levels **/
 		public int getToolLevel(ItemStack itemStack) {
-			if (!itemStack.hasTagCompound()) {
-				return 0;
-			}
-
+			
 			return itemStack.getTagCompound().getInteger("ToolLevel");
 
 		}		
 		public void setToolLevel(ItemStack itemStack, int Value) {
-			if (!itemStack.hasTagCompound()) {
-				itemStack.setTagCompound(new NBTTagCompound());
-			}
-
+			
 			itemStack.getTagCompound().setInteger("ToolLevel", Value);			
 		}
 		
@@ -231,13 +192,13 @@ public class Adv_Tool extends ItemSpade{
 				setToolLevel(itemStack,NextLevel);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
-			/**
-			 if(Helpertoolscore.ToolPowerMesseges == true){	
+			
+			 //if(Helpertoolscore.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
 					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
-				    }
-				    **/
+				   // }
+				    
 			//
 			//System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 
 		}

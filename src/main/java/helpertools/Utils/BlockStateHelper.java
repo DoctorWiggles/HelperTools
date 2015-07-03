@@ -1,6 +1,7 @@
 package helpertools.Utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -63,4 +64,6 @@ public class BlockStateHelper {
 				
 		return meta;
 	}
+	
+	
 }

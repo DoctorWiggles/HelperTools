@@ -26,6 +26,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockPos.MutableBlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkEvent;
 
-public class ItemStaffofExpansion extends Adv_Tool
+public class ItemStaffofExpansion extends Adv_Tool2
 {
     public ItemStaffofExpansion(ToolMaterial material, String unlocalizedName)
     {
@@ -56,16 +57,19 @@ public class ItemStaffofExpansion extends Adv_Tool
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
     	par3List.add(EnumChatFormatting.ITALIC + "sets blocks");
+    	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }
+    	}
+    	
     }
     
     IBlockState Status;
     
     int choiseID;
+
     
-		
     
 	//(theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
    
@@ -127,12 +131,12 @@ public class ItemStaffofExpansion extends Adv_Tool
 			}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
 			//config hook
-			/**
-		    if(Helpertoolscore.ToolModeMesseges == true){		    
+			
+		    //if(Helpertoolscore.ToolModeMesseges == true){		    
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
-		    }
-			**/
+		    //}
+			
 			return true;
     	}
 		}
@@ -144,7 +148,7 @@ public class ItemStaffofExpansion extends Adv_Tool
     }
 	
 	//Expanding function
-	public void EXPAND (ItemStack thestaff, EntityPlayer theplayer, World world, int x2, int y2, int z2, int theface, float fty1, float fty2, float fty3,
+	public void EXPAND (ItemStack thestaff, EntityPlayer theplayer, World world, int x2, int y2, int z2, EnumFacing theface, float fty1, float fty2, float fty3,
 			IBlockState returnstate, int returnID)
 	{
         BlockPos pos2 = new BlockPos(x2, y2, z2);
@@ -152,19 +156,19 @@ public class ItemStaffofExpansion extends Adv_Tool
         
         //Whitelist Placement
 		if (world.isAirBlock(pos2)
-        		|| world.getBlockState(pos2) == Material.lava 
-        		|| world.getBlockState(pos2) == Material.water
-				|| world.getBlockState(pos2) == Material.plants 
-				|| world.getBlockState(pos2) == Material.vine 
-				|| world.getBlockState(pos2) == Blocks.snow_layer)
+        		|| world.getBlockState(pos2).getBlock().getMaterial() == Material.lava 
+        		|| world.getBlockState(pos2).getBlock().getMaterial() == Material.water
+				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants 
+				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine 
+				|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer)
         {
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
         	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
     		{
         		//destroys and returns blocks like grass
-        		if (world.getBlockState(pos2) == Material.vine
-						|| world.getBlockState(pos2) == Material.plants
-						|| world.getBlockState(pos2) == Blocks.snow_layer) 
+        		if (world.getBlockState(pos2).getBlock().getMaterial() == Material.vine
+						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants
+						|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer) 
 				{
 					//(world.getBlockState(pos2)).dropBlockAsItem(world,pos2, (((Chunk) world).getBlockMetadata(x2, y2, z2)), 0);
 					//(world.getBlockState(pos2)).dropBlockAsItem();
@@ -181,10 +185,11 @@ public class ItemStaffofExpansion extends Adv_Tool
         				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
         		 
-        		 world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
+        		//world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
         		//world.setBlock(x2, y2, z2, Blocks.air);        	   
         		 
-        		world.setBlockState(pos2, BlockStateHelper.returnState(choiseID), 012);
+        		//world.setBlockState(pos2, BlockStateHelper.returnState(choiseID), 012);
+        		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
         		 
         		//world.setBlockState(pos2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
         		//world.setBlock(pos2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
@@ -199,9 +204,9 @@ public class ItemStaffofExpansion extends Adv_Tool
                 float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
                 float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
         		//world.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);    
-        		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2, y2, z2, f, f1+.3, f2, crackid,crackmeta );      
+        		//world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2, y2, z2, f, f1+.3, f2, crackid,crackmeta ); 
+        		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2+f, y2+f1+.3, z2+f2, 0, 0, 0, crackid,crackmeta ); 
     			}
-        		//successful = 1;
         		
         		if (!theplayer.capabilities.isCreativeMode){                	
         			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
@@ -216,33 +221,28 @@ public class ItemStaffofExpansion extends Adv_Tool
 	}
 
 	
-		
-		
-		
-		
-	
-	
-	
-	
-		
-	
-	
 	//The guts of the placement code
 	/** This is a huge mess **/
 	
 	//Basically It will go through checks and determine what action it should perform next
 	/**During this, it looks for Which mode -> Which face of the block 
 	 * -> Which blocks are legal -> If they are legal, place or swap
-	 * -> And finally depending on which gamemode to remove durability and items**/
-    public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, int x1, int y1, int z1, int theface, float fty1, float fty2, float fty3)
+	 * -> And finally depending on which gamemode to remove durability and items**/		
+	public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3){
     {
     	//Modifies size based on tool level	
     	int pillar = (getToolLevel(thestaff)+ 3);
     	int wall = (getToolLevel(thestaff)+ 2); 
     	
+    	int x1;
+    	int y1;
+    	int z1;
+    	x1 = pos.getX();
+    	y1 = pos.getY();
+    	z1 = pos.getZ();
+    	
     	BlockPos pos1 = new BlockPos(x1, y1, z1);
-    	
-    	
+		
  		/** if this is true it performs this action **/
     	//Checks to make sure you're not sneaking
     	//////////////////////////////////////////////
@@ -262,23 +262,23 @@ public class ItemStaffofExpansion extends Adv_Tool
         	            int z3 = 0;
         	    		//////////////////////////////////////
         	    		 switch(theface){
-        	    		 //Bottom
-        	    		 case 0:	y3 = y3 -1 - l; 			 
+        	    		 //Bottom 0
+        	    		 case DOWN:	y3 = y3 -1 - l; 			 
         	    			 break;
-        	    		//Top
-        	    		 case 1:	y3 = y3 +1 + l; 			 
+        	    		//Top 1
+        	    		 case UP:	y3 = y3 +1 + l; 			 
         	    			 break;
-        	    		//North
-        	    		 case 2:	z3 = z3 -1 - l;
+        	    		//North 2
+        	    		 case NORTH:	z3 = z3 -1 - l;
         	    			 break;
-        	    		//South
-        	    		 case 3:	z3 = z3 +1 + l; 
+        	    		//South 3
+        	    		 case SOUTH:	z3 = z3 +1 + l; 
         	    			 break;
-        	    		//West
-        	    		 case 4:   	x3 = x3 -1 -l; 			 
+        	    		//West 4
+        	    		 case WEST:   	x3 = x3 -1 -l; 			 
         	    			 break;
-        	    		//East
-        	    		 case 5:	x3 = x3 +1 +l;  
+        	    		//East 5
+        	    		 case EAST:	x3 = x3 +1 +l;  
         	    			 break;
         	    			 default:
         	    			 }
@@ -334,29 +334,29 @@ public class ItemStaffofExpansion extends Adv_Tool
         	            int z3 = 0;
         	    		//////////////////////////////////////
         	    		 switch(theface){
-        	    		 //Bottom
-        	    		 case 0:	z3 = z3 - l*sectA; 
+        	    		 //Bottom 0
+        	    		 case DOWN:	z3 = z3 - l*sectA; 
 	    			 				x3 = x3 - ml*sectB;        	    			 		
         	    			 break;
-        	    		//Top
-        	    		 case 1:	z3 = z3 - l*sectA; 
+        	    		//Top 1
+        	    		 case UP:	z3 = z3 - l*sectA; 
         	    			 		x3 = x3 - ml*sectB;
         	    			 		
         	    			 break;
-        	    		//North
-        	    		 case 2:	y3 = y3 - l*sectA; 
+        	    		//North 2
+        	    		 case NORTH:	y3 = y3 - l*sectA; 
 			 						x3 = x3 - ml*sectB; 
         	    			 break;
-        	    		//South
-        	    		 case 3:	y3 = y3 - l*sectA; 
+        	    		//South 3
+        	    		 case SOUTH:	y3 = y3 - l*sectA; 
 	 								x3 = x3 - ml*sectB;
 	 						break;
-        	    		//West
-        	    		 case 4:   y3 = y3 - l*sectA; 
+        	    		//West 4
+        	    		 case WEST:   y3 = y3 - l*sectA; 
 	 							   z3 = z3 - ml*sectB;			 
         	    			 break;
-        	    		//East
-        	    		 case 5:	 y3 = y3 - l*sectA; 
+        	    		//East 5
+        	    		 case EAST:	 y3 = y3 - l*sectA; 
 						   			 z3 = z3 - ml*sectB;	
         	    			 break;
         	    			 default: 
@@ -422,33 +422,33 @@ public class ItemStaffofExpansion extends Adv_Tool
         	            int z5 = 0; 
         	    		//////////////////////////////////////
         	    		 switch(theface){
-        	    		 //Bottom
-        	    		 case 0:	z3 = z3 - l*sectA; 
+        	    		 //Bottom 0
+        	    		 case DOWN:	z3 = z3 - l*sectA; 
 	    			 				x3 = x3 - ml*sectB; 
 	    			 				y5 = y5 - 1;
         	    			 break;
-        	    		//Top
-        	    		 case 1:	z3 = z3 - l*sectA; 
+        	    		//Top 1
+        	    		 case UP:	z3 = z3 - l*sectA; 
         	    			 		x3 = x3 - ml*sectB;
         	    			 		y5 = y5 + 1;        	    			 		
         	    			 break;
-        	    		//North
-        	    		 case 2:	y3 = y3 - l*sectA; 
+        	    		//North 2
+        	    		 case NORTH:	y3 = y3 - l*sectA; 
 			 						x3 = x3 - ml*sectB; 
 			 						z5 = z5 - 1;
         	    			 break;
-        	    		//South
-        	    		 case 3:	y3 = y3 - l*sectA; 
+        	    		//South 3
+        	    		 case SOUTH:	y3 = y3 - l*sectA; 
 	 								x3 = x3 - ml*sectB;
 	 								z5 = z5 + 1;
 	 						break;
-        	    		//West
-        	    		 case 4:   y3 = y3 - l*sectA; 
+        	    		//West 4
+        	    		 case WEST:   y3 = y3 - l*sectA; 
 	 							   z3 = z3 - ml*sectB;
 	 							   x5 = x5 - 1;
         	    			 break;
-        	    		//East
-        	    		 case 5:	y3 = y3 - l*sectA; 
+        	    		//East 5
+        	    		 case EAST:	y3 = y3 - l*sectA; 
 						   			z3 = z3 - ml*sectB;
 						   			x5 = x5 + 1;
         	    			 break;
@@ -508,6 +508,8 @@ public class ItemStaffofExpansion extends Adv_Tool
     		world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
     		
+    		
+    		
     		 setOffMode(thestaff, 4);
  			return true;
     	}
@@ -517,10 +519,10 @@ public class ItemStaffofExpansion extends Adv_Tool
     		return false;     		
     	}
     	
-    	
-    
-		
-
     }
+	}
+    
     
 }
+
+

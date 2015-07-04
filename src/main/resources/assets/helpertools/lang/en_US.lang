@@ -4,7 +4,7 @@
 #       #
 # Items #
 item.staffoftransformation2_item.name=§aMetamorphic Staff
-item.staffofexpansion_item.name=§aExpanding Rod
+item.expander_item.name=§aExpanding Rod
 item.torchlauncher_item.name=§eTorch Launcher
 item.dynamitebolt_item.name=§6Dynamite Bolt
 item.euclideantransposer_item.name=§3Euclidean Transposer

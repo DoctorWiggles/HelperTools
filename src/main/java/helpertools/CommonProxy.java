@@ -1,8 +1,10 @@
 package helpertools;
 
+import helpertools.Client.ToolHud;
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.NetworkMessage;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -28,9 +30,12 @@ public class CommonProxy {
     	Main.network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
         // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
     	
+    	MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+    	
 	}
 
 	public void init(FMLInitializationEvent e) {
+		
 		ItemRegistry.createItems();
 
 	}

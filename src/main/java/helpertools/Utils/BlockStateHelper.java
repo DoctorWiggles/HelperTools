@@ -65,5 +65,12 @@ public class BlockStateHelper {
 		return meta;
 	}
 	
+	//Extracts a block ID from an ID integer
+		public static int returnBlock_ID(int id){
+			
+			int j = id & 4095;
+	        int k = id >> 12 & 15;
+	        return j;
+		}
 	
 }

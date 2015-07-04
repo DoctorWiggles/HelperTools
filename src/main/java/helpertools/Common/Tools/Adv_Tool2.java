@@ -1,6 +1,7 @@
 package helpertools.Common.Tools;
 
 import helpertools.Main;
+import helpertools.Utils.BlockStateHelper;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -55,15 +56,18 @@ public class Adv_Tool2 extends ItemSpade{
     		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			//((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     		}
-    	if (stack.hasTagCompound() && (Main.Randy.nextFloat() >= 1)) {
-    		String Messy = "mode " + (getMode(stack) + " Block " + (getTBlock(stack))
+    	/**
+    	if (stack.hasTagCompound() && (Main.Randy.nextFloat() >= .96)) {
+    		String Messy = "mode " + (getMode(stack) 
+    				+ " ID " + (getTBlock(stack))
     				+ " Level " + getToolLevel(stack)
-    				+ " Offmode " + getOffMode(stack)
+    				+ " Block " + BlockStateHelper.returnBlock_ID((getTBlock(stack)))
+    				+ " Name " + this.returnTBlock_FromState(stack)
     				+ " meta " + getTMeta(stack));
     		ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     	}
-    	
+    	**/
 
    	
 
@@ -95,7 +99,9 @@ public class Adv_Tool2 extends ItemSpade{
     		modestring = "null";
     	}  		
     	if (getTBlock(stack) != 0){
-    		modestring = returnTBlock(stack).getLocalizedName() + " ";  			
+    		//returnTBlock_FromState
+    		modestring = returnTBlock_FromState(stack).getLocalizedName() + " "; 
+    		//modestring = returnTBlock(stack).getLocalizedName() + " ";  			
     		return modestring;
     	} 
     	return modestring;
@@ -119,6 +125,7 @@ public class Adv_Tool2 extends ItemSpade{
       
    	///////////////////
       
+    
     public int getTBlock(ItemStack itemStack)
 	{
 		return itemStack.getTagCompound().getInteger("TBlock");
@@ -148,9 +155,17 @@ public class Adv_Tool2 extends ItemSpade{
 		return getTMeta(thestaff);		
     }
 	
+	@Deprecated
 	public Block returnTBlock(ItemStack thestaff)
 	{
 		return Block.getBlockById(getTBlock(thestaff));
+	}
+	
+	public Block returnTBlock_FromState(ItemStack stack)
+	{		
+		Block Blocky = BlockStateHelper.returnBlock(getTBlock(stack));	
+		
+		return Blocky;
 	}
 	
     

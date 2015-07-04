@@ -46,9 +46,7 @@ public class ItemStaffofExpansion extends Adv_Tool2
     	super (material);
         this.maxStackSize = 1;  
         setUnlocalizedName(unlocalizedName);
-        //setCreativeTab(Helpertoolscore.HelperTools);
         setCreativeTab(HelpTab.HelperTools);
-        //this.setMaxDamage(1428);
     }
     
     protected static Random growrand = new Random();
@@ -65,7 +63,6 @@ public class ItemStaffofExpansion extends Adv_Tool2
     	
     }
     
-    IBlockState Status;
     
     int choiseID;
 
@@ -148,8 +145,7 @@ public class ItemStaffofExpansion extends Adv_Tool2
     }
 	
 	//Expanding function
-	public void EXPAND (ItemStack thestaff, EntityPlayer theplayer, World world, int x2, int y2, int z2, EnumFacing theface, float fty1, float fty2, float fty3,
-			IBlockState returnstate, int returnID)
+	public void EXPAND (ItemStack thestaff, EntityPlayer theplayer, World world, int x2, int y2, int z2, EnumFacing theface, float fty1, float fty2, float fty3)
 	{
         BlockPos pos2 = new BlockPos(x2, y2, z2);
         
@@ -162,7 +158,8 @@ public class ItemStaffofExpansion extends Adv_Tool2
 				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine 
 				|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer)
         {
-			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+			//ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
         	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
     		{
         		//destroys and returns blocks like grass
@@ -173,7 +170,6 @@ public class ItemStaffofExpansion extends Adv_Tool2
 					//(world.getBlockState(pos2)).dropBlockAsItem(world,pos2, (((Chunk) world).getBlockMetadata(x2, y2, z2)), 0);
 					//(world.getBlockState(pos2)).dropBlockAsItem();
 					
-					Status = world.getBlockState(pos2);
 					//int METACUCK = (world.getBlockState(pos2).getBlock()).getStateId(world.getBlockState(pos2));
 					
 					//(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, Status, 0);
@@ -289,7 +285,7 @@ public class ItemStaffofExpansion extends Adv_Tool2
         	            /////////////////////////
         	            /**Expanding function**/
         	            ///////////////////////
-        	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3, Status, z2);
+        	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3);
         			}
     	        		 return true;
     	               	           
@@ -368,7 +364,7 @@ public class ItemStaffofExpansion extends Adv_Tool2
         	            /////////////////////////
         	            /**Expanding function**/
         	            ///////////////////////
-        	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3, Status, z2);
+        	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3);
         	            
     	        	
     	          
@@ -466,13 +462,16 @@ public class ItemStaffofExpansion extends Adv_Tool2
         	            		//world.getBlockState(x2, y2, z2) == returnTBlock(thestaff)){
         	            
         	            BlockPos pos3 = new BlockPos(x2, y2, z2);	
-        	            if (BlockStateHelper.getMetafromState(world, pos3) == returnTMeta(thestaff) && 
-            	            	BlockStateHelper.getBlockfromState(world, pos3) == returnTBlock(thestaff)){
+        	            if (
+        	            		//BlockStateHelper.getMetafromState(world, pos3) == returnTMeta(thestaff) && 
+            	            	//BlockStateHelper.getBlockfromState(world, pos3) == returnTBlock(thestaff)
+            	            	//|| 
+            	            	world.getBlockState(pos3) ==BlockStateHelper.returnState(getTBlock(thestaff))){
         	            	
         	            	/////////////////////////
             	            /**Expanding function**/
             	            ///////////////////////
-            	            EXPAND(thestaff, theplayer, world, xT4, yT4, zT4, theface, fty1, fty2, fty3, Status, z2);
+            	            EXPAND(thestaff, theplayer, world, xT4, yT4, zT4, theface, fty1, fty2, fty3);
         	            
                 			}
         	            }
@@ -502,7 +501,7 @@ public class ItemStaffofExpansion extends Adv_Tool2
     		setTBlock(thestaff, BlockStateHelper.returnID(world, pos1)); 
     		setTMeta(thestaff, BlockStateHelper.getMetafromState(world, pos1)); 	
     		
-    		ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+    		//ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
     		
     		
     		world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 

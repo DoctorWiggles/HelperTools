@@ -56,6 +56,7 @@ public class Adv_Tool2 extends ItemSpade{
     		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			//((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     		}
+    	
     	/**
     	if (stack.hasTagCompound() && (Main.Randy.nextFloat() >= .96)) {
     		String Messy = "mode " + (getMode(stack) 
@@ -68,6 +69,7 @@ public class Adv_Tool2 extends ItemSpade{
 			((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     	}
     	**/
+    	
 
    	
 

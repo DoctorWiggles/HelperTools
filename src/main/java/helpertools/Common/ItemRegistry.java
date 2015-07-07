@@ -17,7 +17,7 @@ public class ItemRegistry {
 		Main.logger.info("Registering items");
 		GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk(3, 0.5f, true, "chocolatemilk_item"), "chocolatemilk_item");
 		GameRegistry.registerItem(milkbottle = new ItemMilkBottle("bottledmilk_item"), "bottledmilk_item");
-		GameRegistry.registerItem(expandertool = new ItemStaffofExpansion(ConfigurationFactory.ExpRodMaterial, "expander_item"), "expander_item");
+		GameRegistry.registerItem(expandertool = new ItemStaffofExpansion(ConfigurationFactory.ExpRodMatt, "expander_item"), "expander_item");
 	
 	
 	}

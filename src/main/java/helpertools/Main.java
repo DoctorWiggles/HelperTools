@@ -57,4 +57,8 @@ public class Main {
 	public void postInit(FMLPostInitializationEvent e) {
 		proxy.postInit(e);
 	}
+	
+	public static void print(String messege){
+		System.out.println("Helper Tools Debug : " + messege);
+	}
 }

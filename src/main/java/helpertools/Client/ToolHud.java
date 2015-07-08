@@ -2,6 +2,7 @@ package helpertools.Client;
 
 
 import helpertools.Common.Tools.ItemStaffofExpansion;
+import helpertools.Common.Tools.ItemStaffofTransformation;
 
 import java.awt.Point;
 import java.lang.reflect.Field;
@@ -120,6 +121,7 @@ public class ToolHud extends Gui
       int ySize = 26+2;
 
       	GL11.glPushMatrix();
+      	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
       	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
       	this.mc.getTextureManager().bindTexture(backgroundimage);
       	this.drawTexturedModalRect(xPos-1, yPos-1, 16-1, 15+16*(modo)-1, xSize,  ySize);
@@ -156,9 +158,9 @@ public class ToolHud extends Gui
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
 			 
-			 //if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
+			 if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){
 		      return;
-			 //}
+			 }
 		    }
 		 
 		 //Defualting
@@ -168,16 +170,15 @@ public class ToolHud extends Gui
 		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_4.png");
 		 
 		 
-		 //Exchange Stave Castings
-		 /**
-		 if(heldItem.getItem() instanceof ItemStaffofTransformation2){
-			 ItemStaffofTransformation2  Tool = (ItemStaffofTransformation2)heldItem.getItem();
+		 //Exchange Stave Castings		 
+		 if(heldItem.getItem() instanceof ItemStaffofTransformation){
+			 ItemStaffofTransformation  Tool = (ItemStaffofTransformation)heldItem.getItem();
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
-			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
-			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_3.png");
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, Tool.returnTMeta(heldItem));
+			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_7.png");
 		 }
-		 **/
+		 
 		//Expanding Stave Casting
 		 if(heldItem.getItem() instanceof ItemStaffofExpansion){
 			 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();

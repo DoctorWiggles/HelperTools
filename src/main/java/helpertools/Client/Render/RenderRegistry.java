@@ -13,6 +13,7 @@ public final class RenderRegistry {
 		reg(ItemRegistry.chocolatemilk);
 		reg(ItemRegistry.milkbottle);
 		reg(ItemRegistry.expandertool);
+		reg(ItemRegistry.exchange_tool);
 	}
 
 	//==========================================================================

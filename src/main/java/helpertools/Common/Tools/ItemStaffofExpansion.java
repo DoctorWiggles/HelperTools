@@ -39,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkEvent;
 
-public class ItemStaffofExpansion extends Adv_Tool2
+public class ItemStaffofExpansion extends ToolBase_Default
 {
     public ItemStaffofExpansion(ToolMaterial material, String unlocalizedName)
     {
@@ -58,39 +58,14 @@ public class ItemStaffofExpansion extends Adv_Tool2
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
-    }
-    	}
-    	
-    }
-    
-    
-    int choiseID;
-
-    
+    }}}
+        
     
 	//(theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
    
 	//tileEntity.setFacing((short)change);
 	//tileBlock.setFacing((short)theface);
 	 
-	
-	//Generic tool stuff
-	public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, int x1, int y1, int z1, EntityLivingBase entity)
-    {
-		BlockPos pos1 = new BlockPos(x1, y1, z1); 
-		
-        if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
-        {
-            stack.damageItem(1, entity);
-        }
-
-        return true;
-    }
-	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entity2)
-    {
-		stack.damageItem(2, entity2);
-        return true;
-    }
 	
 	//Custom mode changing code
 	@Override
@@ -115,13 +90,13 @@ public class ItemStaffofExpansion extends Adv_Tool2
 			double loud2 = 0.3;
 			
 			switch(getMode(stack)){
-			case 2: Messy = "Pillar Mode";
+			case 2: Messy = whatModeString(stack) + " Mode";
 			break;
-			case 4: Messy = "Wall Mode";
+			case 4: Messy = whatModeString(stack) + " Mode";
 					loud1 = 0.3;
 					loud2 = 3;
 			break;
-			case 6: Messy = "Matching Mode";
+			case 6: Messy = whatModeString(stack) + " Mode";
 			break;
 			default:
 			break;
@@ -182,14 +157,9 @@ public class ItemStaffofExpansion extends Adv_Tool2
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
         		 
         		//world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
-        		//world.setBlock(x2, y2, z2, Blocks.air);        	   
-        		 
+        		//world.setBlock(x2, y2, z2, Blocks.air);  
         		//world.setBlockState(pos2, BlockStateHelper.returnState(choiseID), 012);
         		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
-        		 
-        		//world.setBlockState(pos2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-        		//world.setBlock(pos2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-        		
         		
         		int crackid = (getTBlock(thestaff));
                 int crackmeta = (returnTMeta(thestaff));
@@ -212,8 +182,6 @@ public class ItemStaffofExpansion extends Adv_Tool2
         
         
         }
-		world.playSoundEffect((double)x2 + 0.5D, (double)y2 + 0.5D, 
-				(double)z2 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
 	}
 
 	
@@ -230,12 +198,9 @@ public class ItemStaffofExpansion extends Adv_Tool2
     	int pillar = (getToolLevel(thestaff)+ 3);
     	int wall = (getToolLevel(thestaff)+ 2); 
     	
-    	int x1;
-    	int y1;
-    	int z1;
-    	x1 = pos.getX();
-    	y1 = pos.getY();
-    	z1 = pos.getZ();
+    	int x1 = pos.getX();
+    	int y1 = pos.getY();
+    	int z1 = pos.getZ();
     	
     	BlockPos pos1 = new BlockPos(x1, y1, z1);
 		
@@ -287,6 +252,9 @@ public class ItemStaffofExpansion extends Adv_Tool2
         	            ///////////////////////
         	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3);
         			}
+
+        			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+        					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
     	        		 return true;
     	               	           
     	        }
@@ -371,6 +339,8 @@ public class ItemStaffofExpansion extends Adv_Tool2
                 			}
             			}
         			}
+        			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+        					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
         			return true;
     	}
     
@@ -477,6 +447,8 @@ public class ItemStaffofExpansion extends Adv_Tool2
         	            }
         			}        	
         		}
+        			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+        					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
         			return true;
     	}
         

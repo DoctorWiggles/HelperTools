@@ -1,6 +1,7 @@
 package helpertools.Common.Tools;
 
 import helpertools.Main;
+import helpertools.Common.ConfigurationFactory;
 import helpertools.Utils.BlockStateHelper;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,18 +13,39 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 
-public class Adv_Tool2 extends ItemSpade{
+public class ToolBase_Default extends ItemSpade{
 
 	//public short aShort;
-	public Adv_Tool2(ToolMaterial material) {
+	public ToolBase_Default(ToolMaterial material) {
 		super(material);
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	//Generic tool stuff
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, int x1, int y1, int z1, EntityLivingBase entity)
+    {
+		BlockPos pos1 = new BlockPos(x1, y1, z1); 
+		
+        if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
+        {
+            stack.damageItem(1, entity);
+        }
+
+        return true;
+    }
+	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entity2)
+    {
+		stack.damageItem(2, entity2);
+        return true;
+    }
+	
 
     public boolean isMetadataSpecific(ItemStack itemStack)
  	{
@@ -39,6 +61,7 @@ public class Adv_Tool2 extends ItemSpade{
 		 return nbt;
 	    }
 	**/
+    
 
 
     /////////////////////////////////////////////////////////////////////
@@ -210,11 +233,11 @@ public class Adv_Tool2 extends ItemSpade{
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
 			
-			 //if(Helpertoolscore.ToolPowerMesseges == true){	
+			 if(ConfigurationFactory.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
 					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
-				   // }
+				    }
 				    
 			//
 			//System.out.println("Empowering!"+"  The level is... "+(getToolLevel(itemStack))); 

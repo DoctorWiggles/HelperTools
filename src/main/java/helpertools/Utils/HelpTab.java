@@ -1,5 +1,6 @@
 package helpertools.Utils;
 
+import helpertools.Common.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -22,13 +23,13 @@ public class HelpTab extends CreativeTabs
 	@Override
 	public ItemStack getIconItemStack()
 	{
-		return new ItemStack(Items.command_block_minecart);
+		return new ItemStack(ItemRegistry.exchange_tool);
 		//return new ItemStack(Helpertoolscore.staffoftransformation2);
 	}
 	@Override
 	public Item getTabIconItem() 
 	{
-		return Items.command_block_minecart;
-		//return Helpertoolscore.staffoftransformation2;
+		//return Items.command_block_minecart;
+		return ItemRegistry.exchange_tool;
 	}
 }

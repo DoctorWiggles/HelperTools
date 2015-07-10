@@ -38,6 +38,7 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent e) {
 		
 		ItemRegistry.createItems();
+		ItemRegistry.createBlocks();
 		RecipeFactory.RegisterRecipes();
 
 	}

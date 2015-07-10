@@ -25,6 +25,7 @@ public class ClientProxy extends CommonProxy {
 		super.init(e);
 
 		RenderRegistry.registerItemRenderer();
+		RenderRegistry.registerBlockRenderer();
 	}
 
 	@Override

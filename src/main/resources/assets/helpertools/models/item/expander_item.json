@@ -1,6 +1,9 @@
-{
-    "parent":"helpertools:item/standard_tool",
-    "textures": {
-        "layer0":"helpertools:items/expander_item"
+{    "parent":"helpertools:block/expander_tool_block",
+    "display": {
+        "thirdperson": {
+            "rotation": [ 10, -45, 170 ],
+            "translation": [ 0, 1.5, -2.75 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        }
     }
 }

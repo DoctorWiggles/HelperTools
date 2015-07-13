@@ -2,7 +2,7 @@ package helpertools;
 
 import helpertools.Client.KeyBindings;
 import helpertools.Client.KeyInputHandler;
-import helpertools.Client.Render.RenderRegistry;
+import helpertools.Client.RenderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

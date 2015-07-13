@@ -64,9 +64,10 @@ public class ConfigurationFactory extends ItemRegistry{
 	public static boolean RenderToolHuds = true;
 	public static boolean ToolModeMesseges = true;
 	public static boolean ToolPowerMesseges = false;
+	//public static boolean Use_3D_Models = true;
 	
 	public static final Section sect_Blocks = new Section("Block Recipes", "block recipes");
-	public static boolean TechnicalSlabs = true;
+	//public static boolean TechnicalSlabs = true;
 	
 	public static final Section sect_Tool_Rec = new Section("Tool Recipes", "tool recipes");
 	public static boolean Diamonds_forTools;
@@ -88,9 +89,12 @@ public class ConfigurationFactory extends ItemRegistry{
 		RenderToolHuds  = config.get(sect_Extra.name, "tool_Huds",true, "Enables Tools heads up displays").getBoolean();
 		ToolModeMesseges = config.get(sect_Extra.name, "ToolModeMesseges", true).getBoolean();
 		ToolPowerMesseges = config.get(sect_Extra.name, "ToolPowerMesseges", false).getBoolean();
+		//1.8's model system is dumb so you can't multiple available models per unlocalized name(or something like that)		
+		//Use_3D_Models = config.get(sect_Extra.name, "Use_3D_Models", true, "Use special 3D models for tools or 2D sprites if disabled").getBoolean();
 		
 		//sect Block Recipes
-		TechnicalSlabs = config.get(sect_Blocks.name, "TechnicalSlabs", true).getBoolean();
+		// as of 1.8 technical blocks were removed
+		//TechnicalSlabs = config.get(sect_Blocks.name, "TechnicalSlabs", true).getBoolean();
 		
 		//sect Tool Recipes
 		Diamonds_forTools = config.get(sect_Tool_Rec.name, "Diamonds_forTools", true).getBoolean();

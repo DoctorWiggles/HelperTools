@@ -1,6 +1,7 @@
-package helpertools.Client.Render;
+package helpertools.Client;
 
 import helpertools.Main;
+import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -13,9 +14,18 @@ public final class RenderRegistry {
 		Main.logger.info("Registering Renders");
 		reg(ItemRegistry.chocolatemilk);
 		reg(ItemRegistry.milkbottle);
-		reg(ItemRegistry.expandertool);
-		reg(ItemRegistry.exchange_tool);
 		reg(ItemRegistry.pattern_tool);
+		
+		if (ConfigurationFactory.Use_3D_Models){
+			Main.logger.info("Using 3D Models");
+			reg(ItemRegistry.expandertool);
+			reg(ItemRegistry.exchange_tool);			
+		}
+		if (!ConfigurationFactory.Use_3D_Models){
+			Main.logger.info("Using 2D Sprites");
+			Alt_Reg(ItemRegistry.expandertool);
+			Alt_Reg(ItemRegistry.exchange_tool);	
+		}
 		
 	}
 	
@@ -31,6 +41,13 @@ public final class RenderRegistry {
 	public static void reg(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
 		(item, 0, new ModelResourceLocation(modid + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+		Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
+	}
+	
+	public static void Alt_Reg(Item item) {
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
+		(item, 0, new ModelResourceLocation(modid + ":" + "Alt_" +(item.getUnlocalizedName().substring(5)), "inventory"));
+		Main.logger.info(modid + ":" + "Alt_" +item.getUnlocalizedName().substring(5), "inventory");
 	}
 	
 

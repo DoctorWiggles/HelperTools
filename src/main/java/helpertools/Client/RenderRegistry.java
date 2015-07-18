@@ -15,18 +15,16 @@ public final class RenderRegistry {
 		reg(ItemRegistry.chocolatemilk);
 		reg(ItemRegistry.milkbottle);
 		reg(ItemRegistry.pattern_tool);
+		reg(ItemRegistry.expandertool);
+		reg(ItemRegistry.exchange_tool);
 		
-		if (ConfigurationFactory.Use_3D_Models){
-			Main.logger.info("Using 3D Models");
-			reg(ItemRegistry.expandertool);
-			reg(ItemRegistry.exchange_tool);			
-		}
+		/**
 		if (!ConfigurationFactory.Use_3D_Models){
 			Main.logger.info("Using 2D Sprites");
 			Alt_Reg(ItemRegistry.expandertool);
 			Alt_Reg(ItemRegistry.exchange_tool);	
 		}
-		
+		**/
 	}
 	
 	public static void registerBlockRenderer(){

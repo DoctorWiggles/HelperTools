@@ -9,6 +9,7 @@ import helpertools.Common.Items.ItemMilkBottle;
 import helpertools.Common.Tools.ItemEuclideanTransposer;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
+import helpertools.Common.Tools.ItemTorchLauncher;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -21,6 +22,7 @@ public class ItemRegistry {
 	public static Item expandertool;
 	public static Item exchange_tool;
 	public static Item pattern_tool;
+	public static Item crossbow_tool;
 
 	public static void createItems() {
 		Main.logger.info("Registering items");
@@ -29,6 +31,7 @@ public class ItemRegistry {
 		GameRegistry.registerItem(expandertool = new ItemStaffofExpansion(ConfigurationFactory.ExpRodMatt, "expander_item"), "expander_item");
 		GameRegistry.registerItem(exchange_tool = new ItemStaffofTransformation(ConfigurationFactory.ExpRodMatt, "exchange_item"), "exchange_item");
 		GameRegistry.registerItem(pattern_tool = new ItemEuclideanTransposer(ConfigurationFactory.ExpRodMatt, "pattern_item"), "pattern_item");
+		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.ExpRodMatt, "crossbow_item"),"crossbow_item");
 	}
 	
 	public static Block falseBedrock;

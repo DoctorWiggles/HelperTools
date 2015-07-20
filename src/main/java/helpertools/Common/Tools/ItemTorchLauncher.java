@@ -1,6 +1,9 @@
 package helpertools.Common.Tools;
 
-import helpertools.Common.Entity.EntityTorchProjectile;
+
+import helpertools.Common.Entity.Entity_DynamiteProjectile;
+import helpertools.Common.Entity.Entity_RedTorchProjectile;
+import helpertools.Common.Entity.Entity_TorchProjectile;
 
 import java.util.List;
 
@@ -494,7 +497,7 @@ public class ItemTorchLauncher extends ItemSpade{
 			{
 				case 2:
 				
-					par2World.spawnEntityInWorld(new EntityTorchProjectile(par2World, par3EntityPlayer));
+					par2World.spawnEntityInWorld(new Entity_TorchProjectile(par2World, par3EntityPlayer));
 					   par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 					   setTload(stack, 0);
 					   
@@ -503,7 +506,7 @@ public class ItemTorchLauncher extends ItemSpade{
 					
 				case 4:
 					 //par3EntityPlayer.playSound("mob.chicken.plop", 3F, 3.0F);
-					   //par2World.spawnEntityInWorld(new EntityRedTorchProjectile(par2World, par3EntityPlayer));
+					   par2World.spawnEntityInWorld(new Entity_RedTorchProjectile(par2World, par3EntityPlayer));
 					   par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 					   setTload(stack, 0);
 					   
@@ -512,7 +515,7 @@ public class ItemTorchLauncher extends ItemSpade{
 				
 				case 6:
 					//par3EntityPlayer.playSound("mob.chicken.plop", 3F, 3.0F);
-		       		  // par2World.spawnEntityInWorld(new EntityDynamiteProjectile(par2World, par3EntityPlayer));
+		       		   par2World.spawnEntityInWorld(new Entity_DynamiteProjectile(par2World, par3EntityPlayer));
 		       		   par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 		       		   setTload(stack, 0);
 		       		   

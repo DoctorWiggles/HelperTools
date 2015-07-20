@@ -35,14 +35,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class EntityTorchProjectile extends EntityThrowable{
+public class Entity_TorchProjectile extends EntityThrowable{
 
 	
-   public EntityTorchProjectile(World world) {
+   public Entity_TorchProjectile(World world) {
        super(world);
    }
 
-   public EntityTorchProjectile(World world, EntityPlayer entityPlayer) {
+   public Entity_TorchProjectile(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
    

@@ -11,10 +11,7 @@ item.pattern_item.name=§3Euclidean Transposer
 item.dirtbomb_item.name=Dirt Bomb §9[W.I.P.]
 item.bottledmilk_item.name=Bottle of Milk
 item.chocolatemilk_item.name=Chocolate Milk
-item.powercrystal.name=Lapilite Crystal
-item.powercrystal_0.name=Lapilite Crystal
-item.powercrystal_1.name=Calcified Lapilite
-
+item.debug_states_item.name=State Debugger
 
 #          #
 # Entities #

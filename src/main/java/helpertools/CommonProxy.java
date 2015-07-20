@@ -5,6 +5,7 @@ import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.NetworkMessage;
 import helpertools.Common.RecipeFactory;
+import helpertools.Common.Entity.Registry_Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -40,6 +41,7 @@ public class CommonProxy {
 		ItemRegistry.createItems();
 		ItemRegistry.createBlocks();
 		RecipeFactory.RegisterRecipes();
+		Registry_Entity.register_entities();
 
 	}
 

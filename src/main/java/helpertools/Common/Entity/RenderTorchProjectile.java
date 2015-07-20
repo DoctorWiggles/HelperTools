@@ -20,24 +20,13 @@ public class RenderTorchProjectile extends Render
 {
 	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap2.png"); 
 	protected ModelBase Model_Bolt = new Model_BoltProjectile();
-	//
-	//private Model_BoltProjectile1 ModelBoltProjectile1;
-	/**
-	public RenderTorchProjectile()
-	{
-		
-		ModelBoltProjectile1 = new ModelBoltProjectile1();
-	}
-	**/
+	
 	public RenderTorchProjectile(RenderManager renderu)
     {
         super(renderu);
         this.shadowSize = 0.2F;
     }
 	
-	
-	//private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
-  
 
     /**
      * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then

@@ -17,6 +17,7 @@ public final class RenderRegistry {
 		reg(ItemRegistry.pattern_tool);
 		reg(ItemRegistry.expandertool);
 		reg(ItemRegistry.exchange_tool);
+		reg(ItemRegistry.debug_states_tool);
 		
 		/**
 		if (!ConfigurationFactory.Use_3D_Models){

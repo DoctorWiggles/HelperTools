@@ -9,8 +9,12 @@ import java.util.Stack;
 
 
 
+
+
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
@@ -25,324 +29,190 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class EntityTorchProjectile extends EntityThrowable{
 
-	//required fields to extend Entitythrowable
-   public EntityTorchProjectile(World par1World) {
-       super(par1World);
+	
+   public EntityTorchProjectile(World world) {
+       super(world);
    }
 
-   public EntityTorchProjectile(World par2World, EntityPlayer par3EntityPlayer) {
-       super(par2World,par3EntityPlayer);
+   public EntityTorchProjectile(World world, EntityPlayer entityPlayer) {
+       super(world,entityPlayer);
    }
    
+   
    @Override
-   protected void entityInit() {
-
-	   //if enabled spawns particle effects
-   }
+   protected void entityInit() { }
+   
    public void onUpdate()
    {
 	   int i;
        super.onUpdate();
        for (i = 0; i < 2; ++i)
        {
+    	  //enable for particle effect trails.
            //this.worldObj.spawnParticle("crit", this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
+    	   //this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+    	   //this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0.0D, 0.0D, 0.0D, new int[0]);
        }   
    }
+   
    //uniqueness for each projectile entity
+   //Requires customs packets so I won't do that.
    @Override
-   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-
-   }
-      
-
+   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
    @Override
-   public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-
-   }
+   public void writeEntityToNBT(NBTTagCompound nbttagcompound) { }
    
-   public void drop_blockItem(World worldu, BlockPos pos1){
+   /** Compacted Block Dropper method **/
+   public void drop_blockItem(World world, BlockPos pos1){
 	   
-	   (worldu.getBlockState(pos1).getBlock()).dropBlockAsItem(worldu, pos1, worldu.getBlockState(pos1), 0);
+	   (world.getBlockState(pos1).getBlock()).dropBlockAsItem(world, pos1, world.getBlockState(pos1), 0);
+   }
+   
+   /** Adjusts torches' facing postion to correct block face for placement **/
+   public void place_block(World world, BlockPos pos2, EnumFacing sideHit, Block p_Block, boolean flag){
+	   //Block p_Block = Blocks.torch;
+	   IBlockState p_State = p_Block.getDefaultState();
+	   int meta = 5;
+	   //set to false prevents reshaping face, in case of hitting a grassblock sideways
+	   if (flag){
+	   switch(sideHit){
+	   case UP: //p_State = p_Block.getDefaultState();			   
+		   break;
+	   case DOWN: 
+		   break;
+	   case NORTH: meta = 4;
+		   break;
+	   case SOUTH: meta = 3;
+		   break;
+	   case EAST: meta = 1;
+		   break;
+	   case WEST: meta = 2;
+		   break;
+	   default:
+		break;	   
+	   }
+	   }
+	   //I've been yelling at my computer for hours trying to figure out this property rubbish
+	   //I'll just hack back into using meta for this. Documentation for 1.8 is a joke.
+	   //IBlockState G_State = Blocks.torch.withProperty(FACING, EnumFacing.UP); 
+	   // p_State = Blocks.torch.getStateFromMeta(meta); 
+	   
+	   p_State = p_Block.getStateFromMeta(meta); 
+	   world.setBlockState(pos2, p_State, 02);
    }
    
    
-   //Called upon when the entity touches an object, being an entity or block
+   
+   /** Called whenever the entities hitbox touches another box, being an entitie's or block. **/
    @Override
   protected void onImpact(MovingObjectPosition mop) {
 	   
-	   this.setDead();
-	   return;
-	   /**
+	   if (this.worldObj.isRemote){ return;}
+	   if(mop.entityHit != null){
+	    	  Entity_Impact(mop);
+	    	  return;
+	      }
 	   
-	   World worldu = this.worldObj;
-	   BlockPos pos1 = new BlockPos(mop.getBlockPos());
-	   Block theblock = BlockStateHelper.getBlockfromState(worldu, pos1);
-
-	   //The torch block to be placed in the world     
-	   Block pblock = Blocks.torch;
-	   //ItemStack p_stack = itemstack(pblock, 0, 0);
+	      EnumFacing sideHit = mop.sideHit; //face of a block
+	      World world = this.worldObj;
+	      BlockPos pos1 = mop.getBlockPos();
+	      Block P_Block = Blocks.torch;
+	      IBlockState P_State = Blocks.torch.getDefaultState();
+	     
 	      
-	   int Gmeta = 0;	
-	   //Gmeta =  worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ); 
-	   Gmeta = BlockStateHelper.getMetafromState(worldu,pos1);
+	      Block_Impact(mop, world, pos1, sideHit, P_Block, P_State);	
 	      
-	   IBlockState state_1 = BlockStateHelper.returnState(Gmeta);
+	      this.setDead();
 	   
-	   
-      
-	   if(!this.worldObj.isRemote){
-	   //some early calls and casting to simplify things later
-	   
-	  //The block it lands on in the world		   
-      //Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-      //Block theblock = worldObj.getBlockState(mop.getBlockPos());
-      **/
-      /**
-      
-      
-      if(theblock.getMaterial() == Material.plants
-    		  || theblock.getMaterial() == Material.vine){
-    	 // this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, Blocks.air); 
-    	  
-    	  //defualt placement on ground for plants etc
-    	 if(worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) == Blocks.air
-    			&& worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ) != theblock//){
-    			 && worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ).getMaterial() != Material.vine
-    			 
-    			 || 
-    			 worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) == Blocks.air
-     			&& worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ) != theblock//){
-     			 && worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ).getMaterial()!= Material.plants
-     			 
-     			|| 
-   			 worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ).getMaterial()== Material.plants
-    			&& worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ) != theblock//){
-    			 //&& worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ).getMaterial()!= Material.plants
-     			 
-    			 
-    			 ){
-    		 drop_blockItem(worldu, pos1);
-    		 //this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-    		 worldu.setBlockState(pos1,(IBlockState) pblock, 02);
-    		 this.setDead();
-    	 }
-    	 //vine on wall placement
-    		 else if(theblock.getMaterial() == Material.vine
-    				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ+1) != Blocks.air
-    				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ+1).getMaterial() != Material.vine
-    				 
-    				 ){
-    			 drop_blockItem(worldu, pos1);
-    			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-        		 this.setDead();
-    		 }
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.vine
-     				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ-1) != Blocks.air
-     				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ-1).getMaterial() != Material.vine
-     				 
-     				 ){
-    			 drop_blockItem(worldu, pos1);
-     			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-         		 this.setDead();
-     		 }
-    	 //
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.vine
-     				&& worldObj.getBlock(mop.blockX+1, mop.blockY, mop.blockZ) != Blocks.air
-     				&& worldObj.getBlock(mop.blockX+1, mop.blockY, mop.blockZ).getMaterial() != Material.vine
-     				 
-     				 ){
-    			 drop_blockItem(worldu, pos1);
-     			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-         		 this.setDead();
-     		 }
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.vine
-      				&& worldObj.getBlock(mop.blockX-1, mop.blockY, mop.blockZ) != Blocks.air
-      				&& worldObj.getBlock(mop.blockX-1, mop.blockY, mop.blockZ).getMaterial() != Material.vine
-      				 
-      				 ){
-    			 //BlockStateHelper.getMetafromState(worldu,pos1).dropBlockAsItem(theblock, Gmeta, 0);
-    			 //(worldu.getBlockState(pos1).getBlock()).dropBlockAsItem(worldu, pos1, worldu.getBlockState(pos1), 0);
-    			 drop_blockItem(worldu, pos1);
-      			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-          		 this.setDead();
-      		 }
-    	 
-    	 
-    	//plants on wall placement
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.plants
-    				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ+1) != Blocks.air
-    				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ+1).getMaterial() != Material.plants
-    				 
-    				 ){
-    			 drop_blockItem(worldu, pos1);
-    			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-        		 this.setDead();
-    		 }
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.plants
-     				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ-1) != Blocks.air
-     				&& worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ-1).getMaterial() != Material.plants
-     				 
-     				 ){
-    			 drop_blockItem(worldu, pos1);
-     			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-         		 this.setDead();
-     		 }
-    	 //
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.plants
-     				&& worldObj.getBlock(mop.blockX+1, mop.blockY, mop.blockZ) != Blocks.air
-     				&& worldObj.getBlock(mop.blockX+1, mop.blockY, mop.blockZ).getMaterial() != Material.plants
-     				 
-     				 ){
-    			 drop_blockItem(worldu, pos1);
-     			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-         		 this.setDead();
-     		 }
-    		 else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.plants
-      				&& worldObj.getBlock(mop.blockX-1, mop.blockY, mop.blockZ) != Blocks.air
-      				&& worldObj.getBlock(mop.blockX-1, mop.blockY, mop.blockZ).getMaterial() != Material.plants
-      				 
-      				 ){
-    			 drop_blockItem(worldu, pos1);
-      			 this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-          		 this.setDead();
-      		 }
-    				
-      }
-      
-      
-      else if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() != Material.plants
-    		  || worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() != Material.vine){
-      
-      //The side of a block the entity hits
-      int sideHit = mop.sideHit;
-     
-      
-      
-      //when it hits an entity do this
-      if (mop.entityHit != null &&!(mop.entityHit instanceof EntityEnderman))
-      {
-    	  mop.entityHit.setFire(2);
-    	  this.setDead();
-      }
-      if ((mop.entityHit instanceof EntityEnderman))
-      {		
-    	  mop.entityHit.setFire(1);
-      }
-      
-      //when it hits a block go through this procedure to place or not place the block
-      //ensures its properly placed depending on which part of a block you hit
-      if(sideHit == 0)
-    	  //bottom side
-      {
-    	  if (worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ) == Blocks.air
-    			  || 
-    			  worldObj.getBlock(mop.blockX, mop.blockY-1, mop.blockZ) == Blocks.snow_layer)
-    		  //if true place the block here
-    	  {
-    	  this.worldObj.setBlock(mop.blockX, mop.blockY-1, mop.blockZ, pblock);
-    	  }
-    	  //if conditions aren't met drop an item object instead
-    	  else
-    	  {pblock.dropBlockAsItem(worldObj,mop.blockX, mop.blockY-1, mop.blockZ, 0, 0);}
-    	  this.setDead();
-      }
-      //      
-      if(sideHit == 1)
-    	  //top side
-      {  	  
-    	  if(worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) == Blocks.air  &&
-    			  worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) != Blocks.snow_layer)
-    	  {
-    	  this.worldObj.setBlock(mop.blockX, mop.blockY+1, mop.blockZ, pblock);
-    	  }
-    	  else if( worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) == Blocks.air  &&
-    			  worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) == Blocks.snow_layer)
-    	  {
-    		  this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, pblock);  
-    	  }
-    	  else if(worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) != Blocks.air &&
-    			  worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) != Blocks.snow_layer &&
-    			  worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) != pblock)
-    	  {
-    		  pblock.dropBlockAsItem(worldObj,mop.blockX, mop.blockY+1, mop.blockZ, 0, 0);
-    	  }
-    	  else if(worldObj.getBlock(mop.blockX, mop.blockY+1, mop.blockZ) == pblock) 
-    	  {
-    		  pblock.dropBlockAsItem(worldObj,mop.blockX, mop.blockY+1, mop.blockZ, 0, 0);
-    	  }
-    	  this.setDead();
-      }
-      //
-      if(sideHit == 2 )
-      {
-    	  if (worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ-1) == Blocks.air
-    			  || 
-    			  worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ-1) == Blocks.snow_layer)
-    	  {
-    	  this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ-1, pblock);
-    	  }      	
-	  	else
-	  	{
-	  		pblock.dropBlockAsItem(worldObj,mop.blockX, mop.blockY, mop.blockZ-1, 0, 0);
-	  	}
-    	  this.setDead();
-	  }
-
-      //
-      if(sideHit == 3 )
-    	  {if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ+1) == Blocks.air
-    	  || 
-		  worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ+1) == Blocks.snow_layer)
-    	  {
-    	  this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ+1, pblock);
-    	  }
-    	  else
-    	  {
-    		  pblock.dropBlockAsItem(worldObj,mop.blockX, mop.blockY, mop.blockZ+1, 0, 0);}
-    	  this.setDead();
-    	  }
-      //
-      if(sideHit == 4) {
-    	  if( worldObj.getBlock(mop.blockX-1, mop.blockY, mop.blockZ) == Blocks.air
-    			  || 
-    			  worldObj.getBlock(mop.blockX-1, mop.blockY, mop.blockZ) == Blocks.snow_layer)
-      
-    	  {
-    	  this.worldObj.setBlock(mop.blockX-1, mop.blockY, mop.blockZ, pblock);
-    	  }
-    	  else
-    	  {
-    		  pblock.dropBlockAsItem(worldObj,mop.blockX-1, mop.blockY, mop.blockZ, 0, 0);}
-    	  this.setDead();
-    	  }
-      //
-      if(sideHit == 5){
-    	  if(worldObj.getBlock(mop.blockX+1, mop.blockY, mop.blockZ) == Blocks.air
-    			  || 
-    			  worldObj.getBlock(mop.blockX+1, mop.blockY, mop.blockZ) == Blocks.snow_layer)
-      
-    	  {
-    	  this.worldObj.setBlock(mop.blockX+1, mop.blockY, mop.blockZ, pblock);
-    	  }
-    	  else
-    	  {
-    		  pblock.dropBlockAsItem(worldObj,mop.blockX+1, mop.blockY, mop.blockZ, 0, 0); }
-    	  this.setDead();
-    	  }
-      
-    
-    
-      
-      
-	   } 
-	   }**/
    }
+   
+   /** Seperate Unit for entity processing **/
+   public void Entity_Impact(MovingObjectPosition mop){
+	   
+	 //when it hits an entity do this
+	      if (mop.entityHit != null &&!(mop.entityHit instanceof EntityEnderman))
+	      {
+	    	  mop.entityHit.setFire(2);
+	    	  this.setDead();
+	      }
+	      if ((mop.entityHit instanceof EntityEnderman))
+	      {		
+	    	  mop.entityHit.setFire(1);
+	      }
+   }
+   
+   /** Seperate Unit for block impact processing **/
+   public void Block_Impact(MovingObjectPosition mop, World world, BlockPos pos1, EnumFacing sideHit, Block p_Block, IBlockState p_State) {
+	   BlockPos pos2 = pos1;
+	   
+	   switch(sideHit){
+	   case UP: pos2 = pos1.up();
+		   break;
+	   case DOWN: pos2 = pos1.down();
+		   break;
+	   case NORTH: pos2 = pos1.north();
+		   break;
+	   case SOUTH: pos2 = pos1.south();
+		   break;
+	   case EAST: pos2 = pos1.east();
+		   break;
+	   case WEST: pos2 = pos1.west();
+		   break;
+	   default:
+		break;	   
+	   }	   
+	   if(world.getBlockState(pos1).getBlock().getMaterial() == Material.plants 
+				|| world.getBlockState(pos1).getBlock().getMaterial() == Material.vine 
+				|| world.getBlockState(pos1).getBlock() == Blocks.snow_layer){
+		   drop_blockItem(world, pos1);
+		   //world.setBlockState(pos1, p_State, 02);
+		   boolean flag = false;
+		   if(world.getBlockState(pos1).getBlock().getMaterial() == Material.vine
+				   && !(world.getBlockState(pos1).getBlock() == Blocks.tallgrass)){
+			   flag = true;
+		   }
+		   place_block(world, pos1, sideHit, p_Block, flag);
+		   this.setDead();
+		   return;		   
+		   
+	   }
+	   if(world.getBlockState(pos2).getBlock().getMaterial() == Material.plants 
+				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine 
+				|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer){
+		   drop_blockItem(world, pos2);
+		   place_block(world, pos2, sideHit, p_Block, true);
+		   this.setDead();
+		   return;		   
+		   
+	   }
+	   if(world.isAirBlock(pos2)){
+		   place_block(world, pos2, sideHit, p_Block, true);
+		   this.setDead();
+		   return;
+		   
+	   }
+	   else{
+		   drop_blockItem(world, pos2);
+		   this.setDead();
+		   return;
+	   }
+	   
+	
+	
+   }
+   
+   
+   
+   
+   
 
   
 }

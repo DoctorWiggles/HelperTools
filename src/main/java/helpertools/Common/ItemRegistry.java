@@ -4,6 +4,7 @@ import helpertools.Main;
 import helpertools.Common.Blocks.FalseBedrock;
 import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Common.Blocks.TranscriberBlock;
+import helpertools.Common.Items.Debug_States;
 import helpertools.Common.Items.ItemChocolateMilk;
 import helpertools.Common.Items.ItemMilkBottle;
 import helpertools.Common.Tools.ItemEuclideanTransposer;
@@ -23,6 +24,7 @@ public class ItemRegistry {
 	public static Item exchange_tool;
 	public static Item pattern_tool;
 	public static Item crossbow_tool;
+	public static Item debug_states_tool;
 
 	public static void createItems() {
 		Main.logger.info("Registering items");
@@ -32,6 +34,7 @@ public class ItemRegistry {
 		GameRegistry.registerItem(exchange_tool = new ItemStaffofTransformation(ConfigurationFactory.ExpRodMatt, "exchange_item"), "exchange_item");
 		GameRegistry.registerItem(pattern_tool = new ItemEuclideanTransposer(ConfigurationFactory.ExpRodMatt, "pattern_item"), "pattern_item");
 		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.ExpRodMatt, "crossbow_item"),"crossbow_item");
+		GameRegistry.registerItem(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
 	}
 	
 	public static Block falseBedrock;

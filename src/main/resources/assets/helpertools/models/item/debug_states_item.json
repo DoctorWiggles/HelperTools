@@ -1,0 +1,6 @@
+{
+    "parent":"helpertools:item/standard_tool",
+    "textures": {
+        "layer0":"helpertools:items/debug_states_item"
+    }
+}

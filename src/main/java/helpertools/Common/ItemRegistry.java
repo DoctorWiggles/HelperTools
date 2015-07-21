@@ -6,6 +6,7 @@ import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Common.Blocks.TranscriberBlock;
 import helpertools.Common.Items.Debug_States;
 import helpertools.Common.Items.ItemChocolateMilk;
+import helpertools.Common.Items.ItemDynamiteBolt;
 import helpertools.Common.Items.ItemMilkBottle;
 import helpertools.Common.Tools.ItemEuclideanTransposer;
 import helpertools.Common.Tools.ItemStaffofExpansion;
@@ -23,8 +24,10 @@ public class ItemRegistry {
 	public static Item expandertool;
 	public static Item exchange_tool;
 	public static Item pattern_tool;
-	public static Item crossbow_tool;
+	public static Item crossbow_tool;	
 	public static Item debug_states_tool;
+	public static Item dynamitebolt;
+	
 
 	public static void createItems() {
 		Main.logger.info("Registering items");
@@ -33,8 +36,9 @@ public class ItemRegistry {
 		GameRegistry.registerItem(expandertool = new ItemStaffofExpansion(ConfigurationFactory.ExpRodMatt, "expander_item"), "expander_item");
 		GameRegistry.registerItem(exchange_tool = new ItemStaffofTransformation(ConfigurationFactory.ExpRodMatt, "exchange_item"), "exchange_item");
 		GameRegistry.registerItem(pattern_tool = new ItemEuclideanTransposer(ConfigurationFactory.ExpRodMatt, "pattern_item"), "pattern_item");
-		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.ExpRodMatt, "crossbow_item"),"crossbow_item");
+		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.ExpRodMatt, "crossbow_item"),"crossbow_item");		
 		GameRegistry.registerItem(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
+		GameRegistry.registerItem(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"),"dynamitebolt_item");
 	}
 	
 	public static Block falseBedrock;

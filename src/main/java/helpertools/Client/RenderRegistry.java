@@ -18,6 +18,7 @@ public final class RenderRegistry {
 		reg(ItemRegistry.expandertool);
 		reg(ItemRegistry.exchange_tool);
 		reg(ItemRegistry.debug_states_tool);
+		reg(ItemRegistry.dynamitebolt);
 		
 		/**
 		if (!ConfigurationFactory.Use_3D_Models){

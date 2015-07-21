@@ -29,9 +29,9 @@ public class ToolBase_Default extends ItemSpade{
 	
 
 	//Generic tool stuff
-	public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, int x1, int y1, int z1, EntityLivingBase entity)
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, BlockPos pos1, EntityLivingBase entity)
     {
-		BlockPos pos1 = new BlockPos(x1, y1, z1); 
+		
 		
         if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
         {

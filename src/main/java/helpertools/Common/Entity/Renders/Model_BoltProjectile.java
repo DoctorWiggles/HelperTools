@@ -9,7 +9,7 @@
 
 
 
-package helpertools.Common.Entity;
+package helpertools.Common.Entity.Renders;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

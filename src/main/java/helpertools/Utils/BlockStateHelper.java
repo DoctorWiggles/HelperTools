@@ -73,5 +73,10 @@ public class BlockStateHelper {
 	        return j;
 		}
 		
+		public static int getblock_ID(World world, BlockPos pos1){
+			int id;
+			id = BlockStateHelper.returnBlock_ID(BlockStateHelper.returnID(world, pos1));
+			return id;
+		}
 	
 }

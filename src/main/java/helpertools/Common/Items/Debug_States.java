@@ -30,26 +30,28 @@ public class Debug_States extends Item{
 						EnumChatFormatting.GRAY + "" + world, new Object[0]);
 				theplayer.addChatComponentMessage(chatmessy5); **/
 			 return false;}		
-		String Messy = "State: " + world.getBlockState(pos);		
-		String Messy2 = "Meta: " + BlockStateHelper.getMetafromState(world,pos);
-		String Messy3 = "ID: " + BlockStateHelper.returnID(world,pos);
-		String Messy4 = "Local : " + world.getBlockState(pos).getBlock().getLocalizedName();
-		String Messy5 = "Unlocal : " + world.getBlockState(pos).getBlock().getUnlocalizedName();
-		String Messy6 = "" + pos;
+		String State = "State: " + world.getBlockState(pos);		
+		String Meta = "Meta: " + BlockStateHelper.getMetafromState(world,pos);
+		String ID = "ID: " + BlockStateHelper.returnID(world,pos);
+		String Local = "Local : " + world.getBlockState(pos).getBlock().getLocalizedName();
+		String Unlocal = "Unlocal : " + world.getBlockState(pos).getBlock().getUnlocalizedName();
+		String posi = "" + pos;
+		String blockid = "#: " + BlockStateHelper.returnBlock_ID(BlockStateHelper.returnID(world, pos));
 		
 		ChatComponentTranslation chatmessy2 = new ChatComponentTranslation(
-				EnumChatFormatting.WHITE+ Messy6 
-				+EnumChatFormatting.YELLOW+ Messy4, new Object[0]);
+				EnumChatFormatting.WHITE+ posi 
+				+EnumChatFormatting.YELLOW+ Local, new Object[0]);
 		theplayer.addChatComponentMessage(chatmessy2);
-		ChatComponentTranslation chatmessy1 = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+		ChatComponentTranslation chatmessy1 = new ChatComponentTranslation(EnumChatFormatting.GRAY + State, new Object[0]);
 		theplayer.addChatComponentMessage(chatmessy1);		
 		
 		ChatComponentTranslation chatmessy = new ChatComponentTranslation(
 				//EnumChatFormatting.GRAY +
 				//Messy + " "+
-				EnumChatFormatting.GREEN +Messy2 + " "+
-				EnumChatFormatting.BLUE +Messy3 + " "+
-				EnumChatFormatting.RED + Messy5
+				blockid+ " "+
+				EnumChatFormatting.GREEN +Meta + " "+
+				EnumChatFormatting.BLUE +ID + " "+
+				EnumChatFormatting.RED + Unlocal
 				
 				, new Object[0]);
 		(theplayer).addChatComponentMessage(chatmessy);

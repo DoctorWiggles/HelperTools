@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
@@ -27,6 +28,8 @@ public class Registry_Entity {
         (Entity_DynamiteProjectile.class, new RenderDynamiteProjectile(Randy));
         RenderingRegistry.registerEntityRenderingHandler
         (Entity_RedTorchProjectile.class, new RenderRedTorchProjectile(Randy));
+        
+       
 		
 	}
 	

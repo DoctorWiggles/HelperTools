@@ -34,7 +34,7 @@ public class ToolBase_Crossbow extends ItemSpade{
 	    {
 	        if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
 	        {
-	            stack.damageItem(4, entity);
+	            stack.damageItem(400, entity);
 	        }
 	        return true;
 	    }
@@ -56,9 +56,11 @@ public class ToolBase_Crossbow extends ItemSpade{
 	    		stack.setTagCompound(new NBTTagCompound()); 
 	    		stack.getTagCompound().setInteger("Tload", 0);
 	    		stack.getTagCompound().setInteger("mode", 0);    		
-	    		stack.getTagCompound().setInteger("ToolLevel", 0);
-	    		stack.getTagCompound().setInteger("OffMode", 0);  
-	    		}
+	    		//stack.getTagCompound().setInteger("ToolLevel", 0);
+	    		//stack.getTagCompound().setInteger("OffMode", 0);  
+	    		}	    	   		
+	    	//if(isheld){	stack.setItemDamage(getMode(stack));}
+	    	
 		}
 		//Modes and load factors
 		public int getMode(ItemStack itemStack)

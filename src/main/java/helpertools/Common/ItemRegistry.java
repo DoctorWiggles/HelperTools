@@ -33,10 +33,10 @@ public class ItemRegistry {
 		Main.logger.info("Registering items");
 		GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk(3, 0.5f, true, "chocolatemilk_item"), "chocolatemilk_item");
 		GameRegistry.registerItem(milkbottle = new ItemMilkBottle("bottledmilk_item"), "bottledmilk_item");
-		GameRegistry.registerItem(expandertool = new ItemStaffofExpansion(ConfigurationFactory.ExpRodMatt, "expander_item"), "expander_item");
-		GameRegistry.registerItem(exchange_tool = new ItemStaffofTransformation(ConfigurationFactory.ExpRodMatt, "exchange_item"), "exchange_item");
-		GameRegistry.registerItem(pattern_tool = new ItemEuclideanTransposer(ConfigurationFactory.ExpRodMatt, "pattern_item"), "pattern_item");
-		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.ExpRodMatt, "crossbow_item"),"crossbow_item");		
+		GameRegistry.registerItem(expandertool = new ItemStaffofExpansion(ConfigurationFactory.ExpRod_Matt, "expander_item"), "expander_item");
+		GameRegistry.registerItem(exchange_tool = new ItemStaffofTransformation(ConfigurationFactory.Exchange_Matt, "exchange_item"), "exchange_item");
+		GameRegistry.registerItem(pattern_tool = new ItemEuclideanTransposer(ConfigurationFactory.Pattern_Matt, "pattern_item"), "pattern_item");
+		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.Crossbow_Matt, "crossbow_item"),"crossbow_item");		
 		GameRegistry.registerItem(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
 		GameRegistry.registerItem(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"),"dynamitebolt_item");
 	}

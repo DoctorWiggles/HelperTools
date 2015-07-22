@@ -9,6 +9,7 @@ import helpertools.Utils.HelpTab;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,8 +38,26 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
        this.maxStackSize = 1;  
        setUnlocalizedName(unlocalizedName);
        setCreativeTab(HelpTab.HelperTools);
+       //this.setHasSubtypes(true);
        
    }
+   @Override
+   public String getUnlocalizedName(ItemStack stack) {
+	   String name= "Torch";
+	   if (stack.hasTagCompound()) {
+			name =  whatModeString(stack);}
+	   
+	   return super.getUnlocalizedName() + "_" + (name);
+	   
+      // return super.getUnlocalizedName() + "." + (stack.getItemDamage() == 0 ? "white" : "black");
+   }
+   /**
+   @Override
+   public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
+       subItems.add(new ItemStack(itemIn, 1, 0));
+       subItems.add(new ItemStack(itemIn, 1, 1));
+   }
+   **/
    @Override
    public void addInformation(ItemStack stack, EntityPlayer entity, List list, boolean par4)
    {
@@ -109,7 +128,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    @Override
    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) 
    {	
-	   if( player.worldObj.isRemote){return stack;}
+	   if(player.worldObj.isRemote){return stack;}
 	   
 	   if(!player.isSneaking() && getTload(stack) ==2){
 		   //Firing function

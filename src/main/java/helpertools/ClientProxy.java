@@ -3,7 +3,10 @@ package helpertools;
 import helpertools.Client.KeyBindings;
 import helpertools.Client.KeyInputHandler;
 import helpertools.Client.RenderRegistry;
+import helpertools.Client.Render_Entity;
+import helpertools.Client.ToolHud;
 import helpertools.Common.Registry_Entity;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -19,6 +22,7 @@ public class ClientProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(new KeyInputHandler());
 		KeyBindings.init();  
 		//MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
 	}
 
 	@Override
@@ -27,7 +31,8 @@ public class ClientProxy extends CommonProxy {
 
 		RenderRegistry.registerItemRenderer();
 		RenderRegistry.registerBlockRenderer();		
-		Registry_Entity.register_entity_renderer();
+		Render_Entity.register_entity_renderer();
+		
 	}
 
 	@Override

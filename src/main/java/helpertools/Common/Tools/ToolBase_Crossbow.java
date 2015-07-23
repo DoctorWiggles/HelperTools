@@ -1,6 +1,7 @@
 package helpertools.Common.Tools;
 
 import helpertools.Main;
+import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
@@ -228,9 +229,11 @@ public class ToolBase_Crossbow extends ItemSpade{
 	    /** Static special effect clause **/
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
 	    	Float sound = Main.Randy.nextFloat()+ 5F; //1f
-	    	player.worldObj.playSoundAtEntity(player, "mob.chicken.plop", sound, 3.0F);			
+	    	player.worldObj.playSoundAtEntity(player, "mob.chicken.plop", sound, 3.0F);	
+	    	if(ConfigurationFactory.ToolModeMesseges){
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + whatModeString(stack)+" loaded", new Object[0]);
 			player.addChatComponentMessage(chatcomponenttranslation);
+	    	}
 	    }
 	    
 	    
@@ -263,7 +266,7 @@ public class ToolBase_Crossbow extends ItemSpade{
 	    /** loads the missle **/
 	    public void crossbow_LOAD(ItemStack stack,  World world, EntityPlayer player){
 	    	
-	    	if(player.capabilities.isCreativeMode){
+	    	if(player.capabilities.isCreativeMode){	    		
 	    		setTload(stack, 2);
 	    		world.playSoundAtEntity(player, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);	
 	    		return;
@@ -277,7 +280,7 @@ public class ToolBase_Crossbow extends ItemSpade{
 		    		return;
 		    		
 		    		
-	    		}
+	    		}	    		
 	    		else{
 	    			world.playSoundAtEntity(player, "fire.ignite",4F, itemRand.nextFloat() * 0.4F + 0.9F);
 		   			return;

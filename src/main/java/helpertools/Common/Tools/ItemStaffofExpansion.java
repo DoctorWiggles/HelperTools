@@ -1,5 +1,6 @@
 package helpertools.Common.Tools;
 
+import helpertools.Common.ConfigurationFactory;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
@@ -104,10 +105,10 @@ public class ItemStaffofExpansion extends ToolBase_Default
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
 			//config hook
 			
-		    //if(Helpertoolscore.ToolModeMesseges == true){		    
+			if(ConfigurationFactory.ToolModeMesseges){  
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
-		    //}
+		    }
 			
 			return true;
     	}

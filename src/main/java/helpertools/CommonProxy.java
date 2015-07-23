@@ -32,7 +32,7 @@ public class CommonProxy {
     	Main.network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
         // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
     	
-    	MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+    	
     	
 	}
 

@@ -20,7 +20,8 @@ public final class RenderRegistry {
 		reg(ItemRegistry.exchange_tool);
 		reg(ItemRegistry.debug_states_tool);
 		reg(ItemRegistry.dynamitebolt);
-		reg(ItemRegistry.crossbow_tool);
+		//reg(ItemRegistry.crossbow_tool);
+		
 		//ModelBakery.addVariantName(Item.getItemFromBlock(ModBlocks.propertyBlock),"tutorial:block_properties_black", "tutorial:block_properties_white");
 		
 		//ModelBakery.addVariantName(ItemRegistry.crossbow_tool,"helpertools:crossbow_item", "helpertools:crossbow_item.torch");
@@ -28,6 +29,9 @@ public final class RenderRegistry {
 		
 		//Meta_reg(ItemRegistry.crossbow_tool, 0, "crossbow_item_torch");
 		//Meta_reg(ItemRegistry.crossbow_tool, 0, "crossbow_item_torch");
+		
+		
+		
 		/**
 		if (!ConfigurationFactory.Use_3D_Models){
 			Main.logger.info("Using 2D Sprites");
@@ -35,6 +39,21 @@ public final class RenderRegistry {
 			Alt_Reg(ItemRegistry.exchange_tool);	
 		}
 		**/
+		
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_1", "inventory");
+	    final int DEFAULT_ITEM_SUBTYPE = 0;
+	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ItemRegistry.crossbow_tool, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
+	}
+	public static void Bakery_Advance() {
+		
+		ModelBakery.addVariantName(ItemRegistry.crossbow_tool, 
+				modid + ":" + "crossbow_item_0",
+				modid + ":" + "crossbow_item_1",
+				modid + ":" + "crossbow_item_2",
+				modid + ":" + "crossbow_item_3",
+				modid + ":" + "crossbow_item_4"
+				);
+		
 	}
 	
 	public static void registerBlockRenderer(){
@@ -63,4 +82,6 @@ public final class RenderRegistry {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
 		.register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(modid + ":" + block.getUnlocalizedName().substring(5), "inventory"));
 	}
+
+	
 }

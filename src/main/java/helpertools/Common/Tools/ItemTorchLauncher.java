@@ -4,11 +4,13 @@ import helpertools.Common.ItemRegistry;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
 import helpertools.Common.Entity.Entity_TorchProjectile;
+import helpertools.Common.Entity.Renders.Models_Crossbow;
 import helpertools.Utils.HelpTab;
 
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
@@ -30,6 +32,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemTorchLauncher extends ToolBase_Crossbow{
 
@@ -51,6 +55,24 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 	   
       // return super.getUnlocalizedName() + "." + (stack.getItemDamage() == 0 ? "white" : "black");
    }
+   
+   /**https://github.com/TheGreyGhost/MinecraftByExample/tree/master/src/main/java/minecraftbyexample/mbe12_item_nbt_animate **/
+   @Override
+   @SideOnly(Side.CLIENT)
+   public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int ticksRemaining) {
+	   
+	 if (!stack.hasTagCompound()) {return Models_Crossbow.getInstance().getModel(0);} 
+	 int loaded = getTload(stack);
+	 if (loaded == 0){
+		 return Models_Crossbow.getInstance().getModel(0);
+	 }
+	 else{
+     int mode = getMode(stack)+1;     
+     return Models_Crossbow.getInstance().getModel(mode);
+	 }
+   }
+      
+   
    /**
    @Override
    public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {

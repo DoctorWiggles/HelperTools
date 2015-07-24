@@ -14,6 +14,8 @@ item.chocolatemilk_item.name=Chocolate Milk
 item.debug_states_item.name=State Debugger
 
 #
+item.crossbow_item.name=Torch Launcher
+
 item.crossbow_item_Torch.name=§e§oTorch §rLauncher
 item.crossbow_item_Redstone.name=§4§oRedstone §rLauncher
 item.crossbow_item_Dynamite.name=§6§oDynamite §rLauncher

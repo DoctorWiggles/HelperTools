@@ -1,0 +1,25 @@
+{
+    "parent":"helpertools:block/Crossbow_Redstone",
+    "display": {
+    "thirdperson": {
+        "rotation": [ 264, 0, 0 ],
+        "translation": [ -0.25, 2.25, -4.50 ],
+        "scale": [ 1.25, 1.25, 1.25 ]
+    },
+    "firstperson": {
+        "rotation": [ 356, 132, 358 ],
+        "translation": [ -0.25, 5.00, -0.75 ],
+        "scale": [ 2.50, 2.50, 2.50 ]
+    },
+    "gui": {
+        "rotation": [ 344, 12, 358 ],
+        "translation": [ 1.00, 2.75, -0.25 ],
+        "scale": [ 2.55, 2.55, 2.55 ]
+    },
+    "head": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
+    }
+}
+}

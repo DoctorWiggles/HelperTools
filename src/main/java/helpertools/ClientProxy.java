@@ -23,6 +23,7 @@ public class ClientProxy extends CommonProxy {
 		KeyBindings.init();  
 		//MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
 		MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+		RenderRegistry.Bakery_Advance();
 	}
 
 	@Override

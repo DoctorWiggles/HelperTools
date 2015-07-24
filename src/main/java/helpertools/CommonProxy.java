@@ -32,14 +32,14 @@ public class CommonProxy {
     	Main.network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
         // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
     	
-    	
+    	ItemRegistry.createItems();
+		ItemRegistry.createBlocks();
     	
 	}
 
 	public void init(FMLInitializationEvent e) {
 		
-		ItemRegistry.createItems();
-		ItemRegistry.createBlocks();
+		
 		RecipeFactory.RegisterRecipes();
 		Registry_Entity.register_entities();
 

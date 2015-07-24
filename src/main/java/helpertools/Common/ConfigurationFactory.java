@@ -70,6 +70,7 @@ public class ConfigurationFactory extends ItemRegistry{
 	public static boolean ToolPowerMesseges = false;
 	//public static boolean Use_3D_Models = true;
 	
+	
 	public static final Section sect_Blocks = new Section("Block Recipes", "block recipes");
 	//public static boolean TechnicalSlabs = true;
 	public static boolean Recipe_EuclideanBlock;

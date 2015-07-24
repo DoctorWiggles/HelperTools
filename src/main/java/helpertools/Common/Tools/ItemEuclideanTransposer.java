@@ -230,7 +230,8 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.lava 
     						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.water
     						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants 
-    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine )
+    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine
+    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.snow)
     				{
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
     					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0);
@@ -240,7 +241,8 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     					//theblock.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
     						if (world.getBlockState(pos2).getBlock().getMaterial() == Material.vine
-    	    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants) 
+    	    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants
+    	    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.snow) 
     						{
     							//world.getBlockState(pos2).getBlock().dropBlockAsItem(world,X_1 , Y_1 , Z_1 , (world.getBlockMetadata(pos2)), 0);
     							world.getBlockState(pos2).getBlock().dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);

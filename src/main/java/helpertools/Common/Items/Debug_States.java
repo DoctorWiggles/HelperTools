@@ -25,11 +25,8 @@ public class Debug_States extends Item{
 	
 	public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3){
 		
-		 if (!world.isRemote){ /**
-			 ChatComponentTranslation chatmessy5 = new ChatComponentTranslation(
-						EnumChatFormatting.GRAY + "" + world, new Object[0]);
-				theplayer.addChatComponentMessage(chatmessy5); **/
-			 return false;}		
+		 if (!world.isRemote){ return false;}		
+		 //if(!theplayer.isSneaking()){
 		String State = "State: " + world.getBlockState(pos);		
 		String Meta = "Meta: " + BlockStateHelper.getMetafromState(world,pos);
 		String ID = "ID: " + BlockStateHelper.returnID(world,pos);
@@ -61,7 +58,8 @@ public class Debug_States extends Item{
 				EnumChatFormatting.GRAY + "" + world, new Object[0]);
 		theplayer.addChatComponentMessage(chatmessy2);
 		**/
-		
+		 //}
+		 
 		
 		
 		
@@ -69,5 +67,10 @@ public class Debug_States extends Item{
 	   
 	    	
 	    }
+	
+	 public void drop_blockItem(World world, BlockPos pos1){
+		   
+		   (world.getBlockState(pos1).getBlock()).dropBlockAsItem(world, pos1, world.getBlockState(pos1), 0);
+	   }
 
 }

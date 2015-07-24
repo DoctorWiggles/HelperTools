@@ -18,27 +18,9 @@ public final class RenderRegistry {
 		reg(ItemRegistry.pattern_tool);
 		reg(ItemRegistry.expandertool);
 		reg(ItemRegistry.exchange_tool);
-		reg(ItemRegistry.debug_states_tool);
+		//reg(ItemRegistry.debug_states_tool);
 		reg(ItemRegistry.dynamitebolt);
 		//reg(ItemRegistry.crossbow_tool);
-		
-		//ModelBakery.addVariantName(Item.getItemFromBlock(ModBlocks.propertyBlock),"tutorial:block_properties_black", "tutorial:block_properties_white");
-		
-		//ModelBakery.addVariantName(ItemRegistry.crossbow_tool,"helpertools:crossbow_item", "helpertools:crossbow_item.torch");
-		//Meta_reg(ItemRegistry.expandertool, 0, "expander_item_alt");
-		
-		//Meta_reg(ItemRegistry.crossbow_tool, 0, "crossbow_item_torch");
-		//Meta_reg(ItemRegistry.crossbow_tool, 0, "crossbow_item_torch");
-		
-		
-		
-		/**
-		if (!ConfigurationFactory.Use_3D_Models){
-			Main.logger.info("Using 2D Sprites");
-			Alt_Reg(ItemRegistry.expandertool);
-			Alt_Reg(ItemRegistry.exchange_tool);	
-		}
-		**/
 		
 		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_1", "inventory");
 	    final int DEFAULT_ITEM_SUBTYPE = 0;
@@ -68,13 +50,13 @@ public final class RenderRegistry {
 	public static void reg(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
 		(item, 0, new ModelResourceLocation(modid + ":" + item.getUnlocalizedName().substring(5), "inventory"));
-		Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
+		//Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
 	}
 	
 	public static void Meta_reg(Item item, int meta, String file) {
 	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
 	    (item, meta, new ModelResourceLocation(modid + ":" + file, "inventory"));
-	    Main.logger.info(modid + ":" + file, "inventory");
+	    //Main.logger.info(modid + ":" + file, "inventory");
 	}
 	
 

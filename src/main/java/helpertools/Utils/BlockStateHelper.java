@@ -8,20 +8,22 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockStateHelper {
-	//Butchered up from Block.class methods
-	//Work around since nbt can't store states
-	//Hopefully works
+	/**
+	Butchered up from Block.class methods
+	Work around since nbt can't store states
+	Hopefully works
+	 * **/
 	
 	//int meta= (world.getBlockState(pos2).getBlock()).getStateId(world.getBlockState(pos2));
 	
-	//Extract an ID integer from a blockstate
+	/**Extract an ID integer from a blockstate**/
 	public static int returnID(World world, BlockPos pos1 ){
 		int GET = 0;		
 		GET =(world.getBlockState(pos1).getBlock()).getStateId(world.getBlockState(pos1));		
 		return GET;
 	}
 	
-	//Extract a blockstate from an ID integer
+	/**Extract a blockstate from an ID integer**/
 	public static IBlockState returnState(int id)
     {
         int j = id & 4095;
@@ -29,7 +31,7 @@ public class BlockStateHelper {
         return Block.getBlockById(j).getStateFromMeta(k);
     }
 	
-	//Extracts a block from an ID integer
+	/**Extracts a block from an ID integer**/
 	public static Block returnBlock(int id){
 		
 		int j = id & 4095;
@@ -37,7 +39,7 @@ public class BlockStateHelper {
         return Block.getBlockById(j);
 	}
 	
-	//Extracts a Meta value from an ID integer
+	/**Extracts a Meta value from an ID integer**/
 	public static int returnMeta(int id)
     {
         int j = id & 4095;
@@ -45,7 +47,7 @@ public class BlockStateHelper {
         return k;
     }
 	
-	//Extracts a Block from a State via bridge
+	/**Extracts a Block from a State via bridge**/
 	public static Block getBlockfromState (World world, BlockPos pos1){
 		Block blocky = Blocks.air;
 		
@@ -55,7 +57,7 @@ public class BlockStateHelper {
 		return blocky;
 	}
 	
-	//Extracts a Meta Value from a State via bridge
+	/**Extracts a Meta Value from a State via bridge**/
 	public static int getMetafromState (World world, BlockPos pos1){
 		int meta = 0;
 		
@@ -65,7 +67,7 @@ public class BlockStateHelper {
 		return meta;
 	}
 	
-	//Extracts a block ID from an ID integer
+	/**Extracts a block ID from an ID integer**/
 		public static int returnBlock_ID(int id){
 			
 			int j = id & 4095;

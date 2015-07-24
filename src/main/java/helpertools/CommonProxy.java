@@ -27,10 +27,8 @@ public class CommonProxy {
 		ConfigurationFactory.PostConfig(e);
 		
 		/** Networking & Packets **/
-    	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");
-    	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
-    	Main.network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
-        // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+    	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat"); 	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
+    	Main.network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);  // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
     	
     	ItemRegistry.createItems();
 		ItemRegistry.createBlocks();

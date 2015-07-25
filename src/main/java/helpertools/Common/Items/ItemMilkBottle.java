@@ -30,8 +30,7 @@ public class ItemMilkBottle extends Item
     		 p_150910_2_.curePotionEffects(new ItemStack(Items.milk_bucket));
     		 p_77654_2_.playSoundAtEntity(p_150910_2_, "random.burp", 0.5F, p_77654_2_.rand.nextFloat() * 0.1F + 0.9F);
              //p_77654_3_.setFire(0);
-             //p_77654_3_.extinguish();
-             
+             //p_77654_3_.extinguish();             
          }
     	 
         if (p_150910_2_.capabilities.isCreativeMode)

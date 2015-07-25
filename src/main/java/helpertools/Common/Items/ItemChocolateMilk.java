@@ -21,17 +21,8 @@ public class ItemChocolateMilk extends ItemFood
     this.setUnlocalizedName(unlocalizedName);
     setCreativeTab(HelpTab.HelperTools);
     this.setAlwaysEdible();
-
-    //this.effects = effects;
+    
     }
-    /**
-    @Override
-    protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
-    super.onFoodEaten(stack, world, player);
-           return;
-  
-    }
-    **/
 
     @Override
     public void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
@@ -40,16 +31,14 @@ public class ItemChocolateMilk extends ItemFood
     	 
         if (player.capabilities.isCreativeMode)
         {
-        	player.getFoodStats().addStats(this, stack);
+        	//player.getFoodStats().addStats(this, stack);
             world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
             //this.onFoodEaten(stack, world, player);
             return;
         }       
         else
-        {
-        	player.getFoodStats().addStats(this, stack);
+        {        	
             world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-            //this.onFoodEaten(stack, world, player);           
             //if(--stack.stackSize <= 0)
             if (!player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle)))
             {

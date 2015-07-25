@@ -21,8 +21,8 @@ public class ItemMilkBottle extends Item
         setCreativeTab(HelpTab.HelperTools);
 	   
     }
-    
-    public ItemStack onEaten(ItemStack p_150910_1_, World p_77654_2_, EntityPlayer p_150910_2_)
+    @Override
+    public ItemStack onItemUseFinish(ItemStack p_150910_1_, World p_77654_2_, EntityPlayer p_150910_2_)
     {
     	 if (!p_77654_2_.isRemote)
          {

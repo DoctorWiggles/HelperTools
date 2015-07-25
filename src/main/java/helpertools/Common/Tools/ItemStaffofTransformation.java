@@ -142,7 +142,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
         BlockPos pos2 = new BlockPos(x2, y2, z2);
         
       //The block that is being transformed
-			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
 		if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
   		{	
 			world.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), 

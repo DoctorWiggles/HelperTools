@@ -80,7 +80,7 @@ public class Entity_RedTorchProjectile extends EntityThrowable{
    
    /** Adjusts torches' facing postion to correct block face for placement **/
    public void place_block(World world, BlockPos pos2, EnumFacing sideHit, Block p_Block, boolean flag){
-	   //Block p_Block = Blocks.torch;
+	   
 	   IBlockState p_State = p_Block.getDefaultState();
 	   int meta = 5;
 	   //set to false prevents reshaping face, in case of hitting a grassblock sideways
@@ -102,8 +102,7 @@ public class Entity_RedTorchProjectile extends EntityThrowable{
 		break;	   
 	   }
 	   }
-	   p_State = p_Block.getStateFromMeta(meta); 
-	  // world.markBlockForUpdate(pos2);
+	   p_State = p_Block.getStateFromMeta(meta); 	 
 	   world.setBlockState(pos2, p_State, 0123);
    }
    

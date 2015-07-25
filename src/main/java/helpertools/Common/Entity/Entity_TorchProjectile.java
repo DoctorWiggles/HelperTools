@@ -78,7 +78,7 @@ public class Entity_TorchProjectile extends EntityThrowable{
    
    /** Adjusts torches' facing postion to correct block face for placement **/
    public void place_block(World world, BlockPos pos2, EnumFacing sideHit, Block p_Block, boolean flag){
-	   //Block p_Block = Blocks.torch;
+	   
 	   IBlockState p_State = p_Block.getDefaultState();
 	   int meta = 5;
 	   //set to false prevents reshaping face, in case of hitting a grassblock sideways
@@ -100,10 +100,6 @@ public class Entity_TorchProjectile extends EntityThrowable{
 		break;	   
 	   }
 	   }
-	   //I've been yelling at my computer for hours trying to figure out this property rubbish
-	   //I'll just hack back into using meta for this. Documentation for 1.8 is a joke.
-	   //IBlockState G_State = Blocks.torch.withProperty(FACING, EnumFacing.UP); 
-	   // p_State = Blocks.torch.getStateFromMeta(meta); 
 	   
 	   p_State = p_Block.getStateFromMeta(meta); 
 	   world.setBlockState(pos2, p_State, 02);

@@ -4,6 +4,7 @@ import helpertools.util.ForgeEventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraftforge.fluids.Fluid;
 
 public class HelperDeclarations {	
 	
@@ -35,6 +36,8 @@ public class HelperDeclarations {
 	//
 	//public static Item debugtool;
 	//public static Item rfdebugtool;
+	
+	
 	
 	
 	

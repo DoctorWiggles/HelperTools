@@ -14,6 +14,7 @@ item.chocolatemilk.name=Chocolate Milk
 item.powercrystal.name=Lapilite Crystal
 item.powercrystal_0.name=Lapilite Crystal
 item.powercrystal_1.name=Calcified Lapilite
+item.jelly_bucket.name=Jelly Bucket
 
 
 #          #
@@ -34,6 +35,7 @@ tile.MagicalFuelBlock.name=§3Magical Fuel §9[W.I.P.]
 tile.ActiveMagicalFuelBlock.name=§3Active Magical Fuel §9[W.I.P.]
 tile.LooseDirtBlock.name=Loose Dirt §9[W.I.P.]
 tile.SugarBlock.name=Sugar Cube
+tile.jelly.name=Jelly Block
 
 #        #
 #Keybinds#

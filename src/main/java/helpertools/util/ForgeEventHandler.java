@@ -1,4 +1,5 @@
 package helpertools.util;
+import helpertools.HelpertoolsRegistry;
 import helpertools.Helpertoolscore;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -21,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -73,6 +75,18 @@ public class ForgeEventHandler {
 		 event.setCanceled(true);
 	}
 	
+	
+	
+	/**
+	public void onBucketFill(FillBucketEvent event) {
+		if (event.target.getblock = HelpertoolsRegistry.jelly_block){
+			
+		}
+		
+		
+		
+	}
+	**/
 	
 	//////////////////////////////////////////////
 	/** notes and old code left for reference **/

@@ -3,6 +3,9 @@ package helpertools.blocks.tile_entities;
 import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityTranscriber extends TileEntity{
@@ -46,6 +49,7 @@ public class TileEntityTranscriber extends TileEntity{
    	 nbt.setInteger("offZ", this.offZ);
  	   
     }
+    
 	
     protected static Random growrand = new Random();
     

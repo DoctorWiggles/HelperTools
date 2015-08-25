@@ -25,11 +25,13 @@ import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
+import helpertools.util.BucketHandler;
 import helpertools.util.ForgeEventHandler;
 import helpertools.util.GuiHandler;
 import helpertools.util.KeyBindings;
 import helpertools.util.KeyInputHandler;
 import helpertools.util.NetworkMessage;
+import helpertools.util.ReflectionFactory;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -170,6 +172,7 @@ public class Helpertoolscore extends HelperDeclarations{
         	}
         	GameRegistry.registerFuelHandler(new HelperFuel());
         	
+        	
         	//////////////////////////
         	/** Keybinding & Huds **/
         	////////////////////////
@@ -185,6 +188,8 @@ public class Helpertoolscore extends HelperDeclarations{
         	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
             network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
             // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+            
+            ReflectionFactory.SandReflection();
         	
         }
        
@@ -196,6 +201,11 @@ public class Helpertoolscore extends HelperDeclarations{
                /**Registry for blocks, items, entities, etc. */
                /////////////////////////////////////////////////
                HelpertoolsRegistry.RegistersomeThings(event);
+               
+               //Fluids
+               BucketHandler.INSTANCE.buckets.put(HelpertoolsRegistry.jelly_block, HelpertoolsRegistry.jelly_bucket);
+           	   MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+           	
                
                 
         	   ///////////////////////

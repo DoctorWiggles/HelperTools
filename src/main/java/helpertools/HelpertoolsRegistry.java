@@ -1,5 +1,14 @@
 package helpertools;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import helpertools.blocks.Jelly_Fluid_Block;
 import helpertools.blocks.tile_entities.TileEntityIllusion;
 import helpertools.blocks.tile_entities.TileEntityObelisk;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
@@ -8,11 +17,18 @@ import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
+import helpertools.items.Item_jelly_Bucket;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class HelpertoolsRegistry extends Helpertoolscore{
+	
+	//Fluid stuff
+		public static Fluid jelly_fluid = new Fluid("jelly");
+		public static Block jelly_block;
+		
+		public static Item jelly_bucket = new Item_jelly_Bucket(jelly_block);
 	
 	public static void RegistersomeThings(FMLInitializationEvent event){
 		
@@ -62,6 +78,19 @@ public class HelpertoolsRegistry extends Helpertoolscore{
           //GameRegistry.registerBlock(SugarBlock, "SugarBlock");
           //GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
           //GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
+          
+          //fluid things
+          
+          FluidRegistry.registerFluid(jelly_fluid); 
+          jelly_block = new Jelly_Fluid_Block(jelly_fluid, Material.water).setBlockName("jelly");
+          GameRegistry.registerBlock(jelly_block, "helpertools" + "_" + jelly_block.getUnlocalizedName().substring(5));
+          jelly_fluid.setUnlocalizedName(jelly_block.getUnlocalizedName());
+          
+          //bucket
+          jelly_bucket.setUnlocalizedName("jelly_bucket").setContainerItem(Items.bucket);
+          GameRegistry.registerItem(jelly_bucket, "jelly_bucket");
+          FluidContainerRegistry.registerFluidContainer(jelly_fluid, new ItemStack(jelly_bucket), new ItemStack(Items.bucket));
+          
          
           
           //Entities - Entities - Entities - Entities - Entities - Entities

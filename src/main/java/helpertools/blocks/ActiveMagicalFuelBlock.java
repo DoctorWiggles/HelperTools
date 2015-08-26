@@ -2,6 +2,7 @@ package helpertools.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import helpertools.Common_Registry;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.entities.EntityDynamiteProjectile;
@@ -114,7 +115,7 @@ public class ActiveMagicalFuelBlock extends Block
 	        {
 	            if ( !p_149726_1_.isBlockIndirectlyGettingPowered(p_149726_2_, p_149726_3_, p_149726_4_))
 	            {
-	            	p_149726_1_.setBlock(p_149726_2_, p_149726_3_, p_149726_4_, Helpertoolscore.MagicalFuelBlock);
+	            	p_149726_1_.setBlock(p_149726_2_, p_149726_3_, p_149726_4_, Common_Registry.MagicalFuelBlock);
 	               
 	            }
 	            else if ( p_149726_1_.isBlockIndirectlyGettingPowered(p_149726_2_, p_149726_3_, p_149726_4_))
@@ -130,7 +131,7 @@ public class ActiveMagicalFuelBlock extends Block
 	        {
 	            if ( !p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_))
 	            {
-	            	p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, Helpertoolscore.MagicalFuelBlock);
+	            	p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, Common_Registry.MagicalFuelBlock);
 	                
 	            }
 	            else if ( p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_))
@@ -144,13 +145,13 @@ public class ActiveMagicalFuelBlock extends Block
 	    {
 	        if (!p_149674_1_.isRemote && p_149674_1_.isBlockIndirectlyGettingPowered(p_149674_2_, p_149674_3_, p_149674_4_))
 	        {
-	            p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Helpertoolscore.MagicalFuelBlock);
+	            p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Common_Registry.MagicalFuelBlock);
 	        }
 	    }
 
 	    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	    {
-	        return Item.getItemFromBlock(Helpertoolscore.MagicalFuelBlock);
+	        return Item.getItemFromBlock(Common_Registry.MagicalFuelBlock);
 	    }
 	    
     

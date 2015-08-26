@@ -9,7 +9,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class RecipeFactory extends Helpertoolscore{
+public class RecipeFactory extends Common_Registry{
 	
 	
 	/** Registers Recipes and ore dictionary etc **/
@@ -125,11 +125,11 @@ public class RecipeFactory extends Helpertoolscore{
     	//Dynamite bolt Recipes
     	////////////////////////
     	if(RecipeStringForDynamiteBolt == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.dynamitebolt, OutputDynamiteBolt, 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.dynamitebolt, OutputDynamiteBolt, 0), new Object[]{
     		Blocks.tnt, Items.arrow, Items.arrow, Items.arrow,Items.arrow, "string"}));
     	}
     	if(RecipeSlimeForDynamiteBolt == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.dynamitebolt, OutputDynamiteBolt, 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.dynamitebolt, OutputDynamiteBolt, 0), new Object[]{
     		Blocks.tnt, Items.arrow, Items.arrow, Items.arrow, Items.arrow, "slimeball"}));
     	}
     	
@@ -147,12 +147,12 @@ public class RecipeFactory extends Helpertoolscore{
     		"dustRedstone", "cobblestone", "sandstone", "gravel" }));
     	*/
     	if(RecipeImitationBedrock == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.Ibedrock, OutputImitationBedrock , 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.Ibedrock, OutputImitationBedrock , 0), new Object[]{
     		"cobblestone", "cobblestone", "cobblestone", Blocks.coal_block }));
     	}
     	
     	if(RecipeEuclideanBlock == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Helpertoolscore.TranscriberBlock),true, new Object[]{
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Common_Registry.TranscriberBlock),true, new Object[]{
             		" L ",
             		"LsL",
             		" L ", Character.valueOf('s'), "sandstone", Character.valueOf('L'), "gemLapis"}));
@@ -160,11 +160,11 @@ public class RecipeFactory extends Helpertoolscore{
     	
     	
     	if(RecipeChimenyPipes == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.StokedPipe, OutputChimneyPipe , 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.StokedPipe, OutputChimneyPipe , 0), new Object[]{
     		"ingotIron", Items.coal, "ingotIron"}));
     	}
     	if(RecipeMagicalFuel == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.MagicalFuelBlock, OutputMagicalFuel , 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.MagicalFuelBlock, OutputMagicalFuel , 0), new Object[]{
     		"ingotIron", "helpbonemeal", "gemLapis"}));
     	}
     	//Debugging tool
@@ -190,15 +190,15 @@ public class RecipeFactory extends Helpertoolscore{
     	//I don't know but once set it overrides it for every other recipe, setting it to null only override the other.
     	//.oncreated --consume item seems to balance this with only a minor dupe bug for the first in the inventory
     	//Recipes shouldn't require this much effort, what the hell
-    	ItemStack Bottledestroy = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(null));
+    	ItemStack Bottledestroy = new ItemStack(Common_Registry.bottledmilk.setContainerItem(null));
     	if(RecipeBottledmilk == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.bottledmilk, 1 , 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.bottledmilk, 1 , 0), new Object[]{
     		 BucketOut, Items.glass_bottle}));
     	}
     	//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.milk_bucket, 1 , 0), new Object[]{
     	//	BottleOut, Items.bucket}));
     	if(RecipeChocolatemilk == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.chocolatemilk, 1 , 0), new Object[]{
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.chocolatemilk, 1 , 0), new Object[]{
     		Bottledestroy, new ItemStack(Items.dye, 1, 3)}));
     	}
     	

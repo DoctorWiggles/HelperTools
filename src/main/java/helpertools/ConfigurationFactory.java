@@ -1,10 +1,79 @@
 package helpertools;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.common.util.EnumHelper;
 
 public class ConfigurationFactory extends Helpertoolscore{
+	
+	////////////////////////////
+	/** Configuration       **/
+	//////////////////////////
+	//Tool durability
+	public static int  DurabilityExpandingRod;
+	public static int  DurabilityMetamorphicStaff;
+	public static int  DurabilityTorchLauncher;
+	public static int  DurabilityEuclideanStaff;
+	//Items
+	public static int OutputDynamiteBolt;
+	public static int OutputDirtBomb;
+	//Blocks
+	public static int OutputImitationBedrock;
+	public static int OutputChimneyPipe;
+	public static int OutputMagicalFuel;		
+	//Booleans enable
+
+	/** 3D Models **/
+	public static boolean Render3DStaffModels;
+	public static boolean Render3DCrossbowModel;
+	public static boolean RenderToolHuds;
+	public static boolean ToolModeMesseges;
+	public static boolean ToolPowerMesseges;
+	//ExpStaff
+	public static boolean RecipeEmeraldsForExpansionStaff;
+	public static boolean RecipeDiamondsForExpansionStaff;
+	public static boolean RecipePearlsForExpansionStaff;
+	//MetaStaff
+	public static boolean RecipeEmeraldsForMetamorphicStaff;
+	public static boolean RecipeDiamondsForMetamorphicStaff;
+	public static boolean RecipePearlsForMetamorphicStaff;
+	//EuclideanStaff
+	public static boolean RecipeEmeraldsForEuclideanStaff;
+	public static boolean RecipeDiamondsForEuclideanStaff;
+	public static boolean RecipePearlsForEuclideanStaff;
+	//Torch Launcher
+	public static boolean RecipeTorchLauncher;
+	public static boolean RecipeStringForDynamiteBolt;		
+	public static boolean RecipeSlimeForDynamiteBolt;
+	//Blocks
+	public static boolean RecipeImitationBedrock;
+	public static boolean RecipeMagicalFuel;
+	public static boolean RecipeChimenyPipes;
+	public static boolean RecipeEuclideanBlock;
+	//Vanilla Blocks
+	public static boolean RecipePodzol;
+	public static boolean RecipeDoubleSlab;
+	public static boolean RecipeFullSlab;
+	public static boolean RecipeFullSandSlab;
+
+	//Items
+	public static boolean RecipeDirtBomb;
+	public static boolean RecipeBottledmilk;
+	public static boolean RecipeChocolatemilk;
+	//Handler enables
+	public static boolean HandlerBottledmilk;
+	
+	 //Materials
+	public static ToolMaterial helpMaterial;
+	public static ToolMaterial ExpRodMaterial;
+	public static ToolMaterial MetaStaffMaterial;
+	public static ToolMaterial EUStaffMaterial;
+	public static ToolMaterial TorchMaterial;
+	
+	
+	//===============================================================================//
 	
 	/** Begins Registering, loading and saving configuration**/
 	public static void ProcessConfiguration(FMLPreInitializationEvent event){
@@ -105,6 +174,19 @@ public class ConfigurationFactory extends Helpertoolscore{
 
 		config.save(); 
 		logger.info("Configurations Saved");
+		
+		
+		//////////////////////////////
+		/**Material Configurations**/
+		////////////////////////////
+
+		helpMaterial = EnumHelper.addToolMaterial("helpMaterial", 0, 1024, 0.8F, 4F, 15); 
+
+		ExpRodMaterial = EnumHelper.addToolMaterial("ExpRodMaterial", 0, DurabilityExpandingRod, 0.8F, 4F, 15);
+		MetaStaffMaterial = EnumHelper.addToolMaterial("MetaStaffMaterial", 0, DurabilityMetamorphicStaff, 0.8F, 4F, 15);
+		EUStaffMaterial = EnumHelper.addToolMaterial("EUStaffMaterial", 0, DurabilityEuclideanStaff, 0.8F, 4F, 15);
+		TorchMaterial = EnumHelper.addToolMaterial("TorchMaterial", 0, DurabilityTorchLauncher, 0.8F, 4F, 15);
+		//name, harvest level, max uses, efficiency, damage, enchantability
 
 
 

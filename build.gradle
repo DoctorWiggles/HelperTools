@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 group = package_group
 archivesBaseName = mod_name
 //version = "${mc_version}-${mod_version}"
-version = "${mc_version}-1.1.5M"
+version = "${mc_version}-1.1.6a"
 
 
 import org.ajoberstar.grgit.Grgit
@@ -78,10 +78,7 @@ task sourceJar(type: Jar) {
 }
 
 // add a javadoc jar
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
-    classifier = 'javadoc'
-}
+//task javadocJar(type: Jar, dependsOn: javadoc) {    from javadoc.destinationDir    classifier = 'javadoc'}
 
 // because the normal output has been made to be obfuscated
 task deobfJar(type: Jar) {
@@ -89,7 +86,9 @@ task deobfJar(type: Jar) {
     classifier = 'deobf'
 }
 
-tasks.build.dependsOn sourceJar, javadocJar, deobfJar
+tasks.build.dependsOn sourceJar,
+// javadocJar, 
+deobfJar
 
 tasks.withType(JavaCompile) { task ->
     task.options.encoding = 'UTF-8'

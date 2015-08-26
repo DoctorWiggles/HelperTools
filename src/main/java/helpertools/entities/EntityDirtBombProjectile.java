@@ -1,5 +1,6 @@
 package helpertools.entities;
 
+import helpertools.Common_Registry;
 import helpertools.Helpertoolscore;
 
 import java.util.Random;
@@ -69,7 +70,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 	   
 	   if(this.worldObj.isRemote){
 		      Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-		      Block pblock = Helpertoolscore.LooseDirtBlock;
+		      Block pblock = Common_Registry.LooseDirtBlock;
 		      
 		      if (mop.entityHit != null )
 		      {
@@ -122,10 +123,10 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 	  //The block it lands on in the world
       Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
       //The torch block to be placed in the world
-      Block pblock = Helpertoolscore.LooseDirtBlock;
+      Block pblock = Common_Registry.LooseDirtBlock;
       
       if (Type == 0){
-      pblock = Helpertoolscore.LooseDirtBlock;
+      pblock = Common_Registry.LooseDirtBlock;
       }
       if (Type == 2){
           pblock = Blocks.sand;

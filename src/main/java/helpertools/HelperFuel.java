@@ -15,17 +15,17 @@ public class HelperFuel implements IFuelHandler {
 		Block blockFuel = Block.getBlockFromItem(fuel.getItem());
 		Item itemFuel = fuel.getItem();
 		
-		 if(blockFuel == Helpertoolscore.MagicalFuelBlock)
+		 if(blockFuel == Common_Registry.MagicalFuelBlock)
 			 return 4000;
-		 if(blockFuel == Helpertoolscore.ActiveMagicalFuelBlock)
+		 if(blockFuel == Common_Registry.ActiveMagicalFuelBlock)
 			 return 4000;
-		 if(itemFuel == Helpertoolscore.staffofexpansion)
+		 if(itemFuel == Common_Registry.staffofexpansion)
 			 return 2000;
-		 if(itemFuel == Helpertoolscore.euclideantransposer)
+		 if(itemFuel == Common_Registry.euclideantransposer)
 			 return 2000;
-		 if(itemFuel == Helpertoolscore.staffoftransformation2)
+		 if(itemFuel == Common_Registry.staffoftransformation2)
 			 return 2000;
-		 if(itemFuel == Helpertoolscore.torchlauncher)
+		 if(itemFuel == Common_Registry.torchlauncher)
 			 return 800;
 		 else		
 			 return 0;

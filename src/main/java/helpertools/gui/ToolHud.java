@@ -1,5 +1,6 @@
 package helpertools.gui;
 
+import helpertools.ConfigurationFactory;
 import helpertools.Helpertoolscore;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
@@ -137,7 +138,7 @@ public class ToolHud extends Gui
     }    
     
     //config hook
-    if(Helpertoolscore.RenderToolHuds == false){
+    if(ConfigurationFactory.RenderToolHuds == false){
     	return;
     }
 

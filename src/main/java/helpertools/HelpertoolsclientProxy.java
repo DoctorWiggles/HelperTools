@@ -25,38 +25,42 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
+	
+	//Class Cof = ConfigurationFactory.class;
 		
 	@SideOnly(Side.CLIENT)
-        @Override
-		public void registerRenderers() {
+    @Override
+	public void registerRenderers() {
         	
         // This is for rendering entities and so forth later on
         	//Attaches the rendering code to entities
 		Helpertoolscore.logger.info("Registering Renders");
         	
 		//configuration call
-		if(Helpertoolscore.Render3DStaffModels == true){
-		MinecraftForgeClient.registerItemRenderer(Helpertoolscore.staffofexpansion,new ItemRenderStaff4());              
-        MinecraftForgeClient.registerItemRenderer(Helpertoolscore.staffoftransformation2,new ItemRenderStaff5());
-        MinecraftForgeClient.registerItemRenderer(Helpertoolscore.euclideantransposer,new ItemRenderEuclidean1());
+		if(ConfigurationFactory.Render3DStaffModels == true){
+		MinecraftForgeClient.registerItemRenderer(Common_Registry.staffofexpansion, new ItemRenderStaff4());              
+        MinecraftForgeClient.registerItemRenderer(Common_Registry.staffoftransformation2, new ItemRenderStaff5());
+        MinecraftForgeClient.registerItemRenderer(Common_Registry.euclideantransposer, new ItemRenderEuclidean1());
         		}
-        if(Helpertoolscore.Render3DStaffModels == true){       
-        MinecraftForgeClient.registerItemRenderer(Helpertoolscore.torchlauncher,new ItemRenderTorchLauncher1());
+		
+        if(ConfigurationFactory.Render3DCrossbowModel == true){       
+        MinecraftForgeClient.registerItemRenderer(Common_Registry.torchlauncher,new ItemRenderTorchLauncher1());
         }
-                super.registerRenderers();    
-                RenderingRegistry.registerEntityRenderingHandler(EntityTorchProjectile.class, new RenderTorchProjectile());
-                //
-                RenderingRegistry.registerEntityRenderingHandler(EntityRedTorchProjectile.class, new RenderRedTorchProjectile());
-                //
-                RenderingRegistry.registerEntityRenderingHandler(EntityDynamiteProjectile.class, new RenderDynamiteProjectile());
-                //
-                RenderingRegistry.registerEntityRenderingHandler(EntityBoltProjectile.class, new RenderBoltProjectile());
-                //
-                
-                RenderingRegistry.registerEntityRenderingHandler(EntityDirtBombProjectile.class, new RenderDirtBombProjectile(1));
-                //
-                ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new BlockRenderObelisk());
-        }
+        
+        super.registerRenderers();    
+        RenderingRegistry.registerEntityRenderingHandler(EntityTorchProjectile.class, new RenderTorchProjectile());
+        //
+        RenderingRegistry.registerEntityRenderingHandler(EntityRedTorchProjectile.class, new RenderRedTorchProjectile());
+        //
+        RenderingRegistry.registerEntityRenderingHandler(EntityDynamiteProjectile.class, new RenderDynamiteProjectile());
+        //
+        RenderingRegistry.registerEntityRenderingHandler(EntityBoltProjectile.class, new RenderBoltProjectile());
+        //
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityDirtBombProjectile.class, new RenderDirtBombProjectile(1));
+        //
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new BlockRenderObelisk());
+     }
 	
 	
 	

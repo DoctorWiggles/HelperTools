@@ -3,6 +3,7 @@ package helpertools.tools;
 import java.util.List;
 import java.util.Random;
 
+import helpertools.ConfigurationFactory;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.util.InventoryUtil;
@@ -320,7 +321,7 @@ public class ItemStaffofExpansion extends ItemSpade
 				setToolLevel(itemStack,NextLevel);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
-			 if(Helpertoolscore.ToolPowerMesseges == true){	
+			 if(ConfigurationFactory.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
 					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
@@ -412,7 +413,7 @@ public class ItemStaffofExpansion extends ItemSpade
 			}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
 			//config hook
-		    if(Helpertoolscore.ToolModeMesseges == true){		    
+		    if(ConfigurationFactory.ToolModeMesseges == true){		    
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
 		    }
@@ -515,6 +516,8 @@ public class ItemStaffofExpansion extends ItemSpade
         	            		 theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
         	            		//theblock.setBlock(x2, y2, z2, Blocks.air);
         	            		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+        	            		
+        	            		//theblock.setBlock(x2, y2, z2, HelpertoolsRegistry.jelly_block, 0, 0123);
         	            		int crackid = (getTBlock(thestaff));
         		                int crackmeta = (returnTMeta(thestaff));
         		                String particle = "blockcrack_" + crackid + "_" + crackmeta;

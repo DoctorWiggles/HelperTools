@@ -76,160 +76,118 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.5M")
-public class Helpertoolscore extends HelperDeclarations{
-	
-		/////////////////////////////////
-		/**Declarations extended now **/
-		////////////////////////////////
-			
-    	////////////////////		
-		/** Forge Stuffs **/
-		////////////////////
-		
-		/** Chocolate milk etc **/
-		public static ForgeEventHandler eventHandler = new ForgeEventHandler();
-		//public static ForgeEventHandler eventHandler2 = new ForgeEventHandler();
-		
-		/** packet, network and client sycning, for guis etc**/
-		public static SimpleNetworkWrapper network;
-		
-		public static final Logger logger = LogManager.getLogger("HelperToolsID");
-		
-		
-		/**  NotGyro **/
-		public static Configuration config;		
-		
-		
-        // The instance of your mod that Forge uses.
-        @Instance(value = "HelperToolsID")
-        public static Helpertoolscore instance; 
-        
-        // Says where the client and server 'proxy' code is loaded.
-        @SidedProxy(clientSide="helpertools.HelpertoolsclientProxy", serverSide="helpertools.HelpertoolsCommonProxy")
-        public static HelpertoolsCommonProxy proxy;
-        
-               
-        @EventHandler
-        public void preInit(FMLPreInitializationEvent event) {
-        	
-        	/////////////////////////////////////
-        	/** Configuration assembly moved **/
-        	///////////////////////////////////        	
-        	ConfigurationFactory.ProcessConfiguration(event);           
-        	
-        	//////////////////////////////
-    		/**Material Configurations**/
-        	////////////////////////////
-        	
-    		ToolMaterial helpMaterial = EnumHelper.addToolMaterial("helpMaterial", 0, 1024, 0.8F, 4F, 15); 
-    		
-    		ToolMaterial ExpRodMaterial = EnumHelper.addToolMaterial("ExpRodMaterial", 0, DurabilityExpandingRod, 0.8F, 4F, 15);
-    		ToolMaterial MetaStaffMaterial = EnumHelper.addToolMaterial("MetaStaffMaterial", 0, DurabilityMetamorphicStaff, 0.8F, 4F, 15);
-    		ToolMaterial EUStaffMaterial = EnumHelper.addToolMaterial("EUStaffMaterial", 0, DurabilityEuclideanStaff, 0.8F, 4F, 15);
-    		ToolMaterial TorchMaterial = EnumHelper.addToolMaterial("TorchMaterial", 0, DurabilityTorchLauncher, 0.8F, 4F, 15);
-    		//name, harvest level, max uses, efficiency, damage, enchantability
-        	
-    		
-    		///////////////////////
-    		/** Repair Materials **/
-    		///////////////////////
-    		/**
+@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.6a")
+public class Helpertoolscore 
+{			
+	////////////////////		
+	/** Forge Stuffs **/
+	////////////////////
+
+	/** Chocolate milk etc **/
+	public static ForgeEventHandler eventHandler = new ForgeEventHandler();
+	//public static ForgeEventHandler eventHandler2 = new ForgeEventHandler();
+
+	/** packet, network and client sycning, for guis etc**/
+	public static SimpleNetworkWrapper network;
+
+	public static final Logger logger = LogManager.getLogger("HelperToolsID");
+
+
+	/**  NotGyro **/
+	public static Configuration config;		
+
+
+	// The instance of your mod that Forge uses.
+	@Instance(value = "HelperToolsID")
+	public static Helpertoolscore instance; 
+
+	// Says where the client and server 'proxy' code is loaded.
+	@SidedProxy(clientSide="helpertools.HelpertoolsclientProxy", serverSide="helpertools.HelpertoolsCommonProxy")
+	public static HelpertoolsCommonProxy proxy;
+
+
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+
+		/** Configuration **/      	
+		ConfigurationFactory.ProcessConfiguration(event);   
+
+		///////////////////////
+		/** Repair Materials **/
+		///////////////////////
+		/**
     		powercrystal = new ItemPowerCrystal();
     		ExpRodMaterial.setRepairItem(new ItemStack(powercrystal));
     		MetaStaffMaterial.setRepairItem(new ItemStack(powercrystal));
     		EUStaffMaterial.setRepairItem(new ItemStack(powercrystal));
     		TorchMaterial.setRepairItem(new ItemStack(Items.stick));
-    		**/
-    		//causing serverside issues for some reason
-            
-        	  ////////////////
-        	 /**  Casts   **/
-        	////////////////
-        	//Items & Tools - Items & Tools - Items & Tools - Items & Tools - Items & Tools 
-        	
-        	staffofexpansion = new ItemStaffofExpansion(ExpRodMaterial);        	
-        	staffoftransformation2 = new ItemStaffofTransformation2(MetaStaffMaterial); 
-        	euclideantransposer = new ItemEuclideanTransposer(EUStaffMaterial); 
-        	torchlauncher = new ItemTorchLauncher(TorchMaterial);        	
-        	
-        	//debugtool = new ItemDebugTool();	
-        	//rfdebugtool = new ItemRfDebugTool();
-        	dynamitebolt = new ItemDynamiteBolt();        	
-        	dirtbomb = new ItemDirtBomb();
-        	bottledmilk = new ItemMilkBottle();
-        	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
-        	
-        	//powercrystal = new ItemPowerCrystal();
-        	
-        	
-        	//////////////
-        	/**Forge Handlers**/
-        	
-        	if(HandlerBottledmilk == true){
-        	FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
-        	MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
-        	}
-        	GameRegistry.registerFuelHandler(new HelperFuel());
-        	
-        	
-        	//////////////////////////
-        	/** Keybinding & Huds **/
-        	////////////////////////
-        	if (FMLCommonHandler.instance().getSide().isClient()){
-        		FMLCommonHandler.instance().bus().register(new KeyInputHandler());
-        		KeyBindings.init();  
-        	MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
-        	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
-        	}
-        	
-        	/** Networking & Packets **/
-        	network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");
-        	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
-            network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
-            // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
-            
-            ReflectionFactory.SandReflection();
-        	
-        }
-       
-        @EventHandler
-        public void load(FMLInitializationEvent event) {
-                proxy.registerRenderers();
-               
-               /////////////////////////////////////////////////
-               /**Registry for blocks, items, entities, etc. */
-               /////////////////////////////////////////////////
-               HelpertoolsRegistry.RegistersomeThings(event);
-               
-               //Fluids
-               BucketHandler.INSTANCE.buckets.put(HelpertoolsRegistry.jelly_block, HelpertoolsRegistry.jelly_bucket);
-           	   MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
-           	
-               
-                
-        	   ///////////////////////
-        	   /**Dungeon Looting **/
-        	   /////////////////////
-               //DungeonLoot.addLoot(event);              
-               
-               //////////////////
-               /** Gui Stuff **/
-               ////////////////
-               if (FMLCommonHandler.instance().getSide().isClient()){
-               NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-               }
-              
-        }
-       
-        @EventHandler // used in 1.6.2
-        //@PostInit   // used in 1.5.2
-        public void postInit(FMLPostInitializationEvent event) {
-        	
-        	////////////////////////////////////////
-        	/** Recipes Moved to their own path **/
-        	///////////////////////////////////////
-        	RecipeFactory.RegisterRecipes();
-        }
-        
+		 **/
+		//causing serverside issues for some reason
+
+
+
+		/**Forge Handlers**/        	
+		if(ConfigurationFactory.HandlerBottledmilk == true){
+			FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
+			MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
+		}
+		GameRegistry.registerFuelHandler(new HelperFuel());
+
+
+		//////////////////////////
+		/** Keybinding & Huds **/
+		////////////////////////
+		if (FMLCommonHandler.instance().getSide().isClient()){
+			FMLCommonHandler.instance().bus().register(new KeyInputHandler());
+			KeyBindings.init();  
+			MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+			//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
+		}
+
+		/** Networking & Packets **/
+		network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");
+		//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
+		network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
+		// network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+
+		//ReflectionFactory.SandReflection();
+
+	}
+
+	@EventHandler
+	public void load(FMLInitializationEvent event) {
+		/** Registry **/
+		Common_Registry.create_Items();
+		Common_Registry.create_Entities();
+
+		/** Register Renders**/
+		proxy.registerRenderers();               
+
+
+		/** Fluids **/
+		BucketHandler.INSTANCE.buckets.put(Common_Registry.jelly_block, Common_Registry.jelly_bucket);
+		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+
+
+
+		/** Dungeon Loot **/
+		//DungeonLoot.addLoot(event);              
+
+		//////////////////
+		/** Gui Stuff **/
+		////////////////
+		if (FMLCommonHandler.instance().getSide().isClient()){
+			NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+		}
+
+	}
+
+	@EventHandler // used in 1.6.2
+	//@PostInit   // used in 1.5.2
+	public void postInit(FMLPostInitializationEvent event) {
+
+		/** Recipes **/
+		RecipeFactory.RegisterRecipes();
+	}
+
 }

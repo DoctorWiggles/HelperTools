@@ -14,7 +14,7 @@ public class DungeonLoot extends Helpertoolscore{
     
     {	//Min stack, Max stack, Weight/rarity
     	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.staffoftransformation2), 1, 1, 10));
-    	ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.chocolatemilk), 1, 8, 5));
+    	ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Common_Registry.chocolatemilk), 1, 8, 5));
     	//ChestGenHooks.getInfo("bonusChest").addItem(new WeightedRandomChestContent(new ItemStack(Helpertoolscore.dynamitebolt), 1, 3, 50));
     	logger.info("Chest Things Loaded");
     }

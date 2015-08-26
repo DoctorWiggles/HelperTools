@@ -3,6 +3,7 @@ package helpertools.tools;
 import java.util.List;
 import java.util.Random;
 
+import helpertools.Common_Registry;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
@@ -323,7 +324,7 @@ public class ItemEuclideanTransposer extends ItemSpade
     		
     		
     		//placement via transcriber proxy
-    		if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.TranscriberBlock){
+    		if(theblock.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
     			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);
     			if (tile != null)
                 {
@@ -341,7 +342,7 @@ public class ItemEuclideanTransposer extends ItemSpade
     		}
     		
     		//placement via staff
-    		if(theblock.getBlock(i1, j1, k1) != Helpertoolscore.TranscriberBlock
+    		if(theblock.getBlock(i1, j1, k1) != Common_Registry.TranscriberBlock
     				&& proxyskip == 0){
     			    		
     		//dynamic placement offsets
@@ -496,7 +497,7 @@ public class ItemEuclideanTransposer extends ItemSpade
     	/** Pattern Collection **/
     	if (theplayer.isSneaking()){
     		
-    		if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.TranscriberBlock){
+    		if(theblock.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
     			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);
     			if (tile != null)
                 {

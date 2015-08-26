@@ -1,4 +1,4 @@
-package helpertools.items;
+package helpertools.tools;
 
 import helpertools.Common_Registry;
 import helpertools.HelpTab;
@@ -16,16 +16,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 
-public class Item_jelly_Bucket extends ItemBucket {
+public class Item_Bubblegun extends ItemBucket {
 	 private Block isFull;
 
-	public Item_jelly_Bucket(Block p_i45331_1_) {
+	public Item_Bubblegun(Block p_i45331_1_) {
 		super(p_i45331_1_);
 		// TODO Auto-generated constructor stub
 		this.maxStackSize = 1;
         this.isFull = p_i45331_1_;
-		setTextureName("helpertools:jelly_bucket");
+		setTextureName("helpertools:Bubblegun");
 		setCreativeTab(HelpTab.HelperTools);
+		this.setUnlocalizedName("bubblegun");
 	}
 
 	

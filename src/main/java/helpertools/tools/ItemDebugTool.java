@@ -2,6 +2,7 @@ package helpertools.tools;
 
 import java.util.List;
 
+import helpertools.Common_Registry;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.util.KeyBindings;
@@ -411,7 +412,7 @@ public class ItemDebugTool extends Item {
 				//if(theblock instanceof IGrowable){}
 				Block zablock = theblock.getBlock(i1,j1,k1);
 				if(zablock == Blocks.dirt ||
-						zablock == Helpertoolscore.LooseDirtBlock){
+						zablock == Common_Registry.LooseDirtBlock){
 					theblock.setBlock(i1,j1,k1, Blocks.grass);
 				}
 				

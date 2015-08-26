@@ -1,5 +1,5 @@
 package helpertools.util;
-import helpertools.HelpertoolsRegistry;
+import helpertools.Common_Registry;
 import helpertools.Helpertoolscore;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -60,7 +60,7 @@ public class ForgeEventHandler {
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemGlassBottle))) {
 		      return;
 		    }
-		 Item Bottled = Helpertoolscore.bottledmilk;
+		 Item Bottled = Common_Registry.bottledmilk;
 		 
 		 
 		 if (heldItem.stackSize-- == 1)

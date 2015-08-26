@@ -76,7 +76,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="1.1.6a")
+@Mod(modid="HelperToolsID", name="HelperTools", version="v1.6a")
 public class Helpertoolscore 
 {			
 	////////////////////		

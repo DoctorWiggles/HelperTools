@@ -5,6 +5,7 @@ import helpertools.HelpTab;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,55 +20,63 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 public class Item_Bubblegun extends ItemBucket {
 	 private Block isFull;
 
-	public Item_Bubblegun(Block p_i45331_1_) {
-		super(p_i45331_1_);
+	public Item_Bubblegun(Block block) {
+		super(block);
 		// TODO Auto-generated constructor stub
 		this.maxStackSize = 1;
-        this.isFull = p_i45331_1_;
+        this.isFull = block;
 		setTextureName("helpertools:Bubblegun");
 		setCreativeTab(HelpTab.HelperTools);
 		this.setUnlocalizedName("bubblegun");
+	}
+	
+	public void onUpdate(ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int p_77663_4_, boolean p_77663_5_) {
+		//this.isFull = Blocks.air;
 	}
 
 	
 	/**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         boolean flag = this.isFull == Blocks.air;
-        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(p_77659_2_, p_77659_3_, flag);
+        
+        if(player.isSneaking()){this.isFull = Blocks.air; }
+        else {this.isFull = Common_Registry.jelly_block;}
+        
+        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, flag);
 
         if (movingobjectposition == null)
         {
-            return p_77659_1_;
+            return stack;
         }
         else
         {
-            FillBucketEvent event = new FillBucketEvent(p_77659_3_, p_77659_1_, p_77659_2_, movingobjectposition);
+            FillBucketEvent event = new FillBucketEvent(player, stack, world, movingobjectposition);
             if (MinecraftForge.EVENT_BUS.post(event))
             {
-                return p_77659_1_;
+                return stack;
             }
 
             if (event.getResult() == Event.Result.ALLOW)
             {
-                if (p_77659_3_.capabilities.isCreativeMode)
+                if (player.capabilities.isCreativeMode)
                 {
-                    return p_77659_1_;
+                    return stack;
                 }
 
-                if (--p_77659_1_.stackSize <= 0)
+                if (--stack.stackSize <= 0)
                 {
                     return event.result;
                 }
 
-                if (!p_77659_3_.inventory.addItemStackToInventory(event.result))
+                if (!player.inventory.addItemStackToInventory(event.result))
                 {
-                    p_77659_3_.dropPlayerItemWithRandomChoice(event.result, false);
+                    player.dropPlayerItemWithRandomChoice(event.result, false);
                 }
 
-                return p_77659_1_;
+                return stack;
             }
             if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
@@ -75,31 +84,31 @@ public class Item_Bubblegun extends ItemBucket {
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
 
-                if (!p_77659_2_.canMineBlock(p_77659_3_, i, j, k))
+                if (!world.canMineBlock(player, i, j, k))
                 {
-                    return p_77659_1_;
+                    return stack;
                 }
 
                 if (flag)
                 {
-                    if (!p_77659_3_.canPlayerEdit(i, j, k, movingobjectposition.sideHit, p_77659_1_))
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
                     {
-                        return p_77659_1_;
+                        return stack;
                     }
 
-                    Material material = p_77659_2_.getBlock(i, j, k).getMaterial();
-                    int l = p_77659_2_.getBlockMetadata(i, j, k);
+                    Material material = world.getBlock(i, j, k).getMaterial();
+                    int l = world.getBlockMetadata(i, j, k);
 
                     if (material == Material.water && l == 0)
                     {
-                        p_77659_2_.setBlockToAir(i, j, k);
-                        return this.func_150910_a(p_77659_1_, p_77659_3_, Items.water_bucket);
+                        world.setBlockToAir(i, j, k);
+                        return this.func_150910_a(stack, player, Items.water_bucket);
                     }
 
                     if (material == Material.lava && l == 0)
                     {
-                        p_77659_2_.setBlockToAir(i, j, k);
-                        return this.func_150910_a(p_77659_1_, p_77659_3_, Items.lava_bucket);
+                        world.setBlockToAir(i, j, k);
+                        return this.func_150910_a(stack, player, Items.lava_bucket);
                     }
                 }
                 else
@@ -139,47 +148,47 @@ public class Item_Bubblegun extends ItemBucket {
                         ++i;
                     }
 
-                    if (!p_77659_3_.canPlayerEdit(i, j, k, movingobjectposition.sideHit, p_77659_1_))
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
                     {
-                        return p_77659_1_;
+                        return stack;
                     }
 
-                    if (this.tryPlaceContainedLiquid(p_77659_2_, i, j, k) && !p_77659_3_.capabilities.isCreativeMode)
+                    if (this.tryPlaceContainedLiquid(world, i, j, k) && !player.capabilities.isCreativeMode)
                     {
                         return new ItemStack(Items.bucket);
                     }
                 }
             }
 
-            return p_77659_1_;
+            return stack;
         }
     }
 
-    private ItemStack func_150910_a(ItemStack p_150910_1_, EntityPlayer p_150910_2_, Item p_150910_3_)
+    private ItemStack func_150910_a(ItemStack stack, EntityPlayer player, Item item)
     {
-        if (p_150910_2_.capabilities.isCreativeMode)
+        if (player.capabilities.isCreativeMode)
         {
-            return p_150910_1_;
+            return stack;
         }
-        else if (--p_150910_1_.stackSize <= 0)
+        else if (--stack.stackSize <= 0)
         {
-            return new ItemStack(p_150910_3_);
+            return new ItemStack(item);
         }
         else
         {
-            if (!p_150910_2_.inventory.addItemStackToInventory(new ItemStack(p_150910_3_)))
+            if (!player.inventory.addItemStackToInventory(new ItemStack(item)))
             {
-                p_150910_2_.dropPlayerItemWithRandomChoice(new ItemStack(p_150910_3_, 1, 0), false);
+                player.dropPlayerItemWithRandomChoice(new ItemStack(item, 1, 0), false);
             }
 
-            return p_150910_1_;
+            return stack;
         }
     }
 
     /**
      * Attempts to place the liquid contained inside the bucket.
      */
-    public boolean tryPlaceContainedLiquid(World p_77875_1_, int p_77875_2_, int p_77875_3_, int p_77875_4_)
+    public boolean tryPlaceContainedLiquid(World world, int x1, int y1, int z1)
     {
         if (this.isFull == Blocks.air)
         {
@@ -187,32 +196,32 @@ public class Item_Bubblegun extends ItemBucket {
         }
         else
         {
-            Material material = p_77875_1_.getBlock(p_77875_2_, p_77875_3_, p_77875_4_).getMaterial();
+            Material material = world.getBlock(x1, y1, z1).getMaterial();
             boolean flag = !material.isSolid();
 
-            if (!p_77875_1_.isAirBlock(p_77875_2_, p_77875_3_, p_77875_4_) && !flag)
+            if (!world.isAirBlock(x1, y1, z1) && !flag)
             {
                 return false;
             }
             else
             {
-                if (p_77875_1_.provider.isHellWorld && this.isFull == Blocks.flowing_water)
+                if (world.provider.isHellWorld && this.isFull == Blocks.flowing_water)
                 {
-                    p_77875_1_.playSoundEffect((double)((float)p_77875_2_ + 0.5F), (double)((float)p_77875_3_ + 0.5F), (double)((float)p_77875_4_ + 0.5F), "random.fizz", 0.5F, 2.6F + (p_77875_1_.rand.nextFloat() - p_77875_1_.rand.nextFloat()) * 0.8F);
+                	world.playSoundEffect((double)((float)x1 + 0.5F), (double)((float)y1 + 0.5F), (double)((float)z1 + 0.5F), "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
                     for (int l = 0; l < 8; ++l)
                     {
-                        p_77875_1_.spawnParticle("largesmoke", (double)p_77875_2_ + Math.random(), (double)p_77875_3_ + Math.random(), (double)p_77875_4_ + Math.random(), 0.0D, 0.0D, 0.0D);
+                    	world.spawnParticle("largesmoke", (double)x1 + Math.random(), (double)y1 + Math.random(), (double)z1 + Math.random(), 0.0D, 0.0D, 0.0D);
                     }
                 }
                 else
                 {
-                    if (!p_77875_1_.isRemote && flag && !material.isLiquid())
+                    if (!world.isRemote && flag && !material.isLiquid())
                     {
-                        p_77875_1_.func_147480_a(p_77875_2_, p_77875_3_, p_77875_4_, true);
+                    	world.func_147480_a(x1, y1, z1, true);
                     }
 
-                    p_77875_1_.setBlock(p_77875_2_, p_77875_3_, p_77875_4_, Common_Registry.jelly_block, 0, 3);
+                    world.setBlock(x1, y1, z1, Common_Registry.jelly_block, 0, 3);
                 }
 
                 return true;

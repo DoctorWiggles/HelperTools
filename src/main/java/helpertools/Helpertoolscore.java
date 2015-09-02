@@ -39,6 +39,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -95,7 +96,8 @@ public class Helpertoolscore
 
 	/**  NotGyro **/
 	public static Configuration config;		
-
+	
+	
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "HelperToolsID")

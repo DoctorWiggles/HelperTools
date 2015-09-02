@@ -19,6 +19,7 @@ import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
 import helpertools.tools.Item_Bubblegun;
+import helpertools.tools.Item_Bubblegun_2;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
@@ -37,6 +38,7 @@ public class Common_Registry extends ConfigurationFactory{
 	public static Item torchlauncher;	
 	
 	public static Item bubblegun;
+	public static Item bubblegun_2;
 	
 	/** Items **/	
 	public static Item dynamitebolt;
@@ -90,6 +92,9 @@ public class Common_Registry extends ConfigurationFactory{
         //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");	
         bubblegun = new Item_Bubblegun(jelly_block);
         GameRegistry.registerItem(bubblegun, "bubblegun");
+        
+        bubblegun_2 = new Item_Bubblegun_2(965, 16000);
+        GameRegistry.registerItem(bubblegun_2, "bubblegun_2");
 
         /** Items **/
         dynamitebolt = new ItemDynamiteBolt();        	

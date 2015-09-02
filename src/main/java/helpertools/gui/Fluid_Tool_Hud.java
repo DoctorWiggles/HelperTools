@@ -126,7 +126,7 @@ public class Fluid_Tool_Hud extends Gui
 			        IIcon icon = getIcon();
 			        //this.drawTexturedModelRectFromIcon(xPos+10, yPos+10, icon, 16, 16);
 			        
-			        this.drawFluid(fluidstack, 20, xPos+2, yPos+8 , 12, size);
+			        this.drawFluid(fluidstack, 1*size, xPos+2, yPos+5+(32)-size , 12, size);
 			        //this.drawFluid(fluid, 20, 122, 19, 16, 58);
 			        
 			        //this.mc.renderEngine.bindTexture(fluid.getTextureSheet());
@@ -157,6 +157,7 @@ public class Fluid_Tool_Hud extends Gui
 		return BlockStaticLiquid.getLiquidIcon("lava_still");
 	}
   
+  /** http://www.mod-buildcraft.com/forums/archive/index.php?thread-272-1.html **/
   private void drawFluid(FluidStack fluid, int level, int x, int y, int width, int height){
       if(fluid == null || fluid.getFluid() == null) {
           return;

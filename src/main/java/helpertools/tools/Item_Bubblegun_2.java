@@ -1,11 +1,14 @@
 package helpertools.tools;
 
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import helpertools.Common_Registry;
 import helpertools.HelpTab;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,6 +31,7 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		
 		this.capacity = capacity;
 	}
+	protected static Random growrand = new Random();
 	
 	public void onUpdate(ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int p_77663_4_, boolean p_77663_5_) {
 		//this.isFull = Blocks.air;
@@ -43,6 +47,9 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		if(player.isSneaking()){
 			
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
+		if(mop == null){
+			return tool;
+		}
 		int x = mop.blockX;
         int y = mop.blockY;
         int z = mop.blockZ;
@@ -56,34 +63,27 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		String pickedname = FluidRegistry.getFluidName(picked);
 		
 		FluidStack pickedstack = FluidRegistry.getFluidStack(pickedname, 1000);
-		
+		/**
 		ChatComponentTranslation whatfluid = new ChatComponentTranslation(
 				"What fluid? : " + pickedname);
 		(player).addChatComponentMessage(whatfluid);
-		
+		**/
 		
 		this.fill(tool, pickedstack, true);
+		world.setBlock(x, y, z, Blocks.air, 0, 3);
 		
-		announce_Fluid_Amount(tool, player);
+		
+		/**announce_Fluid_Amount(tool, player);*/
 		}
 		
+		/**announce_Fluid_contained(tool, player);*/
 		
-		FluidStack contained = getFluid(tool);
-		
-		//String containedname = null;
-		if(contained != null){
-			String containedname = FluidRegistry.getFluidName(contained);
-			//containedname = contained.getUnlocalizedName();}
-		
-			ChatComponentTranslation whatcontained = new ChatComponentTranslation(
-					"What contained? : " + containedname);
-			(player).addChatComponentMessage(whatcontained);
-		
-		
-		}
 		}
 		if(!player.isSneaking()){		
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
+		if(mop == null){
+			return tool;
+		}
 		int x = mop.blockX;
         int y = mop.blockY;
         int z = mop.blockZ;
@@ -93,11 +93,12 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
         Fluid fluid = fluidstack.getFluid();
         Block block = fluid.getBlock();
 		//world.setBlock(p_147449_1_, p_147449_2_, p_147449_3_, p_147449_4_)
-		world.setBlock(x, y, z, block, 0, 3);
+		//world.setBlock(x, y, z, block, 0, 3);
+		Place_Fluid(world, block, x,y,z);
         }
         
         this.drain(tool, 1000, true);
-		announce_Fluid_Amount(tool, player);
+		//announce_Fluid_Amount(tool, player);
 			
 		}
 		
@@ -105,6 +106,35 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		return tool;
     
     }
+	
+	
+
+	/** Place fluid and appropriate effects **/
+	public void Place_Fluid (World world, Block block, int x, int y, int z ){
+		
+		world.setBlock(x, y, z, block, 0, 3);
+		
+		//setTBlock(thestaff, theblock.getBlock(x1, y1, z1).getIdFromBlock(theblock.getBlock(x1, y1, z1)));
+		//setTMeta(thestaff,theblock.getBlockMetadata(x1, y1, z1)); 
+		
+		int crackid = block.getIdFromBlock(block);
+		int crackmeta = world.getBlockMetadata(x, y, z);
+		//int crackmeta = 
+		
+		//int crackid = (getTBlock(thestaff));
+        //int crackmeta = (returnTMeta(thestaff));
+        String particle = "blockcrack_" + crackid + "_" + crackmeta;
+		for (int pl = 0; pl < 5; ++pl)
+		{
+		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+        float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+        float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+		world.spawnParticle(particle, x+f, y+f1+.3, z+f2, 0, 0, 0);  
+		
+		
+		
+		}
+	}
 	
 	
 	
@@ -117,6 +147,7 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 			}	
 		 try{
 			 FluidStack stack = FluidStack.loadFluidStackFromNBT(tool.stackTagCompound.getCompoundTag("Fluid"));
+			 //FluidStack stack = getFluid(tool);
 				currentAmount = stack.amount;
 		      }
 		      catch(NullPointerException exception){
@@ -128,6 +159,7 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		
 		return currentAmount;
 	}
+		
 	
 	/** Announce how much fluid is contained **/
 	public void announce_Fluid_Amount (ItemStack tool, EntityPlayer player){
@@ -139,6 +171,25 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 				"Capacity? : " + cap + " / " + capy);
 		(player).addChatComponentMessage(capacity);
 	}
+	
+	/** anounce contained fluids **/
+	public void announce_Fluid_contained(ItemStack tool, EntityPlayer player) {
+		FluidStack contained = getFluid(tool);
+		
+		//String containedname = null;
+		if(contained != null){
+			String containedname = FluidRegistry.getFluidName(contained);
+			//containedname = contained.getUnlocalizedName();}
+		
+			ChatComponentTranslation whatcontained = new ChatComponentTranslation(
+					"What contained? : " + containedname);
+			(player).addChatComponentMessage(whatcontained);		
+		}		
+		
+		
+		
+	}
+	
 	
 	/* IFluidContainerItem */
     public static FluidStack getFluid_2(ItemStack container)

@@ -7,6 +7,7 @@ import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
+import helpertools.gui.Fluid_Tool_Hud;
 import helpertools.gui.GuiBuffBar;
 import helpertools.gui.ToolHud;
 import helpertools.items.ItemChocolateMilk;
@@ -143,6 +144,8 @@ public class Helpertoolscore
 			FMLCommonHandler.instance().bus().register(new KeyInputHandler());
 			KeyBindings.init();  
 			MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+			//
+			MinecraftForge.EVENT_BUS.register(new Fluid_Tool_Hud(Minecraft.getMinecraft()));
 			//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
 		}
 

@@ -82,11 +82,7 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		
 		}
 		}
-		if(!player.isSneaking()){
-			
-		this.drain(tool, 1000, true);
-		announce_Fluid_Amount(tool, player);
-		
+		if(!player.isSneaking()){		
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
 		int x = mop.blockX;
         int y = mop.blockY;
@@ -99,6 +95,9 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		//world.setBlock(p_147449_1_, p_147449_2_, p_147449_3_, p_147449_4_)
 		world.setBlock(x, y, z, block, 0, 3);
         }
+        
+        this.drain(tool, 1000, true);
+		announce_Fluid_Amount(tool, player);
 			
 		}
 		
@@ -110,7 +109,7 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 	
 	
 	/** Handler to delegate how much fluid is present **/
-	int return_Fluid_Amount (ItemStack tool){
+	public int return_Fluid_Amount (ItemStack tool){
 		int currentAmount = 0;
 		
 		if (tool.stackTagCompound == null) {
@@ -140,5 +139,15 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 				"Capacity? : " + cap + " / " + capy);
 		(player).addChatComponentMessage(capacity);
 	}
+	
+	/* IFluidContainerItem */
+    public static FluidStack getFluid_2(ItemStack container)
+    {
+        if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Fluid"))
+        {
+            return null;
+        }
+        return FluidStack.loadFluidStackFromNBT(container.stackTagCompound.getCompoundTag("Fluid"));
+    } 
 
 }

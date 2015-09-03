@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 group = package_group
 archivesBaseName = mod_name
 //version = "${mc_version}-${mod_version}"
-version = "${mc_version}-v1.6a"
+version = "${mc_version}-v1.6c"
 
 
 import org.ajoberstar.grgit.Grgit

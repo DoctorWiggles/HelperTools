@@ -5,6 +5,7 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import helpertools.Common_Registry;
 import helpertools.HelpTab;
+import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,12 +13,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.ItemFluidContainer;
 
 public class Item_Bubblegun_2 extends ItemFluidContainer{
@@ -55,6 +61,7 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
         int z = mop.blockZ;
         
 		Block block = world.getBlock(x, y, z);
+				
 		
 		if(FluidRegistry.lookupFluidForBlock(block) != null){		
 		Fluid picked = FluidRegistry.lookupFluidForBlock(block);
@@ -70,13 +77,13 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		**/
 		
 		this.fill(tool, pickedstack, true);
-		world.setBlock(x, y, z, Blocks.air, 0, 3);
+		world.setBlock(x, y, z, Blocks.air, 0, 2);
 		
 		
 		/**announce_Fluid_Amount(tool, player);*/
 		}
 		
-		/**announce_Fluid_contained(tool, player);*/
+		announce_Fluid_contained(tool, player);
 		
 		}
 		if(!player.isSneaking()){		
@@ -94,11 +101,34 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
         Block block = fluid.getBlock();
 		//world.setBlock(p_147449_1_, p_147449_2_, p_147449_3_, p_147449_4_)
 		//world.setBlock(x, y, z, block, 0, 3);
+        
+
+		//tile entity support?
+		//if(world.getBlock(x, y, z) == Common_Registry.TranscriberBlock){
+			//TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);  
+			TileEntity localTileEntity = world.getTileEntity(x,y,z);
+			if(localTileEntity != null){
+				if (localTileEntity instanceof IFluidHandler){
+					if(((IFluidHandler) localTileEntity).canFill(ForgeDirection.NORTH, fluid)){
+						FluidStack fillstack = new FluidStack(fluid, 1000);
+						((IFluidHandler) localTileEntity).fill(ForgeDirection.NORTH, fillstack, true);
+						this.drain(tool, 1000, true);
+						return tool;
+					}
+					//FillBucketEvent event = new FillBucketEvent(player, tool, world, mop);
+		            //if (MinecraftForge.EVENT_BUS.post(event)) {	 return tool;  }
+
+				}
+			}
+			
+			//if (world.getBlock(x, y, z))
+        
 		Place_Fluid(world, block, x,y,z);
         }
         
         this.drain(tool, 1000, true);
 		//announce_Fluid_Amount(tool, player);
+              
 			
 		}
 		
@@ -138,6 +168,12 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 	
 	
 	
+	
+	
+	
+	
+	//==========================================================================================//
+	
 	/** Handler to delegate how much fluid is present **/
 	public int return_Fluid_Amount (ItemStack tool){
 		int currentAmount = 0;
@@ -172,9 +208,26 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		(player).addChatComponentMessage(capacity);
 	}
 	
+	public String what_fluidname(ItemStack tool){
+		String containedname = "empty";
+		FluidStack contained = getFluid(tool);
+		containedname = FluidRegistry.getFluidName(contained);	
+		return containedname;
+	}
+	
 	/** anounce contained fluids **/
 	public void announce_Fluid_contained(ItemStack tool, EntityPlayer player) {
 		FluidStack contained = getFluid(tool);
+		Fluid fluid;
+		long color = 0;
+		try{
+		fluid = contained.getFluid();		
+		color = fluid.getColor();}
+		catch(NullPointerException exception){
+			System.out.println("------------- COLORS BROKE ----------");
+			System.out.println("------------- COLORS BROKE ----------");
+			System.out.println("------------- COLORS BROKE ----------");
+		}
 		
 		//String containedname = null;
 		if(contained != null){
@@ -183,7 +236,10 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		
 			ChatComponentTranslation whatcontained = new ChatComponentTranslation(
 					"What contained? : " + containedname);
-			(player).addChatComponentMessage(whatcontained);		
+			(player).addChatComponentMessage(whatcontained);
+			ChatComponentTranslation whatcolor = new ChatComponentTranslation(
+					"What color? : " + color);
+			(player).addChatComponentMessage(whatcolor);	
 		}		
 		
 		

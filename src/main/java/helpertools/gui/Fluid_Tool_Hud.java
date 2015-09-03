@@ -60,6 +60,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 /**http://www.minecraftforge.net/wiki/Gui_Overlay **/
 /**https://www.opengl.org/discussion_boards/showthread.php/156794-How-to-change-the-brightness **/
 
+//https://github.com/coolAlias/Tutorial-Demo/blob/master/src/main/java/tutorial/client/gui/GuiManaBar.java
+
 public class Fluid_Tool_Hud extends Gui
 {
   private Minecraft mc;
@@ -73,6 +75,7 @@ public class Fluid_Tool_Hud extends Gui
   protected static RenderItem itemRender = new RenderItem();
   protected static RenderBlocks blockRender = new RenderBlocks();
   protected  FontRenderer fontRendererObj;
+  //protected FontRenderer fontRender = this.mc.fontRenderer;
   private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
   
   
@@ -132,24 +135,33 @@ public class Fluid_Tool_Hud extends Gui
 			        //this.mc.renderEngine.bindTexture(fluid.getTextureSheet());
 			        //this.mc.renderEngine.bindTexture(LiquidDictionary.getCanonicalLiquid("Water").getTextureSheet());
 			        
-			        this.mc.getTextureManager().bindTexture(backgroundimage);
-			      	this.drawTexturedModalRect(xPos-1, yPos-1, 137, 96, 32,  64);
+			        
 			        
 			 //StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 			 
-		 }
-		 }
+			      	String fluidname = "empty";
+			      	fluidname = Tool.what_fluidname(heldItem);
+			      	
+			      	//this.drawString(fontRender, fluidname, 1, 1, 0xffffffff);
+			      	//fontRendererObj.drawStringWithShadow(fluidname, 1, 1, 0xffffffff);
+			      	this.mc.fontRenderer.drawStringWithShadow(fluidname, xPos + 20, yPos, 0xF4F2FF);
+
+		 }}
 		 }
 		 catch(Exception exception){
 			  System.out.println("------------- RENDERING BROKE ----------");
-	    	  System.out.println("------------- RENDERING BROKE ----------");
-	    	  System.out.println("------------- RENDERING BROKE ----------");
 		 }
-		
+		 this.mc.getTextureManager().bindTexture(backgroundimage);
+	     this.drawTexturedModalRect(xPos-1, yPos-1, 137, 96, 32,  64);
 		 
 
 
   } 
+  
+  //==========================================================================================//
+  
+  
+  
   
 
   public IIcon getIcon()

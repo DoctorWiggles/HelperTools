@@ -165,10 +165,13 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		
 		}
 	}
+	// To Do's
+	public void insert_Fluid(){}
 	
+	public void take_Fluid(){}
 	
-	
-	
+	public void bucket_Fluid(){}	
+	// To Do's
 	
 	
 	

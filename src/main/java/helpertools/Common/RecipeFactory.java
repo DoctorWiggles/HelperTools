@@ -94,7 +94,10 @@ public class RecipeFactory extends ConfigurationFactory{
 	    ShapelessRecipe(Recipe_TorchLauncher,new ItemStack(crossbow_tool, 1 , 0), new Object[]{
 	    	Items.bow, Items.flint_and_steel, "plankWood"});
 	    
-	    
+	    ShapedRecipe(Recipe_DirtBombs, new ItemStack(dirtbomb, Output_DirtBombs,0),new Object[]{
+	    	"SSS",
+    		"SWS",
+    		"SSS", 'S', Blocks.dirt, 'W', Items.gunpowder});
 	    	
 		
 		//Blocks		

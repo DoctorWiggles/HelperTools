@@ -69,13 +69,14 @@ public class ConfigurationFactory extends ItemRegistry{
 	public static boolean ToolModeMesseges = true;
 	public static boolean ToolPowerMesseges = false;
 	//public static boolean Use_3D_Models = true;
+	public static boolean DirtBomb_Debris = true;
 	
 	
 	public static final Section sect_Blocks = new Section("Block Recipes", "block recipes");
 	//public static boolean TechnicalSlabs = true;
 	public static boolean Recipe_EuclideanBlock;
 	public static boolean Recipe_Fake_Bedrock;
-	public static int 	 Output_False_Bedrock;
+	public static int 	  Output_False_Bedrock;
 	public static boolean Recipe_Podzol;
 	
 	public static final Section sect_Tool_Rec = new Section("Tool Recipes", "tool recipes");
@@ -89,10 +90,12 @@ public class ConfigurationFactory extends ItemRegistry{
 	public static boolean Recipe_Chocolatemilk;
 	public static boolean Recipe_String_For_Dynamite;
 	public static boolean Recipe_Slime_For_Dynamite;
-	public static int Output_Dynamite;
+	public static int     Output_Dynamite;
+	public static boolean Recipe_DirtBombs;
+	public static int     Output_DirtBombs;
 	
 	
-	
+	//=============================================================================//
 	public static void Configurator_Load (FMLPreInitializationEvent event){
 		
 		
@@ -107,6 +110,7 @@ public class ConfigurationFactory extends ItemRegistry{
 		RenderToolHuds  = config.get(sect_Extra.name, "tool_Huds",true, "Enables Tools heads up displays").getBoolean();
 		ToolModeMesseges = config.get(sect_Extra.name, "ToolModeMesseges", true).getBoolean();
 		ToolPowerMesseges = config.get(sect_Extra.name, "ToolPowerMesseges", false).getBoolean();
+		DirtBomb_Debris = config.get(sect_Extra.name, "DirtBomb_Debris", true, "Toggles most of block items dropped by dirt bombs, disable if you have performance issues").getBoolean();
 		
 		//sect Block Recipes
 		// as of 1.8 technical blocks's itemstacks models were removed
@@ -128,7 +132,9 @@ public class ConfigurationFactory extends ItemRegistry{
 		Recipe_Chocolatemilk = config.get(sect_Item_Rec.name, "Recipe_Chocolatemilk", true).getBoolean();
 		Recipe_String_For_Dynamite = config.get(sect_Item_Rec.name, "Recipe_String_For_Dynamite", true).getBoolean();
 		Recipe_Slime_For_Dynamite = config.get(sect_Item_Rec.name, "Recipe_Slime_For_Dynamite", true).getBoolean();
-		Output_Dynamite  = config.get(sect_Dura.name, "Output_Dynamite", 4).getInt();
+		Output_Dynamite  = config.get(sect_Item_Rec.name, "Output_Dynamite", 4).getInt();
+		Recipe_DirtBombs = config.get(sect_Item_Rec.name, "Recipe_DirtBombs", true).getBoolean();
+		Output_DirtBombs  = config.get(sect_Item_Rec.name, "Output_DirtBombs", 6).getInt();
 		
 	}
 	

@@ -4,14 +4,17 @@ import helpertools.Main;
 import helpertools.Common.Blocks.FalseBedrock;
 import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Common.Blocks.TranscriberBlock;
+import helpertools.Common.Blocks.LooseDirtBlock;
 import helpertools.Common.Items.Debug_States;
 import helpertools.Common.Items.ItemChocolateMilk;
+import helpertools.Common.Items.ItemDirtBomb;
 import helpertools.Common.Items.ItemDynamiteBolt;
 import helpertools.Common.Items.ItemMilkBottle;
 import helpertools.Common.Tools.ItemEuclideanTransposer;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
 import helpertools.Common.Tools.ItemTorchLauncher;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -27,6 +30,7 @@ public class ItemRegistry {
 	public static Item crossbow_tool;	
 	public static Item debug_states_tool;
 	public static Item dynamitebolt;
+	public static Item dirtbomb;
 	
 
 	public static void createItems() {
@@ -39,17 +43,22 @@ public class ItemRegistry {
 		GameRegistry.registerItem(crossbow_tool = new ItemTorchLauncher(ConfigurationFactory.Crossbow_Matt, "crossbow_item"),"crossbow_item");		
 		//GameRegistry.registerItem(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
 		GameRegistry.registerItem(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"),"dynamitebolt_item");
+		GameRegistry.registerItem(dirtbomb = new ItemDirtBomb( "dirtbomb_item"),"dirtbomb_item");
 	
 	
 	}
 	
 	public static Block falseBedrock;
 	public static Block transcriberBlock;
+	public static Block LooseDirtBlock;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
 		GameRegistry.registerBlock(falseBedrock = new FalseBedrock("falseBedrock_block", Material.rock ,15F,20F), "falseBedrock_block");
         GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),"transcriber_block");
+        GameRegistry.registerBlock(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"),"loosedirt_block");
+        
+        //Tiles
         GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
 		
 	}

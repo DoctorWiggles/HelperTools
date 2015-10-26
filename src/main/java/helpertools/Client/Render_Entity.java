@@ -1,21 +1,29 @@
 package helpertools.Client;
 
+import helpertools.Common.ItemRegistry;
+import helpertools.Common.Entity.Entity_DirtBombProjectile;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
 import helpertools.Common.Entity.Entity_TorchProjectile;
+import helpertools.Common.Entity.Renders.RenderDirtBombProjectile;
 import helpertools.Common.Entity.Renders.RenderDynamiteProjectile;
 import helpertools.Common.Entity.Renders.RenderRedTorchProjectile;
 import helpertools.Common.Entity.Renders.RenderTorchProjectile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.init.Items;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class Render_Entity {
 	
 
 	static RenderManager Randy = Minecraft.getMinecraft().getRenderManager();	
+	static RenderItem Item = Minecraft.getMinecraft().getRenderItem();
 	
 	public static void register_entity_renderer(){
 		//super.registerRenderers();    
@@ -26,6 +34,8 @@ public class Render_Entity {
         RenderingRegistry.registerEntityRenderingHandler
         (Entity_RedTorchProjectile.class, new RenderRedTorchProjectile(Randy));
         
+        RenderingRegistry.registerEntityRenderingHandler
+        (Entity_DirtBombProjectile.class, new RenderDirtBombProjectile(Randy, ItemRegistry.dirtbomb, Item));
        
 		
 	}

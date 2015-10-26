@@ -8,7 +8,7 @@ item.expander_item.name=§aExpanding Rod
 item.torchlauncher_item.name=§eTorch Launcher
 item.dynamitebolt_item.name=§6Dynamite Bolt
 item.pattern_item.name=§3Euclidean Transposer
-item.dirtbomb_item.name=Dirt Bomb §9[W.I.P.]
+item.dirtbomb_item.name=Dirt Bomb
 item.bottledmilk_item.name=Bottle of Milk
 item.chocolatemilk_item.name=Chocolate Milk
 item.debug_states_item.name=State Debugger
@@ -37,7 +37,7 @@ tile.transcriber_block.name=§3Euclidean Transcriber
 tile.SelectionBlock.name=§4Selection Block §5[DEV]
 tile.MagicalFuelBlock.name=§3Magical Fuel §9[W.I.P.]
 tile.ActiveMagicalFuelBlock.name=§3Active Magical Fuel §9[W.I.P.]
-tile.LooseDirtBlock.name=Loose Dirt §9[W.I.P.]
+tile.loosedirt_block.name=Loose Dirt
 tile.SugarBlock.name=Sugar Cube
 
 #        #

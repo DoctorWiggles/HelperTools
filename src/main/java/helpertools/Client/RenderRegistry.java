@@ -21,6 +21,7 @@ public final class RenderRegistry {
 		//reg(ItemRegistry.debug_states_tool);
 		reg(ItemRegistry.dynamitebolt);
 		//reg(ItemRegistry.crossbow_tool);
+		reg(ItemRegistry.dirtbomb);
 		
 		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_1", "inventory");
 	    final int DEFAULT_ITEM_SUBTYPE = 0;
@@ -41,6 +42,7 @@ public final class RenderRegistry {
 	public static void registerBlockRenderer(){
 		reg(ItemRegistry.falseBedrock);
 		reg(ItemRegistry.transcriberBlock);
+		reg(ItemRegistry.LooseDirtBlock);
 	}
 
 	//==========================================================================//

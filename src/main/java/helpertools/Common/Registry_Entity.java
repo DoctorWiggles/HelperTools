@@ -1,6 +1,7 @@
 package helpertools.Common;
 
 import helpertools.Main;
+import helpertools.Common.Entity.Entity_DirtBombProjectile;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
 import helpertools.Common.Entity.Entity_TorchProjectile;
@@ -19,6 +20,7 @@ public class Registry_Entity {
 		 EntityRegistry.registerModEntity(Entity_TorchProjectile.class, "TorchBolt", 10, Main.instance, 350, 10, true);
 		 EntityRegistry.registerModEntity(Entity_RedTorchProjectile.class, "RedTorchBolt", 11, Main.instance, 350, 10, true);
 		 EntityRegistry.registerModEntity(Entity_DynamiteProjectile.class, "DynamiteBolt", 12, Main.instance, 350, 30, true);
+		 EntityRegistry.registerModEntity(Entity_DirtBombProjectile.class, "DirtBomb", 13, Main.instance, 350, 30, true);
 		
 	}
 	

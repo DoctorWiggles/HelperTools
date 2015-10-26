@@ -17,7 +17,7 @@ classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
 
 apply plugin: 'forge'
 //version = "1.2.1a"
-version = "1.8.0-v2.5b"
+version = "1.8.0-v2.5c"
 //version = "${mc_version}-1.1.5M"
 group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 //group = package_group

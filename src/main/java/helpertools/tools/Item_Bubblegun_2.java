@@ -23,6 +23,7 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.ItemFluidContainer;
 
@@ -50,8 +51,6 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		if (world.isRemote){
 			return tool;
 		}
-		if(player.isSneaking()){
-			
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
 		if(mop == null){
 			return tool;
@@ -60,40 +59,21 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
         int y = mop.blockY;
         int z = mop.blockZ;
         
+		/** Sneaking functions, withdraw etc. **/
+		if(player.isSneaking()){	
 		Block block = world.getBlock(x, y, z);
 				
-		
-		if(FluidRegistry.lookupFluidForBlock(block) != null){		
-		Fluid picked = FluidRegistry.lookupFluidForBlock(block);
-		
-		//String pickedname = FluidRegistry.getDefaultFluidName(picked);
-		String pickedname = FluidRegistry.getFluidName(picked);
-		
-		FluidStack pickedstack = FluidRegistry.getFluidStack(pickedname, 1000);
-		/**
-		ChatComponentTranslation whatfluid = new ChatComponentTranslation(
-				"What fluid? : " + pickedname);
-		(player).addChatComponentMessage(whatfluid);
-		**/
-		
-		this.fill(tool, pickedstack, true);
-		world.setBlock(x, y, z, Blocks.air, 0, 2);
-		
-		
-		/**announce_Fluid_Amount(tool, player);*/
+		if (bucket_Fluid(block, tool, world, x,y,z)){
+			return tool;
 		}
+		take_Fluid(world, tool, x, y, z);		
+		
 		
 		announce_Fluid_contained(tool, player);
 		
 		}
-		if(!player.isSneaking()){		
-		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
-		if(mop == null){
-			return tool;
-		}
-		int x = mop.blockX;
-        int y = mop.blockY;
-        int z = mop.blockZ;
+		/** defualt functions, place etc. **/
+		if(!player.isSneaking()){
         
         if(getFluid(tool) != null){
         FluidStack fluidstack =  getFluid(tool);
@@ -103,30 +83,15 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
 		//world.setBlock(x, y, z, block, 0, 3);
         
 
-		//tile entity support?
-		//if(world.getBlock(x, y, z) == Common_Registry.TranscriberBlock){
-			//TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);  
-			TileEntity localTileEntity = world.getTileEntity(x,y,z);
-			if(localTileEntity != null){
-				if (localTileEntity instanceof IFluidHandler){
-					if(((IFluidHandler) localTileEntity).canFill(ForgeDirection.NORTH, fluid)){
-						FluidStack fillstack = new FluidStack(fluid, 1000);
-						((IFluidHandler) localTileEntity).fill(ForgeDirection.NORTH, fillstack, true);
-						this.drain(tool, 1000, true);
-						return tool;
-					}
-					//FillBucketEvent event = new FillBucketEvent(player, tool, world, mop);
-		            //if (MinecraftForge.EVENT_BUS.post(event)) {	 return tool;  }
-
-				}
-			}
-			
-			//if (world.getBlock(x, y, z))
-        
-		Place_Fluid(world, block, x,y,z);
+        if(insert_Fluid(world, fluid, tool, x, y, z)){
+        	return tool;
         }
         
-        this.drain(tool, 1000, true);
+        
+		Place_Fluid(world,tool, block, x,y,z);
+        }
+        
+       
 		//announce_Fluid_Amount(tool, player);
               
 			
@@ -137,10 +102,13 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
     
     }
 	
+	//================================================================================================================//
+	
 	
 
-	/** Place fluid and appropriate effects **/
-	public void Place_Fluid (World world, Block block, int x, int y, int z ){
+	/** Place fluid in the world
+	 * @param tool **/
+	public void Place_Fluid (World world, ItemStack tool, Block block, int x, int y, int z ){
 		
 		world.setBlock(x, y, z, block, 0, 3);
 		
@@ -161,16 +129,92 @@ public class Item_Bubblegun_2 extends ItemFluidContainer{
         float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
 		world.spawnParticle(particle, x+f, y+f1+.3, z+f2, 0, 0, 0);  
 		
-		
+		 this.drain(tool, 1000, true);
 		
 		}
 	}
-	// To Do's
-	public void insert_Fluid(){}
 	
-	public void take_Fluid(){}
+	/** If applicable attempts to insert a fluid into a target tank **/
+	public Boolean insert_Fluid(World world, Fluid fluid, ItemStack tool, int x,int y,int z){
+		//tile entity support?
+				//if(world.getBlock(x, y, z) == Common_Registry.TranscriberBlock){
+					//TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);  
+					TileEntity localTileEntity = world.getTileEntity(x,y,z);
+					if(localTileEntity != null){
+						if (localTileEntity instanceof IFluidHandler){
+							if(((IFluidHandler) localTileEntity).canFill(ForgeDirection.NORTH, fluid)){
+								FluidStack fillstack = new FluidStack(fluid, 1000);
+								((IFluidHandler) localTileEntity).fill(ForgeDirection.NORTH, fillstack, true);
+								this.drain(tool, 1000, true);
+								return true;
+							}
+							//FillBucketEvent event = new FillBucketEvent(player, tool, world, mop);
+				            //if (MinecraftForge.EVENT_BUS.post(event)) {	 return tool;  }
+
+						}
+					}
+					return false;
+					
+					//if (world.getBlock(x, y, z))
+		        
+	}
 	
-	public void bucket_Fluid(){}	
+	/** withdraw a fluid from a tank **/
+	public Boolean take_Fluid(World world, ItemStack tool, int x,int y,int z){
+		
+		TileEntity localTileEntity = world.getTileEntity(x,y,z);
+		if(localTileEntity != null){
+			if (localTileEntity instanceof IFluidHandler){				
+				//fluid =  ((IFluidHandler) localTileEntity).getTankInfo(ForgeDirection.NORTH);
+				
+				//if(((IFluidHandler) localTileEntity).canDrain(ForgeDirection.NORTH, fluid)){
+					FluidStack localFluidStack = null;
+					localFluidStack = ((IFluidHandler) localTileEntity).drain(ForgeDirection.NORTH, 1000, false);
+					if (localFluidStack == null){
+						return false;
+					}
+					
+				    Fluid TE_Fluid = localFluidStack.getFluid();
+				    if(getFluid(tool) != null){
+				        FluidStack fluidstack =  getFluid(tool);
+				        Fluid fluid = fluidstack.getFluid();
+				        if(TE_Fluid != fluid){
+				        	return false;}
+				        }					
+					
+					//FluidStack fillstack = new FluidStack(fluid, 1000);
+					((IFluidHandler) localTileEntity).drain(ForgeDirection.NORTH, localFluidStack, true);
+					this.fill(tool, localFluidStack, true);
+					return true;
+				}				
+			//}
+		}
+		return false;
+	}
+	
+	/** scoop up a fluid in the world **/
+	public boolean bucket_Fluid(Block block, ItemStack tool, World world, int x, int y, int z){
+
+		if(FluidRegistry.lookupFluidForBlock(block) != null){		
+		Fluid picked = FluidRegistry.lookupFluidForBlock(block);
+		
+		//String pickedname = FluidRegistry.getDefaultFluidName(picked);
+		String pickedname = FluidRegistry.getFluidName(picked);
+		
+		FluidStack pickedstack = FluidRegistry.getFluidStack(pickedname, 1000);
+		/**
+		ChatComponentTranslation whatfluid = new ChatComponentTranslation(
+				"What fluid? : " + pickedname);
+		(player).addChatComponentMessage(whatfluid);
+		**/
+		
+		this.fill(tool, pickedstack, true);
+		world.setBlock(x, y, z, Blocks.air, 0, 2);
+		return true;
+		}
+		return false;
+		
+	}	
 	// To Do's
 	
 	

@@ -151,9 +151,12 @@ public class Fluid_Tool_Hud extends Gui
 		 catch(Exception exception){
 			  System.out.println("------------- RENDERING BROKE ----------");
 		 }
-		 
+		 try{
 		 this.mc.getTextureManager().bindTexture(backgroundimage);
 		 this.drawTexturedModalRect(xPos-1, yPos-1, 137, 96, 32,  64);
+		 }catch(IllegalStateException IllegalStateException){
+			 System.out.println("------------- RENDERING BROKE ----------");
+		 }
 		 	
 		 
 

@@ -32,41 +32,41 @@ public class Item_jelly_Bucket extends ItemBucket {
 	/**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         boolean flag = this.isFull == Blocks.air;
-        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(p_77659_2_, p_77659_3_, flag);
+        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, flag);
 
         if (movingobjectposition == null)
         {
-            return p_77659_1_;
+            return stack;
         }
         else
         {
-            FillBucketEvent event = new FillBucketEvent(p_77659_3_, p_77659_1_, p_77659_2_, movingobjectposition);
+            FillBucketEvent event = new FillBucketEvent(player, stack, world, movingobjectposition);
             if (MinecraftForge.EVENT_BUS.post(event))
             {
-                return p_77659_1_;
+                return stack;
             }
 
             if (event.getResult() == Event.Result.ALLOW)
             {
-                if (p_77659_3_.capabilities.isCreativeMode)
+                if (player.capabilities.isCreativeMode)
                 {
-                    return p_77659_1_;
+                    return stack;
                 }
 
-                if (--p_77659_1_.stackSize <= 0)
+                if (--stack.stackSize <= 0)
                 {
                     return event.result;
                 }
 
-                if (!p_77659_3_.inventory.addItemStackToInventory(event.result))
+                if (!player.inventory.addItemStackToInventory(event.result))
                 {
-                    p_77659_3_.dropPlayerItemWithRandomChoice(event.result, false);
+                    player.dropPlayerItemWithRandomChoice(event.result, false);
                 }
 
-                return p_77659_1_;
+                return stack;
             }
             if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
@@ -74,31 +74,31 @@ public class Item_jelly_Bucket extends ItemBucket {
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
 
-                if (!p_77659_2_.canMineBlock(p_77659_3_, i, j, k))
+                if (!world.canMineBlock(player, i, j, k))
                 {
-                    return p_77659_1_;
+                    return stack;
                 }
 
                 if (flag)
                 {
-                    if (!p_77659_3_.canPlayerEdit(i, j, k, movingobjectposition.sideHit, p_77659_1_))
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
                     {
-                        return p_77659_1_;
+                        return stack;
                     }
 
-                    Material material = p_77659_2_.getBlock(i, j, k).getMaterial();
-                    int l = p_77659_2_.getBlockMetadata(i, j, k);
+                    Material material = world.getBlock(i, j, k).getMaterial();
+                    int l = world.getBlockMetadata(i, j, k);
 
                     if (material == Material.water && l == 0)
                     {
-                        p_77659_2_.setBlockToAir(i, j, k);
-                        return this.func_150910_a(p_77659_1_, p_77659_3_, Items.water_bucket);
+                        world.setBlockToAir(i, j, k);
+                        return this.func_150910_a(stack, player, Items.water_bucket);
                     }
 
                     if (material == Material.lava && l == 0)
                     {
-                        p_77659_2_.setBlockToAir(i, j, k);
-                        return this.func_150910_a(p_77659_1_, p_77659_3_, Items.lava_bucket);
+                        world.setBlockToAir(i, j, k);
+                        return this.func_150910_a(stack, player, Items.lava_bucket);
                     }
                 }
                 else
@@ -138,19 +138,19 @@ public class Item_jelly_Bucket extends ItemBucket {
                         ++i;
                     }
 
-                    if (!p_77659_3_.canPlayerEdit(i, j, k, movingobjectposition.sideHit, p_77659_1_))
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
                     {
-                        return p_77659_1_;
+                        return stack;
                     }
 
-                    if (this.tryPlaceContainedLiquid(p_77659_2_, i, j, k) && !p_77659_3_.capabilities.isCreativeMode)
+                    if (this.tryPlaceContainedLiquid(world, i, j, k) && !player.capabilities.isCreativeMode)
                     {
                         return new ItemStack(Items.bucket);
                     }
                 }
             }
 
-            return p_77659_1_;
+            return stack;
         }
     }
 

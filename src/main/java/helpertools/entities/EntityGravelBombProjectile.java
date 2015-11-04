@@ -22,13 +22,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class EntityDirtBombProjectile extends EntityThrowable{
+public class EntityGravelBombProjectile extends EntityThrowable{
 
-   public EntityDirtBombProjectile(World par1World) {
+   public EntityGravelBombProjectile(World par1World) {
        super(par1World);
    }
 
-   public EntityDirtBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
+   public EntityGravelBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
        super(par2World,par3EntityPlayer);
    }
 
@@ -64,8 +64,8 @@ public class EntityDirtBombProjectile extends EntityThrowable{
    protected static Random growrand = new Random();
    
    //stable references
-   Block dirtblock = Blocks.dirt;
-   Block pblock = Common_Registry.LooseDirtBlock;
+   Block dirtblock = Blocks.gravel;
+   Block pblock = Blocks.gravel;
    
    @Override
   protected void onImpact(MovingObjectPosition mop) {
@@ -92,7 +92,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		    	  
 		      }
 		      
-		      short short1 =32;
+		      short short1 =24;
 				for (int lp = 0; lp < short1; ++lp)
 		       {
 		           double d6 = (double)lp / ((double)short1 - 1.0D);
@@ -109,7 +109,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		           
 		       }
 				
-				short short2 = 8;
+				short short2 = 16;
 				for (int lp = 0; lp < short2; ++lp)
 		       {
 		           double d6 = (double)lp / ((double)short1 - 1.0D);
@@ -202,13 +202,21 @@ public class EntityDirtBombProjectile extends EntityThrowable{
   //goes through a couple checks to displace -- crush non solids
   public void place_block (int x, int y, int z, Block pblock, Block dirtblock){
 
-		if(worldObj.getBlock(x,y,z) == Blocks.air 	  
-				||  worldObj.getBlock(x,y,z).getMaterial()== Material.plants
+		if(worldObj.getBlock(x,y,z) == Blocks.air 	
 				||  worldObj.getBlock(x,y,z).getMaterial()== Material.lava
 				||  worldObj.getBlock(x,y,z).getMaterial()== Material.water)
 		{
 			//worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
 			this.worldObj.setBlock(x,y,z, pblock); 
+		}
+		if(worldObj.getBlock(x,y-1,z).getMaterial()== Material.plants
+				|| worldObj.getBlock(x,y-1,z).getMaterial()== Material.vine
+				|| worldObj.getBlock(x,y-1,z)== Blocks.snow_layer){
+			//(worldObj.getBlockState(pos).getBlock()).dropBlockAsItem(worldObj, pos, worldObj.getBlockState(pos), 0);
+			//worldObj.getBlock(x,y,z).dropBlockAsItem(worldObj,x,y,z, 0, 0);
+			(worldObj.getBlock(x,y-1,z)).dropBlockAsItem(worldObj,x,y-1,z, worldObj.getBlockMetadata(x,y-1,z), 0);
+			//worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
+			this.worldObj.setBlock(x,y,z, Blocks.air); 
 		}
 		if(worldObj.getBlock(x,y,z).getMaterial()== Material.plants
 				|| worldObj.getBlock(x,y,z).getMaterial()== Material.vine

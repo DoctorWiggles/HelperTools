@@ -135,6 +135,47 @@ public class RecipeFactory extends Common_Registry{
     	
     	
     	
+    	//Debugging tool
+    	     /**   	
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.debugtool, 1 , 0), new Object[]{
+    		Items.nether_star, Blocks.bedrock, }));
+    	**/
+    	/**
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.rfdebugtool, 1 , 0), new Object[]{
+    		Items.nether_star, Blocks.redstone_block, }));
+    		**/
+    		
+    		
+    	if(Recipe_Bombs == true){
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(dirtbomb, OutputDirtBomb, 0), true, new Object[]{
+        		"ZZZ",
+    			"ZXZ",
+    			"ZZZ", Character.valueOf('X'), Items.gunpowder, Character.valueOf('Z'), Blocks.dirt}));
+        	}
+    	
+    	ItemStack BucketOut = new ItemStack(Items.milk_bucket.setContainerItem(Items.bucket));
+    	//ItemStack BottleOut = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(Items.glass_bottle));
+    	//I don't know but once set it overrides it for every other recipe, setting it to null only override the other.
+    	//.oncreated --consume item seems to balance this with only a minor dupe bug for the first in the inventory
+    	//Recipes shouldn't require this much effort, what the hell
+    	ItemStack Bottledestroy = new ItemStack(Common_Registry.bottledmilk.setContainerItem(null));
+    	if(RecipeBottledmilk == true){
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.bottledmilk, 1 , 0), new Object[]{
+    		 BucketOut, Items.glass_bottle}));
+    	}
+    	//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.milk_bucket, 1 , 0), new Object[]{
+    	//	BottleOut, Items.bucket}));
+    	if(RecipeChocolatemilk == true){
+    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.chocolatemilk, 1 , 0), new Object[]{
+    		Bottledestroy, new ItemStack(Items.dye, 1, 3)}));
+    	}
+    	
+    		    	
+		
+    	//===================================================================================//
+    	//Blocks - Blocks - Blocks  - Blocks - Blocks - Blocks - Blocks -Blocks -Blocks     //    	
+    	//=================================================================================//
+
     	
     	//Imitation bedrock recipes
     	
@@ -166,40 +207,6 @@ public class RecipeFactory extends Common_Registry{
     	if(RecipeMagicalFuel == true){
     	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.MagicalFuelBlock, OutputMagicalFuel , 0), new Object[]{
     		"ingotIron", "helpbonemeal", "gemLapis"}));
-    	}
-    	//Debugging tool
-    	     /**   	
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.debugtool, 1 , 0), new Object[]{
-    		Items.nether_star, Blocks.bedrock, }));
-    	**/
-    	/**
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Helpertoolscore.rfdebugtool, 1 , 0), new Object[]{
-    		Items.nether_star, Blocks.redstone_block, }));
-    		**/
-    		
-    		
-    	if(RecipeDirtBomb == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(dirtbomb, OutputDirtBomb, 0), true, new Object[]{
-        		"ZZZ",
-    			"ZXZ",
-    			"ZZZ", Character.valueOf('X'), Items.gunpowder, Character.valueOf('Z'), Blocks.dirt}));
-        	}
-    	
-    	ItemStack BucketOut = new ItemStack(Items.milk_bucket.setContainerItem(Items.bucket));
-    	//ItemStack BottleOut = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(Items.glass_bottle));
-    	//I don't know but once set it overrides it for every other recipe, setting it to null only override the other.
-    	//.oncreated --consume item seems to balance this with only a minor dupe bug for the first in the inventory
-    	//Recipes shouldn't require this much effort, what the hell
-    	ItemStack Bottledestroy = new ItemStack(Common_Registry.bottledmilk.setContainerItem(null));
-    	if(RecipeBottledmilk == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.bottledmilk, 1 , 0), new Object[]{
-    		 BucketOut, Items.glass_bottle}));
-    	}
-    	//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.milk_bucket, 1 , 0), new Object[]{
-    	//	BottleOut, Items.bucket}));
-    	if(RecipeChocolatemilk == true){
-    	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Common_Registry.chocolatemilk, 1 , 0), new Object[]{
-    		Bottledestroy, new ItemStack(Items.dye, 1, 3)}));
     	}
     	
     	//podzol recipe

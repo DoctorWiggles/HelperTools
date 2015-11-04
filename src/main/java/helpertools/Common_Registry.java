@@ -4,15 +4,21 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import helpertools.blocks.Jelly_Fluid_Block;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
+import helpertools.entities.BombProjectile_Entity;
 import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
+import helpertools.entities.EntityGravelBombProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
+import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
+import helpertools.items.ItemGravelBomb;
 import helpertools.items.ItemMilkBottle;
+import helpertools.items.ItemSandBomb;
+import helpertools.items.Item_Block_Bomb;
 import helpertools.items.Item_jelly_Bucket;
 import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
@@ -43,16 +49,20 @@ public class Common_Registry extends ConfigurationFactory{
 	/** Items **/	
 	public static Item dynamitebolt;
 	public static Item dirtbomb;
+	public static Item sandbomb;
+	public static Item gravelbomb;
 	public static Item bottledmilk;
 	public static Item chocolatemilk;	
 	//public static Item powercrystal;	
 	//public static Item debugtool;
 	//public static Item rfdebugtool;
 	
+	public static Item bomb;
+	
 	/** Fluids **/
 	public static Fluid jelly_fluid = new Fluid("jelly");
 	public static Block jelly_block;		
-	public static Item jelly_bucket = new Item_jelly_Bucket(jelly_block);	
+	public static Item jelly_bucket = new Item_jelly_Bucket(jelly_block);
 	
 	/** Blocks **/
 	public final static Block Ibedrock = new helpertools.blocks.ImitationBedrock();
@@ -99,12 +109,19 @@ public class Common_Registry extends ConfigurationFactory{
         /** Items **/
         dynamitebolt = new ItemDynamiteBolt();        	
     	dirtbomb = new ItemDirtBomb();
+    	sandbomb = new ItemSandBomb();
+    	gravelbomb = new ItemGravelBomb();
     	bottledmilk = new ItemMilkBottle();
     	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
         GameRegistry.registerItem(dynamitebolt, "dynamitebolt");        
-        GameRegistry.registerItem(dirtbomb, "dirtbomb");        
+        GameRegistry.registerItem(dirtbomb, "dirtbomb");   
+        GameRegistry.registerItem(sandbomb, "sandbomb"); 
+        GameRegistry.registerItem(gravelbomb, "gravelbomb"); 
         GameRegistry.registerItem(bottledmilk, "bottledmilk");
         GameRegistry.registerItem(chocolatemilk, "chocolatemilk");
+        
+        bomb = new Item_Block_Bomb("bomb");
+        GameRegistry.registerItem(bomb, "bomb");
         
         //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
         //GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");
@@ -148,6 +165,10 @@ public class Common_Registry extends ConfigurationFactory{
                         
         EntityRegistry.registerModEntity(EntityBoltProjectile.class, "CrossBolt", 13, instance, 350, 10, true);
         EntityRegistry.registerModEntity(EntityDirtBombProjectile.class, "DirtBomb", 14, instance, 350, 30, true);
+        EntityRegistry.registerModEntity(EntitySandBombProjectile.class, "SandBomb", 15, instance, 350, 30, true);
+        EntityRegistry.registerModEntity(EntityGravelBombProjectile.class, "GravelBomb", 16, instance, 350, 30, true);
+        
+        EntityRegistry.registerModEntity(BombProjectile_Entity.class, "Bomb", 17, instance, 350, 30, true);
         //class, stringname, entity ID, thisobject, loading range, update polls, velocity updates
         
        

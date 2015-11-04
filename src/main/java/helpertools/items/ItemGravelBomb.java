@@ -3,20 +3,22 @@ package helpertools.items;
 import helpertools.HelpTab;
 import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
+import helpertools.entities.EntityGravelBombProjectile;
+import helpertools.entities.EntitySandBombProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemDirtBomb extends Item {
+public class ItemGravelBomb extends Item {
 
-	  public ItemDirtBomb() {
+	  public ItemGravelBomb() {
 	       super();
 	       this.maxStackSize = 32;  
-	       setUnlocalizedName("dirtbomb");
+	       setUnlocalizedName("gravelbomb");
 	       //setCreativeTab(Helpertoolscore.HelperTools);
 	       setCreativeTab(HelpTab.HelperTools);
-	       setTextureName("helpertools:DirtBomb");
+	       setTextureName("helpertools:GravelBomb");
 	       
 	   }
 	  
@@ -31,7 +33,7 @@ public class ItemDirtBomb extends Item {
     	   return stack;
        }
        if(!player.capabilities.isCreativeMode){--stack.stackSize;}
-       EntityDirtBombProjectile Bomb = new EntityDirtBombProjectile(world, player);
+       EntityGravelBombProjectile Bomb = new EntityGravelBombProjectile(world, player);
        		//Bomb.Type=2;
        		world.spawnEntityInWorld(Bomb);
        		

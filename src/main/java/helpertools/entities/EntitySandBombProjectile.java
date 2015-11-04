@@ -3,6 +3,8 @@ package helpertools.entities;
 import helpertools.Common_Registry;
 import helpertools.ConfigurationFactory;
 import helpertools.Helpertoolscore;
+import helpertools.util.GeometryUtil;
+import helpertools.util.HelperExplosions;
 
 import java.util.Random;
 import java.util.Stack;
@@ -22,13 +24,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class EntityDirtBombProjectile extends EntityThrowable{
+public class EntitySandBombProjectile extends EntityThrowable{
 
-   public EntityDirtBombProjectile(World par1World) {
+   public EntitySandBombProjectile(World par1World) {
        super(par1World);
    }
 
-   public EntityDirtBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
+   public EntitySandBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
        super(par2World,par3EntityPlayer);
    }
 
@@ -64,8 +66,8 @@ public class EntityDirtBombProjectile extends EntityThrowable{
    protected static Random growrand = new Random();
    
    //stable references
-   Block dirtblock = Blocks.dirt;
-   Block pblock = Common_Registry.LooseDirtBlock;
+   Block dirtblock = Blocks.sand;
+   Block pblock = Blocks.sand;
    
    @Override
   protected void onImpact(MovingObjectPosition mop) {
@@ -160,18 +162,26 @@ public class EntityDirtBombProjectile extends EntityThrowable{
     	  j3 = j3-3;
       }
       //creates a static area to place dirt, becuase i'm dumb ;^)
+      
+      //HelperExplosions.doExplosionG(worldObj, 5, mop.blockX, mop.blockY, mop.blockZ);
+      //HelperExplosions.doExplosionU(worldObj, distanceWalkedModified, entityRiderPitchDelta, entityRiderPitchDelta, entityRiderPitchDelta);
+      //GeometryUtil.sphere_place(worldObj, 5, mop.blockX, mop.blockY, mop.blockZ);
+      
+      GeometryUtil.createMeteorImpact(worldObj, 2, mop.blockX, mop.blockY, mop.blockZ, null);
+      
       //top section
-      block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
+      //block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
       //mid section
-      block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
+      //block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
       //bottom section
-      block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
+      //block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
     	
       //Ensures the entity itself is deleted once its objective is reached
       //otherwise it will slide along the ground for a while
       this.setDead();
 	   }
    }
+   
    
    public void block_placement(World world,Block pblock, Block dirtblock, int x1, int y1, int z1, int G2, int U2, int l2, boolean flag){
 	    for (int G = 0; G < G2; ++G)
@@ -209,6 +219,15 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		{
 			//worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
 			this.worldObj.setBlock(x,y,z, pblock); 
+		}
+		if(worldObj.getBlock(x,y-1,z).getMaterial()== Material.plants
+				|| worldObj.getBlock(x,y-1,z).getMaterial()== Material.vine
+				|| worldObj.getBlock(x,y-1,z)== Blocks.snow_layer){
+			//(worldObj.getBlockState(pos).getBlock()).dropBlockAsItem(worldObj, pos, worldObj.getBlockState(pos), 0);
+			//worldObj.getBlock(x,y,z).dropBlockAsItem(worldObj,x,y,z, 0, 0);
+			(worldObj.getBlock(x,y-1,z)).dropBlockAsItem(worldObj,x,y-1,z, worldObj.getBlockMetadata(x,y-1,z), 0);
+			//worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
+			this.worldObj.setBlock(x,y,z, Blocks.air); 
 		}
 		if(worldObj.getBlock(x,y,z).getMaterial()== Material.plants
 				|| worldObj.getBlock(x,y,z).getMaterial()== Material.vine

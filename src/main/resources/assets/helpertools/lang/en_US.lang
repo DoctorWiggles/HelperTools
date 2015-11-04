@@ -1,22 +1,24 @@
-ï»¿#English Localization
+#English Localization
 
 
 #       #
 # Items #
-item.staffoftransformation2.name=Â§aMetamorphic Staff
-item.staffofexpansion.name=Â§aExpanding Rod
-item.torchlauncher.name=Â§eTorch Launcher
-item.dynamitebolt.name=Â§6Dynamite Bolt
-item.euclideantransposer.name=Â§3Euclidean Transposer
-item.dirtbomb.name=Dirt Bomb Â§9[W.I.P.]
+item.staffoftransformation2.name=˜aMetamorphic Staff
+item.staffofexpansion.name=˜aExpanding Rod
+item.torchlauncher.name=˜eTorch Launcher
+item.dynamitebolt.name=˜6Dynamite Bolt
+item.euclideantransposer.name=˜3Euclidean Transposer
+item.dirtbomb.name=Dirt Bomb
+item.sandbomb.name=Sand Bomb
+item.gravelbomb.name=Gravel Bomb
 item.bottledmilk.name=Bottle of Milk
 item.chocolatemilk.name=Chocolate Milk
 item.powercrystal.name=Lapilite Crystal
 item.powercrystal_0.name=Lapilite Crystal
 item.powercrystal_1.name=Calcified Lapilite
 item.jelly_bucket.name=Jelly Bucket
-item.bubblegun.name=Â§3Bubble Gun
-item.bubblegun_2.name=Â§3Bubble Gun
+item.bubblegun.name=˜3Bubble Gun
+item.bubblegun_2.name=˜3Bubble Gun
 
 
 #          #
@@ -28,14 +30,14 @@ entity.DynamiteBolt.name=Dynamite Bolt
 
 #        #
 # Blocks #
-tile.Imitation Bedrock.name=Â§7Imitation Bedrock
-tile.StokedPipe.name=Â§7ChimneyPipe Â§9[W.I.P.]
-tile.StokedBlock.name=Stoked Block Â§9[W.I.P.]
-tile.TranscriberBlock.name=Â§3Euclidean Transcriber
-tile.SelectionBlock.name=Â§4Selection Block Â§5[DEV]
-tile.MagicalFuelBlock.name=Â§3Magical Fuel Â§9[W.I.P.]
-tile.ActiveMagicalFuelBlock.name=Â§3Active Magical Fuel Â§9[W.I.P.]
-tile.LooseDirtBlock.name=Loose Dirt Â§9[W.I.P.]
+tile.Imitation Bedrock.name=˜7Imitation Bedrock
+tile.StokedPipe.name=˜7ChimneyPipe ˜9[W.I.P.]
+tile.StokedBlock.name=Stoked Block ˜9[W.I.P.]
+tile.TranscriberBlock.name=˜3Euclidean Transcriber
+tile.SelectionBlock.name=˜4Selection Block ˜5[DEV]
+tile.MagicalFuelBlock.name=˜3Magical Fuel ˜9[W.I.P.]
+tile.ActiveMagicalFuelBlock.name=˜3Active Magical Fuel ˜9[W.I.P.]
+tile.LooseDirtBlock.name=Loose Dirt ˜9[W.I.P.]
 tile.SugarBlock.name=Sugar Cube
 tile.jelly.name=Jelly Block
 
@@ -48,12 +50,12 @@ tile.fuild..jelly=Jelly
 #Keybinds#
 key.ding=Primary
 key.dong=Alternate
-key.categories.helpertools=Â§9Â§oHelper Tools
+key.categories.helpertools=˜9˜oHelper Tools
 
 
 #      #
 # Tabs #
 
 #Current
-itemGroup.HelperTools=Â§9Â§oHelper Tools
+itemGroup.HelperTools=˜9˜oHelper Tools
 

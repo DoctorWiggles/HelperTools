@@ -3,6 +3,8 @@ package helpertools.renders;
 import helpertools.Common_Registry;
 import helpertools.Helpertoolscore;
 import helpertools.entities.EntityDirtBombProjectile;
+import helpertools.entities.EntityGravelBombProjectile;
+import helpertools.entities.EntitySandBombProjectile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,16 +20,16 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
-public class RenderDirtBombProjectile extends Render
+public class RenderGravelBombProjectile extends Render
 {
     private float field_77002_a;
     private static final String __OBFID = "CL_00000995";
-	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/items/DirtBomb.png"); 
+	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/items/GravelBomb.png"); 
 
 
-    public RenderDirtBombProjectile(float f1)
+    public RenderGravelBombProjectile(float p_i1254_1_)
     {
-        this.field_77002_a = f1;
+        this.field_77002_a = p_i1254_1_;
     }
 
     /**
@@ -36,15 +38,15 @@ public class RenderDirtBombProjectile extends Render
      * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRender(EntityDirtBombProjectile ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRender(EntityGravelBombProjectile p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
         GL11.glPushMatrix();
-        this.bindEntityTexture(ent);
+        this.bindEntityTexture(p_76986_1_);
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         float f2 = this.field_77002_a;
         GL11.glScalef(f2 / 1.0F, f2 / 1.0F, f2 / 1.0F);
-        IIcon iicon = Common_Registry.dirtbomb.getIconFromDamage(0);
+        IIcon iicon = Common_Registry.gravelbomb.getIconFromDamage(0);
         Tessellator tessellator = Tessellator.instance;
         float f3 = iicon.getMinU();
         float f4 = iicon.getMaxU();
@@ -69,7 +71,7 @@ public class RenderDirtBombProjectile extends Render
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(EntityDirtBombProjectile p_110775_1_)
+    protected ResourceLocation getEntityTexture(EntityGravelBombProjectile p_110775_1_)
     {
         return TextureMap.locationItemsTexture;
         //return arrowTextures;
@@ -78,9 +80,9 @@ public class RenderDirtBombProjectile extends Render
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(Entity ent)
+    protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
-        return this.getEntityTexture((EntityDirtBombProjectile)ent);
+        return this.getEntityTexture((EntityGravelBombProjectile)p_110775_1_);
     }
 
     /**
@@ -89,8 +91,8 @@ public class RenderDirtBombProjectile extends Render
      * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRender(Entity ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
-        this.doRender((EntityDirtBombProjectile)ent, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+        this.doRender((EntityGravelBombProjectile)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 }

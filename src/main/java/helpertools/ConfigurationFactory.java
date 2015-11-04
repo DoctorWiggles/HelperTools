@@ -59,11 +59,13 @@ public class ConfigurationFactory extends Helpertoolscore{
 	public static boolean RecipeFullSandSlab;
 
 	//Items
-	public static boolean RecipeDirtBomb;
+	public static boolean Recipe_Bombs;
 	public static boolean RecipeBottledmilk;
 	public static boolean RecipeChocolatemilk;
+	
 	//Handler enables
 	public static boolean HandlerBottledmilk;
+	public static boolean Bomb_Debris;
 	
 	 //Materials
 	public static ToolMaterial helpMaterial;
@@ -136,6 +138,7 @@ public class ConfigurationFactory extends Helpertoolscore{
 		RenderToolHuds = config.get(conf6, "RenderToolHuds", true, "Enables Hud and chat messeges for tools").getBoolean(true);
 		ToolModeMesseges = config.get(conf6, "ToolModeMesseges", true).getBoolean(true);
 		ToolPowerMesseges = config.get(conf6, "ToolPowerMesseges", false).getBoolean(true);
+		Bomb_Debris = config.get(conf5, "DirtBomb_Debris", true, "Toggles most of block items dropped by bombs, disable if you have performance issues").getBoolean(true);
 		
 		//Expansion Staff Recipes
 		RecipeDiamondsForExpansionStaff = config.get(conf2, "RecipeDiamondsForExpansionStaff", true).getBoolean(true);
@@ -166,7 +169,7 @@ public class ConfigurationFactory extends Helpertoolscore{
 		
 		
 		//Items
-		RecipeDirtBomb = config.get(conf3, "RecipeDirtBomb", false).getBoolean(true);
+		Recipe_Bombs = config.get(conf3, "Recipe_Bombs", true).getBoolean(true);
 		RecipeBottledmilk = config.get(conf3, "RecipeBottledmilk", true).getBoolean(true);
 		RecipeChocolatemilk = config.get(conf3, "RecipeChocolatemilk", true).getBoolean(true);
 		//Handlers

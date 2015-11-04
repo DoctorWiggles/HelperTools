@@ -1,6 +1,8 @@
 package helpertools.util;
 import helpertools.Common_Registry;
 import helpertools.Helpertoolscore;
+import helpertools.entities.BombProjectile_Entity;
+import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
@@ -19,6 +21,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -88,114 +91,21 @@ public class ForgeEventHandler {
 	}
 	**/
 	
-	//////////////////////////////////////////////
-	/** notes and old code left for reference **/
-	////////////////////////////////////////////
-	
-	/**
+	/*
 	@SubscribeEvent
-	public void PigletLitter(LivingSpawnEvent event)
-    {
-		if (event.isCanceled() || (event.world.isRemote) ||!(event.entity instanceof EntityPig)) { 
-		      return;
-		    }
-		
-		float i1 = event.x;
-        float j1 = event.y;
-        float k1 = event.z;
-        ////////////////////////////  
-       if(event.hasResult()){
-        EntityCow entityskeleton = new EntityCow(event.world);
-        entityskeleton.setLocationAndAngles(i1+.5, j1+.2, k1+.5, 0, 0.0F);
-        entityskeleton.onSpawnWithEgg((IEntityLivingData)null);
-        event.world.spawnEntityInWorld(entityskeleton);
-        }
-        
-        EntityPig entityskeleton2 = new EntityPig(event.world);
-        entityskeleton2.setLocationAndAngles(i1+.5, j1+.2, k1+.5, 0, 0.0F);
-        entityskeleton2.onSpawnWithEgg((IEntityLivingData)null);
-        ((EntityAgeable) event.entity).setGrowingAge(6000);
-        event.world.spawnEntityInWorld(entityskeleton2);
-        
-        
-       // EntityAgeable entityageable = ((EntityAgeable) event.entity).createChild(this);
-
-        
-        //p_70876_1_.setGrowingAge(6000);
-        //event.entity.inLove = 0;
-       // event.entity.breeding = 0;
-       // event.entity.entityToAttack = null;
-       // p_70876_1_.entityToAttack = null;
-       // p_70876_1_.breeding = 0;
-        //p_70876_1_.inLove = 0;
-       // entityageable.setGrowingAge(-24000);
-        //event.entity.setFire(20);
-        
-        //event.setCanceled(true);
-        //return;
-        
-    }
-	**/
-
-	/**
-	  @SubscribeEvent
-	  public void playerInteractEventHandler(PlayerInteractEvent event)
-	  {
-	    if ((event.isCanceled()) || (event.world.isRemote) || (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-	      return;
+	public void handleConstruction(EntityConstructing event){
+		 
+	    if(event.entity instanceof BombProjectile_Entity){
+	    	BombProjectile_Entity ent = (BombProjectile_Entity) event.entity;
+	    	if(ent.worldObj.isRemote){ return;}
+	        DataWatcher dw = ent.getDataWatcher();	        
+	        dw.updateObject(22, ent.type());
+	     //   System.out.println(ent.Bomb_Type+ "event");
+	        
 	    }
-	    ItemStack heldItem = event.entityPlayer.field_71071_by.func_70448_g();
-	    if ((heldItem == null) || (!(heldItem.func_77973_b() instanceof ItemTool))) {
-	      return;
-	    }
-	    int oldSlot = event.entityPlayer.field_71071_by.field_70461_c;
-	    if ((oldSlot < 0) || (oldSlot > 8)) {
-	      return;
-	    }
-	    int newSlot = this.slots[oldSlot];
-	    if ((newSlot < 0) || (newSlot > 8)) {
-	      return;
-	    }
-	    ItemStack slotStack = event.entityPlayer.field_71071_by.func_70301_a(newSlot);
-	    if (slotStack == null) {
-	      return;
-	    }
-	    event.entityPlayer.field_71071_by.field_70461_c = newSlot;
-	    if (D3Core.debug()) {
-	      this.logger.info("Player: " + event.entityPlayer.getDisplayName() + "\tOldSlot: " + oldSlot + "\tOldStack: " + slotStack);
-	    }
-	    boolean b = ((EntityPlayerMP)event.entityPlayer).field_71134_c.func_73078_a(event.entityPlayer, event.world, slotStack, event.x, event.y, event.z, event.face, 0.5F, 0.5F, 0.5F);
-	    if (slotStack.field_77994_a <= 0) {
-	      slotStack = null;
-	    }
-	    if (D3Core.debug()) {
-	      this.logger.info("Player: " + event.entityPlayer.getDisplayName() + "\tNewSlot: " + newSlot + "\tNewStack: " + slotStack + "\tResult: " + b);
-	    }
-	    event.entityPlayer.field_71071_by.field_70461_c = oldSlot;
-	    
-	    event.entityPlayer.field_71071_by.func_70299_a(newSlot, slotStack);
-	    ((EntityPlayerMP)event.entityPlayer).field_71135_a.func_147359_a(new S2FPacketSetSlot(0, newSlot + 36, slotStack));
-	    
-	    event.setCanceled(true);
-	  }
-	  **/
-	
-	    
-	    
+	}
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+	 */
 	 
 	 
 	 

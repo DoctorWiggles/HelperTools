@@ -1,7 +1,6 @@
 package helpertools.entities;
 
 import helpertools.Common_Registry;
-import helpertools.ConfigurationFactory;
 import helpertools.Helpertoolscore;
 
 import java.util.Random;
@@ -22,13 +21,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class EntityDirtBombProjectile extends EntityThrowable{
+public class CopyOfEntityDirtBombProjectile extends EntityThrowable{
 
-   public EntityDirtBombProjectile(World par1World) {
+   public CopyOfEntityDirtBombProjectile(World par1World) {
        super(par1World);
    }
 
-   public EntityDirtBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
+   public CopyOfEntityDirtBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
        super(par2World,par3EntityPlayer);
    }
 
@@ -63,24 +62,20 @@ public class EntityDirtBombProjectile extends EntityThrowable{
    //protected Random rand;
    protected static Random growrand = new Random();
    
-   //stable references
-   Block dirtblock = Blocks.dirt;
-   Block pblock = Common_Registry.LooseDirtBlock;
-   
    @Override
   protected void onImpact(MovingObjectPosition mop) {
-	    
+      
 	   
 	   int sideHit = mop.sideHit;
 	   
-	   if (mop.entityHit != null )
-	      {
-	    	 return;
-	      }
-	   
 	   if(this.worldObj.isRemote){
+		      Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+		      Block pblock = Common_Registry.LooseDirtBlock;
 		      
-		      
+		      if (mop.entityHit != null )
+		      {
+		    	 return;
+		      }
 		      
 		      int i4 = mop.blockX-1;
 		      int j4 = mop.blockY-1;
@@ -124,20 +119,34 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		           
 		       }
 	   }
-	   //serverside code
 	   if(!this.worldObj.isRemote){
-	  
-		   
+	  //The block it lands on in the world
+      Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+      //The torch block to be placed in the world
+      Block pblock = Common_Registry.LooseDirtBlock;
       
-      /**
       if (Type == 0){
       pblock = Common_Registry.LooseDirtBlock;
       }
       if (Type == 2){
           pblock = Blocks.sand;
           }
-      **/
       
+      //can be called to simplify things
+      //int i = mop.blockX;
+      //int j = mop.blockY;
+      //int k = mop.blockZ;
+      
+      if (mop.entityHit != null )
+      {
+    	 return;
+      }
+      
+      //once it has hit anything
+      //create and explosion
+      //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1, true);
+
+      //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.3, true);
       this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
       
       
@@ -159,71 +168,97 @@ public class EntityDirtBombProjectile extends EntityThrowable{
     	  j2 = j2-3;
     	  j3 = j3-3;
       }
-      //creates a static area to place dirt, becuase i'm dumb ;^)
-      //top section
-      block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
-      //mid section
-      block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
-      //bottom section
-      block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
-    	
+      
+  		for (int G2 = 0; G2 < 5; ++G2)
+  		{
+  			//int G2counter = G2*P*P;
+  			for (int U = 0; U < 3; ++U)
+  			{
+  				//int Ucounter = U*P;
+  				for (int l = 0; l <1; ++l)
+  				{
+  				//i1+U, j1+1+l, k1+G2
+  					int ig = growrand.nextInt(6);
+  					if (ig >= 2){
+      if(worldObj.getBlock(i1+U, j1+1+l, k1+G2) == Blocks.air
+    	  
+    	  ||  worldObj.getBlock(i1+U, j1+1+l, k1+G2).getMaterial()== Material.plants
+    	  ||  worldObj.getBlock(i1+U, j1+1+l, k1+G2).getMaterial()== Material.lava
+    	  ||  worldObj.getBlock(i1+U, j1+1+l, k1+G2).getMaterial()== Material.water)
+      {
+    	  this.worldObj.setBlock(i1+U, j1+1+l, k1+G2, pblock);  
+    	  
+      }
+      else {
+    	  pblock.dropBlockAsItem(worldObj,i1+U, j1+1+l, k1+G2, 0, 0);
+    	 
+      }
+  					}
+  			}}}
+  		
+  		///////
+  		
+  		for (int G2 = 0; G2 < 3; ++G2)
+  		{
+  			//int G2counter = G2*P*P;
+  			for (int U = 0; U < 5; ++U)
+  			{
+  				//int Ucounter = U*P;
+  				for (int l = 0; l <1; ++l)
+  				{
+  				//i2+U, j2+1+l, k2+G2
+  					int ig = growrand.nextInt(6);
+  					if (ig >= 2){
+      if(worldObj.getBlock(i2+U, j2+1+l, k2+G2) == Blocks.air
+    	  
+    	  ||  worldObj.getBlock(i2+U, j2+1+l, k2+G2).getMaterial()== Material.plants
+    	  ||  worldObj.getBlock(i2+U, j2+1+l, k2+G2).getMaterial()== Material.lava
+    	  ||  worldObj.getBlock(i2+U, j2+1+l, k2+G2).getMaterial()== Material.water)
+      {
+    	  this.worldObj.setBlock(i2+U, j2+1+l, k2+G2, pblock);  
+      }
+      else {
+    	  pblock.dropBlockAsItem(worldObj,i2+U, j2+1+l, k2+G2, 0, 0);
+    	  
+      }
+  					}
+  			}}}
+  			
+  		///////////////
+  		for (int G2 = 0; G2 < 3; ++G2)
+  		{
+  			//int G2counter = G2*P*P;
+  			for (int U = 0; U < 3; ++U)
+  			{
+  				//int Ucounter = U*P;
+  				for (int l = 0; l <1; ++l)
+  				{
+  				//i3+U, j1+1+l, k3+G2
+  					
+      if(worldObj.getBlock(i3+U, j3+1+l, k3+G2) == Blocks.air
+    	  
+    	  ||  worldObj.getBlock(i3+U, j3+1+l, k3+G2).getMaterial()== Material.plants
+    	  ||  worldObj.getBlock(i3+U, j3+1+l, k3+G2).getMaterial()== Material.lava
+    	  ||  worldObj.getBlock(i3+U, j3+1+l, k3+G2).getMaterial()== Material.water)
+      {
+    	  this.worldObj.setBlock(i3+U, j3+1+l, k3+G2, pblock);  
+      }
+      else {
+    	  pblock.dropBlockAsItem(worldObj,i3+U, j3+1+l, k3+G2, 0, 0);
+    	  
+      }
+  					
+  			}}}
+  		
+  		///////
+
+  			
+  		
+      
       //Ensures the entity itself is deleted once its objective is reached
       //otherwise it will slide along the ground for a while
       this.setDead();
 	   }
    }
-   
-   public void block_placement(World world,Block pblock, Block dirtblock, int x1, int y1, int z1, int G2, int U2, int l2, boolean flag){
-	    for (int G = 0; G < G2; ++G)
-		{
-			for (int U = 0; U < U2; ++U)
-			{
-				for (int l = 0; l <l2; ++l)
-				{
-					//randomizer for unique dirt mounds
-					//BlockPos pos = new BlockPos(x1+U, y1+1+l, z1+G);					
-					int x = x1+U;
-					int y = y1+1+l;
-					int z = z1+G;
-					if(flag){
-						int ig = growrand.nextInt(6);
-						if (ig >= 2){ 					
-							place_block(x,y,z, pblock, dirtblock);
-						}}
- 					if(!flag){
- 						place_block(x,y,z, pblock, dirtblock);
- 					}
-  	  
- 					}}}
-	   
-	   }
- 
-	//place the block
-  //goes through a couple checks to displace -- crush non solids
-  public void place_block (int x, int y, int z, Block pblock, Block dirtblock){
-
-		if(worldObj.getBlock(x,y,z) == Blocks.air 	  
-				||  worldObj.getBlock(x,y,z).getMaterial()== Material.plants
-				||  worldObj.getBlock(x,y,z).getMaterial()== Material.lava
-				||  worldObj.getBlock(x,y,z).getMaterial()== Material.water)
-		{
-			//worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
-			this.worldObj.setBlock(x,y,z, pblock); 
-		}
-		if(worldObj.getBlock(x,y,z).getMaterial()== Material.plants
-				|| worldObj.getBlock(x,y,z).getMaterial()== Material.vine
-				|| worldObj.getBlock(x,y,z)== Blocks.snow_layer){
-			//(worldObj.getBlockState(pos).getBlock()).dropBlockAsItem(worldObj, pos, worldObj.getBlockState(pos), 0);
-			//worldObj.getBlock(x,y,z).dropBlockAsItem(worldObj,x,y,z, 0, 0);
-			(worldObj.getBlock(x,y,z)).dropBlockAsItem(worldObj,x,y,z, worldObj.getBlockMetadata(x,y,z), 0);
-			//worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
-			this.worldObj.setBlock(x,y,z, pblock); 
-		}
-		
-		else {
-			if(ConfigurationFactory.Bomb_Debris){
-			dirtblock.dropBlockAsItem(worldObj, x,y,z, 0, 0);
-		}}
-  }
   
 }

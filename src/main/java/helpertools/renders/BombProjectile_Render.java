@@ -2,6 +2,7 @@ package helpertools.renders;
 
 import helpertools.Common_Registry;
 import helpertools.Helpertoolscore;
+import helpertools.entities.BombProjectile_Entity;
 import helpertools.entities.EntityDirtBombProjectile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,33 +19,36 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
-public class RenderDirtBombProjectile extends Render
+public class BombProjectile_Render extends Render
 {
     private float field_77002_a;
     private static final String __OBFID = "CL_00000995";
-	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/items/DirtBomb.png"); 
 
-
-    public RenderDirtBombProjectile(float f1)
+    public BombProjectile_Render(float f1)
     {
         this.field_77002_a = f1;
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
-    public void doRender(EntityDirtBombProjectile ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    
+    public IIcon text (int type){    
+    return Common_Registry.bomb.getIconFromDamage(type);	
+    }
+    
+    //===============================================================================================//
+    public void doRender(BombProjectile_Entity ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
+    	 try{
         GL11.glPushMatrix();
         this.bindEntityTexture(ent);
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         float f2 = this.field_77002_a;
         GL11.glScalef(f2 / 1.0F, f2 / 1.0F, f2 / 1.0F);
-        IIcon iicon = Common_Registry.dirtbomb.getIconFromDamage(0);
+        
+        //IIcon iicon = Common_Registry.dirtbomb.getIconFromDamage(0);        
+        IIcon iicon = text(ent.read_type());
+        
+        
         Tessellator tessellator = Tessellator.instance;
         float f3 = iicon.getMinU();
         float f4 = iicon.getMaxU();
@@ -64,33 +68,19 @@ public class RenderDirtBombProjectile extends Render
         tessellator.draw();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
+    	 }
+    	 catch(Exception exception){
+			  System.out.println("------------- RENDERING BROKE ----------");
+		 }
     }
+    
+    
+    protected ResourceLocation getEntityTexture(BombProjectile_Entity p_110775_1_)
+    {        return TextureMap.locationItemsTexture;         }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
-    protected ResourceLocation getEntityTexture(EntityDirtBombProjectile p_110775_1_)
-    {
-        return TextureMap.locationItemsTexture;
-        //return arrowTextures;
-    }
-
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity ent)
-    {
-        return this.getEntityTexture((EntityDirtBombProjectile)ent);
-    }
-
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
+    {        return this.getEntityTexture((BombProjectile_Entity)ent);    }
+    
     public void doRender(Entity ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {
-        this.doRender((EntityDirtBombProjectile)ent, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
-    }
+    {        this.doRender((BombProjectile_Entity)ent, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);    }
 }

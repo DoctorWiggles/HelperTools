@@ -1,7 +1,5 @@
 package helpertools.entities;
 
-import helpertools.util.HelperExplosions;
-
 import java.util.Random;
 import java.util.Stack;
 

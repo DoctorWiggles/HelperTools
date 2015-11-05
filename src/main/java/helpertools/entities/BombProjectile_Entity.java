@@ -118,20 +118,28 @@ public class BombProjectile_Entity extends EntityThrowable{
 	   int sideHit = mop.sideHit;
 	   pblock = p_block(Bomb_Type);
 	   dirtblock = d_block(Bomb_Type);
+	   int X = (int) this.posX;
+	   int Y = (int) this.posY;
+	   int Z = (int) this.posZ;
 	   
 	   if (mop.entityHit != null ){return;}
 	   
 	   if(this.worldObj.isRemote){ 
 		      int j4 = mop.blockY-1;   
 		      if(sideHit == 0){	 j4 = j4-2;}
-		      Bomb_Helper.particlecloud(worldObj, mop.blockX-1, j4, mop.blockZ-2);		      
+		      Bomb_Helper.particlecloud(worldObj, mop.blockX-1, j4, mop.blockZ-2);	
+		      if(Bomb_Type == 3){Bomb_Helper.particlecloud2(worldObj, mop.blockX-1, j4, mop.blockZ-2);}
 	   }
 	   //serverside code
 	   if(!this.worldObj.isRemote){
+		   
       
       this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
       
-      Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, (int)this.posX, (int)this.posY-1, (int)this.posZ, sideHit);
+      if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
+      if(Bomb_Type == 3){Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);}
+      
+      //if(Bomb_Type == 3){Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);}
       
       //Ensures the entity itself is deleted once its objective is reached
       //otherwise it will slide along the ground for a while

@@ -20,6 +20,11 @@ item.jelly_bucket.name=Jelly Bucket
 item.bubblegun.name=˜3Bubble Gun
 item.bubblegun_2.name=˜3Bubble Gun
 
+item.bomb_0.name=Dirt Bomb
+item.bomb_1.name=Sand Bomb
+item.bomb_2.name=Gravel Bomb
+item.bomb_3.name=Plant bomb
+
 
 #          #
 # Entities #

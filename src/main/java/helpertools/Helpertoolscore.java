@@ -32,7 +32,6 @@ import helpertools.util.GuiHandler;
 import helpertools.util.KeyBindings;
 import helpertools.util.KeyInputHandler;
 import helpertools.util.NetworkMessage;
-import helpertools.util.ReflectionFactory;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -155,8 +154,7 @@ public class Helpertoolscore
 		network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
 		// network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
 
-		//ReflectionFactory.SandReflection();
-
+		
 	}
 
 	@EventHandler

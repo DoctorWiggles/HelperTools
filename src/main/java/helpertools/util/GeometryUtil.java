@@ -166,4 +166,56 @@ public class GeometryUtil {
             }
         }
     }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void createMeteorImpact2(World world,int radius, int x, int y, int z)
+    {
+        int newRadius = radius;
+        int chance = maxChance;
+
+        for (int i = -newRadius; i <= newRadius; i++)
+        {
+            for (int j = -newRadius; j <= newRadius; j++)
+            {
+                for (int k = -newRadius; k <= newRadius; k++)
+                {
+                    if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                    {
+                        continue;
+                    }
+
+                    if (!world.isAirBlock(x + i, y + j, z + k))
+                    {
+                        continue;
+                    }
+
+                    boolean hasPlacedBlock = false;
+                    
+                    if (!hasPlacedBlock)
+                    { world.setBlock(x + i, y + j, z + k, pblock, 0, 3); }
+                      
+                }
+            }
+        }
+    }
 }

@@ -1,19 +1,26 @@
 package helpertools.util;
 
+import helpertools.Common_Registry;
 import helpertools.ConfigurationFactory;
 
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemDye;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class Bomb_Helper {
 	
 	//protected Random rand;
 	   protected static Random rand = new Random();
-		
+	   
+	   
+	//particle cloud spawn	
 	public static void particlecloud(World world, int i4, int j4, int k4){
 		
 	      short short1 =32;
@@ -50,6 +57,42 @@ public class Bomb_Helper {
 		
 	}
 	
+	public static void particlecloud2(World world, int i4, int j4, int k4){
+		
+	      short short1 =32;
+			for (int lp = 0; lp < short1; ++lp)
+	       {
+	           double d6 = (double)lp / ((double)short1 - 1.0D);
+	           float f = (rand.nextFloat()*3) ;
+	           float f1 = (rand.nextFloat()*3 );
+	           float f2 = (rand.nextFloat()*3 );
+	           
+	           float p1 = (rand.nextFloat()/5 ) ;
+	           float p = (rand.nextFloat()-.5F )/5 ;
+	           float p2 = (rand.nextFloat()-.5F )/5 ;
+	           //float p2 = (rand .nextFloat()-.5F/5 ) ;
+	           
+	           world.spawnParticle("happyVillager", i4+f-.5, j4+f1+.5, k4+f2+.5, p, p1, p2);	           
+	       }
+			
+			short short2 = 8;
+			for (int lp = 0; lp < short2; ++lp)
+	       {
+	           double d6 = (double)lp / ((double)short1 - 1.0D);
+	           float f = (rand.nextFloat()*4) ;
+	           float f1 = (rand.nextFloat()*4 );
+	           float f2 = (rand.nextFloat()*4 );		          
+	           float p1 = (rand.nextFloat()/3 ) ;
+	           float p = (rand.nextFloat()-.5F )/5 ;
+	           float p2 = (rand.nextFloat()-.5F )/5 ;
+	           
+	           world.spawnParticle("happyVillager", i4+f-.5, j4+f1, k4+f2+.5, p, p1, p2);
+	           
+	       }
+		
+		
+	}
+	//function to place a half ellipsiod 
 	public static void simple_generate(World world, Block pblock, Block dirtblock, int X, int Y, int Z, int sideHit){
 
 	      int P = 3;
@@ -130,6 +173,105 @@ public class Bomb_Helper {
 			dirtblock.dropBlockAsItem(world, x,y,z, 0, 0);
 		}}
   }
+  
+  //Simple sphere generator -Adapted from blood magic mod's meteor function
+  public static void sphere_place(World world, int r, int x, int y, int z, Block p_block, Block d_block){
+		
+		for(int tx=-r; tx< r+1; tx++){
+		    for(int ty=-r; ty< r+1; ty++){
+		        for(int tz=-r; tz< r+1; tz++){
+		            if(Math.sqrt(Math.pow(tx, 2)  +  Math.pow(ty, 2)  +  Math.pow(tz, 2)) <= r-2){
+		            	
+		            	world.setBlock(tx+x, ty+y, tz+z, p_block);
+		            } } } }
+  				}
+  
+  
+  public static void sphere_miracle_bomb(World world,int radius, int x, int y, int z)
+  {
+	  Block target = world.getBlock(x, y-1, z);
+	  bonemeal_grow(world, target, x, y-1, z);
+      int newRadius = radius;
+
+      for (int i = -newRadius; i <= newRadius; i++)
+      {
+          for (int j = -newRadius; j <= newRadius; j++)
+          {
+              for (int k = -newRadius; k <= newRadius; k++)
+              {
+                  if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                  {
+                      continue;
+                  }
+                  boolean hasPlacedBlock = false;
+                  
+                  if (!hasPlacedBlock)
+                  { 
+                	  //world.setBlock(x + i, y + j, z + k, pblock, 0, 3);
+                	  miracle_grow(world, x + i, y + j, z + k);
+                	  
+                	  }}}}
+  }
+  
+ public static void miracle_grow(World world, int x, int y, int z){
+	 Block target = world.getBlock(x, y, z);
+	 
+	  if(target == Blocks.dirt ||
+			  target == Common_Registry.LooseDirtBlock)
+		{
+		  world.setBlock(x,y,z, Blocks.grass);}
+	  if(target == Blocks.cobblestone)
+		{ int ig = rand.nextInt(16);
+		if (ig <= 1){ 
+		  world.setBlock(x,y,z, Blocks.gravel);}
+		else if (ig <= 3){ 
+			  world.setBlock(x,y,z, Blocks.mossy_cobblestone);}}
+	  
+	  if(target == Blocks.stone)
+		{ int ig = rand.nextInt(5);
+		if (ig <= 2){ 
+		  world.setBlock(x,y,z, Blocks.cobblestone);}}
+     	 
+	  
+	  int ig = rand.nextInt(3);
+		if (ig <= 2){ 		  
+	  if(target == Blocks.grass||
+			  target == Blocks.tallgrass){
+		  int rg =rand.nextInt(60);
+		  if( rg<= 1){
+			  bonemeal_grow(world, target, x, y, z);
+		  }
+	  }
+	  else
+	  bonemeal_grow(world, target, x, y, z);
+		}
+	  
+  }
+ 
+ 
+ public static void bonemeal_grow(World world, Block block, int x, int y, int z){
+	 
+	 if (block instanceof IGrowable)
+     {
+         IGrowable igrowable = (IGrowable)block;
+
+         if (igrowable.func_149851_a(world, x, y, z, world.isRemote))
+         {
+             if (!world.isRemote)
+             {
+                 if (igrowable.func_149852_a(world, world.rand, x, y, z))
+                 {
+                     igrowable.func_149853_b(world, world.rand, x, y, z);
+                     int ig = rand.nextInt(4);
+             		//if (ig <= 2){ 	
+             			for(int i = 0; i <= ig; i++){
+                     igrowable.func_149853_b(world, world.rand, x, y, z);
+                    
+             		}}}}}
+ }
+  
+  
+  
   
 
 }

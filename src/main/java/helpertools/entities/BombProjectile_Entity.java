@@ -137,7 +137,15 @@ public class BombProjectile_Entity extends EntityThrowable{
       this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
       
       if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
-      if(Bomb_Type == 3){Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);}
+      if(Bomb_Type == 3){
+    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);
+    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 2, X, Y, Z);
+    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 1, X, Y, Z);}
+      if(Bomb_Type == 4){
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 4, X, Y, Z);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 2, X, Y, Z);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 1, X, Y, Z);
+    	  }
       
       //if(Bomb_Type == 3){Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);}
       

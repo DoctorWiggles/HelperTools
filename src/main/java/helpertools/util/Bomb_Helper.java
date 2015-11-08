@@ -174,7 +174,7 @@ public class Bomb_Helper {
 		}}
   }
   
-  //Simple sphere generator -Adapted from blood magic mod's meteor function
+
   public static void sphere_place(World world, int r, int x, int y, int z, Block p_block, Block d_block){
 		
 		for(int tx=-r; tx< r+1; tx++){
@@ -186,7 +186,7 @@ public class Bomb_Helper {
 		            } } } }
   				}
   
-  
+  //Simple sphere generator -Adapted from blood magic mod's meteor function
   public static void sphere_miracle_bomb(World world,int radius, int x, int y, int z)
   {
 	  Block target = world.getBlock(x, y-1, z);
@@ -221,14 +221,14 @@ public class Bomb_Helper {
 		{
 		  world.setBlock(x,y,z, Blocks.grass);}
 	  if(target == Blocks.cobblestone)
-		{ int ig = rand.nextInt(16);
+		{ int ig = rand.nextInt(35);
 		if (ig <= 1){ 
 		  world.setBlock(x,y,z, Blocks.gravel);}
 		else if (ig <= 3){ 
 			  world.setBlock(x,y,z, Blocks.mossy_cobblestone);}}
 	  
 	  if(target == Blocks.stone)
-		{ int ig = rand.nextInt(5);
+		{ int ig = rand.nextInt(6);
 		if (ig <= 2){ 
 		  world.setBlock(x,y,z, Blocks.cobblestone);}}
      	 
@@ -264,12 +264,93 @@ public class Bomb_Helper {
                      igrowable.func_149853_b(world, world.rand, x, y, z);
                      int ig = rand.nextInt(4);
              		//if (ig <= 2){ 	
-             			for(int i = 0; i <= ig; i++){
-                     igrowable.func_149853_b(world, world.rand, x, y, z);
+             			//for(int i = 0; i <= ig; i++){
+                     //igrowable.func_149853_b(world, world.rand, x, y, z);
                     
-             		}}}}}
+             		//}
+             			}}}}
  }
   
+ 
+ //=======================================================================================//
+ 
+ public static void sphere_frost_bomb(World world,int radius, int x, int y, int z)
+ {
+	 int ig = rand.nextInt(7);
+     int newRadius = radius;
+     if (world.provider.isHellWorld){
+    	 newRadius = radius -2;
+     }
+
+     for (int i = -newRadius; i <= newRadius; i++)
+     {
+         for (int j = -newRadius; j <= newRadius; j++)
+         {
+             for (int k = -newRadius; k <= newRadius; k++)
+             {
+                 if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                 {
+                     continue;
+                 }
+                 boolean hasPlacedBlock = false;
+                 
+                 if (!hasPlacedBlock)
+                 { 
+               	  //world.setBlock(x + i, y + j, z + k, pblock, 0, 3);
+                	 frost_convert(world, x + i, y + j, z + k);
+               	  
+               	  }}}}
+ }
+ 
+ 
+ 
+ public static void frost_convert(World world, int x, int y, int z){
+	 Block target = world.getBlock(x, y, z);
+	 Block above = world.getBlock(x, y+1, z);	
+	 
+	 if(target == Blocks.snow_layer){
+		  int meta = world.getBlockMetadata(x,y,z);
+		  if (meta >=7){
+			  world.setBlock(x,y,z, Blocks.snow);}
+		  else{world.setBlockMetadataWithNotify(x,y,z, meta+1, 2);}
+		  return;
+	  }
+	 
+	  if(target == Blocks.farmland
+			  && !above.isBlockNormalCube()){
+		  world.setBlock(x,y,z, Blocks.dirt);}
+	  
+	  if(above == Blocks.air && target.isBlockNormalCube())		
+		{ world.setBlock(x,y+1,z, Blocks.snow_layer);}
+	  
+	  if(above.getMaterial()== Material.plants
+				|| above.getMaterial()== Material.vine){
+		  (world.getBlock(x,y+1,z)).dropBlockAsItem(world,x,y+1,z, world.getBlockMetadata(x,y+1,z), 0);
+		  world.setBlock(x,y+1,z, Blocks.snow_layer);
+	  }  
+	  int ig = rand.nextInt(15);
+	  if(target == Blocks.ice && ig<= 1){
+		  world.setBlock(x,y,z, Blocks.packed_ice);
+	  }
+	  if(target == Blocks.water || target == Blocks.flowing_water && ig<=5){
+		  world.setBlock(x,y,z, Blocks.ice);}
+	  if(target == Blocks.lava){
+		  world.setBlock(x,y,z, Blocks.obsidian);}
+	  if(target == Blocks.flowing_lava && ig<= 5){
+		  world.setBlock(x,y,z, Blocks.cobblestone);}
+	  if(target == Blocks.fire){
+		  world.setBlock(x,y,z, Blocks.air);}
+	  
+	  
+	  
+	  
+     	 
+	  
+	  
+  }
+ 
+ 
+ 
   
   
   

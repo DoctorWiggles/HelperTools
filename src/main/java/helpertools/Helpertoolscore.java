@@ -27,6 +27,7 @@ import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
 import helpertools.util.BucketHandler;
+import helpertools.util.Dispenser_Handler;
 import helpertools.util.ForgeEventHandler;
 import helpertools.util.GuiHandler;
 import helpertools.util.KeyBindings;
@@ -153,6 +154,8 @@ public class Helpertoolscore
 		//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
 		network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
 		// network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+		
+		
 
 		
 	}
@@ -191,6 +194,7 @@ public class Helpertoolscore
 
 		/** Recipes **/
 		RecipeFactory.RegisterRecipes();
+		Dispenser_Handler.registerVanillaDispenserBehaviors();
 	}
 
 }

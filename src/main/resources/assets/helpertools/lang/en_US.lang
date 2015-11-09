@@ -25,7 +25,9 @@ item.bomb_1.name=Sand Bomb
 item.bomb_2.name=Gravel Bomb
 item.bomb_3.name=Plant bomb
 item.bomb_4.name=Frost bomb
-item.bomb_5.name=Nether bomb
+item.bomb_5.name=Desert bomb
+item.bomb_6.name=Mushroom Bomb
+item.bomb_7.name=Nether bomb
 
 
 #          #

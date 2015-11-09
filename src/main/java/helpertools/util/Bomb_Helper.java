@@ -215,6 +215,8 @@ public class Bomb_Helper {
   
  public static void miracle_grow(World world, int x, int y, int z){
 	 Block target = world.getBlock(x, y, z);
+	 Block above = world.getBlock(x, y+1, z);
+	 Block below2 = world.getBlock(x, y-2, z);
 	 
 	  if(target == Blocks.dirt ||
 			  target == Common_Registry.LooseDirtBlock)
@@ -231,7 +233,28 @@ public class Bomb_Helper {
 		{ int ig = rand.nextInt(6);
 		if (ig <= 2){ 
 		  world.setBlock(x,y,z, Blocks.cobblestone);}}
-     	 
+     
+	  if(target == Blocks.cactus && above == Blocks.air
+			  && below2 != Blocks.cactus)
+		{ int ig = rand.nextInt(40);
+		if (ig <= 1){ 
+		  world.setBlock(x,y+1,z, Blocks.cactus);}}
+	  
+	  if(target == Blocks.reeds && above == Blocks.air
+			  && below2 != Blocks.reeds)
+		{ int ig = rand.nextInt(8);
+		if (ig <= 1){ 
+		  world.setBlock(x,y+1,z, Blocks.reeds);}}
+	  
+	  if(target == Blocks.deadbush )
+		{ int ig = rand.nextInt(18);
+		if (ig <= 1){ 
+		  world.setBlock(x,y,z, Blocks.sapling);
+		  world.setBlock(x,y-1,z, Blocks.dirt);
+		  world.setBlockMetadataWithNotify(x,y,z, 3, 2);
+		  bonemeal_grow(world, target, x, y, z);
+		  bonemeal_grow(world, target, x, y, z);
+		  bonemeal_grow(world, target, x, y, z);}}
 	  
 	  int ig = rand.nextInt(3);
 		if (ig <= 2){ 		  
@@ -341,16 +364,90 @@ public class Bomb_Helper {
 	  if(target == Blocks.fire){
 		  world.setBlock(x,y,z, Blocks.air);}
 	  
-	  
-	  
-	  
-     	 
-	  
-	  
   }
  
  
+ public static void sphere_desert_bomb(World world,int radius, int x, int y, int z)
+ {
+     int newRadius = radius;
+
+     for (int i = -newRadius; i <= newRadius; i++)
+     {
+         for (int j = -newRadius; j <= newRadius; j++)
+         {
+             for (int k = -newRadius; k <= newRadius; k++)
+             {
+                 if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                 {
+                     continue;
+                 }
+                 boolean hasPlacedBlock = false;
+                 
+                 if (!hasPlacedBlock)
+                 { 
+                	 desert_convert(world, x + i, y + j, z + k);
+               	  
+               	  }}}}
+ }
  
+ public static void desert_convert(World world, int x, int y, int z){
+	 Block target = world.getBlock(x, y, z);
+	 Block above = world.getBlock(x, y+1, z);	
+	 Block below = world.getBlock(x, y-1, z);	
+	 
+	 int ig = rand.nextInt(4);
+	 int ig2 = rand.nextInt(30);
+	 
+	 if(target== Blocks.deadbush &&ig2<= 1){
+		 world.setBlock(x,y,z, Blocks.cactus);}
+	 
+	 if(target.getMaterial()== Material.plants && below.isBlockNormalCube() && ig2<= 4){
+		 world.setBlock(x,y,z, Blocks.deadbush);}	 
+	 
+	 if (ig <= 2){ 
+	 if(target == Blocks.stone)
+		{world.setBlock(x,y,z, Blocks.cobblestone);}
+	 
+	 if(target == Blocks.grass)
+		{world.setBlock(x,y,z, Blocks.dirt);}
+	 
+	 if(target == Blocks.dirt ||target == Common_Registry.LooseDirtBlock )
+		{ world.setBlock(x,y,z, Blocks.sand);}
+	 
+	 if(target == Blocks.stone_stairs)
+		{int meta = world.getBlockMetadata(x, y, z);
+		  world.setBlock(x,y,z, Blocks.sandstone_stairs);
+		  world.setBlockMetadataWithNotify(x,y,z, meta, 2);}}
+	 
+	 if (ig <= 1){
+		 if(target == Blocks.cobblestone)
+			{world.setBlock(x,y,z, Blocks.sandstone);}
+		 if(target == Blocks.packed_ice)
+			{world.setBlock(x,y,z, Blocks.ice);}
+		 }
+	 if (ig2 <= 4){
+		 if(target == Blocks.cobblestone)
+			{world.setBlock(x,y,z, Blocks.sand);}
+		 if(target == Blocks.ice)
+			{world.setBlock(x,y,z, Blocks.water);}
+	 }
+	 
+	 if(target == Blocks.snow_layer)
+		{int meta = world.getBlockMetadata(x, y, z);
+		if(meta-4 <= 0){world.setBlock(x,y,z, Blocks.air);}
+		else
+		  world.setBlockMetadataWithNotify(x,y,z, meta-4, 2);
+		  }
+	 if(target == Blocks.snow)
+		{world.setBlock(x,y,z, Blocks.snow_layer);
+		  world.setBlockMetadataWithNotify(x,y,z, 4, 2);
+		  }
+	 
+	 //High grief and ugly capabilities - might remove drying up water && thawing ice
+	 if(target == Blocks.water || target == Blocks.flowing_water && ig2<=10){
+		  world.setBlock(x,y,z, Blocks.air);}
+	 
+ }
   
   
   

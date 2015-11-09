@@ -28,15 +28,35 @@ public class BombProjectile_Entity extends EntityThrowable{
 	
    public int Bomb_Type;
 
+   //all else spawn
    public BombProjectile_Entity(World world) {
        super(world);
        this.Bomb_Type = 0;
    }
-
+   
+   //spawn from a player
    public BombProjectile_Entity(World world, EntityPlayer player, int type) {
        super(world,player);       
        this.Bomb_Type = type;  
    }
+   
+   //stock drop spawn for non entity use
+   public BombProjectile_Entity(World world, double d, double e, double f, int type) {
+       super(world);       
+       this.setPosition(d, e, f);
+       this.Bomb_Type = type;  
+      
+   }
+   //spawns with a designated projectory
+   public BombProjectile_Entity(World world, double d, double e, double f, int type,
+		   double x, double y, double z, float f1, float f2) {
+       super(world);       
+       this.setPosition(d, e, f);
+       this.Bomb_Type = type;  
+       
+       this.setThrowableHeading(x, y, z, f1, f2);
+   }
+   
    
    @Override
    public void writeEntityToNBT(NBTTagCompound tag)
@@ -118,6 +138,10 @@ public class BombProjectile_Entity extends EntityThrowable{
 	   int sideHit = mop.sideHit;
 	   pblock = p_block(Bomb_Type);
 	   dirtblock = d_block(Bomb_Type);
+	   
+	   //equipment support or creative amplification
+	   int amp = 20;
+	   
 	   int X = (int) this.posX;
 	   int Y = (int) this.posY;
 	   int Z = (int) this.posZ;
@@ -138,13 +162,18 @@ public class BombProjectile_Entity extends EntityThrowable{
       
       if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
       if(Bomb_Type == 3){
-    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);
-    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 2, X, Y, Z);
-    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 1, X, Y, Z);}
+    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 4+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 2+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_miracle_bomb(worldObj, 1+amp, X, Y, Z);}
       if(Bomb_Type == 4){
-    	  Bomb_Helper.sphere_frost_bomb(worldObj, 4, X, Y, Z);
-    	  Bomb_Helper.sphere_frost_bomb(worldObj, 2, X, Y, Z);
-    	  Bomb_Helper.sphere_frost_bomb(worldObj, 1, X, Y, Z);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 4+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 2+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 1+amp, X, Y, Z);
+    	  }
+      if(Bomb_Type == 5){
+    	  Bomb_Helper.sphere_desert_bomb(worldObj, 6+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_desert_bomb(worldObj, 3+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_desert_bomb(worldObj, 2+amp, X, Y, Z);
     	  }
       
       //if(Bomb_Type == 3){Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);}

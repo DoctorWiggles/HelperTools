@@ -10,6 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -25,11 +26,38 @@ public class Item_Block_Bomb extends Item {
             //setTextureName("helpertools:" + unlocalizedName + "_text");
     }
     
-    public IIcon[] icons = new IIcon[6];
+    public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
+    {	int type = stack.getItemDamage();
+    
+    	String line = "";
+    	String line2 = "x";
+    	switch(type){
+    	case 0: line = "Lays a blob of dirt";break;
+    	case 1: line = "Lays a blob of sand";break;
+    	case 2: line = "Lays a blob of gravel";break;
+    	case 3: line = "Releases fertilizer and decays stone";break;
+    	case 4: line = "Freezes liquids and lays snow";break;
+    	case 5: line = "Weathers stone, dirt, plants";
+    			line2 = "- and melts frozen blocks";break;
+    	case 6: line = "Releases spores";break;
+    	case 7: line = "Corrupts area";break;
+    	default:
+    		break;
+    	}
+    	par3List.add(EnumChatFormatting.ITALIC + line);  
+    	if(line2 != "x"){par3List.add(EnumChatFormatting.ITALIC + line2);  }
+    }
+    
+    
+    //Number of bomb variants
+    int B = 8;
+    
+    
+    public IIcon[] icons = new IIcon[B];
     
     @Override
     public void registerIcons(IIconRegister reg) {
-        for (int i = 0; i < 6; i ++) {
+        for (int i = 0; i < B; i ++) {
             this.icons[i] = reg.registerIcon("helpertools:" + "bomb_" + i);
         }
     }
@@ -39,7 +67,7 @@ public class Item_Block_Bomb extends Item {
     
     @Override
     public IIcon getIconFromDamage(int meta) {
-        if (meta > 5)
+        if (meta > B-1)
             meta = 0;
 
         return this.icons[meta];
@@ -47,7 +75,7 @@ public class Item_Block_Bomb extends Item {
 
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list) {
-        for (int i = 0; i < 6; i ++) {
+        for (int i = 0; i < B; i ++) {
             list.add(new ItemStack(item, 1, i));
         }
     }

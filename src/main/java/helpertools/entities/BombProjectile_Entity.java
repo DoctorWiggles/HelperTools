@@ -140,7 +140,7 @@ public class BombProjectile_Entity extends EntityThrowable{
 	   dirtblock = d_block(Bomb_Type);
 	   
 	   //equipment support or creative amplification
-	   int amp = 20;
+	   int amp = 0;
 	   
 	   int X = (int) this.posX;
 	   int Y = (int) this.posY;
@@ -151,14 +151,16 @@ public class BombProjectile_Entity extends EntityThrowable{
 	   if(this.worldObj.isRemote){ 
 		      int j4 = mop.blockY-1;   
 		      if(sideHit == 0){	 j4 = j4-2;}
-		      Bomb_Helper.particlecloud(worldObj, mop.blockX-1, j4, mop.blockZ-2);	
+		      if(Bomb_Type != 7){Bomb_Helper.particlecloud(worldObj, mop.blockX-1, j4, mop.blockZ-2);}
 		      if(Bomb_Type == 3){Bomb_Helper.particlecloud2(worldObj, mop.blockX-1, j4, mop.blockZ-2);}
 	   }
 	   //serverside code
 	   if(!this.worldObj.isRemote){
 		   
-      
-      this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
+      if(Bomb_Type == 7){this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)3, true);  }
+      else{
+    	  this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
+      }
       
       if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
       if(Bomb_Type == 3){
@@ -175,6 +177,17 @@ public class BombProjectile_Entity extends EntityThrowable{
     	  Bomb_Helper.sphere_desert_bomb(worldObj, 3+amp, X, Y, Z);
     	  Bomb_Helper.sphere_desert_bomb(worldObj, 2+amp, X, Y, Z);
     	  }
+      if(Bomb_Type == 6){
+    	  Bomb_Helper.sphere_mushroom_bomb(worldObj, 6+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_mushroom_bomb(worldObj, 3+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_mushroom_bomb(worldObj, 2+amp, X, Y, Z);
+    	  }
+     if(Bomb_Type == 7){
+    	 Bomb_Helper.sphere_lava_bomb(worldObj, 4+amp, X, Y, Z);
+    	 Bomb_Helper.sphere_lava_bomb(worldObj, 2+amp, X, Y, Z);
+    	 Bomb_Helper.sphere_lava_bomb(worldObj, 1+amp, X, Y, Z);
+     	} 
+    
       
       //if(Bomb_Type == 3){Bomb_Helper.sphere_miracle_bomb(worldObj, 4, X, Y, Z);}
       

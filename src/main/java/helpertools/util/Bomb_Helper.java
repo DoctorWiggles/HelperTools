@@ -174,7 +174,7 @@ public class Bomb_Helper {
 		}}
   }
   
-
+  @Deprecated
   public static void sphere_place(World world, int r, int x, int y, int z, Block p_block, Block d_block){
 		
 		for(int tx=-r; tx< r+1; tx++){
@@ -366,6 +366,7 @@ public class Bomb_Helper {
 	  
   }
  
+ //===========================================================================================//
  
  public static void sphere_desert_bomb(World world,int radius, int x, int y, int z)
  {
@@ -448,8 +449,136 @@ public class Bomb_Helper {
 		  world.setBlock(x,y,z, Blocks.air);}
 	 
  }
-  
-  
-  
+ 
+//====================================================================================//
+ 
+ public static void sphere_lava_bomb(World world,int radius, int x, int y, int z)
+ {
+     int newRadius = radius;
 
+     for (int i = -newRadius; i <= newRadius; i++)
+     {
+         for (int j = -newRadius; j <= newRadius; j++)
+         {
+             for (int k = -newRadius; k <= newRadius; k++)
+             {
+                 if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                 {
+                     continue;
+                 }
+                 boolean hasPlacedBlock = false;
+                 
+                 if (!hasPlacedBlock)
+                 { 
+                	 lava_convert(world, x + i, y + j, z + k);
+               	  
+                 }}}}
+ }
+ 
+ public static void lava_convert(World world, int x, int y, int z){
+	 Block target = world.getBlock(x, y, z);
+	 Block above = world.getBlock(x, y+1, z);	
+	 Block below = world.getBlock(x, y-1, z);	
+	 int ig = rand.nextInt(4);
+	 int ig2 = rand.nextInt(30);
+	 
+	 if (ig2 <= 4){
+		 if(target == Blocks.sand)
+			{world.setBlock(x,y,z, Blocks.glass);}
+		 
+		 if(target == Blocks.netherrack)
+			{world.setBlock(x,y,z, Blocks.lava);}	
+
+		 if(target == Blocks.dirt || target == Blocks.sand)
+			{world.setBlock(x,y,z, Blocks.soul_sand);}
+	 }
+	 
+	 if (ig <= 1){
+		 if(above == Blocks.air)
+			//{world.setBlock(x,y+1,z, Blocks.fire);}
+		 if(target == Blocks.grass)
+			{world.setBlock(x,y,z, Blocks.dirt);}
+		 
+		 
+		 
+	 }
+	 if(ig <=3){
+		
+		 if(target == Blocks.cobblestone)
+			{world.setBlock(x,y,z, Blocks.netherrack);} 
+		 
+		 if(target == Blocks.lava && !below.isBlockNormalCube())
+			{world.setBlock(x,y,z, Blocks.air);}
+		 
+		 if(target == Blocks.stone)
+			{world.setBlock(x,y,z, Blocks.cobblestone);}
+		 
+		 
+	 }
+ }
+ //====================================================================================//
+ public static void sphere_mushroom_bomb(World world,int radius, int x, int y, int z)
+ {
+     int newRadius = radius;
+
+     for (int i = -newRadius; i <= newRadius; i++)
+     {
+         for (int j = -newRadius; j <= newRadius; j++)
+         {
+             for (int k = -newRadius; k <= newRadius; k++)
+             {
+                 if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                 {
+                     continue;
+                 }
+                 boolean hasPlacedBlock = false;
+                 
+                 if (!hasPlacedBlock)
+                 { 
+                	 mushroom_convert(world, x + i, y + j, z + k);
+               	  
+                 }}}}
+ }
+ 
+ public static void mushroom_convert(World world, int x, int y, int z){
+	 Block target = world.getBlock(x, y, z);
+	 Block above = world.getBlock(x, y+1, z);	
+	 Block below = world.getBlock(x, y-1, z);	
+	 int ig = rand.nextInt(4);
+	 int ig2 = rand.nextInt(30);
+ 
+	 if(target.getMaterial()== Material.plants && below.isBlockNormalCube()
+			 && target != Blocks.red_mushroom && target != Blocks.brown_mushroom
+			 ||target.getMaterial()== Material.vine && below.isBlockNormalCube() 
+			 && target != Blocks.red_mushroom && target != Blocks.brown_mushroom){
+		 world.setBlock(x,y-1,z, Blocks.mycelium);
+		 if(ig <= 1){			 
+			 world.setBlock(x,y,z, Blocks.red_mushroom);}	
+	 	else{
+			 world.setBlock(x,y,z, Blocks.brown_mushroom);}	
+	 }
+	 
+	 if (ig <= 2){ 
+		 if(target == Blocks.grass)
+			{world.setBlock(x,y,z, Blocks.mycelium);} 
+		 
+	 }
+	 if (ig2 <= 4){ 
+		 if(target == Blocks.brown_mushroom||target == Blocks.red_mushroom)
+			{bonemeal_grow(world, target, x, y, z);} 		 
+	 }
+	 	  
+	 if (ig2 <= 2){ 
+	  if(target == Blocks.stone){		
+		  world.setBlock(x,y,z, Blocks.cobblestone);}
+	 
+	  }
+	 
+	 
+ 
+ 
+ }
+ 
+//====================================================================================//
+ 
 }

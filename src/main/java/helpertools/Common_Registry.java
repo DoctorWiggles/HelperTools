@@ -12,6 +12,7 @@ import helpertools.entities.EntityGravelBombProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
+import helpertools.items.Charm_block_item;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
@@ -21,6 +22,7 @@ import helpertools.items.ItemSandBomb;
 import helpertools.items.Item_Block_Bomb;
 import helpertools.items.Item_creative_builder_charm;
 import helpertools.items.Item_jelly_Bucket;
+import helpertools.items.TranscriberBlock_Item;
 import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
@@ -111,14 +113,14 @@ public class Common_Registry extends ConfigurationFactory{
         /** Items **/
         dynamitebolt = new ItemDynamiteBolt();        	
     	dirtbomb = new ItemDirtBomb();
-    	sandbomb = new ItemSandBomb();
-    	gravelbomb = new ItemGravelBomb();
+    	//sandbomb = new ItemSandBomb();
+    	//gravelbomb = new ItemGravelBomb();
     	bottledmilk = new ItemMilkBottle();
     	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
         GameRegistry.registerItem(dynamitebolt, "dynamitebolt");        
         GameRegistry.registerItem(dirtbomb, "dirtbomb");   
-        GameRegistry.registerItem(sandbomb, "sandbomb"); 
-        GameRegistry.registerItem(gravelbomb, "gravelbomb"); 
+        //GameRegistry.registerItem(sandbomb, "sandbomb"); 
+        //GameRegistry.registerItem(gravelbomb, "gravelbomb"); 
         GameRegistry.registerItem(bottledmilk, "bottledmilk");
         GameRegistry.registerItem(chocolatemilk, "chocolatemilk");
         
@@ -145,7 +147,7 @@ public class Common_Registry extends ConfigurationFactory{
         GameRegistry.registerBlock(Ibedrock, "Imitation Bedrock");
         GameRegistry.registerBlock(StokedPipe, "StokedPipe");
         //GameRegistry.registerBlock(StokedBlock, "StokedBlock");
-        GameRegistry.registerBlock(TranscriberBlock, "TranscriberBlock");
+        GameRegistry.registerBlock(TranscriberBlock, TranscriberBlock_Item.class, "TranscriberBlock");
         GameRegistry.registerBlock(MagicalFuelBlock, "MagicalFuelBlock");
         GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
         GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
@@ -153,7 +155,7 @@ public class Common_Registry extends ConfigurationFactory{
         //GameRegistry.registerBlock(SugarBlock, "SugarBlock");
         //GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
         //GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
-        GameRegistry.registerBlock(Charm_block,  "Charm_block");
+        GameRegistry.registerBlock(Charm_block, Charm_block_item.class, "Charm_block");
 		
 	}
 	

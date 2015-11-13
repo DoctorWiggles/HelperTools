@@ -30,7 +30,7 @@ public class Item_creative_builder_charm extends Item {
 	    {int Toolmax;	
 		  Toolmax = EnchantmentHelper.getEnchantmentLevel(32, stack);
 		  list.add(EnumChatFormatting.ITALIC + "Boosts Bomb Radius");
-		  list.add(EnumChatFormatting.ITALIC + "Keep anywhere in inventoryww");
+		  list.add(EnumChatFormatting.ITALIC + "Keep anywhere in inventory");
 		  if(Toolmax !=0){
 			  list.add(EnumChatFormatting.ITALIC + "Right click to toggle (+"+ (Toolmax*5)+")");}
 		  else

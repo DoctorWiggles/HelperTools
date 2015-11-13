@@ -46,7 +46,12 @@ public class ItemStaffofTransformation2 extends ItemSpade
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    par3List.add(EnumChatFormatting.ITALIC + "swaps blocks");
+    par3List.add(EnumChatFormatting.WHITE + "Swaps blocks in the world");
+    par3List.add(EnumChatFormatting.ITALIC + "While sneaking change mode");
+    par3List.add(EnumChatFormatting.ITALIC + "- Or select block to swap");
+    par3List.add(EnumChatFormatting.ITALIC + "While enchanted with efficiency");
+    par3List.add(EnumChatFormatting.ITALIC + "- Press 'o' to toggle size");
+    par3List.add(EnumChatFormatting.ITALIC + "");
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }

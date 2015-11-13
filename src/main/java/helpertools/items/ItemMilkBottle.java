@@ -1,5 +1,9 @@
 package helpertools.items;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemMilkBottle extends Item
@@ -22,6 +27,14 @@ public class ItemMilkBottle extends Item
 	    setTextureName("helpertools:BottledMilk");
     }
     
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
+      {
+      par3List.add(EnumChatFormatting.ITALIC + "Cures Ailments");
+      
+      }
     /**
     public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
     {

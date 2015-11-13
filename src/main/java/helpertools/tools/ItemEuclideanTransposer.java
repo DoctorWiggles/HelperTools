@@ -57,7 +57,11 @@ public class ItemEuclideanTransposer extends ItemSpade
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    par3List.add(EnumChatFormatting.ITALIC + "sets patterns 5x5");
+    par3List.add(EnumChatFormatting.WHITE + "Sets blocks in a 5^cube pattern");
+    par3List.add(EnumChatFormatting.ITALIC + "Use while sneaking for a pattern");
+    par3List.add(" ");
+    par3List.add(EnumChatFormatting.ITALIC + "Can also be used with");
+    par3List.add(EnumChatFormatting.ITALIC + "- Transcriber Block");
     }
     /////////////////////////////////////////////////////////////
     public int getMode(ItemStack itemStack)

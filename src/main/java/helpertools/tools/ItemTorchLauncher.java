@@ -49,8 +49,9 @@ public class ItemTorchLauncher extends ItemSpade{
    @Override
    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
    {
-   par3List.add(EnumChatFormatting.ITALIC + "fires torches ");
-   par3List.add(EnumChatFormatting.ITALIC + "& more");
+   par3List.add(EnumChatFormatting.WHITE + "Fires Torches & Arrows & Dynamite ");
+   par3List.add(EnumChatFormatting.ITALIC + "While sneaking to toggle ammunition");
+   par3List.add(EnumChatFormatting.ITALIC + "Right click to reload or Fire");
    }
    
    

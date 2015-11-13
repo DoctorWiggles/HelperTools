@@ -55,7 +55,12 @@ public class ItemStaffofExpansion extends ItemSpade
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	par3List.add(EnumChatFormatting.ITALIC + "sets blocks");
+    	par3List.add(EnumChatFormatting.WHITE + "Sets blocks in the world");
+        par3List.add(EnumChatFormatting.ITALIC + "While sneaking change mode");
+        par3List.add(EnumChatFormatting.ITALIC + "- Or select block to place");
+        par3List.add(EnumChatFormatting.ITALIC + "While enchanted with efficiency");
+        par3List.add(EnumChatFormatting.ITALIC + "- Press 'o' to toggle size");
+        par3List.add(EnumChatFormatting.ITALIC + "");
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }

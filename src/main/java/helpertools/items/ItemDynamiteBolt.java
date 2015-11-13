@@ -35,6 +35,8 @@ public class ItemDynamiteBolt extends Item {
 	  @Override
 	    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	    {
+	    par3List.add(EnumChatFormatting.WHITE + "For use in Torch Launcher");
+	    par3List.add(" ");
 	    par3List.add(EnumChatFormatting.GRAY + "*Danger-Explosive*");
 	    }
 	  /*

@@ -19,6 +19,7 @@ import helpertools.items.ItemGravelBomb;
 import helpertools.items.ItemMilkBottle;
 import helpertools.items.ItemSandBomb;
 import helpertools.items.Item_Block_Bomb;
+import helpertools.items.Item_creative_builder_charm;
 import helpertools.items.Item_jelly_Bucket;
 import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
@@ -58,6 +59,7 @@ public class Common_Registry extends ConfigurationFactory{
 	//public static Item rfdebugtool;
 	
 	public static Item bomb;
+	public static Item cbc;
 	
 	/** Fluids **/
 	public static Fluid jelly_fluid = new Fluid("jelly");
@@ -122,6 +124,9 @@ public class Common_Registry extends ConfigurationFactory{
         
         bomb = new Item_Block_Bomb("bomb");
         GameRegistry.registerItem(bomb, "bomb");
+        
+        cbc = new Item_creative_builder_charm("cbc");
+        GameRegistry.registerItem(cbc, "cbc");
         
         //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
         //GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");

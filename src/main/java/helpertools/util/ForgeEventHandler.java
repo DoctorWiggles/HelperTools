@@ -45,7 +45,8 @@ public class ForgeEventHandler {
     
         ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("Debug", new Object[0]);
    	 event.player.addChatComponentMessage(chatcomponenttranslation);   
-   	 entityplayer.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_BLUE + "[Mekanism] " + " " + EnumChatFormatting.BLUE + getModeName(itemstack) + EnumChatFormatting.AQUA + " (" + getEfficiency(itemstack) + ")"));
+   	 entityplayer.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_BLUE + "[Mekanism] " + " " 
+   	 + EnumChatFormatting.BLUE + getModeName(itemstack) + EnumChatFormatting.AQUA + " (" + getEfficiency(itemstack) + ")"));
 
  	System.out.println("Logging in");
    	event.player.entityDropItem(new ItemStack(Blocks.torch), 0.0F);

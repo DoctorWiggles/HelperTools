@@ -27,24 +27,35 @@ import net.minecraft.world.World;
 public class BombProjectile_Entity extends EntityThrowable{
 	
    public int Bomb_Type;
+   public int Amplify;
 
    //all else spawn
    public BombProjectile_Entity(World world) {
        super(world);
        this.Bomb_Type = 0;
+       this.Amplify = 0;
    }
    
    //spawn from a player
    public BombProjectile_Entity(World world, EntityPlayer player, int type) {
        super(world,player);       
        this.Bomb_Type = type;  
+       this.Amplify = 0;
+   }
+   
+ //spawn from a player with amplification
+   public BombProjectile_Entity(World world, EntityPlayer player, int type, int amp) {
+       super(world,player);       
+       this.Bomb_Type = type;  
+       this.Amplify = amp;
    }
    
    //stock drop spawn for non entity use
    public BombProjectile_Entity(World world, double d, double e, double f, int type) {
        super(world);       
        this.setPosition(d, e, f);
-       this.Bomb_Type = type;  
+       this.Bomb_Type = type; 
+       this.Amplify = 0;
       
    }
    //spawns with a designated projectory
@@ -53,6 +64,7 @@ public class BombProjectile_Entity extends EntityThrowable{
        super(world);       
        this.setPosition(d, e, f);
        this.Bomb_Type = type;  
+       this.Amplify = 0;
        
        this.setThrowableHeading(x, y, z, f1, f2);
    }
@@ -64,6 +76,7 @@ public class BombProjectile_Entity extends EntityThrowable{
        super.writeEntityToNBT(tag);
 
        tag.setInteger("Bomb_Type", Bomb_Type);
+       tag.setInteger("Amplify", Amplify);
    }
    
    @Override
@@ -72,6 +85,7 @@ public class BombProjectile_Entity extends EntityThrowable{
        super.readEntityFromNBT(tag);
 
        Bomb_Type = tag.getInteger("Bomb_Type");
+       Amplify = tag.getInteger("Amplify");
    }
    
    
@@ -140,7 +154,9 @@ public class BombProjectile_Entity extends EntityThrowable{
 	   dirtblock = d_block(Bomb_Type);
 	   
 	   //equipment support or creative amplification
-	   int amp = 0;
+	   //int amp = 0;
+	   
+	   int amp = Amplify;
 	   
 	   int X = (int) this.posX;
 	   int Y = (int) this.posY;

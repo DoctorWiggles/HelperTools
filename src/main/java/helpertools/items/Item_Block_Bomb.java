@@ -1,15 +1,20 @@
 package helpertools.items;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import helpertools.HelpTab;
 import helpertools.entities.BombProjectile_Entity;
 import helpertools.entities.EntityDirtBombProjectile;
+import helpertools.util.InventoryUtil;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -91,15 +96,18 @@ public class Item_Block_Bomb extends Item {
 	   public ItemStack onItemRightClick(ItemStack stack, World world,
 	           EntityPlayer player) {
 		  
-		  int type = stack.getItemDamage();
+		  int type ;
+		  type = stack.getItemDamage();
+		  int amp = 0;
 	           
 	           float f = 6.0F;
      f = (f * f + f * 2.0F) / 3.0F;
-     if( player.worldObj.isRemote){
-  	   return stack;
-     }
+     if( player.worldObj.isRemote){return stack;}
+     
+     amp = (InventoryUtil.check_cbc_charms(player.inventory))*5;
+     
      if(!player.capabilities.isCreativeMode){--stack.stackSize;}
-     BombProjectile_Entity Bomb = new BombProjectile_Entity(world, player, type);
+     BombProjectile_Entity Bomb = new BombProjectile_Entity(world, player, type, amp);
      		//Bomb.Type=2;
      		world.spawnEntityInWorld(Bomb);
      		
@@ -108,9 +116,7 @@ public class Item_Block_Bomb extends Item {
 		   
      		return stack;
 	   }
-    
-    
-    
-    
+	  
+	 
     
 }

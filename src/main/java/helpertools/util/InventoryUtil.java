@@ -1,5 +1,7 @@
 package helpertools.util;
 
+import helpertools.Common_Registry;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -48,5 +50,57 @@ public class InventoryUtil{
 	            return true;
 	        }
 	    }
+	  
+	  
+	  
+	  
+	//=====================================================================================// 
+	  
+	  
+	  
+	  static ItemStack cbc_stack = new ItemStack(Common_Registry.cbc);
+	 
+	  /**Scans inventory for a specific item, and metadata (stack sensitive)**/
+	  private static int scan_cbc(InventoryPlayer entity)
+	    {
+		  		  
+		 for (int i = 0; i < entity.mainInventory.length; ++i)
+	        {	        	
+	        	 if (entity.mainInventory[i] != null && entity.mainInventory[i].isItemEqual(cbc_stack))
+		            {
+	        		 //System.out.println("Stack Return? : " + i);
+	                return i;
+	            }
+	        }
+	        
+	        return -1;
+	    }
+	  
+	  public static int check_cbc_charms(InventoryPlayer inventory)
+	    {
+		  //InventoryPlayer inventory = new InventoryPlayer(entity);
+		  
+	        int i = scan_cbc(inventory);
+	        
+	        if (i < 0)
+	        {	        	
+	            return 0;
+	        }
+	        else
+	        {
+	            
+	            int Toolmax;
+	            Toolmax = EnchantmentHelper.getEnchantmentLevel(32, inventory.mainInventory[i]);
+	            	            
+	            //System.out.println("Consume true? : " + i);
+	            return Toolmax;
+	        }
+	    }
+	  
+	  
+	  
+	  
+	  
+	  
 	
 }

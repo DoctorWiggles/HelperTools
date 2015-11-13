@@ -77,7 +77,7 @@ public class Common_Registry extends ConfigurationFactory{
 	//public final static Block SugarBlock = new helpertools.blocks.SugarBlock(Material.sand);
 	//public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
 	//public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
-	
+	public final static Block Charm_block = new helpertools.blocks.Charm_block("Charm_block");
 	
 	
 	
@@ -153,7 +153,7 @@ public class Common_Registry extends ConfigurationFactory{
         //GameRegistry.registerBlock(SugarBlock, "SugarBlock");
         //GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
         //GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
-		
+        GameRegistry.registerBlock(Charm_block,  "Charm_block");
 		
 	}
 	

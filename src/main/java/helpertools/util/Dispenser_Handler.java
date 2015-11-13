@@ -2,6 +2,7 @@ package helpertools.util;
 
 import helpertools.Common_Registry;
 import helpertools.entities.BombProjectile_Entity;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -14,6 +15,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityEgg;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
@@ -52,9 +54,12 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
         double xh = d0 - sx;
         double yh = d1 - sy;
         double zh = d2 - sz;
-       
         
-        BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, xh, yh, zh, 2, 2);
+        int amp = 0;
+        amp = scan_local_charms(world, (int)sx, (int)sy, (int)sz-1);
+        
+        //BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, xh, yh, zh, 2, 2);
+        BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, amp*5, xh, yh, zh, 2, 2);
         world.spawnEntityInWorld(entity);
         
         stack.splitStack(1);
@@ -63,5 +68,37 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
 }
 
 
+	//scans neighboring blocks for charms and returns whichever is the most powerful
+	public static int scan_local_charms(World world, int x, int y, int z){
+		int amplify = 0;
+		int check = 0;
+		Block charm = Common_Registry.Charm_block;
+		
+		if(world.getBlock(x, y,z+1) == charm){
+			check = world.getBlockMetadata(x, y, z+1);			
+			if( check > amplify){ amplify = check;}
+		}
+		if(world.getBlock(x, y,z-1) == charm){
+			check = world.getBlockMetadata(x, y, z-1);			
+			if( check > amplify){ amplify = check;}
+		}
+		if(world.getBlock(x, y+1,z) == charm){
+			check = world.getBlockMetadata(x, y+1, z);
+			if( check > amplify){ amplify = check;}
+		}
+		if(world.getBlock(x, y-1,z) == charm){
+			check = world.getBlockMetadata(x, y-1, z);
+			if( check > amplify){ amplify = check;}
+		}
+		if(world.getBlock(x+1, y,z) == charm){
+			check = world.getBlockMetadata(x+1, y, z);
+			if( check > amplify){ amplify = check;}
+		}
+		if(world.getBlock(x-1, y,z) == charm){
+			check = world.getBlockMetadata(x-1, y, z);
+			if( check > amplify){ amplify = check;}
+		}
+		return amplify;
+	}
 
 }

@@ -68,6 +68,16 @@ public class BombProjectile_Entity extends EntityThrowable{
        
        this.setThrowableHeading(x, y, z, f1, f2);
    }
+   //spawns with a designated projectory
+   public BombProjectile_Entity(World world, double d, double e, double f, int type, int amp,
+		   double x, double y, double z, float f1, float f2) {
+       super(world);       
+       this.setPosition(d, e, f);
+       this.Bomb_Type = type;  
+       this.Amplify = amp;
+       
+       this.setThrowableHeading(x, y, z, f1, f2);
+   }
    
    
    @Override

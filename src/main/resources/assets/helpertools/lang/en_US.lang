@@ -29,7 +29,7 @@ item.bomb_5.name=Desert bomb
 item.bomb_6.name=Mushroom Bomb
 item.bomb_7.name=Nether bomb
 
-item.cbc.name= Creative Builder's Charm
+item.cbc.name=Creative Builder's Charm
 
 
 #          #
@@ -48,9 +48,10 @@ tile.TranscriberBlock.name=Åò3Euclidean Transcriber
 tile.SelectionBlock.name=Åò4Selection Block Åò5[DEV]
 tile.MagicalFuelBlock.name=Åò3Magical Fuel Åò9[W.I.P.]
 tile.ActiveMagicalFuelBlock.name=Åò3Active Magical Fuel Åò9[W.I.P.]
-tile.LooseDirtBlock.name=Loose Dirt Åò9[W.I.P.]
+tile.LooseDirtBlock.name=Loose Dirt
 tile.SugarBlock.name=Sugar Cube
 tile.jelly.name=Jelly Block
+tile.Charm_block.name=Creative Builder's Charm
 
 #        #
 # Fluids #

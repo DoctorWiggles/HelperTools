@@ -3,7 +3,7 @@ package helpertools.blocks;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.blocks.tile_entities.TileEntityObelisk;
-import helpertools.util.GUIs;
+import helpertools.test.GUIs;
 
 import java.util.Random;
 

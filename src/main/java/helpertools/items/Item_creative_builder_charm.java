@@ -27,8 +27,15 @@ public class Item_creative_builder_charm extends Item {
 	   }
 	  
 	  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
-	    {list.add(EnumChatFormatting.ITALIC + "Boosts Bomb Radius");
-	    list.add(EnumChatFormatting.ITALIC + "Right click to toggle");}
+	    {int Toolmax;	
+		  Toolmax = EnchantmentHelper.getEnchantmentLevel(32, stack);
+		  list.add(EnumChatFormatting.ITALIC + "Boosts Bomb Radius");
+		  list.add(EnumChatFormatting.ITALIC + "Keep anywhere in inventoryww");
+		  if(Toolmax !=0){
+			  list.add(EnumChatFormatting.ITALIC + "Right click to toggle (+"+ (Toolmax*5)+")");}
+		  else
+			 list.add(EnumChatFormatting.ITALIC + "Right click to toggle (off)");
+		  }
 	  
 	  //here we toggle and manipulate enchantments to simulate powering up
 	  public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)

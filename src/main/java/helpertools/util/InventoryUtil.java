@@ -32,8 +32,6 @@ public class InventoryUtil{
 	  /**Attempts to remove an itemstack from the inventory (metadata senstive)**/
 	  public static boolean consumeInventoryItemStack(ItemStack stack, InventoryPlayer inventory)
 	    {
-		  //InventoryPlayer inventory = new InventoryPlayer(entity);
-		  
 	        int i = StackScan(stack, inventory);
 	        
 	        if (i < 0)
@@ -60,7 +58,7 @@ public class InventoryUtil{
 	  
 	  static ItemStack cbc_stack = new ItemStack(Common_Registry.cbc);
 	 
-	  /**Scans inventory for a specific item, and metadata (stack sensitive)**/
+	 /** scans a specicific slot for charms **/
 	  private static int scan_cbc(InventoryPlayer entity)
 	    {
 		  		  
@@ -68,7 +66,6 @@ public class InventoryUtil{
 	        {	        	
 	        	 if (entity.mainInventory[i] != null && entity.mainInventory[i].isItemEqual(cbc_stack))
 		            {
-	        		 //System.out.println("Stack Return? : " + i);
 	                return i;
 	            }
 	        }
@@ -76,10 +73,9 @@ public class InventoryUtil{
 	        return -1;
 	    }
 	  
+	  /**Scans inventory for a charm and it's level**/
 	  public static int check_cbc_charms(InventoryPlayer inventory)
-	    {
-		  //InventoryPlayer inventory = new InventoryPlayer(entity);
-		  
+	    {		  
 	        int i = scan_cbc(inventory);
 	        
 	        if (i < 0)
@@ -91,8 +87,7 @@ public class InventoryUtil{
 	            
 	            int Toolmax;
 	            Toolmax = EnchantmentHelper.getEnchantmentLevel(32, inventory.mainInventory[i]);
-	            	            
-	            //System.out.println("Consume true? : " + i);
+	           
 	            return Toolmax;
 	        }
 	    }

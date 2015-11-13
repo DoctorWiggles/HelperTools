@@ -1,4 +1,4 @@
-package helpertools.gui;
+package helpertools.test;
 
 import helpertools.Helpertoolscore;
 import helpertools.tools.ItemStaffofExpansion;

@@ -1,4 +1,4 @@
-package helpertools.util;
+package helpertools.test;
 
 public enum GUIs {
 	SMASHER

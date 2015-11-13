@@ -48,7 +48,6 @@ public class ItemStaffofExpansion extends ItemSpade
         //setCreativeTab(Helpertoolscore.HelperTools);
         setCreativeTab(HelpTab.HelperTools);
         setTextureName("helpertools:wand7");
-        //this.setMaxDamage(1428);
     }
     
     protected static Random growrand = new Random();
@@ -61,13 +60,6 @@ public class ItemStaffofExpansion extends ItemSpade
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }
     }
-    /*
-    public String getItemStackDisplayName(ItemStack p_77653_1_)
-    {
-        return (EnumChatFormatting.GREEN + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(p_77653_1_) + ".name")).trim();
-    }
-    */
-    
     
     ////////////////////////////////////////////////////////////////////////
 	  public int getSpinDec(ItemStack itemStack) {

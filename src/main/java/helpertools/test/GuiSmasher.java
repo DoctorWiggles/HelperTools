@@ -1,4 +1,4 @@
-package helpertools.util;
+package helpertools.test;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;

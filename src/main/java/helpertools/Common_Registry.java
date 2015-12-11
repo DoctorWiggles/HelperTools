@@ -20,7 +20,6 @@ import helpertools.items.Charm_block_item;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
-import helpertools.items.ItemGravelBomb;
 import helpertools.items.ItemMilkBottle;
 import helpertools.items.ItemSandBomb;
 import helpertools.items.Item_Block_Bomb;

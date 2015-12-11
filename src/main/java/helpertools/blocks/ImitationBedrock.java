@@ -24,7 +24,6 @@ public class ImitationBedrock extends Block
         super(Material.rock);
         this.setBlockName("Imitation Bedrock");        
         //this.setCreativeTab(CreativeTabs.tabBlock);
-        //setCreativeTab(Helpertoolscore.HelperTools);
         setCreativeTab(HelpTab.HelperTools);
         this.setBlockTextureName("bedrock");
         this.setResistance(20F);
@@ -32,8 +31,6 @@ public class ImitationBedrock extends Block
         
     }
     //Normal block settings
-    
-    
     
     //When broken will drop itself instead of nothing
     

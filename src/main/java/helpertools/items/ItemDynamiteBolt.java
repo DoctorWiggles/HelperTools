@@ -23,26 +23,13 @@ public class ItemDynamiteBolt extends Item {
 	       setTextureName("helpertools:Darrow");
 	       
 	   }
-	  /**
-	  public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
-	   {
-	   par3List.add("§6*Danger Explosive*");
-	   //par3List.add("Red: " + "255");
-	   //par3List.add("§4dogs");
-	   
-	   }
-	   **/
 	  @Override
 	    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	    {
-	    par3List.add(EnumChatFormatting.WHITE + "For use in Torch Launcher");
+	    par3List.add(EnumChatFormatting.WHITE + "Fired from Torch Launcher");
+	    par3List.add(EnumChatFormatting.WHITE + "- Or Dispensers");
 	    par3List.add(" ");
 	    par3List.add(EnumChatFormatting.GRAY + "*Danger-Explosive*");
 	    }
-	  /*
-	    public String getItemStackDisplayName(ItemStack p_77653_1_)
-	    {
-	        return (EnumChatFormatting.GOLD  + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(p_77653_1_) + ".name")).trim();
-	    }
-	    */
+	  
 }

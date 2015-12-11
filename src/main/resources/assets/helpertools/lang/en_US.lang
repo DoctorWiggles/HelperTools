@@ -28,6 +28,8 @@ item.bomb_4.name=Frost bomb
 item.bomb_5.name=Desert bomb
 item.bomb_6.name=Mushroom Bomb
 item.bomb_7.name=Nether bomb
+item.bomb_8.name=Forest bomb
+item.bomb_9.name=Boreal bomb
 
 item.cbc.name=Creative Builder's Charm
 

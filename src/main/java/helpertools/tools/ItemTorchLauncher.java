@@ -25,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
@@ -33,10 +34,10 @@ import net.minecraft.world.World;
 
 
 
-public class ItemTorchLauncher extends ItemSpade{
+public class ItemTorchLauncher extends ItemTool{
 
    public ItemTorchLauncher(ToolMaterial material) {
-       super(material);
+       super(2, material, Common_Registry.properharvest);
        this.maxStackSize = 1;  
        setUnlocalizedName("torchlauncher");
        //setCreativeTab(Helpertoolscore.HelperTools);

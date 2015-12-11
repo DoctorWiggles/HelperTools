@@ -26,6 +26,7 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
@@ -37,11 +38,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkEvent;
 
-public class ItemEuclideanTransposer extends ItemSpade
+public class ItemEuclideanTransposer extends ItemTool
 {
     public ItemEuclideanTransposer(ToolMaterial material)
     {
-    	super (material);
+    	super (2,material, Common_Registry.properharvest);
         this.maxStackSize = 1;  
         setUnlocalizedName("euclideantransposer");
         setCreativeTab(HelpTab.HelperTools);

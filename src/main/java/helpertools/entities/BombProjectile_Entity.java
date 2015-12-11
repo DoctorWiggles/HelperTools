@@ -4,6 +4,7 @@ import helpertools.Common_Registry;
 import helpertools.ConfigurationFactory;
 import helpertools.Helpertoolscore;
 import helpertools.util.Bomb_Helper;
+import helpertools.util.Forest_Helper;
 
 import java.util.Random;
 import java.util.Stack;
@@ -33,6 +34,7 @@ public class BombProjectile_Entity extends EntityThrowable{
    public BombProjectile_Entity(World world) {
        super(world);
        this.Bomb_Type = 0;
+       Typesync(0);
        this.Amplify = 0;
    }
    
@@ -46,7 +48,8 @@ public class BombProjectile_Entity extends EntityThrowable{
  //spawn from a player with amplification
    public BombProjectile_Entity(World world, EntityPlayer player, int type, int amp) {
        super(world,player);       
-       this.Bomb_Type = type;  
+       this.Bomb_Type = type;
+       Typesync(type);
        this.Amplify = amp;
    }
    
@@ -54,7 +57,8 @@ public class BombProjectile_Entity extends EntityThrowable{
    public BombProjectile_Entity(World world, double d, double e, double f, int type) {
        super(world);       
        this.setPosition(d, e, f);
-       this.Bomb_Type = type; 
+       this.Bomb_Type = type;
+       Typesync(type);
        this.Amplify = 0;
       
    }
@@ -63,7 +67,8 @@ public class BombProjectile_Entity extends EntityThrowable{
 		   double x, double y, double z, float f1, float f2) {
        super(world);       
        this.setPosition(d, e, f);
-       this.Bomb_Type = type;  
+       this.Bomb_Type = type;
+       Typesync(type);
        this.Amplify = 0;
        
        this.setThrowableHeading(x, y, z, f1, f2);
@@ -74,6 +79,7 @@ public class BombProjectile_Entity extends EntityThrowable{
        super(world);       
        this.setPosition(d, e, f);
        this.Bomb_Type = type;  
+       Typesync(type);
        this.Amplify = amp;
        
        this.setThrowableHeading(x, y, z, f1, f2);
@@ -98,6 +104,14 @@ public class BombProjectile_Entity extends EntityThrowable{
        Amplify = tag.getInteger("Amplify");
    }
    
+   //synchonize type data with client
+   public void Typesync(int type){
+	   if(!this.worldObj.isRemote){ 
+		   DataWatcher dw = this.getDataWatcher();	       
+	       dw.updateObject(22, type);
+	   }
+   }
+   
    
    @Override
    protected void entityInit() {
@@ -110,12 +124,6 @@ public class BombProjectile_Entity extends EntityThrowable{
    //spawns particle effects if enabled
    public void onUpdate()
    {
-	   
-	   if(!this.worldObj.isRemote){ 
-		   DataWatcher dw = this.getDataWatcher();	       
-	       dw.updateObject(22, Bomb_Type);
-	   }
-	   
 	   int i;
        super.onUpdate();
        for (i = 0; i < 1; ++i)
@@ -167,6 +175,7 @@ public class BombProjectile_Entity extends EntityThrowable{
 	   //int amp = 0;
 	   
 	   int amp = Amplify;
+	   int amp2 = Amplify/2;
 	   
 	   int X = (int) this.posX;
 	   int Y = (int) this.posY;
@@ -188,7 +197,9 @@ public class BombProjectile_Entity extends EntityThrowable{
     	  this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
       }
       
-      if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
+      //if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
+      if(Bomb_Type <= 2){Bomb_Helper.sphere_block_bomb(worldObj, 1+amp2, X, Y-1, Z, pblock, dirtblock, false);
+      					Bomb_Helper.sphere_block_bomb(worldObj, 2+amp2, X, Y-1, Z, pblock, dirtblock, false);}
       if(Bomb_Type == 3){
     	  Bomb_Helper.sphere_miracle_bomb(worldObj, 4+amp, X, Y, Z);
     	  Bomb_Helper.sphere_miracle_bomb(worldObj, 2+amp, X, Y, Z);
@@ -212,6 +223,17 @@ public class BombProjectile_Entity extends EntityThrowable{
     	 Bomb_Helper.sphere_lava_bomb(worldObj, 4+amp, X, Y, Z);
     	 Bomb_Helper.sphere_lava_bomb(worldObj, 2+amp, X, Y, Z);
     	 Bomb_Helper.sphere_lava_bomb(worldObj, 1+amp, X, Y, Z);
+     	} 
+     if(Bomb_Type == 8){
+    	 Forest_Helper.sphere_forest_bomb(worldObj, 6+amp, X, Y, Z);
+    	 Forest_Helper.sphere_forest_bomb(worldObj, 1+amp, X, Y, Z);
+    	 Forest_Helper.sphere_miracle_tree_bomb(worldObj, 6+amp, X, Y, Z);
+    	 Forest_Helper.sphere_miracle_tree_bomb(worldObj, 2+amp, X, Y, Z);
+     	} 
+     if(Bomb_Type == 9){
+    	 Bomb_Helper.sphere_boreal_bomb(worldObj, 5+amp, X, Y, Z);
+    	 Bomb_Helper.sphere_boreal_bomb(worldObj, 4+amp, X, Y, Z);
+    	 Bomb_Helper.sphere_boreal_bomb(worldObj, 1+amp, X, Y, Z);
      	} 
     
       

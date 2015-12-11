@@ -19,6 +19,14 @@ public class Bomb_Helper {
 	//protected Random rand;
 	   protected static Random rand = new Random();
 	   
+	   //out of 100 function
+	   public static boolean chance (double d){
+		   if	( d >=  rand.nextInt(100)){
+			 return true;
+			} 
+			else 
+				return false;
+	   }
 	   
 	//particle cloud spawn	
 	public static void particlecloud(World world, int i4, int j4, int k4){
@@ -170,7 +178,7 @@ public class Bomb_Helper {
 		
 		else {
 			if(ConfigurationFactory.Bomb_Debris){
-			dirtblock.dropBlockAsItem(world, x,y,z, 0, 0);
+			//dirtblock.dropBlockAsItem(world, x,y,z, 0, 0);
 		}}
   }
   
@@ -185,6 +193,39 @@ public class Bomb_Helper {
 		            	world.setBlock(tx+x, ty+y, tz+z, p_block);
 		            } } } }
   				}
+  
+  
+  public static void sphere_block_bomb(World world,int radius, int x, int y, int z, Block p_block, Block d_block, boolean flag)
+  {
+      int newRadius = radius;
+
+      for (int i = -newRadius; i <= newRadius; i++)
+      {
+          for (int j = -newRadius; j <= newRadius; j++)
+          {
+              for (int k = -newRadius; k <= newRadius; k++)
+              {
+                  if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                  {
+                      continue;
+                  }
+                  boolean hasPlacedBlock = false;
+                  
+                  if (!hasPlacedBlock)
+                  { 
+                	  if(flag){
+  						int ig = rand.nextInt(6);
+  						if (ig >= 2){ 					
+  							place_block(world, x + i, y + j, z + k, p_block, d_block);
+  						}}
+   					if(!flag){
+   						place_block(world, x + i, y + j, z + k, p_block, d_block);
+   					}
+                	 
+						}
+                	  }}}
+  }
+  
   
   //Simple sphere generator -Adapted from blood magic mod's meteor function
   public static void sphere_miracle_bomb(World world,int radius, int x, int y, int z)
@@ -285,12 +326,7 @@ public class Bomb_Helper {
                  if (igrowable.func_149852_a(world, world.rand, x, y, z))
                  {
                      igrowable.func_149853_b(world, world.rand, x, y, z);
-                     int ig = rand.nextInt(4);
-             		//if (ig <= 2){ 	
-             			//for(int i = 0; i <= ig; i++){
-                     //igrowable.func_149853_b(world, world.rand, x, y, z);
                     
-             		//}
              			}}}}
  }
   
@@ -329,13 +365,16 @@ public class Bomb_Helper {
  
  public static void frost_convert(World world, int x, int y, int z){
 	 Block target = world.getBlock(x, y, z);
-	 Block above = world.getBlock(x, y+1, z);	
+	 Block above = world.getBlock(x, y+1, z);
 	 
-	 if(target == Blocks.snow_layer){
-		  int meta = world.getBlockMetadata(x,y,z);
+	 if(above == Blocks.air && target.isBlockNormalCube())		
+		{ world.setBlock(x,y+1,z, Blocks.snow_layer);}
+	 
+	 else if(above == Blocks.snow_layer ){
+		  int meta = world.getBlockMetadata(x,y+1,z);
 		  if (meta >=7){
-			  world.setBlock(x,y,z, Blocks.snow);}
-		  else{world.setBlockMetadataWithNotify(x,y,z, meta+1, 2);}
+			  world.setBlock(x,y+1,z, Blocks.snow);}
+		  else{world.setBlockMetadataWithNotify(x,y+1,z, meta+1, 2);}
 		  return;
 	  }
 	 
@@ -343,8 +382,7 @@ public class Bomb_Helper {
 			  && !above.isBlockNormalCube()){
 		  world.setBlock(x,y,z, Blocks.dirt);}
 	  
-	  if(above == Blocks.air && target.isBlockNormalCube())		
-		{ world.setBlock(x,y+1,z, Blocks.snow_layer);}
+	  
 	  
 	  if(above.getMaterial()== Material.plants
 				|| above.getMaterial()== Material.vine){
@@ -580,5 +618,98 @@ public class Bomb_Helper {
  }
  
 //====================================================================================//
+ public static void sphere_boreal_bomb(World world,int radius, int x, int y, int z)
+ {
+     int newRadius = radius;
+
+     for (int i = -newRadius; i <= newRadius; i++)
+     {
+         for (int j = -newRadius; j <= newRadius; j++)
+         {
+             for (int k = -newRadius; k <= newRadius; k++)
+             {
+                 if (i * i + j * j + k * k >= (newRadius + 0.50f) * (newRadius + 0.50f))
+                 {
+                     continue;
+                 }
+                 boolean hasPlacedBlock = false;
+                 
+                 if (!hasPlacedBlock)
+                 { 
+                	 boreal_convert(world, x + i, y + j, z + k);
+               	  
+                 }}}}
+ }
  
+ public static void boreal_convert(World world, int x, int y, int z){
+	 Block target = world.getBlock(x, y, z);
+	 Block above = world.getBlock(x, y+1, z);	
+	 Block below = world.getBlock(x, y-1, z);	
+	 int ig = rand.nextInt(4);
+	 int ig2 = rand.nextInt(30);
+	 int ig3 = rand.nextInt(80);
+	 
+	 if(target == Common_Registry.LooseDirtBlock){
+		 world.setBlock(x,y,z, Blocks.dirt);
+	 }
+	 if (chance(2)){ 
+		  if(above == Blocks.air && target == Blocks.grass ||
+			above == Blocks.air && target == Blocks.dirt ){		
+			  world.setBlock(x,y+1,z, Blocks.sapling, 0,12);
+			  //world.setBlockMetadataWithNotify(x,y+1,z, 1, 2);
+			  //world.setBlock(x,y+1,z, Blocks.sapling, 2, 2);
+			  } 
+		 
+		  }
+	 if (chance(0.5)){ 
+		  if(above == Blocks.air && target == Blocks.grass ||
+			above == Blocks.air && target == Blocks.dirt ){		
+			  //world.setBlock(x,y+1,z, Blocks.sapling);
+			  //world.setBlockMetadataWithNotify(x,y+1,z, 1, 2);
+			  world.setBlock(x,y+1,z, Blocks.sapling, 2, 12);
+			  } 
+		 
+		  }
+	 
+	 if(target == Blocks.sapling){
+			bonemeal_grow(world, target, x, y, z); 
+		 	bonemeal_grow(world, target, x, y, z);
+		 	bonemeal_grow(world, target, x, y, z);
+		 	bonemeal_grow(world, target, x, y, z);
+		 }	 
+		 
+	 /*
+	 if (target == Blocks.dirt && world.getBlockMetadata(x,y,z) != 2){
+		 if(ig <= 1 ){
+		 world.setBlock(x,y,z, Blocks.grass);}
+//		 else 
+			// world.setBlockMetadataWithNotify(x,y,z, 2, 2); 
+	 }
+	 
+	 else if (chance(30)){ 
+		  if(above == Blocks.air && target == Blocks.grass ||
+			above == Blocks.air && target == Blocks.dirt ){		
+			  world.setBlock(x,y+1,z, Blocks.tallgrass, 2, 2);
+			 //world.setBlockMetadataWithNotify(x,y+1,z, 2, 2);
+			 // bonemeal_grow(world, above, x, y+1, z);
+			  } 
+		 
+		  }
+	 else if (chance(10)){ 
+		  if(above == Blocks.air && target == Blocks.grass ||
+			above == Blocks.air && target == Blocks.dirt ){		
+			  world.setBlock(x,y+1,z, Blocks.tallgrass, 1, 2);
+			 //world.setBlockMetadataWithNotify(x,y+1,z, 2, 2);
+			 // bonemeal_grow(world, above, x, y+1, z);
+			  } 
+		 
+		  }
+	 else if (chance(1)){ 
+		  if(target == Blocks.tallgrass){
+			  bonemeal_grow(world, target, x, y, z);} 
+		 }
+	 
+	 */
+		 
+ 	}
 }

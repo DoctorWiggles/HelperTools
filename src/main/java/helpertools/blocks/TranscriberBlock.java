@@ -39,7 +39,6 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     private IIcon field_150200_a;
     @SideOnly(Side.CLIENT)
     private IIcon field_150199_b;
-    private static final String __OBFID = "CL_00000273";
 
     public TranscriberBlock()
     {
@@ -140,11 +139,11 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
         return true;
     }
     
-    public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer player, int side, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+    public boolean onBlockActivated(World world, int x1, int y1, int z1, EntityPlayer player, int side, float fx, float fy, float fz)
     {
     	
     		//tileentityhopper
-    	TileEntityTranscriber tile = (TileEntityTranscriber)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+    	TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(x1, y1, z1);
 
             
             if (tile != null)
@@ -164,7 +163,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
                 	//(tileentityhopper).atck7 = 6;
             	if(!player.isSneaking()){
 
-                    p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
+                    world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, (double)z1 + 0.5D, "random.click", 0.3F,   0.5F);
             		
             	//bottom / top
                 if (side == 0){
@@ -192,7 +191,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             	
             	//on off?
             	if(player.isSneaking()){
-            		p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.6F);
+            		world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, (double)z1 + 0.5D, "random.click", 0.3F,   0.6F);
             		//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation((tile).offX +"X " + (tile).offY +"Y " + (tile).offZ +"Z ", new Object[0]);
             	   	// player.addChatComponentMessage(chatcomponenttranslation); 
             		

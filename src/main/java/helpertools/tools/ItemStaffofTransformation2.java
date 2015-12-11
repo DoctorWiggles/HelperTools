@@ -3,6 +3,7 @@ package helpertools.tools;
 import java.util.List;
 import java.util.Random;
 
+import helpertools.Common_Registry;
 import helpertools.ConfigurationFactory;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
@@ -22,17 +23,18 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class ItemStaffofTransformation2 extends ItemSpade
+public class ItemStaffofTransformation2 extends ItemTool
 {
     public ItemStaffofTransformation2(ToolMaterial material)
     {
-    	super (material);
+    	super (2, material, Common_Registry.properharvest);
         this.maxStackSize = 1;  
         setUnlocalizedName("staffoftransformation2");
         //setCreativeTab(Helpertoolscore.HelperTools);
@@ -223,6 +225,10 @@ public class ItemStaffofTransformation2 extends ItemSpade
 		public void ToolEmpower(ItemStack itemStack, EntityLivingBase entityLiving){
 			int Toolmax = EnchantmentHelper.getEnchantmentLevel(32, itemStack);
 			int NextLevel = (getToolLevel(itemStack))+1;
+			
+			EntityPlayer Player = (EntityPlayer) entityLiving;
+			if (Toolmax <5 && Player.capabilities.isCreativeMode){Toolmax = 5;}
+			
 			if(NextLevel>Toolmax){
 				setToolLevel(itemStack,0);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));

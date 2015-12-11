@@ -1,5 +1,9 @@
 package helpertools;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import helpertools.blocks.Jelly_Fluid_Block;
@@ -31,6 +35,7 @@ import helpertools.tools.Item_Bubblegun;
 import helpertools.tools.Item_Bubblegun_2;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,6 +46,9 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class Common_Registry extends ConfigurationFactory{
 	
 	/** Tools **/
+	public final static Set properharvest = Sets.newHashSet(new Block[] {Blocks.leaves, Blocks.leaves2, Blocks.web, Blocks.wool, 
+			Blocks.trapped_chest, Blocks.chest, Blocks.bookshelf});
+	
 	public static Item staffofexpansion;  
 	public static Item staffoftransformation2;
 	public static Item euclideantransposer;

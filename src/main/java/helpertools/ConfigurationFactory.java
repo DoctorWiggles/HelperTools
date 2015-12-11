@@ -1,6 +1,12 @@
 package helpertools;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -185,11 +191,13 @@ public class ConfigurationFactory extends Helpertoolscore{
 
 		helpMaterial = EnumHelper.addToolMaterial("helpMaterial", 0, 1024, 0.8F, 4F, 15); 
 
-		ExpRodMaterial = EnumHelper.addToolMaterial("ExpRodMaterial", 0, DurabilityExpandingRod, 0.8F, 4F, 15);
-		MetaStaffMaterial = EnumHelper.addToolMaterial("MetaStaffMaterial", 0, DurabilityMetamorphicStaff, 0.8F, 4F, 15);
-		EUStaffMaterial = EnumHelper.addToolMaterial("EUStaffMaterial", 0, DurabilityEuclideanStaff, 0.8F, 4F, 15);
-		TorchMaterial = EnumHelper.addToolMaterial("TorchMaterial", 0, DurabilityTorchLauncher, 0.8F, 4F, 15);
+		ExpRodMaterial = EnumHelper.addToolMaterial("ExpRodMaterial", 0, DurabilityExpandingRod, 3F, 4F, 15);
+		MetaStaffMaterial = EnumHelper.addToolMaterial("MetaStaffMaterial", 0, DurabilityMetamorphicStaff, 3F, 4F, 15);
+		EUStaffMaterial = EnumHelper.addToolMaterial("EUStaffMaterial", 0, DurabilityEuclideanStaff, 3F, 4F, 15);
+		TorchMaterial = EnumHelper.addToolMaterial("TorchMaterial", 0, DurabilityTorchLauncher, 3F, 4F, 15);
 		//name, harvest level, max uses, efficiency, damage, enchantability
+		
+		
 
 
 

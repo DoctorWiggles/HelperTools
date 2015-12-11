@@ -26,6 +26,15 @@ public class EntityRedTorchProjectile extends EntityThrowable{
    public EntityRedTorchProjectile(World par2World, EntityPlayer par3EntityPlayer) {
        super(par2World,par3EntityPlayer);
    }
+   
+ //spawns with a designated projectory for dispencers
+   public EntityRedTorchProjectile(World world, double d, double e, double f, 
+		   double x, double y, double z, float f1, float f2) {
+       super(world);       
+       this.setPosition(d, e, f);       
+       this.setThrowableHeading(x, y, z, f1, f2);
+   }
+   
 
    @Override
    protected void entityInit() {

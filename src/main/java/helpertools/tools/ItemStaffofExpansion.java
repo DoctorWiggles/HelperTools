@@ -2,7 +2,11 @@ package helpertools.tools;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
+
+import helpertools.Common_Registry;
 import helpertools.ConfigurationFactory;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
@@ -38,11 +42,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkEvent;
 
-public class ItemStaffofExpansion extends ItemSpade
+public class ItemStaffofExpansion extends ItemTool
 {
+	
+	
     public ItemStaffofExpansion(ToolMaterial material)
     {
-    	super (material);
+    	super (1F, material, Common_Registry.properharvest);
         this.maxStackSize = 1;  
         setUnlocalizedName("staffofexpansion");
         //setCreativeTab(Helpertoolscore.HelperTools);
@@ -310,6 +316,10 @@ public class ItemStaffofExpansion extends ItemSpade
 		public void ToolEmpower(ItemStack itemStack, EntityLivingBase entityLiving){
 			int Toolmax = EnchantmentHelper.getEnchantmentLevel(32, itemStack);
 			int NextLevel = (getToolLevel(itemStack))+1;
+			
+			EntityPlayer Player = (EntityPlayer) entityLiving;
+			if (Toolmax <5 && Player.capabilities.isCreativeMode){Toolmax = 5;}
+			
 			if(NextLevel>Toolmax){
 				setToolLevel(itemStack,0);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));

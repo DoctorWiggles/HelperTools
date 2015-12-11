@@ -46,6 +46,8 @@ public class Item_Block_Bomb extends Item {
     			line2 = "- and melts frozen blocks";break;
     	case 6: line = "Releases spores";break;
     	case 7: line = "Corrupts area";break;
+    	case 8: line = "Plants Forest Vegetation";break;
+    	case 9: line = "Plants Boreal Vegetation";break;
     	default:
     		break;
     	}
@@ -55,7 +57,7 @@ public class Item_Block_Bomb extends Item {
     
     
     //Number of bomb variants
-    int B = 8;
+    int B = 10;
     
     
     public IIcon[] icons = new IIcon[B];

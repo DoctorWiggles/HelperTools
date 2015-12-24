@@ -54,12 +54,12 @@ public class Common_Registry extends ConfigurationFactory{
 	public static Item euclideantransposer;
 	public static Item torchlauncher;	
 	
-	public static Item bubblegun;
+	//public static Item bubblegun;
 	public static Item bubblegun_2;
 	
 	/** Items **/	
 	public static Item dynamitebolt;
-	public static Item dirtbomb;
+	//public static Item dirtbomb;
 	public static Item sandbomb;
 	public static Item gravelbomb;
 	public static Item bottledmilk;
@@ -114,21 +114,22 @@ public class Common_Registry extends ConfigurationFactory{
         //GameRegistry.registerItem(Helpertoolscore.debugtool, "debugtool");
         //GameRegistry.registerItem(Helpertoolscore.rfdebugtool, "rfdebugtool");
         //LanguageRegistry.addName(Helpertoolscore.debugtool, "Debugging Tool");	
-        bubblegun = new Item_Bubblegun(jelly_block);
-        GameRegistry.registerItem(bubblegun, "bubblegun");
+        
+        //bubblegun = new Item_Bubblegun(jelly_block);
+        //GameRegistry.registerItem(bubblegun, "bubblegun");
         
         bubblegun_2 = new Item_Bubblegun_2(965, 16000);
         GameRegistry.registerItem(bubblegun_2, "bubblegun_2");
 
         /** Items **/
         dynamitebolt = new ItemDynamiteBolt();        	
-    	dirtbomb = new ItemDirtBomb();
+    	//dirtbomb = new ItemDirtBomb();
     	//sandbomb = new ItemSandBomb();
     	//gravelbomb = new ItemGravelBomb();
     	bottledmilk = new ItemMilkBottle();
     	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
         GameRegistry.registerItem(dynamitebolt, "dynamitebolt");        
-        GameRegistry.registerItem(dirtbomb, "dirtbomb");   
+        //GameRegistry.registerItem(dirtbomb, "dirtbomb");   
         //GameRegistry.registerItem(sandbomb, "sandbomb"); 
         //GameRegistry.registerItem(gravelbomb, "gravelbomb"); 
         GameRegistry.registerItem(bottledmilk, "bottledmilk");
@@ -143,7 +144,8 @@ public class Common_Registry extends ConfigurationFactory{
         //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
         //GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");
         		
-     	/** Fluids **/        
+     	/** Fluids **/   
+        /**
         FluidRegistry.registerFluid(jelly_fluid); 
         jelly_block = new Jelly_Fluid_Block(jelly_fluid, Material.water).setBlockName("jelly");
         GameRegistry.registerBlock(jelly_block, "helpertools" + "_" + jelly_block.getUnlocalizedName().substring(5));
@@ -152,7 +154,8 @@ public class Common_Registry extends ConfigurationFactory{
         jelly_bucket.setUnlocalizedName("jelly_bucket").setContainerItem(Items.bucket);
         GameRegistry.registerItem(jelly_bucket, "jelly_bucket");
         FluidContainerRegistry.registerFluidContainer(jelly_fluid, new ItemStack(jelly_bucket), new ItemStack(Items.bucket));
-		
+		**/
+        
         /** Blocks **/
         GameRegistry.registerBlock(Ibedrock, "Imitation Bedrock");
         GameRegistry.registerBlock(StokedPipe, "StokedPipe");

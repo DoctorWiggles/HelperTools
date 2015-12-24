@@ -36,6 +36,8 @@ public class RenderDirtBombProjectile extends Render
      * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
+    
+    /**
     public void doRender(EntityDirtBombProjectile ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
         GL11.glPushMatrix();
@@ -65,6 +67,8 @@ public class RenderDirtBombProjectile extends Render
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
     }
+    **/
+    
 
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.

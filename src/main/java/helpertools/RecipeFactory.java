@@ -147,7 +147,7 @@ public class RecipeFactory extends Common_Registry{
     		
     		
     	if(Recipe_Bombs == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(dirtbomb, OutputDirtBomb, 0), true, new Object[]{
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, OutputDirtBomb, 0), true, new Object[]{
         		"ZZZ",
     			"ZXZ",
     			"ZZZ", Character.valueOf('X'), Items.gunpowder, Character.valueOf('Z'), Blocks.dirt}));
@@ -238,11 +238,32 @@ public class RecipeFactory extends Common_Registry{
     		"   ", Character.valueOf('s'), new ItemStack(Blocks.stone_slab, 1, 1 )}));
     	}
     	
+    	if(Recipe_Balloon == true){
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Balloon, Output_Balloon, 0 ),true, new Object[]{
+        		"  m",
+        		"  c",
+        		"  s", ('s'), "helpstring", ('c'),"balloon_fuel", ('m'),"balloon_filling"}));
+        	}
+    	if(Recipe_Balloon == true){
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Balloon, Output_Balloon, 0 ),true, new Object[]{
+        		"  m",
+        		"  c",
+        		"  s", ('s'), "helpstring", ('c'),"balloon_fuel", ('m'),"balloon_filling"}));
+        	}
+    	
+    	if(Recipe_Floater == true){
+    		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Floater, 1, 0 ), new Object[]{
+    			Balloon, Balloon, "logWood" }));
+        	}
+    	
     	
     	
     	/**Extra Dictionaries**/
     	///////////////////////
     	OreDictionary.registerOre("helpstring", Items.string);
+    	OreDictionary.registerOre("balloon_filling", new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE));
+    	OreDictionary.registerOre("balloon_filling", Items.leather); 
+    	OreDictionary.registerOre("balloon_fuel", new ItemStack(Items.coal, 1, OreDictionary.WILDCARD_VALUE));
     	OreDictionary.registerOre("helpgravel", Blocks.gravel);
     	OreDictionary.registerOre("helpbonemeal", new ItemStack(Items.dye, 1, 15));
     	//  

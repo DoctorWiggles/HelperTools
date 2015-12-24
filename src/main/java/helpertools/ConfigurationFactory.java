@@ -28,7 +28,9 @@ public class ConfigurationFactory extends Helpertoolscore{
 	//Blocks
 	public static int OutputImitationBedrock;
 	public static int OutputChimneyPipe;
-	public static int OutputMagicalFuel;		
+	public static int OutputMagicalFuel;	
+	public static int Output_Balloon;	
+	public static int Output_Floater;
 	//Booleans enable
 
 	/** 3D Models **/
@@ -63,6 +65,9 @@ public class ConfigurationFactory extends Helpertoolscore{
 	public static boolean RecipeDoubleSlab;
 	public static boolean RecipeFullSlab;
 	public static boolean RecipeFullSandSlab;
+	//Balloons
+	public static boolean Recipe_Balloon;
+	public static boolean Recipe_Floater;
 
 	//Items
 	public static boolean Recipe_Bombs;
@@ -137,6 +142,8 @@ public class ConfigurationFactory extends Helpertoolscore{
 		OutputChimneyPipe = config.get(conf5, "OutputChimneyPipe", 8).getInt();
 		OutputMagicalFuel = config.get(conf5, "OutputMagicalFuel", 1).getInt();
 		OutputDirtBomb = config.get(conf5, "OutputDirtBomb", 4).getInt();
+		Output_Balloon = config.get(conf5, "Output_Balloon", 4).getInt();
+		
 		//Boolean Enables
 		/**3D models **/
 		Render3DStaffModels = config.get(conf6, "Render3DStaffModels", true).getBoolean(true);
@@ -172,6 +179,8 @@ public class ConfigurationFactory extends Helpertoolscore{
 		RecipeDoubleSlab = config.get(conf4, "RecipeDoubleSlab", true).getBoolean(true);
 		RecipeFullSlab = config.get(conf4, "RecipeFullSlab", true).getBoolean(true);
 		RecipeFullSandSlab = config.get(conf4, "RecipeFullSandSlab", true).getBoolean(true);
+		Recipe_Balloon = config.get(conf4, "Recipe_Balloon", true).getBoolean(true);
+		Recipe_Floater = config.get(conf4, "Recipe_Floater", true).getBoolean(true);
 		
 		
 		//Items

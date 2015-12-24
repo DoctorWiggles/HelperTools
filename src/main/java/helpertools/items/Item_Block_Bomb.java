@@ -57,7 +57,8 @@ public class Item_Block_Bomb extends Item {
     
     
     //Number of bomb variants
-    int B = 10;
+    //int B = 10;
+    int B = 7;
     
     
     public IIcon[] icons = new IIcon[B];

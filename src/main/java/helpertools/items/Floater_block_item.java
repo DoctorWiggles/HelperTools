@@ -105,6 +105,7 @@ public class Floater_block_item extends ItemBlock
                     return stack;
                 }
         		customplace(world,x, y, z);
+        		--stack.stackSize;
         	}
         			return stack;
         		
@@ -141,6 +142,7 @@ public class Floater_block_item extends ItemBlock
                 {
                    // world.setBlockToAir(i, j, k);
                     customplace(world,i, j, k);
+                    --stack.stackSize;
                     
                 }
         }

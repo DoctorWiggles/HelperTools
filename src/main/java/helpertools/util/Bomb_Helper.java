@@ -217,6 +217,9 @@ public class Bomb_Helper {
   						int ig = rand.nextInt(6);
   						if (ig >= 2){ 					
   							place_block(world, x + i, y + j, z + k, p_block, d_block);
+  						}
+  						else {
+  							d_block.dropBlockAsItem(world, x + i, y + j, z + k, 0, 0);
   						}}
    					if(!flag){
    						place_block(world, x + i, y + j, z + k, p_block, d_block);

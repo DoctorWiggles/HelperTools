@@ -17,6 +17,7 @@ import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.items.Charm_block_item;
+import helpertools.items.Floater_block_item;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
@@ -87,6 +88,8 @@ public class Common_Registry extends ConfigurationFactory{
 	//public final static Block TransitionGlass = new helpertools.blocks.TransitionGlass(Material.glass, false, "helpertools:TransitionGlassOn");
 	//public final static Block ObeliskBlock = new helpertools.blocks.ObeliskBlock();
 	public final static Block Charm_block = new helpertools.blocks.Charm_block("Charm_block");
+	public final static Block Balloon = new helpertools.blocks.Balloon_Block("Balloon_block");
+	public final static Block Floater = new helpertools.blocks.Floater_Block("Floater_block");
 	
 	
 	
@@ -163,6 +166,8 @@ public class Common_Registry extends ConfigurationFactory{
         //GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
         //GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
         GameRegistry.registerBlock(Charm_block, Charm_block_item.class, "Charm_block");
+        GameRegistry.registerBlock(Balloon, "Balloon_block");
+        GameRegistry.registerBlock(Floater, Floater_block_item.class, "Floater_block");
 		
 	}
 	

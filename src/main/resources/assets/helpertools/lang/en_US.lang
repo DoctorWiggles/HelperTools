@@ -54,6 +54,8 @@ tile.LooseDirtBlock.name=Loose Dirt
 tile.SugarBlock.name=Sugar Cube
 tile.jelly.name=Jelly Block
 tile.Charm_block.name=Creative Builder's Totem
+tile.Balloon_block.name=Balloon
+tile.Floater_block.name=Floater
 
 #        #
 # Fluids #

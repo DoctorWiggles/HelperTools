@@ -6,6 +6,7 @@ import helpertools.Common_Registry;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.entities.EntityDynamiteProjectile;
+import helpertools.util.InventoryUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -20,6 +21,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,7 +43,6 @@ public class ActiveMagicalFuelBlock extends Block
     public ActiveMagicalFuelBlock()
     {
         super(Material.clay);
-        //this.setTickRandomly(true);
         this.setBlockName("ActiveMagicalFuelBlock");
         //this.setCreativeTab(HelpTab.HelperTools);       
         this.setBlockTextureName("helpertools:MagicalFuel3");
@@ -49,107 +50,76 @@ public class ActiveMagicalFuelBlock extends Block
         setHarvestLevel("pickaxe",0);
         this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 1.0F, 0.8F);
         
-        this.setLightLevel(1F);
-        
-        
+        this.setLightLevel(1F);        
     }
 	
 	
     
-	  public boolean isOpaqueCube()
-	    {
-	        return false;
-	    }
+	  	public boolean isOpaqueCube(){ return false; }
 
-	    public boolean renderAsNormalBlock()
-	    {
-	        return false;
-	    }
+	    public boolean renderAsNormalBlock(){ return false; }
 	    
-	    /**
-	    public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+	    Block torch = Blocks.redstone_torch;
+	    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	    {
-	        if (p_149727_1_.isRemote)
-	        {
-	            
-	            return true;
-	        }
-	        if(!player.isSneaking()){
-	        	
-	        	
-	        	return false;
-	        }
-	        	
-	        if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_)== 0)
-	        {
-	            p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, 1, 2);
-	            ((p_149727_1_.getBlock(p_149727_2_, p_149727_3_, p_149727_4_))).setLightLevel(0.3F);
-	            p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
-	           
-
-	            return true;
-	        }
-	        else if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_)== 1)
-	        {
-	            p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, 0, 2);
-	            ((p_149727_1_.getBlock(p_149727_2_, p_149727_3_, p_149727_4_))).setLightLevel(1F);
-	            p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F,   0.5F);
-	         
-
-	            return true;
-	        }
-	        else {
-	        	return false;
-	        }
+	        if(world.getBlockMetadata(x, y, z) == 1){
+	        	world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock, 0, 123);    
+            	world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "mob.chicken.plop", 0.3F,   0.5F);
+            	
+            	if(!player.capabilities.isCreativeMode){torch.dropBlockAsItem(world,x,y,z, 0, 0);}
+            	return true;
+	        }	        
+	    	else{world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "random.click", 0.3F,   0.5F);
+        	return true;}
+	        
 	    }
-	    **/
 
 	    /////////////////////////////
 	    /** Redstone Functionality**/
 	    /////////////////////////////
 	    
 	    
-	    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
+	    public void onBlockAdded(World world, int x, int y, int z)
 	    {
-	        if (!p_149726_1_.isRemote)
+	        if (!world.isRemote)
 	        {
-	            if ( !p_149726_1_.isBlockIndirectlyGettingPowered(p_149726_2_, p_149726_3_, p_149726_4_))
+	            if ( !world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockMetadata(x, y, z) == 0)
 	            {
-	            	p_149726_1_.setBlock(p_149726_2_, p_149726_3_, p_149726_4_, Common_Registry.MagicalFuelBlock);
+	            	world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock);
 	               
 	            }
-	            else if ( p_149726_1_.isBlockIndirectlyGettingPowered(p_149726_2_, p_149726_3_, p_149726_4_))
+	            else if ( world.isBlockIndirectlyGettingPowered(x, y, z))
 	            {
-	            	p_149726_1_.scheduleBlockUpdate(p_149726_2_, p_149726_3_, p_149726_4_, this, 4);
+	            	world.scheduleBlockUpdate(x, y, z, this, 4);
 	                
 	            }
 	        }
 	    }
-	    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+	    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	    {
-	        if (!p_149695_1_.isRemote)
+	        if (!world.isRemote)
 	        {
-	            if ( !p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_))
+	            if ( !world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockMetadata(x, y, z) == 0)
 	            {
-	            	p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, Common_Registry.MagicalFuelBlock);
+	            	world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock);
 	                
 	            }
-	            else if ( p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_))
+	            else if ( world.isBlockIndirectlyGettingPowered(x, y, z))
 	            {
-	            	p_149695_1_.scheduleBlockUpdate(p_149695_2_, p_149695_3_, p_149695_4_, this, 4);
+	            	world.scheduleBlockUpdate(x, y, z, this, 4);
 	            }
 	        }
 	    }
 
-	    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+	    public void updateTick(World world, int x, int y, int z, Random rand)
 	    {
-	        if (!p_149674_1_.isRemote && p_149674_1_.isBlockIndirectlyGettingPowered(p_149674_2_, p_149674_3_, p_149674_4_))
+	        if (!world.isRemote && world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockMetadata(x, y, z) == 0)
 	        {
-	            p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Common_Registry.MagicalFuelBlock);
+	            world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock);
 	        }
 	    }
 
-	    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	    public Item getItemDropped(int p_149650_1_, Random rand, int p_149650_3_)
 	    {
 	        return Item.getItemFromBlock(Common_Registry.MagicalFuelBlock);
 	    }

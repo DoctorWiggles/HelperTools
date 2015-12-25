@@ -45,21 +45,16 @@ public class Balloon_Block extends Block
         return false;
     }
 
-    /**
-     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-     */
     @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     @Override
     public int getRenderType()
     {
         return 1;
     }
 }
+

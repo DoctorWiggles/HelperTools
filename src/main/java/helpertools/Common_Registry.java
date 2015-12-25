@@ -16,8 +16,12 @@ import helpertools.entities.EntityGravelBombProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
-import helpertools.items.Charm_block_item;
-import helpertools.items.Floater_block_item;
+import helpertools.item_blocks.Charm_block_item;
+import helpertools.item_blocks.Floater_block_item;
+import helpertools.item_blocks.Item_Block_Balloon;
+import helpertools.item_blocks.Item_Block_Magical_Lamp;
+import helpertools.item_blocks.Item_block_Chimney;
+import helpertools.item_blocks.TranscriberBlock_Item;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
@@ -26,7 +30,6 @@ import helpertools.items.ItemSandBomb;
 import helpertools.items.Item_Block_Bomb;
 import helpertools.items.Item_creative_builder_charm;
 import helpertools.items.Item_jelly_Bucket;
-import helpertools.items.TranscriberBlock_Item;
 import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
@@ -158,18 +161,18 @@ public class Common_Registry extends ConfigurationFactory{
         
         /** Blocks **/
         GameRegistry.registerBlock(Ibedrock, "Imitation Bedrock");
-        GameRegistry.registerBlock(StokedPipe, "StokedPipe");
+        GameRegistry.registerBlock(StokedPipe, Item_block_Chimney.class, "StokedPipe");
         //GameRegistry.registerBlock(StokedBlock, "StokedBlock");
         GameRegistry.registerBlock(TranscriberBlock, TranscriberBlock_Item.class, "TranscriberBlock");
-        GameRegistry.registerBlock(MagicalFuelBlock, "MagicalFuelBlock");
-        GameRegistry.registerBlock(ActiveMagicalFuelBlock, "ActiveMagicalFuelBlock");
+        GameRegistry.registerBlock(MagicalFuelBlock, Item_Block_Magical_Lamp.class, "MagicalFuelBlock");
+        GameRegistry.registerBlock(ActiveMagicalFuelBlock,  "ActiveMagicalFuelBlock");
         GameRegistry.registerBlock(LooseDirtBlock,  "LooseDirtBlock");
         //GameRegistry.registerBlock(IllusionBlock, "IllusionBlock");   
         //GameRegistry.registerBlock(SugarBlock, "SugarBlock");
         //GameRegistry.registerBlock(TransitionGlass, "TransitionGlass");
         //GameRegistry.registerBlock(ObeliskBlock, "ObeliskBlock");
         GameRegistry.registerBlock(Charm_block, Charm_block_item.class, "Charm_block");
-        GameRegistry.registerBlock(Balloon, "Balloon_block");
+        GameRegistry.registerBlock(Balloon, Item_Block_Balloon.class , "Balloon_block");
         GameRegistry.registerBlock(Floater, Floater_block_item.class, "Floater_block");
 		
 	}

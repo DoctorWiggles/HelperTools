@@ -16,6 +16,9 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class Bomb_Helper {
 	
+	
+	Boolean Debris = ConfigurationFactory.Bomb_Debris;
+	
 	//protected Random rand;
 	   protected static Random rand = new Random();
 	   
@@ -336,7 +339,7 @@ public class Bomb_Helper {
  
  //=======================================================================================//
  
- public static void sphere_frost_bomb(World world,int radius, int x, int y, int z)
+ public static void sphere_frost_bomb(World world,int radius, int x, int y, int z, boolean flag)
  {
 	 int ig = rand.nextInt(7);
      int newRadius = radius;
@@ -359,14 +362,14 @@ public class Bomb_Helper {
                  if (!hasPlacedBlock)
                  { 
                	  //world.setBlock(x + i, y + j, z + k, pblock, 0, 3);
-                	 frost_convert(world, x + i, y + j, z + k);
+                	 frost_convert(world, x + i, y + j, z + k, flag);
                	  
                	  }}}}
  }
  
  
  
- public static void frost_convert(World world, int x, int y, int z){
+ public static void frost_convert(World world, int x, int y, int z, boolean flag){
 	 Block target = world.getBlock(x, y, z);
 	 Block above = world.getBlock(x, y+1, z);
 	 
@@ -398,6 +401,10 @@ public class Bomb_Helper {
 	  }
 	  if(target == Blocks.water || target == Blocks.flowing_water && ig<=5){
 		  world.setBlock(x,y,z, Blocks.ice);}
+	  
+	  if(target == Blocks.water || target == Blocks.flowing_water && flag){
+		  world.setBlock(x,y,z, Blocks.ice);}
+	  
 	  if(target == Blocks.lava){
 		  world.setBlock(x,y,z, Blocks.obsidian);}
 	  if(target == Blocks.flowing_lava && ig<= 5){
@@ -409,7 +416,7 @@ public class Bomb_Helper {
  
  //===========================================================================================//
  
- public static void sphere_desert_bomb(World world,int radius, int x, int y, int z)
+ public static void sphere_desert_bomb(World world,int radius, int x, int y, int z, boolean flag)
  {
      int newRadius = radius;
 
@@ -427,12 +434,12 @@ public class Bomb_Helper {
                  
                  if (!hasPlacedBlock)
                  { 
-                	 desert_convert(world, x + i, y + j, z + k);
+                	 desert_convert(world, x + i, y + j, z + k, flag);
                	  
                	  }}}}
  }
  
- public static void desert_convert(World world, int x, int y, int z){
+ public static void desert_convert(World world, int x, int y, int z, boolean flag){
 	 Block target = world.getBlock(x, y, z);
 	 Block above = world.getBlock(x, y+1, z);	
 	 Block below = world.getBlock(x, y-1, z);	
@@ -473,6 +480,10 @@ public class Bomb_Helper {
 		 if(target == Blocks.ice)
 			{world.setBlock(x,y,z, Blocks.water);}
 	 }
+	 if(flag ){
+		 if(target == Blocks.ice)
+			{world.setBlock(x,y,z, Blocks.water);}
+	 }
 	 
 	 if(target == Blocks.snow_layer)
 		{int meta = world.getBlockMetadata(x, y, z);
@@ -486,9 +497,10 @@ public class Bomb_Helper {
 		  }
 	 
 	 //High grief and ugly capabilities - might remove drying up water && thawing ice
+	 /**
 	 if(target == Blocks.water || target == Blocks.flowing_water && ig2<=10){
 		  world.setBlock(x,y,z, Blocks.air);}
-	 
+	 **/
  }
  
 //====================================================================================//

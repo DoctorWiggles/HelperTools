@@ -130,7 +130,34 @@ public class BombProjectile_Entity extends EntityThrowable{
        {
     	   this.worldObj.spawnParticle("smoke", this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, 0 , 0);
            this.worldObj.spawnParticle("cloud", this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, .1 , 0);
-       }   
+       }  
+       
+       if(this.Bomb_Type == 4){    	   
+    	   int X = (int) this.posX;
+    	   int Y = (int) this.posY;
+    	   int Z = (int) this.posZ;
+    	   World world = this.worldObj;
+    		Block block;
+    		block = world.getBlock(X, Y, Z);
+    		Material matt;
+    		matt = block.getMaterial();
+    		
+    		if( matt == Material.water
+    				|| matt == Material.lava){ 
+    			
+    			int amp = Amplify;
+    			Bomb_Helper.sphere_frost_bomb(worldObj, 4+amp, X, Y, Z, false);
+    	    	  Bomb_Helper.sphere_frost_bomb(worldObj, 3+amp, X, Y, Z, true);
+    	    	  Bomb_Helper.sphere_frost_bomb(worldObj, 1+amp, X, Y, Z, false);
+    	    	  this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
+    	    	  if(this.worldObj.isRemote){ 
+    			     
+    			      if(Bomb_Type != 7){Bomb_Helper.particlecloud(worldObj,  X, Y, Z);}
+    			      if(Bomb_Type == 3){Bomb_Helper.particlecloud2(worldObj,  X, Y, Z);}
+    		   }
+    			this.setDead();
+    		}
+       }
    }
    
    
@@ -205,14 +232,14 @@ public class BombProjectile_Entity extends EntityThrowable{
     	  Bomb_Helper.sphere_miracle_bomb(worldObj, 2+amp, X, Y, Z);
     	  Bomb_Helper.sphere_miracle_bomb(worldObj, 1+amp, X, Y, Z);}
       if(Bomb_Type == 4){
-    	  Bomb_Helper.sphere_frost_bomb(worldObj, 4+amp, X, Y, Z);
-    	  Bomb_Helper.sphere_frost_bomb(worldObj, 2+amp, X, Y, Z);
-    	  Bomb_Helper.sphere_frost_bomb(worldObj, 1+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 4+amp, X, Y, Z, false);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 2+amp, X, Y, Z, false);
+    	  Bomb_Helper.sphere_frost_bomb(worldObj, 1+amp, X, Y, Z, false);
     	  }
       if(Bomb_Type == 5){
-    	  Bomb_Helper.sphere_desert_bomb(worldObj, 6+amp, X, Y, Z);
-    	  Bomb_Helper.sphere_desert_bomb(worldObj, 3+amp, X, Y, Z);
-    	  Bomb_Helper.sphere_desert_bomb(worldObj, 2+amp, X, Y, Z);
+    	  Bomb_Helper.sphere_desert_bomb(worldObj, 6+amp, X, Y, Z, false);
+    	  Bomb_Helper.sphere_desert_bomb(worldObj, 3+amp, X, Y, Z, true);
+    	  Bomb_Helper.sphere_desert_bomb(worldObj, 2+amp, X, Y, Z, false);
     	  }
       if(Bomb_Type == 6){
     	  Bomb_Helper.sphere_mushroom_bomb(worldObj, 6+amp, X, Y, Z);

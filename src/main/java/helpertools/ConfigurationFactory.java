@@ -24,7 +24,11 @@ public class ConfigurationFactory extends Helpertoolscore{
 	public static int  DurabilityEuclideanStaff;
 	//Items
 	public static int OutputDynamiteBolt;
-	public static int OutputDirtBomb;
+	public static int Output_BlockBombs;
+	public static int Output_PlantBomb;
+	public static int Output_FrostBomb;
+	public static int Output_DesertBomb;
+	public static int Output_MushroomBomb;
 	//Blocks
 	public static int OutputImitationBedrock;
 	public static int OutputChimneyPipe;
@@ -141,7 +145,14 @@ public class ConfigurationFactory extends Helpertoolscore{
 		OutputImitationBedrock = config.get(conf5, "OutputImitationBedrock", 4).getInt();
 		OutputChimneyPipe = config.get(conf5, "OutputChimneyPipe", 8).getInt();
 		OutputMagicalFuel = config.get(conf5, "OutputMagicalFuel", 1).getInt();
-		OutputDirtBomb = config.get(conf5, "OutputDirtBomb", 4).getInt();
+		//bombs
+		Output_BlockBombs = config.get(conf5, "Output_BlockBombs", 4).getInt();
+		Output_PlantBomb = config.get(conf5, "Output_PlantBomb", 4).getInt();
+		Output_FrostBomb = config.get(conf5, "Output_FrostBomb", 8).getInt();
+		Output_DesertBomb = config.get(conf5, "Output_DesertBomb", 3).getInt();
+		Output_MushroomBomb = config.get(conf5, "Output_MushroomBomb", 4).getInt();
+		
+		
 		Output_Balloon = config.get(conf5, "Output_Balloon", 4).getInt();
 		
 		//Boolean Enables
@@ -173,7 +184,7 @@ public class ConfigurationFactory extends Helpertoolscore{
 		//Blocks
 		RecipeImitationBedrock = config.get(conf4, "RecipeImitationBedrock", true).getBoolean(true);
 		RecipeMagicalFuel = config.get(conf4, "RecipeMagicalFuel", true).getBoolean(true);
-		RecipeChimenyPipes = config.get(conf4, "RecipeChimenyPipes", false).getBoolean(true);
+		RecipeChimenyPipes = config.get(conf4, "RecipeChimenyPipes", true).getBoolean(true);
 		RecipeEuclideanBlock = config.get(conf4, "RecipeEuclideanBlock", true).getBoolean(true);
 		RecipePodzol = config.get(conf4, "RecipePodzol", true).getBoolean(true);
 		RecipeDoubleSlab = config.get(conf4, "RecipeDoubleSlab", true).getBoolean(true);
@@ -184,7 +195,7 @@ public class ConfigurationFactory extends Helpertoolscore{
 		
 		
 		//Items
-		Recipe_Bombs = config.get(conf3, "Recipe_Bombs", true).getBoolean(true);
+		Recipe_Bombs = config.get(conf3, "Recipe_Bombs", true, "Enable or disable all bomb recipes").getBoolean(true);
 		RecipeBottledmilk = config.get(conf3, "RecipeBottledmilk", true).getBoolean(true);
 		RecipeChocolatemilk = config.get(conf3, "RecipeChocolatemilk", true).getBoolean(true);
 		//Handlers

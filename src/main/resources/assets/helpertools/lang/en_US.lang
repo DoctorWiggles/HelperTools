@@ -41,7 +41,7 @@ entity.DynamiteBolt.name=Dynamite Bolt
 #        #
 # Blocks #
 tile.Imitation Bedrock.name=§7Imitation Bedrock
-tile.StokedPipe.name=§7ChimneyPipe
+tile.StokedPipe.name=Chimney Pipe
 tile.TranscriberBlock.name=§3Euclidean Transcriber
 tile.MagicalFuelBlock.name=§3Magical Lamp
 tile.ActiveMagicalFuelBlock.name=§3Active Magical Lamp

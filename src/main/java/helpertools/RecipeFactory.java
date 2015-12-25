@@ -147,11 +147,38 @@ public class RecipeFactory extends Common_Registry{
     		
     		
     	if(Recipe_Bombs == true){
-        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, OutputDirtBomb, 0), true, new Object[]{
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, Output_BlockBombs, 0), true, new Object[]{
         		"ZZZ",
     			"ZXZ",
-    			"ZZZ", Character.valueOf('X'), Items.gunpowder, Character.valueOf('Z'), Blocks.dirt}));
+    			"ZZZ", ('X'), Items.gunpowder, ('Z'), Blocks.dirt}));
+        	
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, Output_BlockBombs, 1), true, new Object[]{
+        		"ZZZ",
+    			"ZXZ",
+    			"ZZZ", ('X'), Items.gunpowder, ('Z'), Blocks.sand}));
+        	
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, Output_BlockBombs, 2), true, new Object[]{
+        		"ZZZ",
+    			"ZXZ",
+    			"ZZZ", ('X'), Items.gunpowder, ('Z'), Blocks.gravel}));
+        	
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, Output_PlantBomb, 3), true, new Object[]{
+        		"ZZZ",
+    			"ZXZ",
+    			"ZZZ", ('X'), Items.gunpowder, ('Z'), "helpbonemeal"}));
+        	
+        	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb, Output_FrostBomb, 4), true, new Object[]{
+        		"ZZZ",
+    			"ZXZ",
+    			"ZZZ", ('X'), Items.gunpowder, ('Z'), Items.snowball}));
+        	
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bomb, Output_DesertBomb, 5),  new Object[]{
+        		new ItemStack(bomb, 1, 3),  Blocks.sand}));
+        	
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bomb, Output_MushroomBomb, 6), new Object[]{
+        		 new ItemStack(bomb, 1, 3),  Blocks.mycelium}));
         	}
+    	
     	
     	ItemStack BucketOut = new ItemStack(Items.milk_bucket.setContainerItem(Items.bucket));
     	//ItemStack BottleOut = new ItemStack(Helpertoolscore.bottledmilk.setContainerItem(Items.glass_bottle));

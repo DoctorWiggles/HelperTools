@@ -1,31 +1,38 @@
-package helpertools.items;
+package helpertools.item_blocks;
 
-import helpertools.items.TranscriberBlock_Item;
+import helpertools.Common_Registry;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TranscriberBlock_Item extends ItemBlock
+public class Floater_block_item extends ItemBlock
 {
     public final Block blocky;
     @SideOnly(Side.CLIENT)
     private IIcon icon;
+    
+    protected static Random growrand = new Random();
 
-    public TranscriberBlock_Item(Block block)
+    public Floater_block_item(Block block)
     {	super(block);
         this.blocky = block;
     }
@@ -33,7 +40,7 @@ public class TranscriberBlock_Item extends ItemBlock
     /**
      * Sets the unlocalized name of this item to the string passed as the parameter, prefixed by "item."
      */
-    public TranscriberBlock_Item setUnlocalizedName(String unlocal)
+    public Floater_block_item setUnlocalizedName(String unlocal)
     {
         super.setUnlocalizedName(unlocal);
         return this;
@@ -43,12 +50,10 @@ public class TranscriberBlock_Item extends ItemBlock
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
-      {
-      par3List.add(EnumChatFormatting.WHITE + "Creates a Transposer Guide"); 
-      par3List.add(EnumChatFormatting.ITALIC + "Right click sides with hands");
-      par3List.add(EnumChatFormatting.ITALIC + "- To move guide");
-      par3List.add(EnumChatFormatting.ITALIC + "Right click with Transposer");
-      par3List.add(EnumChatFormatting.ITALIC + "- To get or set at guide");
+      {      
+    	par3List.add(EnumChatFormatting.ITALIC + "Can be placed in mid-air and water"); 
+    	par3List.add(EnumChatFormatting.ITALIC + "Shift click to place below you"); 
+      
       
       }
 
@@ -69,7 +74,85 @@ public class TranscriberBlock_Item extends ItemBlock
     {
         return this.icon != null ? this.icon : this.blocky.getBlockTextureFromSide(1);
     }
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+    {
+    	
+    	if(player.isSneaking()){ 
+    		ChunkCoordinates coord;
+    		coord = player.getPlayerCoordinates();
+    		
+    		
+        	int x = (int) coord.posX;
+        	int y = (int) player.posY-1;
+        	int z = (int) coord.posZ;
+        	Block block;
+        	block = world.getBlock(x, y, z);
+        	Material matt;
+        	matt = block.getMaterial();
+        	//block = world.getBlock(x1, y1, z1);
+        	
+        	if(block == Blocks.air 
+        			|| matt == Material.fire
+        			|| matt == Material.water
+        			|| matt == Material.lava
+        			|| matt == Material.plants
+        			|| matt == Material.vine){ 
+        		if(!player.canPlayerEdit(x, y-1, z,  0,stack)){
+        			return stack;
+        		}
+        		if (!world.canMineBlock(player, x, y-1, z))
+                {
+                    return stack;
+                }
+        		customplace(world,x, y, z);
+        		--stack.stackSize;
+        	}
+        			return stack;
+        		
+        	
+    	}
+    	
+    	MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
 
+        if (movingobjectposition == null)
+        {
+            return stack;
+        }
+        if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+        {
+            int i = movingobjectposition.blockX;
+            int j = movingobjectposition.blockY;
+            int k = movingobjectposition.blockZ;
+
+            if (!world.canMineBlock(player, i, j, k))
+            {
+                return stack;
+            }
+
+            
+                if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
+                {
+                    return stack;
+                }
+
+                Material material = world.getBlock(i, j, k).getMaterial();
+
+                if (material == Material.water && world.getBlock(i, j+1, k) == Blocks.air
+                		||material == Material.lava && world.getBlock(i, j+1, k) == Blocks.air)
+                {
+                   // world.setBlockToAir(i, j, k);
+                    customplace(world,i, j, k);
+                    --stack.stackSize;
+                    
+                }
+        }
+        
+        return stack;
+        
+        
+    }
+    
+    
     /**
      * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
@@ -77,6 +160,11 @@ public class TranscriberBlock_Item extends ItemBlock
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x1, int y1, int z1, int face, float f1, float f2, float f3)
     {
         Block block = world.getBlock(x1, y1, z1);
+        
+        if(player.isSneaking()){
+        			return false;
+        	
+        }
 
         if (block == Blocks.snow_layer && (world.getBlockMetadata(x1, y1, z1) & 7) < 1)
         {
@@ -260,5 +348,53 @@ public class TranscriberBlock_Item extends ItemBlock
        }
 
        return true;
+    }
+    
+    public void customplace (World world, int x, int y, int z){
+    	if (!world.isRemote){        	
+        	
+        	world.setBlock(x, y, z, blocky, 0, 123);
+
+    		world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F),
+    				blocky.stepSound.getStepResourcePath(), (blocky.stepSound.getVolume() + 1.0F) / 2.0F,
+    				blocky.stepSound.getPitch() * 0.8F);
+    		
+    		balloon(world, x, y, z);
+        	}
+        	
+        	if (world.isRemote){
+        	int crackid = blocky.getIdFromBlock(blocky);
+        	
+        	String particle = "blockcrack_" + crackid + "_" + 0;
+    		for (int pl = 0; pl < 5; ++pl)
+			{
+    		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+            float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+            float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+    		world.spawnParticle(particle, x+f, y+f1-0.3, z+f2, 0, 0, 0); 
+    		
+			
+				}
+        	}
+    }
+    Block balloon = Common_Registry.Balloon;
+    public void balloon(World world, int x, int y, int z){
+    Block block;
+	block = world.getBlock(x, y+1, z);
+	Material matt;
+	matt = block.getMaterial();
+	if(block == Blocks.air 
+			|| matt == Material.fire
+			|| matt == Material.water
+			|| matt == Material.lava
+			|| matt == Material.plants
+			|| matt == Material.vine){ 
+	world.setBlock(x, y+1, z, balloon, 0, 123);
+	
+	
+	}
+	else{
+	balloon.dropBlockAsItem(world,x,y,z, 0, 0);}
+		
     }
 }

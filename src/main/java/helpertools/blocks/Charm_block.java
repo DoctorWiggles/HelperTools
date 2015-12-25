@@ -41,9 +41,10 @@ public class Charm_block extends Block
         super(Material.clay);
         this.setBlockName(unlocal);    
         this.setBlockTextureName("helpertools:block_cbc");
-        this.setHardness(0.6F);
+        //this.setHardness(0.6F);
         setHarvestLevel("pickaxe",0);
         setBlockUnbreakable();
+        setResistance(100);
         this.setCreativeTab(HelpTab.HelperTools);  
         this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 1.0F, 0.8F);    
         
@@ -68,7 +69,7 @@ public class Charm_block extends Block
 	    
 	    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	    {
-	        return Common_Registry.cbc;
+	        return null;
 	    }
 
 	   

@@ -46,23 +46,11 @@ public class StokedPipe extends Block
         setHarvestLevel("pickaxe",0);
        // this.slipperiness = 1F;
         this.setBlockBounds(0.33F, 0.0F, 0.33F, 0.66F, 1.0F, 0.66F);
-        
-        
     }
+		
+	public boolean isOpaqueCube(){ return false;}
 	
-	
-	public boolean isOpaqueCube()
-    {
-        return false;
-    }
-	public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
-    
-    
-    
-    
+	public boolean renderAsNormalBlock(){ return false;}
     
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass()
@@ -99,47 +87,45 @@ public class StokedPipe extends Block
     float maxg = .2f;
 
     Random randg = new Random();
-
     
    
-    
-    
-   
-    public void updateTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
+    public void updateTick(World world, int x, int y, int z, Random rand)
     {
-    	super.updateTick(p_149734_1_,p_149734_2_,p_149734_3_, p_149734_4_,p_149734_5_);
+    	super.updateTick(world,x,y, z,rand);
     	short short1 =8;
 		for (int lp = 0; lp < short1; ++lp)
        {
-    	 p_149734_1_.spawnParticle("largesmoke", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
+    	 world.spawnParticle("largesmoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
        }
     }
     /**
      * A randomly called display update to be able to add particles or other items for display
      */
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
     {
-        super.randomDisplayTick(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_, p_149734_5_);
+        super.randomDisplayTick(world, x, y, z, rand);
 
-        if(p_149734_1_.getBlock(p_149734_2_, p_149734_3_+1, p_149734_4_) == Blocks.air
-        		&& p_149734_1_.getBlock(p_149734_2_, p_149734_3_-1, p_149734_4_) != Blocks.air){
-            p_149734_1_.spawnParticle("smoke", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
-            p_149734_1_.spawnParticle("smoke", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
-            p_149734_1_.spawnParticle("largesmoke", (double)((float)p_149734_2_+.5), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_+.5), 0.0D, 0.0D, 0.0D);
+        if(world.getBlock(x, y+1, z) == Blocks.air
+        		&& world.getBlock(x, y-1, z) != Blocks.air){
+            world.spawnParticle("smoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("smoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("largesmoke", (double)((float)x+.5), (double)((float)y + 1.1F), (double)((float)z+.5), 0.0D, 0.0D, 0.0D);
             //largesmoke, smoke, portal, snowballpoof    offset; ? ;directions
            
         }
-        else if(p_149734_1_.getBlock(p_149734_2_, p_149734_3_+1, p_149734_4_) != Blocks.air
-        		&& p_149734_1_.getBlock(p_149734_2_, p_149734_3_-1, p_149734_4_) == Blocks.air){
+        /**
+        else if(world.getBlock(x, y+1, z) != Blocks.air
+        		&& world.getBlock(x, y-1, z) == Blocks.air){
     	   
     	   float finalf = randf.nextFloat() * (maxf - minf) + minf;
     	   float finalg = randg.nextFloat() * (maxg - ming) + ming;
-            p_149734_1_.spawnParticle("dripWater", (double)((float)p_149734_2_+.5+ finalf), (double)((float)p_149734_3_ - 0.05F), (double)((float)p_149734_4_+.5+ finalg), 0.0D, 0.0D, 0.0D);
-            p_149734_1_.spawnParticle("dripWater", (double)((float)p_149734_2_ +.5+ finalf), (double)((float)p_149734_3_ - 0.05F), (double)((float)p_149734_4_+.5+ finalg), 0.0D, 0.0D, 0.0D);
-            p_149734_1_.spawnParticle("bubble", (double)((float)p_149734_2_+.5+ finalf), (double)((float)p_149734_3_ - 0.05F), (double)((float)p_149734_4_+.5+ finalg), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("dripWater", (double)((float)x+.5+ finalf), (double)((float)y - 0.05F), (double)((float)z+.5+ finalg), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("dripWater", (double)((float)x +.5+ finalf), (double)((float)y - 0.05F), (double)((float)z+.5+ finalg), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("bubble", (double)((float)x+.5+ finalf), (double)((float)y - 0.05F), (double)((float)z+.5+ finalg), 0.0D, 0.0D, 0.0D);
             //largesmoke, smoke, portal, snowballpoof    offset; ? ;directions
            
         }
+        **/
     }
 }

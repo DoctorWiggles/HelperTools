@@ -183,38 +183,9 @@ public class Modelv5Staff5 extends ModelBase
   public void renderModel(ItemStack item, float f5){
 	 
 	  ItemStaffofExpansion  entitywolf = (ItemStaffofExpansion)item.getItem();
-	  /**
-	  if (entitywolf.getMode() == 2){
-		  GL11.glPushMatrix();
-		  //
-		  //GL11.glTranslatef(0.0F, 8.0F * f5, 0.0F);
-		  //Rod1.render(f5);
-		  //
-		  GL11.glRotatef(0, 0F,0F,0F);
-		  Core.render(f5);
-		    Core2.render(f5);
-		    Core3.render(f5);
-		    Core4.render(f5);
-		  //
-		  GL11.glPopMatrix();
-	  }
-	  if (entitywolf.getMode() == 4){
-		  GL11.glPushMatrix();
-		  //GL11.glTranslatef(0.0F, -8.0F * f5, 0.0F);
-		  //Rod1.render(f5);
-		  //
-		  GL11.glRotatef(10, 0F,0F,0F);
-		  Core.render(f5);
-		    Core2.render(f5);
-		    Core3.render(f5);
-		    Core4.render(f5);
-		  //
-		  GL11.glPopMatrix();
-	  }
-	  **/
-	  
+	  	  
 	  ///////////////////////////////
-	  
+	  /**
 		  GL11.glPushMatrix();
 		  //GL11.glTranslatef(0.0F, -8.0F * f5, 0.0F);
 		  //Rod1.render(f5);
@@ -229,7 +200,7 @@ public class Modelv5Staff5 extends ModelBase
 		  GL11.glPopMatrix();
 	  
 	  //////////////////////////////
-	  
+	 **/ 
 	Rod1.render(f5);
     Ornbase.render(f5);
     OrnLeft.render(f5);
@@ -238,12 +209,12 @@ public class Modelv5Staff5 extends ModelBase
     CapBase.render(f5);
     CapLeft.render(f5);
     CapRight.render(f5);
-    /**
+    
     Core.render(f5);
     Core2.render(f5);
     Core3.render(f5);
     Core4.render(f5);
-     **/
+    
      
     WrapLeft.render(f5);
     WrapRight.render(f5);    

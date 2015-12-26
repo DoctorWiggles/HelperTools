@@ -13,7 +13,7 @@ public class InventoryUtil{
 	/** Adds a metadata sensitive search and remove for items. **/
 	  
 	  /**Scans inventory for a specific item, and metadata (stack sensitive)**/
-	  private static int StackScan(ItemStack stack, InventoryPlayer entity)
+	  static int StackScan(ItemStack stack, InventoryPlayer entity)
 	    {
 		  //String asd = entity.getCommandSenderName();
 		  //System.out.println(" " + asd);

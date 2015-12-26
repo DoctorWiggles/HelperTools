@@ -12,6 +12,7 @@ import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.util.InventoryUtil;
 import helpertools.util.KeyBindings;
+import helpertools.util.Whitelist_Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -71,35 +72,7 @@ public class ItemStaffofExpansion extends ItemTool
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }
     }
-    
-    ////////////////////////////////////////////////////////////////////////
-	  public int getSpinDec(ItemStack itemStack) {
-			if (itemStack.stackTagCompound == null) {
-				return 360;
-			}
-			return itemStack.stackTagCompound.getShort("SpinDec");
-		}	
-	  
-		public void setSpinDec(ItemStack itemStack, short Value) {
-			if (itemStack.stackTagCompound == null) {
-				itemStack.setTagCompound(new NBTTagCompound());
-				}
-			itemStack.stackTagCompound.setShort("SpinDec",  Value);			
-		}
-		
-		public void DecreaseSpinDec(ItemStack itemStack) {
-			if (itemStack.stackTagCompound == null) {
-				itemStack.setTagCompound(new NBTTagCompound());
-				}
-			short shorty;
-			shorty = (short)getSpinDec(itemStack);
-			if(shorty <= 0){
-				shorty = 360;
-			}
-			-- shorty;
-			itemStack.stackTagCompound.setShort("SpinDec",  shorty);			
-		}
-		
+   
 /////////////////////////////////////////////////////////////////////
   public void onUpdate(ItemStack stack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
   	
@@ -117,39 +90,7 @@ public class ItemStaffofExpansion extends ItemTool
   	 Item item2 = item.getItem();
   	if (!(item2 == this)){
   		return;
-  	}
-  	//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-	//			"Timer: " + (getSpinDec(stack)), new Object[0]);
-	//	((EntityPlayer) entity)
-	//			.addChatComponentMessage(chatcomponenttranslation);
-  	/**
-  	int eff = EnchantmentHelper.getEnchantmentLevel(32, stack);
-  	
-  	 System.out.println("Testing levels " + eff);
-  	 **/
-  	//holy butts i don't even know what's going wrong
-  	//but setting the nbt with a getnbt variable prevents
-  	//you from breaking blocks
-  	//DecreaseSpinDec(stack);
-  	/**
-  	short shorty = (short)getSpinDec(stack);
-  	
-		if (shorty== 0){
-			setSpinDec(stack, (short) 360);
-		}
-		//
-		//else  {
-		short shorty2;
-		shorty2 = (short)getSpinDec(stack);
-			//setSpinDec(stack, (short)(getSpinDec(stack)-1));
-			-- shorty2;
-			short muhshort;
-			muhshort = shorty2;
-			setSpinDec(stack,shorty2);
-		//}
-		 */
-			//timer--;
-  	
+  	}  	
   	
 		return;
   			
@@ -369,18 +310,18 @@ public class ItemStaffofExpansion extends ItemTool
 	 
 	
 	//Generic tool stuff
-	public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_)
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase living)
     {
-        if ((double)p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D)
+        if ((double)block.getBlockHardness(world, x, y, z) != 0.0D)
         {
-            p_150894_1_.damageItem(1, p_150894_7_);
+            stack.damageItem(1, living);
         }
 
         return true;
     }
-	public boolean hitEntity(ItemStack p_77644_1_, EntityLivingBase p_77644_2_, EntityLivingBase p_77644_3_)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase livingbase, EntityLivingBase living)
     {
-        p_77644_1_.damageItem(2, p_77644_3_);
+        stack.damageItem(2, living);
         return true;
     }
 	
@@ -434,6 +375,63 @@ public class ItemStaffofExpansion extends ItemTool
    		}
 		 return false;
     }
+	
+	//Witelist and placement of blocks
+	public void Placement (ItemStack thestaff, EntityPlayer player, World world, int x, int y, int z, int theface){
+		
+		//Whitelist Placement
+		if (world.isAirBlock(x, y, z)
+        		|| world.getBlock(x, y, z).getMaterial() == Material.lava 
+        		|| world.getBlock(x, y, z).getMaterial() == Material.water
+				|| world.getBlock(x, y, z).getMaterial() == Material.plants 
+				|| world.getBlock(x, y, z).getMaterial() == Material.vine 
+				|| world.getBlock(x, y, z) == Blocks.snow_layer)
+        {
+			
+			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff));  
+			Item item = Item.getItemFromBlock(returnTBlock(thestaff));    
+			Boolean whitelist_flag;
+			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock(thestaff), player, returnTMeta(thestaff));
+			
+        	if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky )
+        			|| whitelist_flag)
+    		{
+        		//destroys and returns blocks like grass
+        		if (world.getBlock(x, y, z).getMaterial() == Material.vine
+						|| world.getBlock(x, y, z).getMaterial() == Material.plants
+						|| world.getBlock(x, y, z) == Blocks.snow_layer) 
+				{
+					(world.getBlock(x, y, z)).dropBlockAsItem(world,x, y, z, (world.getBlockMetadata(x, y, z)), 0);
+				}
+        		 world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+        		 world.setBlock(x, y, z, Blocks.cobblestone);
+        		//world.setBlock(x, y, z, Blocks.air);
+        		world.setBlock(x, y, z, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+        		
+        		int crackid = (getTBlock(thestaff));
+                int crackmeta = (returnTMeta(thestaff));
+                String particle = "blockcrack_" + crackid + "_" + crackmeta;
+        		for (int pl = 0; pl < 5; ++pl)
+    			{
+        		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+                float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+                float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+        		world.spawnParticle(particle, x+f, y+f1+.3, z+f2, 0, 0, 0);        	            		
+    			}
+        		//successful = 1;
+        		if (!player.capabilities.isCreativeMode){                	
+        			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+        			if(whitelist_flag){
+        				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock(thestaff), returnTMeta(thestaff));
+        				//player.inventory.consumeInventoryItem(item);
+        				}  
+                    thestaff.damageItem(1, player);
+                    }	
+    			}
+       
+			   }
+		
+	}
 	
 	
 		
@@ -501,67 +499,13 @@ public class ItemStaffofExpansion extends ItemTool
         	            int y2 = y1 + y3;
         	            int z2 = z1 + z3;
         	            
-        	            //Whitelist Placement
-        				if (theblock.isAirBlock(x2, y2, z2)
-        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.lava 
-        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.water
-        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants 
-        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine 
-        						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer)
-        	            {
-        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-        	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
-        	        		{
-        	            		//destroys and returns blocks like grass
-        	            		if (theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine
-        	    						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants
-        	    						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer) 
-        						{
-        							(theblock.getBlock(x2, y2, z2)).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
-        						}
-        	            		 theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-        	            		 theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
-        	            		//theblock.setBlock(x2, y2, z2, Blocks.air);
-        	            		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-        	            		
-        	            		//theblock.setBlock(x2, y2, z2, HelpertoolsRegistry.jelly_block, 0, 0123);
-        	            		int crackid = (getTBlock(thestaff));
-        		                int crackmeta = (returnTMeta(thestaff));
-        		                String particle = "blockcrack_" + crackid + "_" + crackmeta;
-        	            		for (int pl = 0; pl < 5; ++pl)
-                    			{
-        	            		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-        		                float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        		                float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        	            		theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
-                    			}
-        	            		//successful = 1;
-        	            		
-        	            		if (!theplayer.capabilities.isCreativeMode){                	
-        	            			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-        	                        thestaff.damageItem(1, theplayer);
-        	                        }	
-        	        		}
-        	            
-        	            }
+        	            Placement(thestaff, theplayer, theblock, x2, y2, z2, theface);
         			}
         			
-    	            //////////////////
-    	            //if (successful == 0){
-
     	        		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     	        				(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
-    	        		//successful = 0;
-    	        		 return true;
-    	            //}
-    	            /**
-    	            if (successful == 1){
-
-    	            	theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .5F+sound1);
-    	            	successful = 0;
-    	            	 return true;
-    	            }
-    	            **/
+    	        		return true;
+    	           
     	            //East/west axis, Vertical axis, North/south axis
     	            //return true;
     	        }
@@ -638,47 +582,7 @@ public class ItemStaffofExpansion extends ItemTool
         	            int y2 = y1 + y3;
         	            int z2 = z1 + z3;
         	            
-        	            //Whitelist Placement
-        				if (theblock.isAirBlock(x2, y2, z2)
-        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.lava 
-        	            		|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.water
-        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants 
-        						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine 
-        						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer)
-        	            {
-        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-        	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
-        	        		{
-        	            		//destroys and returns blocks like grass
-        	            		if (theblock.getBlock(x2, y2, z2).getMaterial() == Material.vine
-        	    						|| theblock.getBlock(x2, y2, z2).getMaterial() == Material.plants
-        	    						|| theblock.getBlock(x2, y2, z2) == Blocks.snow_layer) 
-        						{
-        							(theblock.getBlock(x2, y2, z2)).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
-        						}
-        	            		 theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-        	            		 theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
-        	            		//theblock.setBlock(x2, y2, z2, Blocks.air);
-        	            		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-        	            		
-        	            		int crackid = (getTBlock(thestaff));
-        		                int crackmeta = (returnTMeta(thestaff));
-        		                String particle = "blockcrack_" + crackid + "_" + crackmeta;
-        	            		for (int pl = 0; pl < 5; ++pl)
-                    			{
-        	            		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-        		                float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        		                float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        	            		theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
-                    			}
-        	            		//successful = 1;
-        	            		if (!theplayer.capabilities.isCreativeMode){                	
-        	            			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-        	                        thestaff.damageItem(1, theplayer);
-        	                        }	
-        	        			}
-        	           
-                			   }
+        	            Placement(thestaff, theplayer, theblock, x2, y2, z2, theface);
                 			}
         	            }
         			}
@@ -777,47 +681,7 @@ public class ItemStaffofExpansion extends ItemTool
         	            if (theblock.getBlockMetadata(x2, y2, z2) == returnTMeta(thestaff) && 
         	            		theblock.getBlock(x2, y2, z2) == returnTBlock(thestaff)){
         	            
-        	            //Whitelist Placement
-        				if (theblock.isAirBlock(xT4, yT4, zT4)
-        	            		|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.lava 
-        	            		|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.water
-        						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.plants 
-        						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.vine 
-        						|| theblock.getBlock(xT4, yT4, zT4) == Blocks.snow_layer)
-        	            {
-        					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff));        					
-        	            	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
-        	        		{
-        	            		//destroys and returns blocks like grass
-        	            		if (theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.vine
-        	    						|| theblock.getBlock(xT4, yT4, zT4).getMaterial() == Material.plants
-        	    						|| theblock.getBlock(xT4, yT4, zT4) == Blocks.snow_layer) 
-        						{
-        							(theblock.getBlock(xT4, yT4, zT4)).dropBlockAsItem(theblock,xT4, yT4, zT4, (theblock.getBlockMetadata(xT4, yT4, zT4)), 0);
-        						}
-        	            		 theblock.playSoundEffect((double)((float)xT4 + 0.5F), (double)((float)yT4 + 0.5F), (double)((float)zT4 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-        	            		 theblock.setBlock(xT4, yT4, zT4, Blocks.cobblestone);
-        	            		//theblock.setBlock(xT4, yT4, zT4, Blocks.air);
-        	            		theblock.setBlock(xT4, yT4, zT4, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-        	            		
-        	            		int crackid = (getTBlock(thestaff));
-        		                int crackmeta = (returnTMeta(thestaff));
-        		                String particle = "blockcrack_" + crackid + "_" + crackmeta;
-        	            		for (int pl = 0; pl < 5; ++pl)
-                    			{
-        	            		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-        		                float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        		                float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        	            		theblock.spawnParticle(particle, xT4+f, yT4+f1+.3, zT4+f2, 0, 0, 0);        	            		
-                    			}
-        	            		//successful = 1;
-        	            		if (!theplayer.capabilities.isCreativeMode){                	
-        	            			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-        	                        thestaff.damageItem(1, theplayer);
-        	                        }	
-        	        			}
-        	           
-                			   }
+        	            Placement(thestaff, theplayer, theblock, xT4, yT4, zT4, theface);
                 			}
                 			}
         	            }
@@ -864,7 +728,6 @@ public class ItemStaffofExpansion extends ItemTool
     	
     }
 
-    //Standard line that allows 3D rendering
     @SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {

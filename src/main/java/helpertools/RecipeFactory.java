@@ -1,8 +1,10 @@
 package helpertools;
 
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -120,6 +122,25 @@ public class RecipeFactory extends Common_Registry{
     	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(torchlauncher,1, 0), new Object[]{
     		Items.bow, Items.flint_and_steel, "plankWood"}));
     	}
+    	
+    	//Armor Recipes
+    	///////////////////////    	
+    	//pre enchanted items
+    	ItemStack Mask = new ItemStack(mystic_mask, 1, 0 );
+    	Mask.addEnchantment(Enchantment.blastProtection, 5);
+    	
+    	if(Recipe_Balloon == true){
+        	GameRegistry.addRecipe(new ShapedOreRecipe(Mask, true, new Object[]{
+        		" s ",
+        		"lml",
+        		"   ", ('s'), Items.ender_pearl, ('m'), Blocks.obsidian, ('l'),"gemLapis"}));
+        	}
+    	if(Recipe_Balloon == true){
+        	GameRegistry.addRecipe(new ShapedOreRecipe(Mask, true, new Object[]{
+        		" s ",
+        		"lml",
+        		"   ", ('s'), "slimeball", ('m'), Blocks.obsidian, ('l'),"gemLapis"}));
+        	}
     	
     	
     	//Dynamite bolt Recipes

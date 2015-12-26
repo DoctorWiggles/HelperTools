@@ -59,13 +59,13 @@ public class Armor_Render_Handler {
 						
 			Helper.translateToHeadLevel(event.entityPlayer);
 			faceTranslate();
-			//GL11.glTranslatef(-0.1F, -0.52F, 0F);
+			GL11.glTranslatef(-0.1F, -0.52F, 0F);
 			
 			//scale(0.75F);
 			//GL11.glTranslatef(0.04F, -0.5F, 0F);
 			
-			scale(1.1F);
-			GL11.glTranslatef(-0.14F, -0.52F, 0F);
+			//scale(1.1F);
+			//GL11.glTranslatef(-0.14F, -0.52F, 0F);
 			
 			//renderIcon(Armor_Mystic.getIIcon);
 			renderIcon(Common_Registry.mystic_mask.getIcon(stack, 0));

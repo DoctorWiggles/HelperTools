@@ -389,7 +389,7 @@ public class ItemStaffofExpansion extends ItemTool
         {
 			
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff));  
-			Item item = Item.getItemFromBlock(returnTBlock(thestaff));    
+			//Item item = Item.getItemFromBlock(returnTBlock(thestaff));    
 			Boolean whitelist_flag;
 			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock(thestaff), player, returnTMeta(thestaff));
 			

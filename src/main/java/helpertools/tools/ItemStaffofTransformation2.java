@@ -8,6 +8,7 @@ import helpertools.ConfigurationFactory;
 import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.util.InventoryUtil;
+import helpertools.util.Whitelist_Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -325,7 +326,43 @@ public class ItemStaffofTransformation2 extends ItemTool
 		 return false;
     }
 		
-	
+	public void Placement (ItemStack thestaff, EntityPlayer player, World world, int x, int y, int z, int theface){
+		
+		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
+		Boolean whitelist_flag;
+		whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock(thestaff), player, returnTMeta(thestaff));
+		if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky)
+				|| whitelist_flag)
+		{
+			//destroys and returns blocks like grass
+			
+			world.getBlock(x, y, z).dropBlockAsItem(world,x, y, z, (world.getBlockMetadata(x, y, z)), 0);
+			
+			world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
+			world.setBlock(x, y, z, Blocks.cobblestone);
+			world.setBlock(x, y, z, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
+
+			int crackid = (getTBlock(thestaff));
+			int crackmeta = (returnTMeta(thestaff));
+			String particle = "blockcrack_" + crackid + "_" + crackmeta;
+			for (int pl = 0; pl < 5; ++pl)
+			{
+				float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+				float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+				float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+				world.spawnParticle(particle, x+f, y+f1+.3, z+f2, 0, 0, 0);        	            		
+			}
+			//successful = 1;
+			if (!player.capabilities.isCreativeMode){                	
+				if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+    			if(whitelist_flag){
+    				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock(thestaff), returnTMeta(thestaff));
+    				//player.inventory.consumeInventoryItem(item);
+    				}   	                        
+				thestaff.damageItem(1, player);
+					}	
+				}
+	}
 	
 	
 	
@@ -337,7 +374,7 @@ public class ItemStaffofTransformation2 extends ItemTool
 	/**During this, it looks for Which mode -> Which face of the block 
 	 * -> Which blocks are legal -> If they are legal, place or swap
 	 * -> And finally depending on which gamemode to remove durability and items**/
-    public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int x1, int y1, int z1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    public boolean onItemUse(ItemStack thestaff, EntityPlayer player, World world, int x1, int y1, int z1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
     	//Modifies size based on tool level
     	int mass = (getToolLevel(thestaff)+ 3);
@@ -351,61 +388,32 @@ public class ItemStaffofTransformation2 extends ItemTool
     	
     	//Adds the block you are looking to the boolean, it is checked later or droped etc.
     	//For the pallete
-    	Gblock = theblock.getBlock(x1, y1, z1);
-		Gmeta = theblock.getBlockMetadata(x1, y1, z1); 
+    	Gblock = world.getBlock(x1, y1, z1);
+		Gmeta = world.getBlockMetadata(x1, y1, z1); 
 		
 		////////////////////////////////////////////////////////////////
 		/**      ~~~~~~~~      Small Mode       ~~~~~~~~             **/
 		////////////////////////////////////////////////////////////////
 		/** if this is true it performs this action **/
-		if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-      			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
+		if (!player.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& !player.capabilities.isCreativeMode && Gblock != Blocks.bedrock
       			&& getMode(thestaff) == 2
       					||
-      			!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-      			&& theplayer.capabilities.isCreativeMode
+      			!player.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& player.capabilities.isCreativeMode
       			&& getMode(thestaff) == 2)
       	{ 
 			int x2= x1;
 	    	int y2= y1;
 	    	int z2= z1;
-      		if (theblock.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
-              		|| theblock.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
-                       && theblock.getBlock(x2, y2, z2) == (returnTBlock(thestaff)))
+      		if (world.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
+              		|| world.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
+                       && world.getBlock(x2, y2, z2) == (returnTBlock(thestaff)))
       		{
       			//The block that is being transformed
-      			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-				if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
-          		{	
-              		theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), (returnTBlock(thestaff)).stepSound.getStepResourcePath(), ((returnTBlock(thestaff)).stepSound.getVolume() + 1.0F) / 2.0F, (returnTBlock(thestaff)).stepSound.getPitch() * 0.8F);
-              		theblock.setBlock(x2, y2, z2, Blocks.air);
-              		theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 0);
-              		Gblock.dropBlockAsItem(theblock, x2, y2, z2, Gmeta, 0);
-              		
-              		int crackid = (getTBlock(thestaff));
-					int crackmeta = (returnTMeta(thestaff));
-					//int crackid = Gblock.getIdFromBlock(Gblock);
-					//int crackmeta = Gmeta;
-					String particle = "blockcrack_" + crackid + "_" + crackmeta;
-					for (int pl = 0; pl < 5; ++pl)
-					{
-						float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-						float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-						float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-						theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
-					}
-					//successful = 1;
-					if (!theplayer.capabilities.isCreativeMode){                	
-						InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-						thestaff.damageItem(1, theplayer);
-							}
-              		return true;
-          		}
-      		}
-      		else
-      		{
-
-          		theblock.playSoundEffect((double)x2 + 0.5D, (double)y2 + 0.5D, 
+      			Placement(thestaff, player, world, x2, y2, z2, theface);
+      		
+          		world.playSoundEffect((double)x2 + 0.5D, (double)y2 + 0.5D, 
           				(double)z2 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * .1F + .6F);
       			return true;
       		}
@@ -416,12 +424,12 @@ public class ItemStaffofTransformation2 extends ItemTool
     		////////////////////////////////////////////////////////////////////////////
 
 
-    	if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-      			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
+    	if (!player.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& !player.capabilities.isCreativeMode && Gblock != Blocks.bedrock
       			&& getMode(thestaff) == 4
       					||
-      			!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-      			&& theplayer.capabilities.isCreativeMode
+      			!player.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& player.capabilities.isCreativeMode
       			&& getMode(thestaff) == 4)
       	{  
     			
@@ -492,44 +500,15 @@ public class ItemStaffofTransformation2 extends ItemTool
 
     						//Whitelist Placement
     						
-    							if (theblock.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
-    				    				&& theblock.getBlock(x2, y2, z2) == Gblock
-    				    				&& theblock.getBlockMetadata(x2, y2, z2) == Gmeta
-    				            		|| theblock.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
-    				                     && theblock.getBlock(x2, y2, z2) == (returnTBlock(thestaff))
-    				     				&& theblock.getBlock(x2, y2, z2) == Gblock
-    				     				&& theblock.getBlockMetadata(x2, y2, z2) == Gmeta)
+    							if (world.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
+    				    				&& world.getBlock(x2, y2, z2) == Gblock
+    				    				&& world.getBlockMetadata(x2, y2, z2) == Gmeta
+    				            		|| world.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
+    				                     && world.getBlock(x2, y2, z2) == (returnTBlock(thestaff))
+    				     				&& world.getBlock(x2, y2, z2) == Gblock
+    				     				&& world.getBlockMetadata(x2, y2, z2) == Gmeta)
     				    			{
-    							ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-    							if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
-    							{
-    								//destroys and returns blocks like grass
-    								
-    								theblock.getBlock(x2, y2, z2).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
-    								
-    								theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    								theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
-    								//theblock.setBlock(x2, y2, z2, Blocks.air);
-    								theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-
-    								int crackid = (getTBlock(thestaff));
-    								int crackmeta = (returnTMeta(thestaff));
-    								//int crackid = Gblock.getIdFromBlock(Gblock);
-    								//int crackmeta = Gmeta;
-    								String particle = "blockcrack_" + crackid + "_" + crackmeta;
-    								for (int pl = 0; pl < 5; ++pl)
-    								{
-    									float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-    									float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-    									float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-    									theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
-    								}
-    								//successful = 1;
-    								if (!theplayer.capabilities.isCreativeMode){                	
-    									InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-    									thestaff.damageItem(1, theplayer);
-    										}	
-    									}
+    									Placement(thestaff, player, world, x2, y2, z2, theface);
     				    			
 
     						}
@@ -538,7 +517,7 @@ public class ItemStaffofTransformation2 extends ItemTool
     			}
 
 
-    			theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
 
     			return true;
@@ -548,12 +527,12 @@ public class ItemStaffofTransformation2 extends ItemTool
 		/////////////////////////////////////////////////////////////////////////
 		/**          ~~~~~~~         Mass mode 6        ~~~~~~~             **/
 		////////////////////////////////////////////////////////////////////////
-		if (!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-      			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
+		if (!player.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& !player.capabilities.isCreativeMode && Gblock != Blocks.bedrock
       			&& getMode(thestaff) == 6
       					||
-      			!theplayer.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
-      			&& theplayer.capabilities.isCreativeMode
+      			!player.isSneaking() && (returnTBlock(thestaff)) != Blocks.air    			
+      			&& player.capabilities.isCreativeMode
       			&& getMode(thestaff) == 6)
       	{  
     			
@@ -583,44 +562,15 @@ public class ItemStaffofTransformation2 extends ItemTool
 
     						//Whitelist Placement
     						
-    							if (theblock.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
-    				    				&& theblock.getBlock(x2, y2, z2) == Gblock
-    				    				&& theblock.getBlockMetadata(x2, y2, z2) == Gmeta
-    				            		|| theblock.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
-    				                     && theblock.getBlock(x2, y2, z2) == (returnTBlock(thestaff))
-    				     				&& theblock.getBlock(x2, y2, z2) == Gblock
-    				     				&& theblock.getBlockMetadata(x2, y2, z2) == Gmeta)
+    							if (world.getBlock(x2, y2, z2) != (returnTBlock(thestaff))
+    				    				&& world.getBlock(x2, y2, z2) == Gblock
+    				    				&& world.getBlockMetadata(x2, y2, z2) == Gmeta
+    				            		|| world.getBlockMetadata(x2, y2, z2) != (returnTMeta(thestaff))
+    				                     && world.getBlock(x2, y2, z2) == (returnTBlock(thestaff))
+    				     				&& world.getBlock(x2, y2, z2) == Gblock
+    				     				&& world.getBlockMetadata(x2, y2, z2) == Gmeta)
     				    			{
-    							ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
-    							if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
-    							{
-    								//destroys and returns blocks like grass
-    								
-    								theblock.getBlock(x2, y2, z2).dropBlockAsItem(theblock,x2, y2, z2, (theblock.getBlockMetadata(x2, y2, z2)), 0);
-    								
-    								theblock.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), returnTBlock(thestaff).stepSound.getStepResourcePath(), (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff).stepSound.getPitch() * 0.8F);
-    								theblock.setBlock(x2, y2, z2, Blocks.cobblestone);
-    								//theblock.setBlock(x2, y2, z2, Blocks.air);
-    								theblock.setBlock(x2, y2, z2, (returnTBlock(thestaff)), (returnTMeta(thestaff)), 012);
-
-    								int crackid = (getTBlock(thestaff));
-    								int crackmeta = (returnTMeta(thestaff));
-    								//int crackid = Gblock.getIdFromBlock(Gblock);
-    								//int crackmeta = Gmeta;
-    								String particle = "blockcrack_" + crackid + "_" + crackmeta;
-    								for (int pl = 0; pl < 5; ++pl)
-    								{
-    									float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-    									float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-    									float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-    									theblock.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);        	            		
-    								}
-    								//successful = 1;
-    								if (!theplayer.capabilities.isCreativeMode){                	
-    									InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-    									thestaff.damageItem(1, theplayer);
-    										}	
-    									}
+    							Placement(thestaff, player, world, x2, y2, z2, theface);
     				    			
 
     				    			}
@@ -630,7 +580,7 @@ public class ItemStaffofTransformation2 extends ItemTool
     			}
 
 
-    			theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
 
     			return true;
@@ -645,14 +595,14 @@ public class ItemStaffofTransformation2 extends ItemTool
     		
     		
     		
-    	if (theplayer.isSneaking())
+    	if (player.isSneaking())
     	{ 
     		
-    		setTBlock(thestaff, theblock.getBlock(x1, y1, z1).getIdFromBlock(theblock.getBlock(x1, y1, z1)));
-    		setTMeta(thestaff,theblock.getBlockMetadata(x1, y1, z1)); 		
+    		setTBlock(thestaff, world.getBlock(x1, y1, z1).getIdFromBlock(world.getBlock(x1, y1, z1)));
+    		setTMeta(thestaff,world.getBlockMetadata(x1, y1, z1)); 		
     		//
     		
-    		theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    		world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
     				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
     		
     		 setOffMode(thestaff, 4);
@@ -661,7 +611,7 @@ public class ItemStaffofTransformation2 extends ItemTool
     	}
     	
     	 
-    	theblock.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
+    	world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
 				(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * .1F + .6F);
 		return false;
     	

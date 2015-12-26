@@ -8,6 +8,7 @@ import helpertools.HelpTab;
 import helpertools.Helpertoolscore;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import helpertools.util.InventoryUtil;
+import helpertools.util.Whitelist_Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -274,7 +275,7 @@ public class ItemEuclideanTransposer extends ItemTool
 	/**During this, it looks for Which mode -> Which face of the block 
 	 * -> Which blocks are legal -> If they are legal, place or swap
 	 * -> And finally depending on which gamemode to remove durability and items**/
-    public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World theblock, int i1, int j1, int k1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    public boolean onItemUse(ItemStack thestaff, EntityPlayer player, World world, int i1, int j1, int k1, int theface, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
     	float py = (this.growrand .nextFloat()) ;
     	int mOffset = ((((getMode(thestaff)/2)*-1) +1));
@@ -284,59 +285,24 @@ public class ItemEuclideanTransposer extends ItemTool
 		   setOffMode(thestaff, 2);
    		}
     	
-    	/**
-    	//in game repair via fuel
-    	if(theblock.getBlock(i1, j1, k1) == Helpertoolscore.MagicalFuelBlock
-    			||theblock.getBlock(i1, j1, k1) == Helpertoolscore.ActiveMagicalFuelBlock){
-
-			 int damage;
-			//thestaff.setItemDamage(0);
-			 damage = thestaff.getItemDamage();
-			 ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-						"Damage is? : " + (damage), new Object[0]);
-				((EntityPlayer) theplayer)
-						.addChatComponentMessage(chatcomponenttranslation);
-				if (damage > 8){
-					thestaff.setItemDamage(damage - 1);					
-					theblock.setBlock(i1, j1, k1, Blocks.air);
-					
-					float py = (this.growrand .nextFloat()) ;
-					theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .8F+py);
-					//theblock.spawnEntityInWorld(new EntityLightningBolt(theblock,i1, j1, k1));
-					for (int l = 0; l < 64; ++l){
-						 float f = (this.growrand.nextFloat()/5F) ;
-				           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
-				           float f1 = (this.growrand .nextFloat()/5F );
-				           float f2 = (this.growrand .nextFloat()/5F );
-						//theblock.spawnParticle("magicCrit", i1+f1*1.4+.1, j1+f1*1.4+.5, k1+f2*1.2+.1, f*3, f1*3, f2*3);
-						theblock.spawnParticle("reddust", i1+f1*5+.1, j1+f1*5+.5, k1+f2*5+.1, 30, f1*30, 30);
-						//this.worldObj.spawnParticle("magicCrit", finX+f+.2, finY+.5+f1, finZ+f2+.3, 0, 0, 0);
-					}
-					
-				}
-				return true;
-    	}
-    	**/
-    	
-    	
     	/////////////////////////////
     	/** placement and get code**/
     	////////////////////////////
     	int successful = 0;
     	int P = 5;
     	int proxyskip = 0;
-    	if (!theplayer.isSneaking()){
+    	if (!player.isSneaking()){
     		
     		
     		//placement via transcriber proxy
-    		if(theblock.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
-    			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);
+    		if(world.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
+    			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);
     			if (tile != null)
                 {
 
     				//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
     				//		"Tile Detected" + (tile).offX, new Object[0]);
-    				//((EntityPlayer) theplayer)
+    				//((EntityPlayer) player)
     				//		.addChatComponentMessage(chatcomponenttranslation);
     				
     				i1 = i1 -2 + (tile.offX);
@@ -347,7 +313,7 @@ public class ItemEuclideanTransposer extends ItemTool
     		}
     		
     		//placement via staff
-    		if(theblock.getBlock(i1, j1, k1) != Common_Registry.TranscriberBlock
+    		if(world.getBlock(i1, j1, k1) != Common_Registry.TranscriberBlock
     				&& proxyskip == 0){
     			    		
     		//dynamic placement offsets
@@ -402,48 +368,40 @@ public class ItemEuclideanTransposer extends ItemTool
     				int Y_1 = j1+1+l;
     				int Z_1 = k1+G2;
     				
-    	    		
-    	    		
-    				/**
-    				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-							"Counter is? : " + (Nbtcounter), new Object[0]);
-					((EntityPlayer) theplayer)
-							.addChatComponentMessage(chatcomponenttranslation);
-    				**/
     				if (returnTBlock(thestaff, Nbtcounter) != Blocks.air){
     				
     					/** displacement whitelist **/
-    				if (theblock.isAirBlock(X_1 , Y_1 , Z_1 )
-    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.lava 
-    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.water
-    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.plants 
-    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.vine )
+    				if (world.isAirBlock(X_1 , Y_1 , Z_1 )
+    						|| world.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.lava 
+    						|| world.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.water
+    						|| world.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.plants 
+    						|| world.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.vine )
     				{
+    					
+    					
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
-    					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0);
-    					//if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
-    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItemStack(stacky)
+    					Boolean whitelist_flag;
+    					whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock(thestaff, Nbtcounter), player, returnTMeta(thestaff, Nbtcounter));
+    					
+    					if (player.capabilities.isCreativeMode|| player.inventory.hasItemStack(stacky)
+    							||whitelist_flag
     							){
-    					//theblock.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
+    					//world.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
-    						if (theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.vine
-    	    						|| theblock.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.plants) 
+    						if (world.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.vine
+    	    						|| world.getBlock(X_1 , Y_1 , Z_1 ).getMaterial() == Material.plants) 
     						{
-    							(theblock.getBlock(X_1 , Y_1 , Z_1 )).dropBlockAsItem(theblock,X_1 , Y_1 , Z_1 , (theblock.getBlockMetadata(X_1 , Y_1 , Z_1 )), 0);
+    							(world.getBlock(X_1 , Y_1 , Z_1 )).dropBlockAsItem(world,X_1 , Y_1 , Z_1 , (world.getBlockMetadata(X_1 , Y_1 , Z_1 )), 0);
     						}
-    						theblock.setBlock(X_1 , Y_1 , Z_1 , Blocks.dirt);
+    						world.setBlock(X_1 , Y_1 , Z_1 , Blocks.dirt);
     						
-    					theblock.setBlock(X_1 , Y_1 , Z_1 , returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
+    					world.setBlock(X_1 , Y_1 , Z_1 , returnTBlock(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
     					successful = 1;
     					short short1 = 32;
     					for (int lp = 0; lp < short1; ++lp)
     		            {
     		                double d6 = (double)lp / ((double)short1 - 1.0D);
-    		                /*
-    		                float f = (this.growrand.nextFloat() - 1.2F) * 0.2F;
-    		                float f1 = (this.growrand .nextFloat() - 1.2F) * 0.2F;
-    		                float f2 = (this.growrand .nextFloat() - 1.2F) * 0.2F;
-    		                */
+    		                
     		                float f = (this.growrand.nextFloat() - .5F) * 1.4F;
     		                float f1 = (this.growrand .nextFloat() - .5F) * 1.4F;
     		                float f2 = (this.growrand .nextFloat() - .5F) * 1.4F;
@@ -451,32 +409,22 @@ public class ItemEuclideanTransposer extends ItemTool
     		                float p = (this.growrand.nextFloat()) ;
     		                float p1 = (this.growrand .nextFloat() ) ;
     		                float p2 = (this.growrand .nextFloat() ) ;
-    		                //double d7 = d3 + (this.posX - d3) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
-    		                //double d8 = d4 + (this.posY - d4) * d6 + this.growrand .nextDouble() * (double)this.height;
-    		                //double d9 = d5 + (this.posZ - d5) * d6 + (this.growrand .nextDouble() - 0.5D) * (double)this.width * 2.0D;
-    		                theblock.spawnParticle("portal", X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);
-    		                
-    		                //int crackid = getIdFromItem(Helpertoolscore.euclideantransposer);
-    		                //int crackid2 = getIdFromItem(getItemFromBlock(Helpertoolscore.LooseDirtBlock));
-    		                //int crackid3 = getIdFromItem(getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));
-    		                //theblock.spawnParticle("iconcrack_" + (crackid3), X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);
-    		                //theblock.spawnParticle("iconcrack_" + (crackid3), X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, 0, 2, 0);
-    		                
-    		               // theblock.spawnParticle("tilecrack_" + (Blocks.anvil), X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);
-    		                
+    		                world.spawnParticle("portal", X_1 +p+.1, j1+.6+l+p1, Z_1 +p2+.1, f, f1, f2);   
     		            }
     					
-    					if (!theplayer.capabilities.isCreativeMode){
-    						//theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
-    						//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0); 
-    						InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);
-    						 thestaff.damageItem(1, theplayer);
+    					if (!player.capabilities.isCreativeMode){
+    						if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+    		    			if(whitelist_flag){
+    		    				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock(thestaff, Nbtcounter), returnTMeta(thestaff, Nbtcounter));
+    		    				//player.inventory.consumeInventoryItem(item);
+    		    				}   	                        
+    						 thestaff.damageItem(1, player);
     					}
     					}
     					
         
-    				}
-    			}
+    						}
+    					}
     			
     				}
     			}
@@ -486,13 +434,13 @@ public class ItemEuclideanTransposer extends ItemTool
     	if (successful == 1){
 			
     		
-			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .5F+py);
-			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.7F, .5F+py);
+			player.worldObj.playSoundAtEntity(player, "mob.endermen.portal", 1.2F, .5F+py);
+			player.worldObj.playSoundAtEntity(player, "mob.endermen.portal", 1.7F, .5F+py);
 			successful = 0;
 			return true;
 		}
 		if (successful ==0){
-			theplayer.worldObj.playSoundAtEntity(theplayer, "random.click",.4F, itemRand.nextFloat() * 0.4F + 0.5F);
+			player.worldObj.playSoundAtEntity(player, "random.click",.4F, itemRand.nextFloat() * 0.4F + 0.5F);
 			successful = 0;
 			return true;
 		}
@@ -500,15 +448,15 @@ public class ItemEuclideanTransposer extends ItemTool
     	
     	/////////////////////////////
     	/** Pattern Collection **/
-    	if (theplayer.isSneaking()){
+    	if (player.isSneaking()){
     		
-    		if(theblock.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
-    			TileEntityTranscriber tile = (TileEntityTranscriber)theblock.getTileEntity(i1, j1, k1);
+    		if(world.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
+    			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);
     			if (tile != null)
                 {
 
     				
-    				//theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.2F, .2F+py/5);
+    				//player.worldObj.playSoundAtEntity(player, "mob.ghast.fireball", 1.2F, .2F+py/5);
     				
     				i1 = i1 + (tile.offX);
     				j1 = j1 + (tile.offY);
@@ -531,33 +479,18 @@ public class ItemEuclideanTransposer extends ItemTool
         			for (int l = 0; l < P; ++l)
         			{
         				int Nbtcounter = G2counter+Ucounter+l+1;
-        				/**
-        				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-    							"Counter is? : " + (Nbtcounter), new Object[0]);
-    					((EntityPlayer) theplayer)
-    							.addChatComponentMessage(chatcomponenttranslation);
-        				**/
         				
-        					setTBlock(thestaff, theblock.getBlock(i1+U, j1+l, k1+G2).getIdFromBlock(theblock.getBlock(i1+U, j1+l, k1+G2)), Nbtcounter);
-        					setTMeta(thestaff,theblock.getBlockMetadata(i1+U, j1+l, k1+G2), Nbtcounter); 		
-        					//theblock.playSoundEffect((double)((float)i1+U + 0.5F), (double)((float)j1+1+l + 0.5F), (double)((float)k1+G2 + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
-        					//theblock.setBlock(i1+U, j1+1+l, k1+G2, returnTBlock(thestaff, Nbtcounter));
-            		
-            
-        					
-        			
-        			
-        				}
+        					setTBlock(thestaff, world.getBlock(i1+U, j1+l, k1+G2).getIdFromBlock(world.getBlock(i1+U, j1+l, k1+G2)), Nbtcounter);
+        					setTMeta(thestaff,world.getBlockMetadata(i1+U, j1+l, k1+G2), Nbtcounter); 		
+        					}
         			}
             }
-    		if(!theplayer.worldObj.isRemote){
+    		if(!player.worldObj.isRemote){
 				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
 						EnumChatFormatting.GRAY + "Pattern Saved", new Object[0]);
-				((EntityPlayer) theplayer)
+				((EntityPlayer) player)
 						.addChatComponentMessage(chatcomponenttranslation);
-    		theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.5F, .2F+py/4);
-    		//theblock.playSoundEffect((double)i1 + 0.5D, (double)j1 + 0.5D, 
-    		//		(double)k1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		player.worldObj.playSoundAtEntity(player, "mob.ghast.fireball", 1.5F, .2F+py/4);
     		}
     		setOffMode(thestaff, 4);
     		return true;
@@ -566,7 +499,7 @@ public class ItemEuclideanTransposer extends ItemTool
     	return false;
     }
 
-    //Standard line that allows 3D rendering
+  
     @SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {

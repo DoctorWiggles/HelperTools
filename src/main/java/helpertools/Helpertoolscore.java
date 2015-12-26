@@ -27,6 +27,7 @@ import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
+import helpertools.util.Armor_Render_Handler;
 import helpertools.util.BucketHandler;
 import helpertools.util.Dispenser_Handler;
 import helpertools.util.ForgeEventHandler;
@@ -78,7 +79,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="v1.6d")
+@Mod(modid="HelperToolsID", name="HelperTools", version="v1.6e")
 public class Helpertoolscore 
 {			
 	////////////////////		
@@ -134,6 +135,7 @@ public class Helpertoolscore
 			FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
 			MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
 		}
+		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
 		GameRegistry.registerFuelHandler(new HelperFuel());
 
 

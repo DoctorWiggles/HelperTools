@@ -8,6 +8,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.util.EnumHelper;
@@ -88,6 +89,10 @@ public class ConfigurationFactory extends Helpertoolscore{
 	public static ToolMaterial MetaStaffMaterial;
 	public static ToolMaterial EUStaffMaterial;
 	public static ToolMaterial TorchMaterial;
+	
+	public static ArmorMaterial Mystic_Material = EnumHelper.addArmorMaterial("Mystic_Material", 10, new int[]{2, 0, 0, 0}, 35);
+	//= EnumHelper.addArmorMaterial("NAME", durability, damageReduction[], enchantability);
+	
 	
 	
 	//===============================================================================//

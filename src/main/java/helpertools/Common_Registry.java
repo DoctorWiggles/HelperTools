@@ -22,6 +22,7 @@ import helpertools.item_blocks.Item_Block_Balloon;
 import helpertools.item_blocks.Item_Block_Magical_Lamp;
 import helpertools.item_blocks.Item_block_Chimney;
 import helpertools.item_blocks.TranscriberBlock_Item;
+import helpertools.items.Armor_Mystic;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
@@ -70,6 +71,10 @@ public class Common_Registry extends ConfigurationFactory{
 	//public static Item powercrystal;	
 	//public static Item debugtool;
 	//public static Item rfdebugtool;
+	
+	/** Armor **/
+	public static Item mystic_mask;
+	
 	
 	public static Item bomb;
 	public static Item cbc;
@@ -143,6 +148,10 @@ public class Common_Registry extends ConfigurationFactory{
         
         cbc = new Item_creative_builder_charm("cbc");
         GameRegistry.registerItem(cbc, "cbc");
+        
+        /** Armor **/
+        GameRegistry.registerItem(mystic_mask = 
+        		new Armor_Mystic("mystic_mask", Mystic_Material, "mystic", 0), "mystic_mask");
         
         //GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk( 2, 0.2f, false ).setAlwaysEdible(), "chocolatemilk");
         //GameRegistry.registerItem(Helpertoolscore.powercrystal, "powercrystal");

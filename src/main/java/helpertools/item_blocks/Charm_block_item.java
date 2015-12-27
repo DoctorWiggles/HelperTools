@@ -41,7 +41,7 @@ public class Charm_block_item extends ItemBlock
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
       {
-    	par3List.add(EnumChatFormatting.DARK_RED + "BE CAREFUL"); 
+    	par3List.add(EnumChatFormatting.DARK_RED + "Careful use advised"); 
     	par3List.add(EnumChatFormatting.ITALIC + "Boosts Bomb Radius for dispensers");      
     	par3List.add(EnumChatFormatting.ITALIC + "Place next to dispenser"); 
     	par3List.add(EnumChatFormatting.ITALIC + "Right click to toggle");

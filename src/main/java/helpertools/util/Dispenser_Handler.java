@@ -50,6 +50,11 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
         double sy =BlockSource.getY();
         double sz =BlockSource.getZ();
         
+        int bx =BlockSource.getXInt();
+        int by =BlockSource.getYInt();
+        int bz =BlockSource.getZInt();
+        
+        
         EnumFacing enumfacing = BlockDispenser.func_149937_b(BlockSource.getBlockMetadata());
         double d0 = BlockSource.getX() + (double)enumfacing.getFrontOffsetX();
         //double d1 = (double)((float)BlockSource.getYInt() + 0.2F);
@@ -64,7 +69,8 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
         double zh = d2 - sz;
         
         int amp = 0;
-        amp = scan_local_charms(world, (int)sx, (int)sy, (int)sz-1);
+        //amp = scan_local_charms(world, (int)sx, (int)sy, (int)sz-1);
+        amp = scan_local_charms(world, bx, by, bz);
         
         //BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, xh, yh, zh, 2, 2);
         BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, amp*5, xh, yh, zh, 2, 2);
@@ -84,29 +90,36 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
 		Block charm = Common_Registry.Charm_block;
 		
 		if(world.getBlock(x, y,z+1) == charm){
+			
 			check = world.getBlockMetadata(x, y, z+1);			
 			if( check > amplify){ amplify = check;}
 		}
 		if(world.getBlock(x, y,z-1) == charm){
+			
 			check = world.getBlockMetadata(x, y, z-1);			
 			if( check > amplify){ amplify = check;}
 		}
 		if(world.getBlock(x, y+1,z) == charm){
+			
 			check = world.getBlockMetadata(x, y+1, z);
 			if( check > amplify){ amplify = check;}
 		}
 		if(world.getBlock(x, y-1,z) == charm){
+			
 			check = world.getBlockMetadata(x, y-1, z);
 			if( check > amplify){ amplify = check;}
 		}
 		if(world.getBlock(x+1, y,z) == charm){
+			
 			check = world.getBlockMetadata(x+1, y, z);
 			if( check > amplify){ amplify = check;}
 		}
 		if(world.getBlock(x-1, y,z) == charm){
+			
 			check = world.getBlockMetadata(x-1, y, z);
 			if( check > amplify){ amplify = check;}
 		}
+		//System.out.println("" +x+" "+ y+" "+z);
 		return amplify;
 	}
 

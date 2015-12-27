@@ -185,13 +185,13 @@ public class Modelv5Staff5 extends ModelBase
 	  ItemStaffofExpansion  entitywolf = (ItemStaffofExpansion)item.getItem();
 	  	  
 	  ///////////////////////////////
-	  /**
+	  
 		  GL11.glPushMatrix();
 		  //GL11.glTranslatef(0.0F, -8.0F * f5, 0.0F);
 		  //Rod1.render(f5);
 		  //
 		  GL11.glTranslatef(-1.25F,-3F,0F);
-		  GL11.glRotatef(entitywolf.getSpinDec(item), 1F,0F,0F);
+		  //GL11.glRotatef(entitywolf.getSpinDec(item), 1F,0F,0F);
 		  Core.render(f5);
 		    Core2.render(f5);
 		    Core3.render(f5);
@@ -200,7 +200,7 @@ public class Modelv5Staff5 extends ModelBase
 		  GL11.glPopMatrix();
 	  
 	  //////////////////////////////
-	 **/ 
+	  
 	Rod1.render(f5);
     Ornbase.render(f5);
     OrnLeft.render(f5);
@@ -210,10 +210,10 @@ public class Modelv5Staff5 extends ModelBase
     CapLeft.render(f5);
     CapRight.render(f5);
     
-    Core.render(f5);
-    Core2.render(f5);
-    Core3.render(f5);
-    Core4.render(f5);
+    //Core.render(f5);
+    //Core2.render(f5);
+    //Core3.render(f5);
+    //Core4.render(f5);
     
      
     WrapLeft.render(f5);

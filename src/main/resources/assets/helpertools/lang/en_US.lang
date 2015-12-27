@@ -28,7 +28,7 @@ item.bomb_7.name=Nether bomb
 item.bomb_8.name=Forest bomb
 item.bomb_9.name=Boreal bomb
 
-item.cbc.name=Creative Builder's Charm
+item.cbc.name=§dCreative Builder's Charm
 item.mystic_mask.name=Blasting Mask
 
 
@@ -49,7 +49,7 @@ tile.ActiveMagicalFuelBlock.name=§3Active Magical Lamp
 tile.LooseDirtBlock.name=Loose Dirt
 tile.SugarBlock.name=Sugar Cube
 tile.jelly.name=Jelly Block
-tile.Charm_block.name=Creative Builder's Totem
+tile.Charm_block.name=§dCreative Builder's Totem
 tile.Balloon_block.name=Balloon
 tile.Floater_block.name=Floater
 

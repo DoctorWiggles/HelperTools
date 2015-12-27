@@ -4,7 +4,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
 import helpertools.entities.EntityDynamiteProjectile;
-
 import java.util.List;
 import java.util.Random;
 
@@ -96,6 +95,7 @@ public class StokedPipe extends Block
 		for (int lp = 0; lp < short1; ++lp)
        {
     	 world.spawnParticle("largesmoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
+		//	Custom_Particle_Render.spawnParticle("largesmoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D, world);
        }
     }
     /**
@@ -111,6 +111,15 @@ public class StokedPipe extends Block
             world.spawnParticle("smoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
             world.spawnParticle("smoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
             world.spawnParticle("largesmoke", (double)((float)x+.5), (double)((float)y + 1.1F), (double)((float)z+.5), 0.0D, 0.0D, 0.0D);
+            
+        	//Custom_Particle_Render.spawnParticle("smoke", (double)((float)x + rand.nextFloat()), (double)((float)y + 1.1F), (double)((float)z + rand.nextFloat()), 0.0D, 0.0D, 0.0D, world);
+        	
+            
+            
+            
+            
+            
+            
             //largesmoke, smoke, portal, snowballpoof    offset; ? ;directions
            
         }

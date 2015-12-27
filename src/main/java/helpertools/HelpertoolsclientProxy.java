@@ -22,12 +22,14 @@ import helpertools.renders.RenderGravelBombProjectile;
 import helpertools.renders.RenderRedTorchProjectile;
 import helpertools.renders.RenderSandBombProjectile;
 import helpertools.renders.RenderTorchProjectile;
+import helpertools.util.Armor_Render_Handler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
 
 public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
 	
@@ -76,7 +78,8 @@ public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
      
 	
 	
-	
+        //Mask Rendering
+		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
 	
 	
 	}

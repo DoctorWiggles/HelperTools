@@ -59,7 +59,7 @@ public class Common_Registry extends ConfigurationFactory{
 	public static Item torchlauncher;	
 	
 	//public static Item bubblegun;
-	public static Item bubblegun_2;
+	//public static Item bubblegun_2;
 	
 	/** Items **/	
 	public static Item dynamitebolt;
@@ -80,9 +80,9 @@ public class Common_Registry extends ConfigurationFactory{
 	public static Item cbc;
 	
 	/** Fluids **/
-	public static Fluid jelly_fluid = new Fluid("jelly");
-	public static Block jelly_block;		
-	public static Item jelly_bucket = new Item_jelly_Bucket(jelly_block);
+	//public static Fluid jelly_fluid = new Fluid("jelly");
+	//public static Block jelly_block;		
+	//public static Item jelly_bucket = new Item_jelly_Bucket(jelly_block);
 	
 	/** Blocks **/
 	public final static Block Ibedrock = new helpertools.blocks.ImitationBedrock();
@@ -126,8 +126,8 @@ public class Common_Registry extends ConfigurationFactory{
         //bubblegun = new Item_Bubblegun(jelly_block);
         //GameRegistry.registerItem(bubblegun, "bubblegun");
         
-        bubblegun_2 = new Item_Bubblegun_2(965, 16000);
-        GameRegistry.registerItem(bubblegun_2, "bubblegun_2");
+        //bubblegun_2 = new Item_Bubblegun_2(965, 16000);
+        //GameRegistry.registerItem(bubblegun_2, "bubblegun_2");
 
         /** Items **/
         dynamitebolt = new ItemDynamiteBolt();        	

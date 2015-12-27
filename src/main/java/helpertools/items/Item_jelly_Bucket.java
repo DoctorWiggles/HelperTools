@@ -211,7 +211,7 @@ public class Item_jelly_Bucket extends ItemBucket {
                         p_77875_1_.func_147480_a(p_77875_2_, p_77875_3_, p_77875_4_, true);
                     }
 
-                    p_77875_1_.setBlock(p_77875_2_, p_77875_3_, p_77875_4_, Common_Registry.jelly_block, 0, 3);
+                  //  p_77875_1_.setBlock(p_77875_2_, p_77875_3_, p_77875_4_, Common_Registry.jelly_block, 0, 3);
                 }
 
                 return true;

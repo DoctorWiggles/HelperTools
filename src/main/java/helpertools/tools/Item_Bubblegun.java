@@ -43,7 +43,9 @@ public class Item_Bubblegun extends ItemBucket {
         boolean flag = this.isFull == Blocks.air;
         
         if(player.isSneaking()){this.isFull = Blocks.air; }
-        else {this.isFull = Common_Registry.jelly_block;}
+        else {
+        	//this.isFull = Common_Registry.jelly_block;
+        	}
         
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, flag);
 
@@ -221,7 +223,7 @@ public class Item_Bubblegun extends ItemBucket {
                     	world.func_147480_a(x1, y1, z1, true);
                     }
 
-                    world.setBlock(x1, y1, z1, Common_Registry.jelly_block, 0, 3);
+                  //  world.setBlock(x1, y1, z1, Common_Registry.jelly_block, 0, 3);
                 }
 
                 return true;

@@ -149,10 +149,10 @@ public class Bomb_Helper {
 					if(flag){
 						int ig = rand.nextInt(6);
 						if (ig >= 2){ 					
-							place_block(world, x,y,z, pblock, dirtblock);
+							place_block(world, x,y,z, pblock, dirtblock, flag);
 						}}
  					if(!flag){
- 						place_block(world, x,y,z, pblock, dirtblock);
+ 						place_block(world, x,y,z, pblock, dirtblock, flag);
  					}
   	  
  					}}}
@@ -161,7 +161,7 @@ public class Bomb_Helper {
  
 	//place the block
   //goes through a couple checks to displace -- crush non solids
-  public static void place_block (World world, int x, int y, int z, Block pblock, Block dirtblock){
+  public static void place_block (World world, int x, int y, int z, Block pblock, Block dirtblock, boolean flag){
 
 		if(world.getBlock(x,y,z) == Blocks.air 	  
 				||  world.getBlock(x,y,z).getMaterial()== Material.plants
@@ -180,8 +180,8 @@ public class Bomb_Helper {
 		}
 		
 		else {
-			if(ConfigurationFactory.Bomb_Debris){
-			//dirtblock.dropBlockAsItem(world, x,y,z, 0, 0);
+			if(ConfigurationFactory.Bomb_Debris && flag){
+			dirtblock.dropBlockAsItem(world, x,y,z, 0, 0);
 		}}
   }
   
@@ -219,13 +219,13 @@ public class Bomb_Helper {
                 	  if(flag){
   						int ig = rand.nextInt(6);
   						if (ig >= 2){ 					
-  							place_block(world, x + i, y + j, z + k, p_block, d_block);
+  							place_block(world, x + i, y + j, z + k, p_block, d_block, flag);
   						}
   						else {
   							d_block.dropBlockAsItem(world, x + i, y + j, z + k, 0, 0);
   						}}
    					if(!flag){
-   						place_block(world, x + i, y + j, z + k, p_block, d_block);
+   						place_block(world, x + i, y + j, z + k, p_block, d_block, flag);
    					}
                 	 
 						}
@@ -373,7 +373,8 @@ public class Bomb_Helper {
 	 Block target = world.getBlock(x, y, z);
 	 Block above = world.getBlock(x, y+1, z);
 	 
-	 if(above == Blocks.air && target.isBlockNormalCube())		
+	 if(above == Blocks.air && target.isNormalCube()
+		||	 above == Blocks.air && target.getMaterial() == Material.leaves)		
 		{ world.setBlock(x,y+1,z, Blocks.snow_layer);}
 	 
 	 else if(above == Blocks.snow_layer ){
@@ -385,7 +386,7 @@ public class Bomb_Helper {
 	  }
 	 
 	  if(target == Blocks.farmland
-			  && !above.isBlockNormalCube()){
+			  && !above.isNormalCube()){
 		  world.setBlock(x,y,z, Blocks.dirt);}
 	  
 	  
@@ -450,7 +451,7 @@ public class Bomb_Helper {
 	 if(target== Blocks.deadbush &&ig2<= 1){
 		 world.setBlock(x,y,z, Blocks.cactus);}
 	 
-	 if(target.getMaterial()== Material.plants && below.isBlockNormalCube() && ig2<= 4){
+	 if(target.getMaterial()== Material.plants && below.isNormalCube() && ig2<= 4){
 		 world.setBlock(x,y,z, Blocks.deadbush);}	 
 	 
 	 if (ig <= 2){ 
@@ -560,7 +561,7 @@ public class Bomb_Helper {
 		 if(target == Blocks.cobblestone)
 			{world.setBlock(x,y,z, Blocks.netherrack);} 
 		 
-		 if(target == Blocks.lava && !below.isBlockNormalCube())
+		 if(target == Blocks.lava && !below.isNormalCube())
 			{world.setBlock(x,y,z, Blocks.air);}
 		 
 		 if(target == Blocks.stone)
@@ -600,9 +601,9 @@ public class Bomb_Helper {
 	 int ig = rand.nextInt(4);
 	 int ig2 = rand.nextInt(30);
  
-	 if(target.getMaterial()== Material.plants && below.isBlockNormalCube()
+	 if(target.getMaterial()== Material.plants && below.isNormalCube()
 			 && target != Blocks.red_mushroom && target != Blocks.brown_mushroom
-			 ||target.getMaterial()== Material.vine && below.isBlockNormalCube() 
+			 ||target.getMaterial()== Material.vine && below.isNormalCube() 
 			 && target != Blocks.red_mushroom && target != Blocks.brown_mushroom){
 		 world.setBlock(x,y-1,z, Blocks.mycelium);
 		 if(ig <= 1){			 

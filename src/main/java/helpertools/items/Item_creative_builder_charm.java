@@ -29,6 +29,7 @@ public class Item_creative_builder_charm extends Item {
 	  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
 	    {int Toolmax;	
 		  Toolmax = EnchantmentHelper.getEnchantmentLevel(32, stack);
+		  list.add(EnumChatFormatting.DARK_RED + "Careful use advised"); 
 		  list.add(EnumChatFormatting.ITALIC + "Boosts Bomb Radius");
 		  list.add(EnumChatFormatting.ITALIC + "Keep anywhere in inventory");
 		  if(Toolmax !=0){

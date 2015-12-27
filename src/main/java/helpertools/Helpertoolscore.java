@@ -78,8 +78,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid="HelperToolsID", name="HelperTools", version="v1.6e")
+@Mod(modid="HelperToolsID", name="HelperTools", version="v1.6f")
 public class Helpertoolscore 
 {			
 	////////////////////		
@@ -134,8 +135,7 @@ public class Helpertoolscore
 		if(ConfigurationFactory.HandlerBottledmilk == true){
 			FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
 			MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
-		}
-		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
+		}		
 		GameRegistry.registerFuelHandler(new HelperFuel());
 
 
@@ -173,8 +173,8 @@ public class Helpertoolscore
 
 
 		/** Fluids **/
-		BucketHandler.INSTANCE.buckets.put(Common_Registry.jelly_block, Common_Registry.jelly_bucket);
-		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		//BucketHandler.INSTANCE.buckets.put(Common_Registry.jelly_block, Common_Registry.jelly_bucket);
+		//MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
 
 

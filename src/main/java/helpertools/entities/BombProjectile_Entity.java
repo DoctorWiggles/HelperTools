@@ -225,8 +225,11 @@ public class BombProjectile_Entity extends EntityThrowable{
       }
       
       //if(Bomb_Type <= 2){Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
-      if(Bomb_Type <= 2){//Bomb_Helper.sphere_block_bomb(worldObj, 1+amp2, X, Y, Z, pblock, dirtblock, false);
-      					Bomb_Helper.sphere_block_bomb(worldObj, 2+amp2, X, Y-1, Z, pblock, dirtblock, false);}
+      if(Bomb_Type <= 2 && amp == 0){
+      					Bomb_Helper.simple_generate(worldObj, pblock, dirtblock, X, Y-1, Z, sideHit);}
+      if(Bomb_Type <= 2 && amp != 0){//Bomb_Helper.sphere_block_bomb(worldObj, 1+amp2, X, Y, Z, pblock, dirtblock, false);
+			Bomb_Helper.sphere_block_bomb(worldObj, 2+amp2, X, Y-1, Z, pblock, dirtblock, false);}
+      
       if(Bomb_Type == 3){
     	  Bomb_Helper.sphere_miracle_bomb(worldObj, 4+amp, X, Y, Z);
     	  Bomb_Helper.sphere_miracle_bomb(worldObj, 2+amp, X, Y, Z);

@@ -1,44 +1,25 @@
 package helpertools.Common.Tools;
 
-import helpertools.Common.ConfigurationFactory;
-import helpertools.Utils.BlockStateHelper;
-import helpertools.Utils.HelpTab;
-import helpertools.Utils.InventoryUtil;
-
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.BlockPos.MutableBlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.event.world.ChunkEvent;
+
+import helpertools.Common.ConfigurationFactory;
+import helpertools.Utils.BlockStateHelper;
+import helpertools.Utils.HelpTab;
+import helpertools.Utils.InventoryUtil;
 
 public class ItemStaffofExpansion extends ToolBase_Default
 {
@@ -72,8 +53,6 @@ public class ItemStaffofExpansion extends ToolBase_Default
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
-		
-		
 		if (getOffMode(stack)== 0)
    		{
 		   setOffMode(stack, 2);
@@ -124,8 +103,11 @@ public class ItemStaffofExpansion extends ToolBase_Default
 	public void EXPAND (ItemStack thestaff, EntityPlayer theplayer, World world, int x2, int y2, int z2, EnumFacing theface, float fty1, float fty2, float fty3)
 	{
         BlockPos pos2 = new BlockPos(x2, y2, z2);
-        
-        
+
+        if (getTBlock(thestaff) == 0) {
+            return;
+        }
+
         //Whitelist Placement
 		if (world.isAirBlock(pos2)
         		|| world.getBlockState(pos2).getBlock().getMaterial() == Material.lava 

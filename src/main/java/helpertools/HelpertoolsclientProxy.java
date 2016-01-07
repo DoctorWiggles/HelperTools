@@ -23,6 +23,7 @@ import helpertools.renders.RenderRedTorchProjectile;
 import helpertools.renders.RenderSandBombProjectile;
 import helpertools.renders.RenderTorchProjectile;
 import helpertools.util.Armor_Render_Handler;
+import helpertools.util.Ghostblock_Handler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -80,6 +81,8 @@ public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
 	
         //Mask Rendering
 		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
+		
+		
 	
 	
 	}

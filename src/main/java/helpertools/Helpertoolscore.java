@@ -31,6 +31,7 @@ import helpertools.util.Armor_Render_Handler;
 import helpertools.util.BucketHandler;
 import helpertools.util.Dispenser_Handler;
 import helpertools.util.ForgeEventHandler;
+import helpertools.util.Ghostblock_Handler;
 import helpertools.util.KeyBindings;
 import helpertools.util.KeyInputHandler;
 import helpertools.util.NetworkMessage;
@@ -150,6 +151,8 @@ public class Helpertoolscore
 			MinecraftForge.EVENT_BUS.register(new Fluid_Tool_Hud(Minecraft.getMinecraft()));
 			//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
 		}
+		
+		MinecraftForge.EVENT_BUS.register(new Ghostblock_Handler());
 
 		/** Networking & Packets **/
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");

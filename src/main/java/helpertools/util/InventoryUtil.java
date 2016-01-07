@@ -29,6 +29,27 @@ public class InventoryUtil{
 	        return -1;
 	    }
 	  
+	  //scans a player's inventory for amount of stacks at hand
+	  public static int amount_Scan(ItemStack stack, EntityPlayer player)
+	    {
+		  InventoryPlayer entity= player.inventory;
+		  int amount = 0;
+		 for (int i = 0; i < entity.mainInventory.length; ++i)
+	        {	        	
+	        	 if (entity.mainInventory[i] != null && entity.mainInventory[i].isItemEqual(stack))
+		            {	        		 
+	        		 amount = amount + ( entity.mainInventory[i].stackSize);
+	            }
+	        }
+		 if(player.capabilities.isCreativeMode){
+     		amount = 999;
+     		} 
+		 
+	        return amount;
+	    }
+	  
+	  
+	  
 	  /**Attempts to remove an itemstack from the inventory (metadata senstive)**/
 	  public static boolean consumeInventoryItemStack(ItemStack stack, InventoryPlayer inventory)
 	    {

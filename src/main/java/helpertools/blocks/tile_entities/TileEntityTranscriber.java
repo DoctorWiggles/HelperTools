@@ -2,11 +2,14 @@ package helpertools.blocks.tile_entities;
 
 import java.util.Random;
 
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class TileEntityTranscriber extends TileEntity{
  
@@ -60,8 +63,7 @@ public class TileEntityTranscriber extends TileEntity{
 	      int j4 = this.yCoord;
 	      int k4 = this.zCoord;
 	      
-	   
-	      
+	     	      
  /*
         if(!worldObj.isRemote) {
  
@@ -104,6 +106,9 @@ public class TileEntityTranscriber extends TileEntity{
 		           //this.worldObj.spawnParticle("cloud", finX+f-.5, finY+f1+.5, finZ+f2+.5, p, p1, p2);
 		           //this.worldObj.spawnParticle("magicCrit", finX+f+.2, finY+.5+f1, finZ+f2+.3, 0, 0, 0);
 		           this.worldObj.spawnParticle("reddust", finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 0, 0, 0);
+		        
+		           //RenderBlocks renderblocks = new RenderBlocks(worldObj);		           
+		           //RenderBlocks.renderBlockByRenderType(Blocks.stone, (int)finX, (int)finY, (int)finZ);
 		           
 		           //this.worldObj.spawnParticle("slime", finX-.5, finY+.5, finZ+.5, 0, 0, 0);
 		           

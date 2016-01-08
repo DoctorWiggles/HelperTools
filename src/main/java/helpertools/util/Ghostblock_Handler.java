@@ -1,5 +1,6 @@
 package helpertools.util;
 
+import helpertools.Common_Registry;
 import helpertools.item_blocks.Floater_block_item;
 import helpertools.tools.ItemStaffofExpansion;
 
@@ -136,95 +137,142 @@ public class Ghostblock_Handler {
 
 	}
 	
-	
-	
-	
-
-	/**
-	  @SubscribeEvent public void renderWorldLastEvent(RenderWorldLastEvent evt) {
-	  
-	  //MovingObjectPosition mouseOver =  Minecraft.getMinecraft().objectMouseOver;
-	  Minecraft mc = Minecraft.getMinecraft();
-	  MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
-
-		int x = mouseOver.blockX;
-		int y = mouseOver.blockY;
-		int z = mouseOver.blockZ;
+	@SubscribeEvent 
+	public void Block_Render(RenderWorldLastEvent evt){
 		
-	  World world = mc.thePlayer.worldObj;
-	 
-	 //Block block = world.getBlock((int)mx, (int)my, (int)mz);
-	   
-	   Block block = Blocks.stone;
-	   
-	   IBlockAccess acces = world;
-	   //RenderBlocks renderblocks = new mc.RenderBlocks(); 
-	   //RenderBlocks renderblocks = new RenderBlocks(acces);
-	   RenderBlocks renderblocks = new RenderBlocks(world);
-	   
-	   
-	   //ResourceLocation rec = block.getResourceLocation;
-	   //TextureMap.locationBlocksTexture
-	   //Minecraft.getMinecraft().renderEngine.func_110577_a(); 
-	   ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" +"textures/client/gui/HudTab_4.png");
-	   Minecraft.getMinecraft().renderEngine.bindTexture(backgroundimage);
-	   Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-	   
-	   //renderblocks.renderBlockByRenderType(block, x, y, z);
-	   renderblocks.renderStandardBlock(block, x, y, z) ;
-	  
-	   //RenderBlocks.renderBlockByRenderType(Blocks.stone, (int)mx, (int)my,(int)mz);
-	   }
-	  **/
-	
-		//IBlockAccess acces = world;
-	   //RenderBlocks renderblocks = new mc.RenderBlocks(); 
-	   //RenderBlocks renderblocks = new RenderBlocks(acces);
-		//protected static Minecraft mc = Minecraft.getMinecraft();
-	/**
-		protected static RenderBlocks RB = new RenderBlocks();
-	  @SubscribeEvent public void renderWorldLastEvent(RenderWorldLastEvent evt) {
-		  
-		  //MovingObjectPosition mouseOver =  Minecraft.getMinecraft().objectMouseOver;
-		  Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getMinecraft();
 		  MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
 
 			int x = mouseOver.blockX;
 			int y = mouseOver.blockY;
 			int z = mouseOver.blockZ;
 			
+			int mx = mouseOver.blockX;
+			int my = mouseOver.blockY;
+			int mz = mouseOver.blockZ;
+			
+			int hit;
+			hit = mouseOver.sideHit;
+			ForgeDirection direction = ForgeDirection
+					.getOrientation(hit);
+			
 		  World world = mc.thePlayer.worldObj;
-		  //RB = new RenderBlocks(world);
-		  Set<Coordinate> coordinates = new HashSet<Coordinate>();
-		  coordinates.add(new Coordinate(x, y, z));
-			EntityClientPlayerMP player = mc.thePlayer;
-			renderOutlines(evt, player, coordinates, 0, 0, 0);
-		 //Block block = world.getBlock((int)mx, (int)my, (int)mz);
+		  EntityPlayer player = mc.thePlayer;
+		  EntityClientPlayerMP p= mc.thePlayer;
+		 	ChunkCoordinates coord;
+  			coord = player.getPlayerCoordinates();
+		  
+		  	//int px = (int) coord.posX;
+      		//int py = (int) player.posY-1;
+      		//int pz = (int) coord.posZ;
+      		
+      		int px = (int) coord.posX;
+      		int py = (int) player.posY-1;
+      		int pz = (int) coord.posZ;
+      		
+      		//double dx =  player.posX;
+      		//double dy = player.posY-1;
+      		//double dz =  player.posZ;
+      		
+      		double dx = p.lastTickPosX + (p.posX - p.lastTickPosX)
+    				* evt.partialTicks;
+    		double dy = p.lastTickPosY + (p.posY - p.lastTickPosY)
+    				* evt.partialTicks;
+    		dy = dy -1;
+    		double dz = p.lastTickPosZ + (p.posZ - p.lastTickPosZ)
+    				* evt.partialTicks;
+      		
+      		int tx = mx - px;
+      		int ty = my - py;
+      		int tz = mz - pz;
+		 
+      		Coordinate translate = new Coordinate(tx, ty, tz).add(direction);
+      		tx = translate.getX();
+      		ty =translate.getY();
+      		tz =translate.getZ();
+      		
+      		//double fx = dx - px;
+      		//double fy = dy - py;
+      		//double fz = dz - pz;
+      		
+      		double fx = px - dx;
+      		double fy = py - dy;
+      		double fz = pz - dz;
+		 //Block block = Blocks.stone;
+		   //Block block = Common_Registry.Floater;
+		   //Block block = Blocks.birch_stairs;
+		   //Block block = Blocks.glass;
+		  Block block = world.getBlock(20, 20, 20);
+		  Block block2 = Blocks.torch;
+		  
+		   //bindDefaultTerrainTexture();
 		   
-		   Block block = Blocks.sponge;
-		   
-		   Tessellator.instance.startDrawingQuads();
-		    Tessellator.instance.setBrightness(15 << 20 | 15 << 4);
-
-		    
-		      if(block != null) {
-		          RB.renderAllFaces = true;
-		          RB.setRenderAllFaces(true);
-		          RB.setRenderBounds(0, 0, 0, 1, 1, 1);
-		          try {
-		            RB.renderBlockByRenderType(block,x, y, z);
-		          } catch (Exception e) {
-		            //Ignore, things might blow up in rendering due to the modified block access
-		            //but this is about as good as we can do
-		          }
-		        
-		     
-		    Tessellator.instance.draw();
-		    Tessellator.instance.setTranslation(0, 0, 0);
-		   }
-	  }
-	**/
-		      
+		   GL11.glPushMatrix();   
+		   GL11.glEnable(GL11.GL_BLEND);
+		   GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		   GL11.glDisable(GL11.GL_LIGHTING);
+		  
+			
+			//GL11.glTranslated(x + 0.5F, y, z + 0.5F);
+			
+		Tessellator t = Tessellator.instance;
+		RenderBlocks renderBlocks = new RenderBlocks();
+		renderBlocks.blockAccess = world;
+		//RenderBlocks renderBlocks = new RenderBlocks(world);
+		renderBlocks.setRenderBounds(0.05D, 0.05D, 0.05D, 0.95D, 0.95D, 0.95D);
+		t.startDrawingQuads();
+		t.setBrightness(200);
+		//t.setBrightness(0);
+		// Tessellator.instance.setBrightness(15 << 20 | 15 << 4);
+		try{			
+		//renderBlocks.renderBlockByRenderType(block, x, y, z);
+			
+		renderBlocks.renderBlockByRenderType(block, 0, -11, 0);
+		renderBlocks.renderBlockByRenderType(block2, 0, -10, 0);
+		renderBlocks.renderBlockByRenderType(block, 0, -9, 0);
+		//GL11.glTranslated( -0.5F, 9.38f, -0.5F);
+		//GL11.glTranslated( 0F, 9.38f, 0F);
+		GL11.glTranslated( 0F, 10f, 0F);
+		
+		GL11.glTranslated( tx, ty, tz);
+		GL11.glTranslated( fx, fy, fz);
+		//renderBlocks.renderBlockByRenderType(block, 0.5, -2, 0.5);
+		
+		//renderBlocks.renderBlockByRenderType(block, x1, y1, z1);
+		
+		//renderBlocks.renderStandardBlockWithColorMultiplier(block, x, y, z, 1f, 1f, 1f);
+		}
+	      catch(NullPointerException exception){
+	    	  System.out.println(exception);
+	      }
+		t.draw();
+		
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
+		
+		Set<Coordinate> coordinates = new HashSet<Coordinate>();
+		coordinates.add(new Coordinate(x, y, z).add(direction));
+		//renderOutlines(evt, mc.thePlayer, coordinates, 10, 10, 10);
+	}
+	
+	
+	public static void bindTextureToClient(ResourceLocation texture) {
+		if (texture != null) {
+			final Minecraft mc = Minecraft.getMinecraft();
+			if (mc != null) {
+				mc.renderEngine.bindTexture(texture);
+			} else {
+				System.out.println("Binding texture to null client.");
+			}
+		} else {
+			System.out.println("Invalid texture location '%s'" + texture);
+		}
+	}
+	public static void bindDefaultTerrainTexture() {
+		bindTextureToClient(TextureMap.locationBlocksTexture);
+	}
+		 
 		      
 		      
 	protected static void renderOutlines(RenderWorldLastEvent evt,

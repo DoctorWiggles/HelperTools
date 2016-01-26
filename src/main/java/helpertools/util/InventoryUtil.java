@@ -1,6 +1,6 @@
 package helpertools.util;
 
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -77,7 +77,7 @@ public class InventoryUtil{
 	  
 	  
 	  
-	  static ItemStack cbc_stack = new ItemStack(Common_Registry.cbc);
+	  static ItemStack cbc_stack = new ItemStack(Mod_Registry.cbc);
 	 
 	 /** scans a specicific slot for charms **/
 	  private static int scan_cbc(InventoryPlayer entity)

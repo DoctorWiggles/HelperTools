@@ -9,7 +9,10 @@ import helpertools.entities.EntityGravelBombProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
-import helpertools.renders.BlockRenderObelisk;
+import helpertools.entities.Entity_Extraction_Balloon;
+import helpertools.handlers.Armor_Render_Handler;
+import helpertools.handlers.Ghostblock_Handler;
+import helpertools.renders.Render_Block_Obelisk;
 import helpertools.renders.BombProjectile_Render;
 import helpertools.renders.ItemRenderEuclidean1;
 import helpertools.renders.ItemRenderStaff4;
@@ -22,8 +25,7 @@ import helpertools.renders.RenderGravelBombProjectile;
 import helpertools.renders.RenderRedTorchProjectile;
 import helpertools.renders.RenderSandBombProjectile;
 import helpertools.renders.RenderTorchProjectile;
-import helpertools.util.Armor_Render_Handler;
-import helpertools.util.Ghostblock_Handler;
+import helpertools.renders.Render_Extraction_Balloon;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -32,7 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
-public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
+public class ClientProxy extends CommonProxy {
 	
 	//Class Cof = ConfigurationFactory.class;
 	
@@ -43,17 +45,17 @@ public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
         	
         // This is for rendering entities and so forth later on
         	//Attaches the rendering code to entities
-		Helpertoolscore.logger.info("Registering Renders");
+		Main.logger.info("Registering Renders");
         	
 		//configuration call
-		if(ConfigurationFactory.Render3DStaffModels == true){
-		MinecraftForgeClient.registerItemRenderer(Common_Registry.staffofexpansion, new ItemRenderStaff4());              
-        MinecraftForgeClient.registerItemRenderer(Common_Registry.staffoftransformation2, new ItemRenderStaff5());
-        MinecraftForgeClient.registerItemRenderer(Common_Registry.euclideantransposer, new ItemRenderEuclidean1());
+		if(Mod_Configuration.Render3DStaffModels == true){
+		MinecraftForgeClient.registerItemRenderer(Mod_Registry.staffofexpansion, new ItemRenderStaff4());              
+        MinecraftForgeClient.registerItemRenderer(Mod_Registry.staffoftransformation2, new ItemRenderStaff5());
+        MinecraftForgeClient.registerItemRenderer(Mod_Registry.euclideantransposer, new ItemRenderEuclidean1());
         		}
 		
-        if(ConfigurationFactory.Render3DCrossbowModel == true){       
-        MinecraftForgeClient.registerItemRenderer(Common_Registry.torchlauncher,new ItemRenderTorchLauncher1());
+        if(Mod_Configuration.Render3DCrossbowModel == true){       
+        MinecraftForgeClient.registerItemRenderer(Mod_Registry.torchlauncher,new ItemRenderTorchLauncher1());
         }
         
         super.registerRenderers();    
@@ -73,9 +75,11 @@ public class HelpertoolsclientProxy extends HelpertoolsCommonProxy {
         
         
         
+        RenderingRegistry.registerEntityRenderingHandler(Entity_Extraction_Balloon.class, new Render_Extraction_Balloon(1));
+        
         RenderingRegistry.registerEntityRenderingHandler(BombProjectile_Entity.class, new BombProjectile_Render(1));
         //
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new BlockRenderObelisk());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new Render_Block_Obelisk());
      
 	
 	

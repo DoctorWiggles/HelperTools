@@ -1,4 +1,4 @@
-package helpertools.util;
+package helpertools.network;
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.ClientRegistry;

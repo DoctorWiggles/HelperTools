@@ -1,4 +1,4 @@
-package helpertools.util;
+package helpertools.network;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;

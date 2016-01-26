@@ -1,6 +1,6 @@
 package helpertools.item_blocks;
 
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 
 import java.util.List;
 import java.util.Random;
@@ -374,7 +374,7 @@ public class Floater_block_item extends ItemBlock
 				}
         	}
     }
-    Block balloon = Common_Registry.Balloon;
+    Block balloon = Mod_Registry.Balloon;
     public void balloon(World world, int x, int y, int z){
     Block block;
 	block = world.getBlock(x, y+1, z);

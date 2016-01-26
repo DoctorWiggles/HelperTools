@@ -7,13 +7,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import helpertools.Common_Registry;
-import helpertools.ConfigurationFactory;
+import helpertools.Mod_Registry;
+import helpertools.Mod_Configuration;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
+import helpertools.network.KeyBindings;
 import helpertools.util.Coordinate;
 import helpertools.util.InventoryUtil;
-import helpertools.util.KeyBindings;
 import helpertools.util.Whitelist_Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,7 +49,7 @@ public class ItemStaffofExpansion extends Tool_Base_Expander
 	
     public ItemStaffofExpansion(ToolMaterial material)
     {
-    	super (1F, material, Common_Registry.properharvest);
+    	super (1F, material, Mod_Registry.properharvest);
         this.maxStackSize = 1;  
         setUnlocalizedName("staffofexpansion");
         //setCreativeTab(Helpertoolscore.HelperTools);
@@ -98,7 +98,7 @@ public class ItemStaffofExpansion extends Tool_Base_Expander
 			}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
 			//config hook
-		    if(ConfigurationFactory.ToolModeMesseges == true){		    
+		    if(Mod_Configuration.ToolModeMesseges == true){		    
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
 		    }

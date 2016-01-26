@@ -1,8 +1,8 @@
 package helpertools.entities;
 
-import helpertools.Common_Registry;
-import helpertools.ConfigurationFactory;
-import helpertools.Helpertoolscore;
+import helpertools.Mod_Registry;
+import helpertools.Mod_Configuration;
+import helpertools.Main;
 import helpertools.util.Bomb_Helper;
 import helpertools.util.Forest_Helper;
 
@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -124,6 +125,7 @@ public class BombProjectile_Entity extends EntityThrowable{
    //spawns particle effects if enabled
    public void onUpdate()
    {
+	   
 	   int i;
        super.onUpdate();
        for (i = 0; i < 1; ++i)
@@ -137,6 +139,13 @@ public class BombProjectile_Entity extends EntityThrowable{
     	   int Y = (int) this.posY;
     	   int Z = (int) this.posZ;
     	   World world = this.worldObj;
+    	   
+
+    	   //EntityItem rod= new EntityItem(world, X, Y, Z, new ItemStack(Common_Registry.dynamitebolt, 1, 0));
+    	   //rod.setLocationAndAngles(X,Y,Z, 0.0F, 0.0F);
+    	   //spawns the newly constructed entity
+    	   //world.spawnEntityInWorld(rod);
+    	   
     		Block block;
     		block = world.getBlock(X, Y, Z);
     		Material matt;
@@ -167,13 +176,13 @@ public class BombProjectile_Entity extends EntityThrowable{
    
    //stable references
    Block dirtblock = Blocks.dirt;
-   Block pblock = Common_Registry.LooseDirtBlock;
+   Block pblock = Mod_Registry.LooseDirtBlock;
    
    //type transformer
    public Block p_block(int type){
 	Block block = Blocks.dirt;
 	
-	if(type == 0){block = Common_Registry.LooseDirtBlock;}
+	if(type == 0){block = Mod_Registry.LooseDirtBlock;}
 	if(type == 1){block = Blocks.sand;}	   
 	if(type == 2){block = Blocks.gravel;}	  
 	   return block;

@@ -2,10 +2,10 @@ package helpertools.tools;
 
 import java.util.List;
 
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
-import helpertools.util.KeyBindings;
+import helpertools.Main;
+import helpertools.network.KeyBindings;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
@@ -412,7 +412,7 @@ public class ItemDebugTool extends Item {
 				//if(theblock instanceof IGrowable){}
 				Block zablock = theblock.getBlock(i1,j1,k1);
 				if(zablock == Blocks.dirt ||
-						zablock == Common_Registry.LooseDirtBlock){
+						zablock == Mod_Registry.LooseDirtBlock){
 					theblock.setBlock(i1,j1,k1, Blocks.grass);
 				}
 				

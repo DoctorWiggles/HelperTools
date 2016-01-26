@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.IFuelHandler;
 
-public class HelperFuel implements IFuelHandler {
+public class Fuel_Registry implements IFuelHandler {
 	/**
 	 * credit The_Fireplace
 	 */
@@ -15,17 +15,17 @@ public class HelperFuel implements IFuelHandler {
 		Block blockFuel = Block.getBlockFromItem(fuel.getItem());
 		Item itemFuel = fuel.getItem();
 		
-		 if(blockFuel == Common_Registry.MagicalFuelBlock)
+		 if(blockFuel == Mod_Registry.MagicalFuelBlock)
 			 return 4000;
-		 if(blockFuel == Common_Registry.ActiveMagicalFuelBlock)
+		 if(blockFuel == Mod_Registry.ActiveMagicalFuelBlock)
 			 return 4000;
-		 if(itemFuel == Common_Registry.staffofexpansion)
+		 if(itemFuel == Mod_Registry.staffofexpansion)
 			 return 2000;
-		 if(itemFuel == Common_Registry.euclideantransposer)
+		 if(itemFuel == Mod_Registry.euclideantransposer)
 			 return 2000;
-		 if(itemFuel == Common_Registry.staffoftransformation2)
+		 if(itemFuel == Mod_Registry.staffoftransformation2)
 			 return 2000;
-		 if(itemFuel == Common_Registry.torchlauncher)
+		 if(itemFuel == Mod_Registry.torchlauncher)
 			 return 800;
 		 else		
 			 return 0;

@@ -1,8 +1,8 @@
 package helpertools.entities;
 
-import helpertools.Common_Registry;
-import helpertools.ConfigurationFactory;
-import helpertools.Helpertoolscore;
+import helpertools.Mod_Registry;
+import helpertools.Mod_Configuration;
+import helpertools.Main;
 
 import java.util.Random;
 import java.util.Stack;
@@ -65,7 +65,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
    
    //stable references
    Block dirtblock = Blocks.dirt;
-   Block pblock = Common_Registry.LooseDirtBlock;
+   Block pblock = Mod_Registry.LooseDirtBlock;
    
    @Override
   protected void onImpact(MovingObjectPosition mop) {
@@ -221,7 +221,7 @@ public class EntityDirtBombProjectile extends EntityThrowable{
 		}
 		
 		else {
-			if(ConfigurationFactory.Bomb_Debris){
+			if(Mod_Configuration.Bomb_Debris){
 			dirtblock.dropBlockAsItem(worldObj, x,y,z, 0, 0);
 		}}
   }

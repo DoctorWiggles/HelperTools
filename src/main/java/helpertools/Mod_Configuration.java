@@ -13,7 +13,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.util.EnumHelper;
 
-public class ConfigurationFactory extends Helpertoolscore{
+public class Mod_Configuration extends Main{
 	
 	////////////////////////////
 	/** Configuration       **/

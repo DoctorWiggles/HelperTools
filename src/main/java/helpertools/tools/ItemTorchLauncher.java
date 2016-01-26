@@ -5,9 +5,9 @@ import java.util.List;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.entities.EntityBoltProjectile;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
@@ -37,7 +37,7 @@ import net.minecraft.world.World;
 public class ItemTorchLauncher extends ItemTool{
 
    public ItemTorchLauncher(ToolMaterial material) {
-       super(2, material, Common_Registry.properharvest);
+       super(2, material, Mod_Registry.properharvest);
        this.maxStackSize = 1;  
        setUnlocalizedName("torchlauncher");
        //setCreativeTab(Helpertoolscore.HelperTools);
@@ -223,13 +223,13 @@ public class ItemTorchLauncher extends ItemTool{
 						}
 					//Skip To Dynamite
 					else if(!((EntityPlayer) entityLiving).capabilities.isCreativeMode && 
-							((EntityPlayer) entityLiving).inventory.hasItem(Common_Registry.dynamitebolt))
+							((EntityPlayer) entityLiving).inventory.hasItem(Mod_Registry.dynamitebolt))
 						{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 6);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
 							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Blocks.torch), 0.0F);
-							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Common_Registry.dynamitebolt);
+							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Mod_Registry.dynamitebolt);
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Dynamite loaded", new Object[0]);
 						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
@@ -263,13 +263,13 @@ public class ItemTorchLauncher extends ItemTool{
 				{
 					//To Dynamite
 					if(((EntityPlayer) entityLiving).capabilities.isCreativeMode || 
-							((EntityPlayer) entityLiving).inventory.hasItem(Common_Registry.dynamitebolt))
+							((EntityPlayer) entityLiving).inventory.hasItem(Mod_Registry.dynamitebolt))
 						{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 6);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
 							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Blocks.redstone_torch), 0.0F);
-							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Common_Registry.dynamitebolt);	
+							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Mod_Registry.dynamitebolt);	
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Dynamite loaded", new Object[0]);
 						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
@@ -335,7 +335,7 @@ public class ItemTorchLauncher extends ItemTool{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 8);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
-							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Common_Registry.dynamitebolt), 0.0F);
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Mod_Registry.dynamitebolt), 0.0F);
 							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Items.arrow);	
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Arrows loaded", new Object[0]);
@@ -349,7 +349,7 @@ public class ItemTorchLauncher extends ItemTool{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 2);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
-							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Common_Registry.dynamitebolt), 0.0F);
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Mod_Registry.dynamitebolt), 0.0F);
 							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Item.getItemFromBlock(Blocks.torch));
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Torches loaded", new Object[0]);
@@ -362,7 +362,7 @@ public class ItemTorchLauncher extends ItemTool{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 2);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
-							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Common_Registry.dynamitebolt), 0.0F);
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Mod_Registry.dynamitebolt), 0.0F);
 							StoneTorchConsume(entityLiving); /** **/
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Torches loaded", new Object[0]);
@@ -376,7 +376,7 @@ public class ItemTorchLauncher extends ItemTool{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 4);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
-							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Common_Registry.dynamitebolt), 0.0F);
+							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Mod_Registry.dynamitebolt), 0.0F);
 							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Item.getItemFromBlock(Blocks.redstone_torch));	
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Redstone loaded", new Object[0]);
@@ -439,13 +439,13 @@ public class ItemTorchLauncher extends ItemTool{
 						}
 					//Skip To Dynamite
 					else if(!((EntityPlayer) entityLiving).capabilities.isCreativeMode && 
-							((EntityPlayer) entityLiving).inventory.hasItem(Common_Registry.dynamitebolt))
+							((EntityPlayer) entityLiving).inventory.hasItem(Mod_Registry.dynamitebolt))
 						{
 						entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 1.0F, 3.0F);
 						setMode(stack, 6);
 						if(getTload(stack)== 2 && !((EntityPlayer) entityLiving).capabilities.isCreativeMode){
 							((EntityPlayer) entityLiving).entityDropItem(new ItemStack(Items.arrow), 0.0F);						
-							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Common_Registry.dynamitebolt);
+							((EntityPlayer)entityLiving).inventory.consumeInventoryItem(Mod_Registry.dynamitebolt);
 						}
 						ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Dynamite loaded", new Object[0]);
 						((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
@@ -591,11 +591,11 @@ public class ItemTorchLauncher extends ItemTool{
 	   		//Mode 6 Load
 	   		//Dynamite
 	   		else if(par3EntityPlayer.capabilities.isCreativeMode && getMode(stack) == 6||
-	   				par3EntityPlayer.inventory.hasItem(Common_Registry.dynamitebolt) && getMode(stack) == 6){
+	   				par3EntityPlayer.inventory.hasItem(Mod_Registry.dynamitebolt) && getMode(stack) == 6){
 	   			setTload(stack, 2);
 	   			par3EntityPlayer.worldObj.playSoundAtEntity(par3EntityPlayer, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);
 	   			if (!par3EntityPlayer.capabilities.isCreativeMode){                	
-					   par3EntityPlayer.inventory.consumeInventoryItem(Common_Registry.dynamitebolt);	
+					   par3EntityPlayer.inventory.consumeInventoryItem(Mod_Registry.dynamitebolt);	
 					  //stack.damageItem(3, par3EntityPlayer);
 	            	}
 	   			stack.damageItem(3, par3EntityPlayer);

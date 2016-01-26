@@ -1,7 +1,7 @@
 package helpertools.tools;
 
-import helpertools.Common_Registry;
-import helpertools.ConfigurationFactory;
+import helpertools.Mod_Registry;
+import helpertools.Mod_Configuration;
 import helpertools.util.InventoryUtil;
 import helpertools.util.Whitelist_Util;
 
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 public class Tool_Base_Expander extends ItemTool{
 
 	public Tool_Base_Expander(float f, ToolMaterial material, Set s) {
-		super (1F, material, Common_Registry.properharvest);
+		super (1F, material, Mod_Registry.properharvest);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -143,7 +143,7 @@ public class Tool_Base_Expander extends ItemTool{
 			setToolLevel(itemStack,NextLevel);
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 		}
-		 if(ConfigurationFactory.ToolPowerMesseges == true){	
+		 if(Mod_Configuration.ToolPowerMesseges == true){	
 			 String Messy = ("Rank: "+(getToolLevel(itemStack)));
 				ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 				((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);

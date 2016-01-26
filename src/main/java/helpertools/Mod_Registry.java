@@ -16,6 +16,7 @@ import helpertools.entities.EntityGravelBombProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
+import helpertools.entities.Entity_Extraction_Balloon;
 import helpertools.item_blocks.Charm_block_item;
 import helpertools.item_blocks.Floater_block_item;
 import helpertools.item_blocks.Item_Block_Balloon;
@@ -29,7 +30,9 @@ import helpertools.items.ItemDynamiteBolt;
 import helpertools.items.ItemMilkBottle;
 import helpertools.items.ItemSandBomb;
 import helpertools.items.Item_Block_Bomb;
+import helpertools.items.Item_Extraction_Balloon;
 import helpertools.items.Item_creative_builder_charm;
+import helpertools.items.Item_debug;
 import helpertools.items.Item_jelly_Bucket;
 import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
@@ -39,6 +42,7 @@ import helpertools.tools.Item_Bubblegun;
 import helpertools.tools.Item_Bubblegun_2;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -47,7 +51,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class Common_Registry extends ConfigurationFactory{
+public class Mod_Registry extends Mod_Configuration{
 	
 	/** Tools **/
 	public final static Set properharvest = Sets.newHashSet(new Block[] {Blocks.leaves, Blocks.leaves2, Blocks.web, Blocks.wool, 
@@ -71,6 +75,7 @@ public class Common_Registry extends ConfigurationFactory{
 	//public static Item powercrystal;	
 	//public static Item debugtool;
 	//public static Item rfdebugtool;
+	public static Item item_debug;
 	
 	/** Armor **/
 	public static Item mystic_mask;
@@ -78,6 +83,7 @@ public class Common_Registry extends ConfigurationFactory{
 	
 	public static Item bomb;
 	public static Item cbc;
+	public static Item extraction_balloon;
 	
 	/** Fluids **/
 	//public static Fluid jelly_fluid = new Fluid("jelly");
@@ -105,7 +111,7 @@ public class Common_Registry extends ConfigurationFactory{
 	
 	/** Register things **/
 	public static void create_Items() {
-		Helpertoolscore.logger.info("Registering items");
+		Main.logger.info("Registering items");
 		
 		
 		/** Tools **/
@@ -130,24 +136,23 @@ public class Common_Registry extends ConfigurationFactory{
         //GameRegistry.registerItem(bubblegun_2, "bubblegun_2");
 
         /** Items **/
-        dynamitebolt = new ItemDynamiteBolt();        	
-    	//dirtbomb = new ItemDirtBomb();
-    	//sandbomb = new ItemSandBomb();
-    	//gravelbomb = new ItemGravelBomb();
+        dynamitebolt = new ItemDynamiteBolt();
     	bottledmilk = new ItemMilkBottle();
     	chocolatemilk = new ItemChocolateMilk( 3, 0.5f, true).setAlwaysEdible();
-        GameRegistry.registerItem(dynamitebolt, "dynamitebolt");        
-        //GameRegistry.registerItem(dirtbomb, "dirtbomb");   
-        //GameRegistry.registerItem(sandbomb, "sandbomb"); 
-        //GameRegistry.registerItem(gravelbomb, "gravelbomb"); 
+        GameRegistry.registerItem(dynamitebolt, "dynamitebolt");  
         GameRegistry.registerItem(bottledmilk, "bottledmilk");
         GameRegistry.registerItem(chocolatemilk, "chocolatemilk");
+        
+        GameRegistry.registerItem(item_debug = new Item_debug("item_debug"), "item_debug");
         
         bomb = new Item_Block_Bomb("bomb");
         GameRegistry.registerItem(bomb, "bomb");
         
         cbc = new Item_creative_builder_charm("cbc");
         GameRegistry.registerItem(cbc, "cbc");
+        
+                
+        GameRegistry.registerItem(extraction_balloon = new Item_Extraction_Balloon("extraction_balloon"), "extraction_balloon");
         
         /** Armor **/
         GameRegistry.registerItem(mystic_mask = 
@@ -190,7 +195,7 @@ public class Common_Registry extends ConfigurationFactory{
 	
 	/** Register Entities **/
 	public static void create_Entities() {
-		Helpertoolscore.logger.info("Registering Entities");
+		Main.logger.info("Registering Entities");
 		
 		/** Entities **/
         EntityRegistry.registerModEntity(EntityTorchProjectile.class, "TorchBolt", 10, instance, 350, 10, true);
@@ -205,6 +210,10 @@ public class Common_Registry extends ConfigurationFactory{
         EntityRegistry.registerModEntity(BombProjectile_Entity.class, "Bomb", 17, instance, 350, 30, true);
         //class, stringname, entity ID, thisobject, loading range, update polls, velocity updates
         
+        EntityRegistry.registerModEntity(Entity_Extraction_Balloon.class, "Extraction_Balloon", 18, instance, 350, 30, true);
+        EntityList.addMapping(Entity_Extraction_Balloon.class, "Extraction_Balloon", 3539, 0xB3B4C4, 0x715A75);
+        
+        //EntityRegistry.registerGlobalEntityID(Entity_Extraction_Balloon.class, "Extraction_Balloon", 35, 0x14D21E, 0x58595C);
        
 		/** Tile Ents **/        
 	    GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);

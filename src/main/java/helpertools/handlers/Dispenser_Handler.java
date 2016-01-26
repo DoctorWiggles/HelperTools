@@ -1,6 +1,6 @@
-package helpertools.util;
+package helpertools.handlers;
 
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.entities.BombProjectile_Entity;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
@@ -30,8 +30,8 @@ public class Dispenser_Handler {
 	
     public static void registerVanillaDispenserBehaviors()
     {
-        BlockDispenser.dispenseBehaviorRegistry.putObject(Common_Registry.bomb, new DispenserBehaviour());
-        BlockDispenser.dispenseBehaviorRegistry.putObject(Common_Registry.dynamitebolt, new Dynamite_DispenserBehaviour());
+        BlockDispenser.dispenseBehaviorRegistry.putObject(Mod_Registry.bomb, new DispenserBehaviour());
+        BlockDispenser.dispenseBehaviorRegistry.putObject(Mod_Registry.dynamitebolt, new Dynamite_DispenserBehaviour());
         Item Torchy = Item.getItemFromBlock(Blocks.torch);
         BlockDispenser.dispenseBehaviorRegistry.putObject(Torchy, new Torch_DispenserBehaviour());
         Item RedTorchy = Item.getItemFromBlock(Blocks.redstone_torch);
@@ -87,7 +87,7 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
 	public static int scan_local_charms(World world, int x, int y, int z){
 		int amplify = 0;
 		int check = 0;
-		Block charm = Common_Registry.Charm_block;
+		Block charm = Mod_Registry.Charm_block;
 		
 		if(world.getBlock(x, y,z+1) == charm){
 			

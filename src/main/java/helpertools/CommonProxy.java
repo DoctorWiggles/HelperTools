@@ -3,7 +3,7 @@ package helpertools;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class HelpertoolsCommonProxy {
+public class CommonProxy {
 	
         public void registerRenderers() {
         }

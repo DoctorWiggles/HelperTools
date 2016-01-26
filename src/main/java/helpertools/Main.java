@@ -1,4 +1,6 @@
 package helpertools;
+import java.util.Random;
+
 import helpertools.blocks.tile_entities.TileEntityIllusion;
 import helpertools.blocks.tile_entities.TileEntityObelisk;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
@@ -9,10 +11,18 @@ import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.gui.Fluid_Tool_Hud;
 import helpertools.gui.ToolHud;
+import helpertools.handlers.Armor_Render_Handler;
+import helpertools.handlers.BucketHandler;
+import helpertools.handlers.Dispenser_Handler;
+import helpertools.handlers.ForgeEventHandler;
+import helpertools.handlers.Ghostblock_Handler;
 import helpertools.items.ItemChocolateMilk;
 import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
 import helpertools.items.ItemMilkBottle;
+import helpertools.network.KeyBindings;
+import helpertools.network.KeyInputHandler;
+import helpertools.network.NetworkMessage;
 import helpertools.renders.ItemRenderStaff4;
 import helpertools.renders.ItemRenderStaff5;
 import helpertools.renders.ItemRenderTorchLauncher1;
@@ -27,14 +37,6 @@ import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
-import helpertools.util.Armor_Render_Handler;
-import helpertools.util.BucketHandler;
-import helpertools.util.Dispenser_Handler;
-import helpertools.util.ForgeEventHandler;
-import helpertools.util.Ghostblock_Handler;
-import helpertools.util.KeyBindings;
-import helpertools.util.KeyInputHandler;
-import helpertools.util.NetworkMessage;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -82,7 +84,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid="HelperToolsID", name="HelperTools", version="v1.6f")
-public class Helpertoolscore 
+public class Main 
 {			
 	////////////////////		
 	/** Forge Stuffs **/
@@ -105,18 +107,18 @@ public class Helpertoolscore
 
 	// The instance of your mod that Forge uses.
 	@Instance(value = "HelperToolsID")
-	public static Helpertoolscore instance; 
+	public static Main instance; 
 
 	// Says where the client and server 'proxy' code is loaded.
-	@SidedProxy(clientSide="helpertools.HelpertoolsclientProxy", serverSide="helpertools.HelpertoolsCommonProxy")
-	public static HelpertoolsCommonProxy proxy;
+	@SidedProxy(clientSide="helpertools.ClientProxy", serverSide="helpertools.CommonProxy")
+	public static CommonProxy proxy;
 
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
 		/** Configuration **/      	
-		ConfigurationFactory.ProcessConfiguration(event);   
+		Mod_Configuration.ProcessConfiguration(event);   
 
 		///////////////////////
 		/** Repair Materials **/
@@ -133,11 +135,11 @@ public class Helpertoolscore
 
 
 		/**Forge Handlers**/        	
-		if(ConfigurationFactory.HandlerBottledmilk == true){
-			FMLCommonHandler.instance().bus().register(Helpertoolscore.eventHandler);
-			MinecraftForge.EVENT_BUS.register(Helpertoolscore.eventHandler);
+		if(Mod_Configuration.HandlerBottledmilk == true){
+			FMLCommonHandler.instance().bus().register(Main.eventHandler);
+			MinecraftForge.EVENT_BUS.register(Main.eventHandler);
 		}		
-		GameRegistry.registerFuelHandler(new HelperFuel());
+		GameRegistry.registerFuelHandler(new Fuel_Registry());
 
 
 		//////////////////////////
@@ -168,8 +170,8 @@ public class Helpertoolscore
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		/** Registry **/
-		Common_Registry.create_Items();
-		Common_Registry.create_Entities();
+		Mod_Registry.create_Items();
+		Mod_Registry.create_Entities();
 
 		/** Register Renders**/
 		proxy.registerRenderers();               
@@ -198,7 +200,7 @@ public class Helpertoolscore
 	public void postInit(FMLPostInitializationEvent event) {
 
 		/** Recipes **/
-		RecipeFactory.RegisterRecipes();
+		Mod_Recipes.RegisterRecipes();
 		Dispenser_Handler.registerVanillaDispenserBehaviors();
 	}
 

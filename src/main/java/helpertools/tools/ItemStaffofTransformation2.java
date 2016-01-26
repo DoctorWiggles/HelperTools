@@ -3,10 +3,10 @@ package helpertools.tools;
 import java.util.List;
 import java.util.Random;
 
-import helpertools.Common_Registry;
-import helpertools.ConfigurationFactory;
+import helpertools.Mod_Registry;
+import helpertools.Mod_Configuration;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.util.InventoryUtil;
 import helpertools.util.Whitelist_Util;
 import cpw.mods.fml.relauncher.Side;
@@ -35,7 +35,7 @@ public class ItemStaffofTransformation2 extends ItemTool
 {
     public ItemStaffofTransformation2(ToolMaterial material)
     {
-    	super (2, material, Common_Registry.properharvest);
+    	super (2, material, Mod_Registry.properharvest);
         this.maxStackSize = 1;  
         setUnlocalizedName("staffoftransformation2");
         //setCreativeTab(Helpertoolscore.HelperTools);
@@ -238,7 +238,7 @@ public class ItemStaffofTransformation2 extends ItemTool
 				setToolLevel(itemStack,NextLevel);
 				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
-			if(ConfigurationFactory.ToolPowerMesseges == true){	
+			if(Mod_Configuration.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
 					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
@@ -311,7 +311,7 @@ public class ItemStaffofTransformation2 extends ItemTool
 			}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
 			//config hook
-		    if(ConfigurationFactory.ToolModeMesseges == true){
+		    if(Mod_Configuration.ToolModeMesseges == true){
 			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
 		    }

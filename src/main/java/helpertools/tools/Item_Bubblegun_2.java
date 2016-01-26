@@ -3,7 +3,7 @@ package helpertools.tools;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.HelpTab;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import net.minecraft.block.Block;

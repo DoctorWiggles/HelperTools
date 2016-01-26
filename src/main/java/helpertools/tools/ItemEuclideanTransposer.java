@@ -3,9 +3,9 @@ package helpertools.tools;
 import java.util.List;
 import java.util.Random;
 
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import helpertools.util.InventoryUtil;
 import helpertools.util.Whitelist_Util;
@@ -43,7 +43,7 @@ public class ItemEuclideanTransposer extends ItemTool
 {
     public ItemEuclideanTransposer(ToolMaterial material)
     {
-    	super (2,material, Common_Registry.properharvest);
+    	super (2,material, Mod_Registry.properharvest);
         this.maxStackSize = 1;  
         setUnlocalizedName("euclideantransposer");
         setCreativeTab(HelpTab.HelperTools);
@@ -295,7 +295,7 @@ public class ItemEuclideanTransposer extends ItemTool
     		
     		
     		//placement via transcriber proxy
-    		if(world.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
+    		if(world.getBlock(i1, j1, k1) == Mod_Registry.TranscriberBlock){
     			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);
     			if (tile != null)
                 {
@@ -313,7 +313,7 @@ public class ItemEuclideanTransposer extends ItemTool
     		}
     		
     		//placement via staff
-    		if(world.getBlock(i1, j1, k1) != Common_Registry.TranscriberBlock
+    		if(world.getBlock(i1, j1, k1) != Mod_Registry.TranscriberBlock
     				&& proxyskip == 0){
     			    		
     		//dynamic placement offsets
@@ -450,7 +450,7 @@ public class ItemEuclideanTransposer extends ItemTool
     	/** Pattern Collection **/
     	if (player.isSneaking()){
     		
-    		if(world.getBlock(i1, j1, k1) == Common_Registry.TranscriberBlock){
+    		if(world.getBlock(i1, j1, k1) == Mod_Registry.TranscriberBlock){
     			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(i1, j1, k1);
     			if (tile != null)
                 {

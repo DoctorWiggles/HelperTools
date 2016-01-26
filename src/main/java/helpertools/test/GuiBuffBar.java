@@ -1,6 +1,6 @@
 package helpertools.test;
 
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.tools.ItemStaffofExpansion;
 
 import java.awt.Point;

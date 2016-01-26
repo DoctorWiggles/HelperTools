@@ -2,9 +2,9 @@ package helpertools.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.util.InventoryUtil;
 
@@ -63,7 +63,7 @@ public class ActiveMagicalFuelBlock extends Block
 	    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
 	    {
 	        if(world.getBlockMetadata(x, y, z) == 1){
-	        	world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock, 0, 123);    
+	        	world.setBlock(x, y, z, Mod_Registry.MagicalFuelBlock, 0, 123);    
             	world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "mob.chicken.plop", 0.3F,   0.5F);
             	
             	if(!player.capabilities.isCreativeMode){torch.dropBlockAsItem(world,x,y,z, 0, 0);}
@@ -85,7 +85,7 @@ public class ActiveMagicalFuelBlock extends Block
 	        {
 	            if ( !world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockMetadata(x, y, z) == 0)
 	            {
-	            	world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock);
+	            	world.setBlock(x, y, z, Mod_Registry.MagicalFuelBlock);
 	               
 	            }
 	            else if ( world.isBlockIndirectlyGettingPowered(x, y, z))
@@ -101,7 +101,7 @@ public class ActiveMagicalFuelBlock extends Block
 	        {
 	            if ( !world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockMetadata(x, y, z) == 0)
 	            {
-	            	world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock);
+	            	world.setBlock(x, y, z, Mod_Registry.MagicalFuelBlock);
 	                
 	            }
 	            else if ( world.isBlockIndirectlyGettingPowered(x, y, z))
@@ -115,13 +115,13 @@ public class ActiveMagicalFuelBlock extends Block
 	    {
 	        if (!world.isRemote && world.isBlockIndirectlyGettingPowered(x, y, z) && world.getBlockMetadata(x, y, z) == 0)
 	        {
-	            world.setBlock(x, y, z, Common_Registry.MagicalFuelBlock);
+	            world.setBlock(x, y, z, Mod_Registry.MagicalFuelBlock);
 	        }
 	    }
 
 	    public Item getItemDropped(int p_149650_1_, Random rand, int p_149650_3_)
 	    {
-	        return Item.getItemFromBlock(Common_Registry.MagicalFuelBlock);
+	        return Item.getItemFromBlock(Mod_Registry.MagicalFuelBlock);
 	    }
 	    
     

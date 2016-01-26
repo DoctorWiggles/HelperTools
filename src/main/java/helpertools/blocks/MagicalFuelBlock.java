@@ -2,9 +2,9 @@ package helpertools.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import helpertools.Common_Registry;
+import helpertools.Mod_Registry;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.util.InventoryUtil;
 
@@ -74,7 +74,7 @@ public class MagicalFuelBlock extends Block
             {
 	        	if(player.capabilities.isCreativeMode){
 	        		world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "mob.chicken.plop", 0.3F,   0.5F);
-	        		world.setBlock(x, y, z, Common_Registry.ActiveMagicalFuelBlock, 1, 123);}
+	        		world.setBlock(x, y, z, Mod_Registry.ActiveMagicalFuelBlock, 1, 123);}
 	        	
 	        	else{world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "random.click", 0.3F,   0.5F);}
 	        	return true;
@@ -83,7 +83,7 @@ public class MagicalFuelBlock extends Block
             if (itemstack.getItem() == Item.getItemFromBlock(Blocks.redstone_torch))
             {
             	if(!player.capabilities.isCreativeMode){InventoryUtil.consumeInventoryItemStack(itemstack, tor);}
-            	world.setBlock(x, y, z, Common_Registry.ActiveMagicalFuelBlock, 1, 123);    
+            	world.setBlock(x, y, z, Mod_Registry.ActiveMagicalFuelBlock, 1, 123);    
             	world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "mob.chicken.plop", 0.3F,   0.5F);
             	
             	return true;
@@ -111,7 +111,7 @@ public class MagicalFuelBlock extends Block
 	            }
 	            else if ( world.isBlockIndirectlyGettingPowered(x, y, z))
 	            {
-	                world.setBlock(x, y, z, Common_Registry.ActiveMagicalFuelBlock);
+	                world.setBlock(x, y, z, Mod_Registry.ActiveMagicalFuelBlock);
 	            }
 	        }
 	    }
@@ -125,7 +125,7 @@ public class MagicalFuelBlock extends Block
 	            }
 	            else if ( world.isBlockIndirectlyGettingPowered(x, y, z))
 	            {
-	                world.setBlock(x, y, z, Common_Registry.ActiveMagicalFuelBlock);
+	                world.setBlock(x, y, z, Mod_Registry.ActiveMagicalFuelBlock);
 	            }
 	        }
 	    }
@@ -133,13 +133,13 @@ public class MagicalFuelBlock extends Block
 	    {
 	        if (!world.isRemote && !world.isBlockIndirectlyGettingPowered(x, y, z))
 	        {
-	            world.setBlock(x, y, z, Common_Registry.ActiveMagicalFuelBlock);
+	            world.setBlock(x, y, z, Mod_Registry.ActiveMagicalFuelBlock);
 	        }
 	    }
 
 	    public Item getItemDropped(int p_149650_1_, Random rand, int p_149650_3_)
 	    {
-	        return Item.getItemFromBlock(Common_Registry.MagicalFuelBlock);
+	        return Item.getItemFromBlock(Mod_Registry.MagicalFuelBlock);
 	    }
 	    
     

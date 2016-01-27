@@ -5,6 +5,7 @@ import helpertools.Mod_Configuration;
 import helpertools.Main;
 import helpertools.util.Bomb_Helper;
 import helpertools.util.Forest_Helper;
+import helpertools.util.Text;
 
 import java.util.Random;
 import java.util.Stack;

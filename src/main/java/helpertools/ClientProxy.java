@@ -86,7 +86,7 @@ public class ClientProxy extends CommonProxy {
         //Mask Rendering
 		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
 		
-		
+		MinecraftForge.EVENT_BUS.register(new Ghostblock_Handler());
 	
 	
 	}

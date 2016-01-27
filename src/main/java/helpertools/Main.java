@@ -154,7 +154,7 @@ public class Main
 			//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
 		}
 		
-		MinecraftForge.EVENT_BUS.register(new Ghostblock_Handler());
+		
 
 		/** Networking & Packets **/
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");

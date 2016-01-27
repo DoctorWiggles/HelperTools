@@ -1,9 +1,14 @@
 package helpertools.entities;
 
+import helpertools.Main;
+import helpertools.Mod_Registry;
 import helpertools.util.Text;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -15,6 +20,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,9 +29,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.ForgeChunkManager;
 
-public class Entity_Extraction_Balloon extends EntityMob
+public class Entity_Extraction_Balloon extends EntityCreature
 {
     /**
      * Time when this creeper was last in an active state (Messed up code here, probably causes creeper animation to go
@@ -38,11 +47,18 @@ public class Entity_Extraction_Balloon extends EntityMob
     /** Explosion radius for this creeper. */
     private int explosionRadius = 3;
     private static final String __OBFID = "CL_00001684";
+    
+    
+    
+    
+    public int lift_wait = 40;
+    public Entity Original_Player;
+    
 
-    public Entity_Extraction_Balloon(World p_i1733_1_)
+    public Entity_Extraction_Balloon(World world)
     {
-        super(p_i1733_1_);
-        this.setHealth(1);
+        super(world);
+        this.setHealth(1);    
         
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 1.0D, 1.2D));
@@ -54,9 +70,27 @@ public class Entity_Extraction_Balloon extends EntityMob
         this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
     }
     
-    public Entity_Extraction_Balloon(World p_i1733_1_, int outcome, boolean resisting)
+    //lets not please
+    protected boolean canDespawn()
     {
-        super(p_i1733_1_);
+        return false;
+    }
+    
+    public Entity_Extraction_Balloon(World world, EntityPlayer player, int outcome, boolean resisting)
+    {
+        super(world);
+
+        this.setHealth(1);
+        this.Original_Player = player;   
+        //getCommandSenderName()
+    }
+    
+    public Entity_Extraction_Balloon(World world, EntityPlayer player)
+    {
+        super(world);
+
+        this.setHealth(1);
+        this.Original_Player = player;   
     }
 
     protected void applyEntityAttributes()
@@ -98,6 +132,7 @@ public class Entity_Extraction_Balloon extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
+       //this.dataWatcher.addObject(22, 40);
         this.dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
         this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
         this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
@@ -106,42 +141,47 @@ public class Entity_Extraction_Balloon extends EntityMob
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+    public void writeEntityToNBT(NBTTagCompound tag)
     {
-        super.writeEntityToNBT(p_70014_1_);
+        super.writeEntityToNBT(tag);
 
-        if (this.dataWatcher.getWatchableObjectByte(17) == 1)
-        {
-            p_70014_1_.setBoolean("powered", true);
-        }
-
-        p_70014_1_.setShort("Fuse", (short)this.fuseTime);
-        p_70014_1_.setByte("ExplosionRadius", (byte)this.explosionRadius);
-        p_70014_1_.setBoolean("ignited", this.func_146078_ca());
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+    /** delegate extraction failure **/
+    public void failed_extraction(int type){
+    	
+    	String text= "Extraction Failed";
+    	if(type == 1){
+    		text = "Extraction Failed: Obstruction";
+    	}
+    	if(type == 2){
+    		text = "Extraction Failed: Host Died";
+    	}
+    	if(type == 3){
+    		text = "Extraction Failed: Balloon Popped";
+    	}
+    	
+    	
+    	if(!this.worldObj.isRemote){
+    		EntityItem balloon= new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Mod_Registry.extraction_balloon, 1, 0));
+    		this.worldObj.spawnEntityInWorld(balloon);
+    		}
+    	Text.out(text);
+    	
+    	
+    	
+    	this.setDead();
+    }
+    
+    
+    public void readEntityFromNBT(NBTTagCompound tag)
     {
-        super.readEntityFromNBT(p_70037_1_);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)(p_70037_1_.getBoolean("powered") ? 1 : 0)));
+        super.readEntityFromNBT(tag);
+        this.dataWatcher.updateObject(17, Byte.valueOf((byte)(tag.getBoolean("powered") ? 1 : 0)));
 
-        if (p_70037_1_.hasKey("Fuse", 99))
-        {
-            this.fuseTime = p_70037_1_.getShort("Fuse");
-        }
-
-        if (p_70037_1_.hasKey("ExplosionRadius", 99))
-        {
-            this.explosionRadius = p_70037_1_.getByte("ExplosionRadius");
-        }
-
-        if (p_70037_1_.getBoolean("ignited"))
-        {
-            this.func_146079_cb();
-        }
+        
+        lift_wait = tag.getInteger("lift_wait");
+      
     }
 
     /**
@@ -149,63 +189,76 @@ public class Entity_Extraction_Balloon extends EntityMob
      */
     public void onUpdate()
     {
+
+    	if(!this.worldObj.isRemote){
+ 	   //Text.out(this.posY);
+    	}
+    	/*
+    	ForgeChunkManager.Ticket ticket 
+    	= ForgeChunkManager.requestTicket(Main.instance, this.worldObj, ForgeChunkManager.Type.ENTITY);
+    	
+    	if( ticket!= null){
+    		Chunk chunk = worldObj.getChunkFromBlockCoords( (int)this.posX,  (int)this.posZ);
+    		ChunkCoordIntPair pair = new ChunkCoordIntPair((int)this.posX,  (int)this.posZ);
+    		ForgeChunkManager.forceChunk(ticket, pair);
+    	};
+ 	   */
+    	this.lift_wait = lift_wait -1;
     	//Text.out("UHHHHHH");
     	//this.setDead();
     	Entity target;
     	if( this.ridingEntity !=null){
     		target = this.ridingEntity;
     		
-    		//Text.out("LIFT OFF");
-    		target.addVelocity(0, 0.1, 0);
     		
-    		if(this.posY > 120){
+    		float lift = 0.1f;
+    		
+    		//lift = 0.090f;
+    		//lift = 0.085f;
+    		lift = 0.0825f;
+    		//Text.out("LIFT OFF");
+    		
+    		if(lift_wait <= 0){
+    			lift = 0.12f;
+    		}
+    		
+    		//if(lift_wait <= -1200){lift = 0.2f;}
+    		//Text.out(lift_wait);
+    		target.addVelocity(0, lift, 0);
+    		
+    		if(this.posY > 250){
         		
+    			
         		//target.t
         		int x1 = 88;
+        		x1= 374;
         		//x1 = 100;
-        		int y1 = 7;
+        		float y1 = 6.5F;
         		int z1 = 255;
+        		z1 = 275;
         		
         		target.setLocationAndAngles((double)x1, (double)y1, (double)z1, target.rotationYaw, 0.0F);
         		target.motionX = target.motionY = target.motionZ = 0.0D;
+        		if(this.worldObj.isRemote){        		
+        		Text.out("Extraction Successful");
+        		Text.out(this.Original_Player);
+        		}
+        		
         		this.setDead();
         		}
+    	}
+    	if( this.ridingEntity == null && lift_wait <= 0 &&this.isEntityAlive()){    		
+    		failed_extraction(2);
+    	}
+    	if(!this.isInsideOfMaterial(Material.air) &&this.isEntityAlive()){
+    		failed_extraction(1);
+    	}
+    	if(this.getHealth()==0){
+    		failed_extraction(3);
     	}
     	
     	
     	
-    	
-    	
-    	
-        if (this.isEntityAlive())
-        {
-            this.lastActiveTime = this.timeSinceIgnited;
-
-            if (this.func_146078_ca())
-            {
-                this.setCreeperState(1);
-            }
-
-            int i = this.getCreeperState();
-
-            if (i > 0 && this.timeSinceIgnited == 0)
-            {
-                this.playSound("creeper.primed", 1.0F, 0.5F);
-            }
-
-            this.timeSinceIgnited += i;
-
-            if (this.timeSinceIgnited < 0)
-            {
-                this.timeSinceIgnited = 0;
-            }
-
-            if (this.timeSinceIgnited >= this.fuseTime)
-            {
-                this.timeSinceIgnited = this.fuseTime;
-                this.func_146077_cc();
-            }
-        }
 
         super.onUpdate();
     }
@@ -234,102 +287,15 @@ public class Entity_Extraction_Balloon extends EntityMob
         return true;
     }
 
-    /**
-     * Returns true if the creeper is powered by a lightning bolt.
-     */
-    public boolean getPowered()
-    {
-        return this.dataWatcher.getWatchableObjectByte(17) == 1;
-    }
-
-    /**
-     * Params: (Float)Render tick. Returns the intensity of the creeper's flash when it is ignited.
-     */
-    @SideOnly(Side.CLIENT)
-    public float getCreeperFlashIntensity(float p_70831_1_)
-    {
-        return ((float)this.lastActiveTime + (float)(this.timeSinceIgnited - this.lastActiveTime) * p_70831_1_) / (float)(this.fuseTime - 2);
-    }
-
     protected Item getDropItem()
     {
         return Items.gunpowder;
     }
 
-    /**
-     * Returns the current state of creeper, -1 is idle, 1 is 'in fuse'
-     */
-    public int getCreeperState()
-    {
-        return this.dataWatcher.getWatchableObjectByte(16);
-    }
-
-    /**
-     * Sets the state of creeper, -1 to idle and 1 to be 'in fuse'
-     */
-    public void setCreeperState(int p_70829_1_)
-    {
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)p_70829_1_));
-    }
-
-    /**
-     * Called when a lightning bolt hits the entity.
-     */
-    public void onStruckByLightning(EntityLightningBolt p_70077_1_)
-    {
-        super.onStruckByLightning(p_70077_1_);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
-    }
-
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
     protected boolean interact(EntityPlayer p_70085_1_)
     {
-        ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
-
-        if (itemstack != null && itemstack.getItem() == Items.flint_and_steel)
-        {
-            this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "fire.ignite", 1.0F, this.rand.nextFloat() * 0.4F + 0.8F);
-            p_70085_1_.swingItem();
-
-            if (!this.worldObj.isRemote)
-            {
-                this.func_146079_cb();
-                itemstack.damageItem(1, p_70085_1_);
-                return true;
-            }
-        }
-
-        return super.interact(p_70085_1_);
+		return true;
     }
 
-    private void func_146077_cc()
-    {
-        if (!this.worldObj.isRemote)
-        {
-            boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 
-            if (this.getPowered())
-            {
-                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.explosionRadius * 2), flag);
-            }
-            else
-            {
-                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.explosionRadius, flag);
-            }
-
-            this.setDead();
-        }
-    }
-
-    public boolean func_146078_ca()
-    {
-        return this.dataWatcher.getWatchableObjectByte(18) != 0;
-    }
-
-    public void func_146079_cb()
-    {
-        this.dataWatcher.updateObject(18, Byte.valueOf((byte)1));
-    }
 }

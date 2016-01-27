@@ -3,6 +3,8 @@ package helpertools.items;
 import helpertools.HelpTab;
 import helpertools.entities.Entity_Extraction_Balloon;
 import helpertools.util.Text;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -29,6 +31,8 @@ public class Item_Extraction_Balloon extends Item{
 	    @Override
 	    public boolean itemInteractionForEntity(ItemStack itemstack, EntityPlayer player, EntityLivingBase entity)
 	    {
+	    	
+	   //   String.valueOf(obj)
 	    	World world = player.worldObj;
 	    	int outcome = 100;
 	    	boolean resisting = false;
@@ -37,13 +41,20 @@ public class Item_Extraction_Balloon extends Item{
 	        {
 	            return false;
 	        }
+	        if(entity instanceof EntityPlayer || entity instanceof Entity_Extraction_Balloon){
+	    		return false;
+	    	}
+	        
+	        if(entity.riddenByEntity instanceof Entity_Extraction_Balloon){
+	        	return false;
+	        }
 	        if (!(entity instanceof EntityPlayer) && !(player.isSneaking()))
 	        	
 	        {
 	        	Float Maxhp = entity.getMaxHealth();
         		Float hp = entity.getHealth();
         		
-        		Text.out("Max hp: "+Maxhp +" current :"+ hp);
+        		//Text.out("Max hp: "+Maxhp +" current :"+ hp);
         		
 	        	if(world.isRaining()){
 	        		outcome = outcome - 10;
@@ -56,7 +67,7 @@ public class Item_Extraction_Balloon extends Item{
 	        	}
 	        	
 	        	
-        		
+        		/*
 	        	if(entity instanceof EntityMob || entity instanceof IMob){
 	        		///Float Maxhp = entity.getMaxHealth();
 	        		//Float hp = entity.getHealth();
@@ -75,8 +86,9 @@ public class Item_Extraction_Balloon extends Item{
 	        		}
 	        		
 	        	}
-	        	
-	        	
+	        	*/
+	        	this.attach_balloon(entity, player, outcome);
+	        	/**
 	        	
 	        	Entity_Extraction_Balloon balloon = new Entity_Extraction_Balloon(entity.worldObj);
 	            balloon.setLocationAndAngles(entity.posX,entity.posY,entity.posZ, entity.rotationYaw, 0F);
@@ -85,7 +97,7 @@ public class Item_Extraction_Balloon extends Item{
 	            balloon.mountEntity(entity);
 	            
 	            Text.out(outcome);
-	        	
+	        	**/
 	        	/*
 	        	EntityPlayer entityskeleton = EntityPlayer;
 	        //EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
@@ -113,6 +125,29 @@ public class Item_Extraction_Balloon extends Item{
 	        
 	    }
 	
+	    
+	    public void attach_balloon(EntityLivingBase entity, EntityPlayer player, int outcome){
+	    	
+	    	entity.setLocationAndAngles(entity.posX,entity.posY+1.25F,entity.posZ, entity.rotationYaw, 0F);
+	    	//Wrapper function that sets mobs to not despawn
+	    	((EntityLiving) entity).func_110163_bv();
+	    	//((EntityLiving) entity).persistenceRequired = true;
+	    	
+	    	//Text.out(entity.posY);
+	    	//int a =0;
+	    	//if(a==0)return;
+	    	Entity_Extraction_Balloon balloon = new Entity_Extraction_Balloon(entity.worldObj, player);
+            balloon.setLocationAndAngles(entity.posX,entity.posY,entity.posZ, entity.rotationYaw, 0F);
+            balloon.onSpawnWithEgg((IEntityLivingData)null);
+            entity.worldObj.spawnEntityInWorld(balloon);
+            balloon.mountEntity(entity);
+            
+           // Text.out(outcome);
+            
+         
+	    	
+	    	return;
+	    }
 		
 	
 }

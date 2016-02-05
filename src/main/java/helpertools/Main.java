@@ -10,6 +10,7 @@ import helpertools.entities.EntityDynamiteProjectile;
 import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.gui.Fluid_Tool_Hud;
+import helpertools.gui.Gui_Handler;
 import helpertools.gui.ToolHud;
 import helpertools.handlers.Armor_Render_Handler;
 import helpertools.handlers.BucketHandler;
@@ -181,7 +182,7 @@ public class Main
 		//BucketHandler.INSTANCE.buckets.put(Common_Registry.jelly_block, Common_Registry.jelly_bucket);
 		//MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-
+		
 
 		/** Dungeon Loot **/
 		//DungeonLoot.addLoot(event);              
@@ -189,9 +190,13 @@ public class Main
 		//////////////////
 		/** Gui Stuff **/
 		////////////////
+		/*
 		if (FMLCommonHandler.instance().getSide().isClient()){
 			NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		}
+		*/
+		
+		 NetworkRegistry.INSTANCE.registerGuiHandler(Main.instance, new Gui_Handler());
 
 	}
 

@@ -2,6 +2,7 @@ package helpertools.entities;
 
 import helpertools.Main;
 import helpertools.Mod_Registry;
+import helpertools.util.Teleport_util;
 import helpertools.util.Text;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,6 +29,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -165,8 +167,9 @@ public class Entity_Extraction_Balloon extends EntityCreature
     	if(!this.worldObj.isRemote){
     		EntityItem balloon= new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Mod_Registry.extraction_balloon, 1, 0));
     		this.worldObj.spawnEntityInWorld(balloon);
+    		Text.out(text);
     		}
-    	Text.out(text);
+    	
     	
     	
     	
@@ -226,22 +229,30 @@ public class Entity_Extraction_Balloon extends EntityCreature
     		//Text.out(lift_wait);
     		target.addVelocity(0, lift, 0);
     		
-    		if(this.posY > 250){
+    		if(this.posY > 150){
         		
     			
         		//target.t
         		int x1 = 88;
-        		x1= 374;
+        		x1= -999;
         		//x1 = 100;
         		float y1 = 6.5F;
         		int z1 = 255;
-        		z1 = 275;
+        		z1 = -998;
+        		
+        		//dimensional code - overlook for copy data
+        		//target.travelToDimension(this.dimension);
+        		//Text.out(this.dimension);
+        		//target.travelToDimension(0);        		
+        		//target = Teleport_util.move_to_dim2(target, 0);
         		
         		target.setLocationAndAngles((double)x1, (double)y1, (double)z1, target.rotationYaw, 0.0F);
         		target.motionX = target.motionY = target.motionZ = 0.0D;
+        		
+        		
         		if(this.worldObj.isRemote){        		
         		Text.out("Extraction Successful");
-        		Text.out(this.Original_Player);
+        		//Text.out(this.Original_Player);
         		}
         		
         		this.setDead();

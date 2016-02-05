@@ -1,7 +1,9 @@
 package helpertools.items;
 
 import helpertools.HelpTab;
+import helpertools.Main;
 import helpertools.entities.Entity_Extraction_Balloon;
+import helpertools.gui.Gui_Handler;
 import helpertools.util.Text;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -19,7 +21,7 @@ public class Item_Extraction_Balloon extends Item{
 
 	public Item_Extraction_Balloon(String name) {
 	       super();
-	       this.maxStackSize = 1;  
+	       this.maxStackSize = 16;  
 	       setUnlocalizedName(name);
 	       setCreativeTab(HelpTab.HelperTools);
 	       setTextureName("helpertools:extraction_balloon");
@@ -123,6 +125,23 @@ public class Item_Extraction_Balloon extends Item{
 	        return false;
 	               
 	        
+	    }
+	    @Override
+	    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+	    //public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float f1, float f2, float f3)
+	    {
+	    	int x = (int)player.posX;
+	    	int y = (int)player.posY;
+	    	int z = (int)player.posZ;
+	    	
+	    	if (player.isSneaking())	        	
+	        {
+	    		 if (world.isRemote) {
+	    		        player.openGui(Main.instance, Gui_Handler.Extraction_Selection_Gui, world, x, y, z);
+	    		    }
+	        }
+	    	
+	        return stack;
 	    }
 	
 	    

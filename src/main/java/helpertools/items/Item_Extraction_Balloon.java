@@ -4,6 +4,7 @@ import helpertools.HelpTab;
 import helpertools.Main;
 import helpertools.entities.Entity_Extraction_Balloon;
 import helpertools.gui.Gui_Handler;
+import helpertools.network.fob.Forward_Operating_Base;
 import helpertools.util.Text;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -15,6 +16,11 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class Item_Extraction_Balloon extends Item{
@@ -130,9 +136,47 @@ public class Item_Extraction_Balloon extends Item{
 	    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	    //public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float f1, float f2, float f3)
 	    {
-	    	int x = (int)player.posX;
+	    	
+	    	ChunkCoordinates coord;
+    		coord = player.getPlayerCoordinates();
+    		
+    		
+	    	int x = (int)(coord.posX);
 	    	int y = (int)player.posY;
-	    	int z = (int)player.posZ;
+	    	int z = (int)(coord.posZ);
+	    	if (!player.isSneaking())	        	
+	        {
+	    		if (!world.isRemote) {
+	        
+	    		//Forward_Operating_Base.registerMailbox("Tokyo", x, y, z);
+	    		
+	    		Forward_Operating_Base data = Forward_Operating_Base.forWorld(world);
+	    		
+	    		//Text.out(" ");
+	    		
+	    		//Text.out("before: "+ data.getMailboxesCount(), EnumChatFormatting.GRAY);
+	    		System.out.println("before: "+ data.getMailboxesCount());
+	    		
+	    		String stringy = ("Saint Brazil");
+	    		//stringy = "Roaming Mexico";
+	    		stringy = "Deadly Merrows";
+	    		
+	    		if(data.isNameFree(stringy)){
+	    		data.registerMailbox(stringy, x, y, z);
+	    		}
+	    		
+	    		//Text.out("after: "+ data.getMailboxesCount(), EnumChatFormatting.GREEN);
+	    		System.out.println("after: "+ data.getMailboxesCount());
+	    				
+	    		//data.unregisterMailbox("Tokyo");
+	    		
+	    		//Text.out("deleted: "+ data.getMailboxesCount(), EnumChatFormatting.RED);
+	    				System.out.println("deleted: "+ data.getMailboxesCount());
+	    		
+	    		data.debug_list();
+	        	}
+	        }
+	    	
 	    	
 	    	if (player.isSneaking())	        	
 	        {
@@ -155,7 +199,22 @@ public class Item_Extraction_Balloon extends Item{
 	    	//Text.out(entity.posY);
 	    	//int a =0;
 	    	//if(a==0)return;
-	    	Entity_Extraction_Balloon balloon = new Entity_Extraction_Balloon(entity.worldObj, player);
+	    	//Entity_Extraction_Balloon balloon = new Entity_Extraction_Balloon(entity.worldObj, player);
+	    	
+	    	NBTTagCompound tag = player.getEntityData();
+	    	
+	    	NBTBase xTag = tag.getTag("Balloon_X");
+			int ox = ((NBTTagInt)xTag).func_150287_d();
+			
+			NBTBase yTag = tag.getTag("Balloon_Y");
+			int oy = ((NBTTagInt)yTag).func_150287_d();
+			
+			NBTBase zTag = tag.getTag("Balloon_Z");
+			int oz = ((NBTTagInt)zTag).func_150287_d();
+	    	
+	    	 
+	    	Entity_Extraction_Balloon balloon = new Entity_Extraction_Balloon(entity.worldObj, player, ox, oy, oz);
+	    		    	
             balloon.setLocationAndAngles(entity.posX,entity.posY,entity.posZ, entity.rotationYaw, 0F);
             balloon.onSpawnWithEgg((IEntityLivingData)null);
             entity.worldObj.spawnEntityInWorld(balloon);

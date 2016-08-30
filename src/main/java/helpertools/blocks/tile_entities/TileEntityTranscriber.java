@@ -1,8 +1,12 @@
 package helpertools.blocks.tile_entities;
 
+import helpertools.entities.particle.Phantom_Cube;
+import helpertools.util.ParticleUtil;
+
 import java.util.Random;
 
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -76,16 +80,17 @@ public class TileEntityTranscriber extends TileEntity{
         }
         */
         if(worldObj.isRemote){
+        	World world = this.worldObj;
         	int i = growrand.nextInt(2);
         	//if(i ==1){
         	 short short1 =1;
 				for (int lp = 0; lp < short1; ++lp)
 		       {
 		           double d6 = (double)lp / ((double)short1 - 1.0D);
-		           float f = (this.growrand.nextFloat()/5F) ;
+		           float f = (this.growrand.nextFloat()/20F) ;
 		           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
-		           float f1 = (this.growrand .nextFloat()/5F );
-		           float f2 = (this.growrand .nextFloat()/5F );
+		           float f1 = (this.growrand .nextFloat()/20F );
+		           float f2 = (this.growrand .nextFloat()/20F );
 		           /**
 		           float f = (this.growrand.nextFloat()*1.2F)-.55F ;
 		           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
@@ -114,6 +119,8 @@ public class TileEntityTranscriber extends TileEntity{
 		           
 		           for (int G2 = 0; G2 < 5; ++G2)
 		           {
+		        	   
+		        	   //ParticleUtil.GhostBlock(world, finX+f+.18+G2, finY+.56+f1, finZ+f2+.38 );
 		        	   this.worldObj.spawnParticle("reddust", finX+f+.2+G2, finY+.5+f1, finZ+f2+.3, 0, p, p);		        	   
 		        	   this.worldObj.spawnParticle("reddust", finX+f+.2+G2, finY+.5+f1, finZ+f2+.3+4, 0, p, p);
 		        	   this.worldObj.spawnParticle("reddust", finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3+4, 0, p, p);

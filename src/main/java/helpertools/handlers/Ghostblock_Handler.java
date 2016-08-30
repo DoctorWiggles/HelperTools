@@ -1,44 +1,36 @@
 package helpertools.handlers;
 
-import helpertools.Mod_Registry;
 import helpertools.item_blocks.Floater_block_item;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.util.Coordinate;
+import helpertools.util.ParticleUtil;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 /**Featuring not enough wands,
  Openblocks, and Enderio code */
@@ -76,7 +68,7 @@ public class Ghostblock_Handler {
 
 						coordinates.add(new Coordinate(x, y, z));
 
-						//renderOutlines(evt, player, coordinates, 240, 180, 240);
+						renderOutlines(evt, player, coordinates, 240, 180, 240);
 					} else {
 						int hit;
 						hit = mouseOver.sideHit;
@@ -84,7 +76,7 @@ public class Ghostblock_Handler {
 								.getOrientation(hit);
 
 						coordinates.add(new Coordinate(x, y, z).add(direction));
-						//renderOutlines(evt, player, coordinates, 240, 180, 240);
+						renderOutlines(evt, player, coordinates, 240, 180, 240);
 					}
 
 				}
@@ -122,22 +114,64 @@ public class Ghostblock_Handler {
 				
 				if(world.getBlock(x,y,z) != Blocks.air){
 					int mode = Tool.getMode(heldstack);
+					Block block = Tool.returnTBlock(heldstack);
+					int meta = Tool.returnTMeta(heldstack);
 						
+					//TODO
 							Set<Coordinate> coordinates;
 							if (mode ==2){coordinates = Tool.pillar_selection(heldstack,(EntityPlayer)player, world, x, y, z, hit, true);
-							renderOutlines(evt, player, coordinates, 80, 180, 240);}
+							//renderOutlines(evt, player, coordinates, 80, 180, 240);
+							//renderOutlines(evt, player, coordinates, 180, 240, 80);
+							phantom_display(evt, player, coordinates, 80, 180, 240, block, meta );
+							//ParticleUtil.render_test(evt, player, coordinates);
+							}
 							
 							if (mode ==4){coordinates = Tool.wall_selection(heldstack,(EntityPlayer)player, world, x, y, z, hit, true);
-							renderOutlines(evt, player, coordinates, 80, 180, 240);}
+							//renderOutlines(evt, player, coordinates, 80, 180, 240);
+							//renderOutlines(evt, player, coordinates, 30, 30, 60);
+							phantom_display(evt, player, coordinates, 80, 180, 240, block, meta);
+							}
 							
 							if (mode ==6){coordinates = Tool.matching_selection(heldstack,(EntityPlayer)player, world, x, y, z, hit, true);
-							renderOutlines(evt, player, coordinates, 80, 180, 240);}
+							//renderOutlines(evt, player, coordinates, 80, 180, 240);
+							phantom_display(evt, player, coordinates, 80, 180, 240, block, meta);
+							}
 							
 				}
 			}
 		}
 
 	}
+	protected static Random growrand = new Random();
+	//TODO
+	public void phantom_display(RenderWorldLastEvent evt, 
+			EntityClientPlayerMP p, Set<Coordinate> coordinates, int r, int g, int b,
+			Block block, int meta){
+		
+		
+		for (Coordinate coordinate : coordinates) {
+			float f = (this.growrand.nextFloat()/30F) ;	        
+	        float f1 = (this.growrand .nextFloat()/30F );
+	        float f2 = (this.growrand .nextFloat()/30F );
+			
+			float x = coordinate.getX()+.5F+f;
+			float y = coordinate.getY()+.5F+f1;
+			float z = coordinate.getZ()+.5F+f2;
+
+			ParticleUtil.GhostBlock(p.worldObj, x, y, z, block, meta);
+			//ParticleUtil.Render_Ghost(p.worldObj, x, y, z, block, meta);
+			
+		}
+		//ParticleUtil.GhostBlock(p.worldObj, 270+.5F+f, 11+.5F+f1, 791+.5F+f2, block, meta);
+	}
+	
+	public int blockid(Block block){
+		int bin = 0;
+		bin = block.getIdFromBlock(block);
+		return 0;
+		
+	}
+	
 	
 	@SubscribeEvent 
 	public void Block_Render(RenderWorldLastEvent evt){
@@ -345,15 +379,17 @@ public class Ghostblock_Handler {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-doubleX, -doubleY, -doubleZ);
 
+		      	
 		//renderOutlines(coordinates, r, g, b, 4);
 		//renderOutlines(coordinates, r, g, b, 2);
+		//TODO
 		renderOutlines(coordinates, r, g, b, 3);
 
 		GL11.glPopMatrix();
 		GL11.glPopAttrib();
 	}
 
-	private static void renderOutlines(Set<Coordinate> coordinates, int r,
+	public static void renderOutlines(Set<Coordinate> coordinates, int r,
 			int g, int b, int thickness) {
 		Tessellator tessellator = Tessellator.instance;
 
@@ -364,6 +400,7 @@ public class Ghostblock_Handler {
 		GL11.glColor3ub((byte) r, (byte) g, (byte) b);
 		GL11.glLineWidth(thickness);
 
+		//TODO
 		for (Coordinate coordinate : coordinates) {
 			float x = coordinate.getX();
 			float y = coordinate.getY();
@@ -371,6 +408,7 @@ public class Ghostblock_Handler {
 
 			renderBlockOutline(tessellator, x, y, z, 0.0f); // .02f
 		}
+		
 		tessellator.draw();
 	}
 

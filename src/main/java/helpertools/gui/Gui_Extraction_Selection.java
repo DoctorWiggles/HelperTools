@@ -1,12 +1,18 @@
 package helpertools.gui;
 
+import helpertools.Main;
 import helpertools.Mod_Registry;
+import helpertools.network.Message_Ex;
+import helpertools.network.Message_Ex_Float;
+import helpertools.network.NetworkMessage;
+import helpertools.network.fob.Forward_Operating_Base;
 import helpertools.util.Text;
 
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -14,7 +20,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -25,16 +35,18 @@ public class Gui_Extraction_Selection extends GuiScreen{
 	private GuiButton b;
 	private GuiButton c;
 	
+	public static GuiSlider mySlider;
+	public float floaty;
+	
 	
 	 private int x, y, z;
 	 private EntityPlayer player;
 	 private World world;
+	 
 	 private int xSize, ySize;
 	 //private ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/GuiSmasher.png");
 	 private ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/demo_background.png");
 
-	 
-	 
 	 
 	public Gui_Extraction_Selection(EntityPlayer player, World world, int x, int y, int z) {
 		 
@@ -47,6 +59,14 @@ public class Gui_Extraction_Selection extends GuiScreen{
         		//176;
         ySize = 166;
         	//214;
+        
+
+		NBTTagCompound tag = player.getEntityData();		
+		NBTBase FTag = tag.getTag("Balloon_F");				
+		float f1 =0;
+		//= ((NBTTagFloat)FTag).func_150288_h();
+		
+        this.floaty = f1;
     }
 	
 	
@@ -84,8 +104,14 @@ public class Gui_Extraction_Selection extends GuiScreen{
 			RenderHelper.disableStandardItemLighting();
 			GL11.glPopMatrix();			
 		}
-		String mosPos = "X: "+ mouseX + " Y: " + mouseY;
+		String mosPos = "X: "+ mouseX + " Y: " + mouseY + "  F:"+ floaty;
 		this.mc.fontRenderer.drawStringWithShadow(mosPos, 200, 200, 0xF4F2FF);
+		
+		//uhhhhhhhh
+		Forward_Operating_Base data = Forward_Operating_Base.forWorld(world);
+		int anumber = data.getMailboxesCount();
+		String name_array = Integer.toString(anumber);
+		this.mc.fontRenderer.drawStringWithShadow(name_array, 150, 200, 0xF4F2FF);
 		
 	}
 	
@@ -105,6 +131,13 @@ public class Gui_Extraction_Selection extends GuiScreen{
 	    this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, 100, 20, "This is button b"));
 	    
 	    this.buttonList.add(this.c = new GuiButton(2, this.width / 2 - 100, this.height / 2 + 32, button_c_name()));
+	
+	
+	    //mySlider = new GuiSlider(3, width / 2 - 75, height / 3, "MPH ", 1.0F, 100.0F, 1.0F);
+	    mySlider = new GuiSlider(3, width / 2 - 75, height / 3, "Channel ", floaty, 100.0F, 1.0F);
+	     buttonList.add(mySlider);
+	    // mySlider.sliderValue = maxSpeedTag.getFloat("MaxSpeed");
+	    // floaty = mySlider.sliderValue;
 	}
 	
 	
@@ -119,14 +152,35 @@ public class Gui_Extraction_Selection extends GuiScreen{
 		
 		return name;		
 	}
+	
+	
+	
+	@Override
+	public void updateScreen(){
+		floaty = mySlider.sliderValue;
+
+	    super.updateScreen();
+	}
+	
+	public void onGuiClosed() {
+
+        Text.out(floaty,EnumChatFormatting.BLUE);
+        //String float_string = String.valueOf(floaty);
+        //Main.network.sendToServer(new Message_Ex_Float(float_string));
+        Main.network.sendToServer(new Message_Ex_Float(floaty));
+        
+	}
+	
+	
 	//actions for buttons etc
 	//attach network pipelines and so on here
 	@Override
 	protected void actionPerformed(GuiButton button) 
 			//throws IOException
 	{
-		//default close gui and return to normal game
+		floaty = mySlider.sliderValue;
 		
+		//default close gui and return to normal game		
 		if (button == this.a) {
 	        //Main.packetHandler.sendToServer(...);
 	        this.mc.displayGuiScreen(null);
@@ -137,7 +191,6 @@ public class Gui_Extraction_Selection extends GuiScreen{
 	        Text.out("Button A pressed!");
 	    }
 	    if (button == this.b){
-	        //Main.packetHandler.sendToServer(...);
 	        this.mc.displayGuiScreen(null);
 	        if (this.mc.currentScreen == null)
 	            this.mc.setIngameFocus();
@@ -146,15 +199,26 @@ public class Gui_Extraction_Selection extends GuiScreen{
 	        Text.out("Woah there",EnumChatFormatting.RED);
 		}
 	    if (button == this.c){
-	        //Main.packetHandler.sendToServer(...);
 	        this.mc.displayGuiScreen(null);
 	        if (this.mc.currentScreen == null)
 	            this.mc.setIngameFocus();
 	        
 	        //Sample output
+	        Main.network.sendToServer(new Message_Ex("Text", this.x, this.y, this.z));
 	        Text.out(button_c_name(),EnumChatFormatting.BLUE);
 		}
-	    }
+	    
+	    if (button == this.mySlider){
+	    	floaty = mySlider.sliderValue;
+		}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	}
 	    
 	   
 	

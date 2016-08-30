@@ -2,6 +2,9 @@ package helpertools.gui;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.world.World;
 
 public class Gui_Handler implements IGuiHandler{
@@ -26,12 +29,13 @@ public class Gui_Handler implements IGuiHandler{
 
 	    @Override
 	    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-	    	if (ID == Extraction_Selection_Gui)
+	    	if (ID == Extraction_Selection_Gui){
 	    		//default simple gui
 	            //return new Gui_Extraction_Selection();
 	    		
 	    		//adding constructors to utilize references
 	    		return new Gui_Extraction_Selection(player, world, x, y, z);
+	    	}
 	    	
 	    	return null;
 	    }

@@ -3,8 +3,10 @@ package helpertools.network;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
+import helpertools.util.Text;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -42,6 +44,11 @@ public class NetworkMessage implements IMessage {
             //System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
             EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
             ItemStack heldItem = theplayer.inventory.getCurrentItem();
+            
+            
+            	//Text.out(message.text, EnumChatFormatting.RESET);
+            	
+            
             
             if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
             	if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation2)){

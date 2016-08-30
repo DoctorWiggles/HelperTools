@@ -5,6 +5,8 @@ import java.util.Random;
 import helpertools.HelpTab;
 import helpertools.Main;
 import helpertools.util.Text;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,7 +33,13 @@ public class Item_debug extends Item{
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world,
 			EntityPlayer player) {
-		if (player.worldObj.isRemote) {return stack;}
+		
+		
+		 
+		if (player.worldObj.isRemote) {
+			
+			
+			return stack;}
 			
 			NBTTagCompound tag = player.getEntityData();
 

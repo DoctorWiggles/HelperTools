@@ -1,69 +1,21 @@
 package helpertools;
-import java.util.Random;
-
-import helpertools.blocks.tile_entities.TileEntityIllusion;
-import helpertools.blocks.tile_entities.TileEntityObelisk;
-import helpertools.blocks.tile_entities.TileEntityTranscriber;
-import helpertools.entities.EntityBoltProjectile;
-import helpertools.entities.EntityDirtBombProjectile;
-import helpertools.entities.EntityDynamiteProjectile;
-import helpertools.entities.EntityRedTorchProjectile;
-import helpertools.entities.EntityTorchProjectile;
 import helpertools.gui.Fluid_Tool_Hud;
 import helpertools.gui.Gui_Handler;
 import helpertools.gui.ToolHud;
-import helpertools.handlers.Armor_Render_Handler;
-import helpertools.handlers.BucketHandler;
 import helpertools.handlers.Dispenser_Handler;
 import helpertools.handlers.ForgeEventHandler;
-import helpertools.handlers.Ghostblock_Handler;
-import helpertools.items.ItemChocolateMilk;
-import helpertools.items.ItemDirtBomb;
-import helpertools.items.ItemDynamiteBolt;
-import helpertools.items.ItemMilkBottle;
 import helpertools.network.KeyBindings;
 import helpertools.network.KeyInputHandler;
+import helpertools.network.Message_Ex;
+import helpertools.network.Message_Ex_Float;
 import helpertools.network.NetworkMessage;
-import helpertools.renders.ItemRenderStaff4;
-import helpertools.renders.ItemRenderStaff5;
-import helpertools.renders.ItemRenderTorchLauncher1;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import helpertools.test.GuiBuffBar;
-import helpertools.test.GuiHandler;
-import helpertools.tools.ItemDebugTool;
-import helpertools.tools.ItemEuclideanTransposer;
-import helpertools.tools.ItemStaffofExpansion;
-import helpertools.tools.ItemStaffofTransformation2;
-import helpertools.tools.ItemTorchLauncher;
-import net.java.games.input.Keyboard;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.DungeonHooks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler; // used in 1.6.2
@@ -77,12 +29,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-//import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+//import cpw.mods.fml.common.network.NetworkMod; // not used in 1.7
 
 @Mod(modid="HelperToolsID", name="HelperTools", version="v1.6f")
 public class Main 
@@ -161,7 +110,9 @@ public class Main
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat");
 		//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
 		network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);
-		// network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+		network.registerMessage(Message_Ex.Handler.class, Message_Ex.class, 1, Side.SERVER);
+		network.registerMessage(Message_Ex_Float.Handler.class, Message_Ex_Float.class, 2, Side.SERVER);
+		//network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
 		
 		
 

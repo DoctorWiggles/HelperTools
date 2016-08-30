@@ -10,9 +10,10 @@ import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.entities.Entity_Extraction_Balloon;
+import helpertools.entities.particle.Phantom_Cube;
+import helpertools.entities.particle.Phantom_Cube_Render;
 import helpertools.handlers.Armor_Render_Handler;
 import helpertools.handlers.Ghostblock_Handler;
-import helpertools.renders.Render_Block_Obelisk;
 import helpertools.renders.BombProjectile_Render;
 import helpertools.renders.ItemRenderEuclidean1;
 import helpertools.renders.ItemRenderStaff4;
@@ -25,14 +26,16 @@ import helpertools.renders.RenderGravelBombProjectile;
 import helpertools.renders.RenderRedTorchProjectile;
 import helpertools.renders.RenderSandBombProjectile;
 import helpertools.renders.RenderTorchProjectile;
+import helpertools.renders.Render_Block_Obelisk;
 import helpertools.renders.Render_Extraction_Balloon;
+import net.minecraft.entity.EntityList;
+import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -80,13 +83,20 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(BombProjectile_Entity.class, new BombProjectile_Render(1));
         //
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new Render_Block_Obelisk());
+        
+        
      
-	
+       
+                
 	
         //Mask Rendering
 		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
 		
 		MinecraftForge.EVENT_BUS.register(new Ghostblock_Handler());
+		
+		 
+	     
+	     RenderingRegistry.registerEntityRenderingHandler(Phantom_Cube.class, new Phantom_Cube_Render(1));
 	
 	
 	}

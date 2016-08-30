@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -36,40 +37,22 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.ForgeChunkManager;
 
-public class Entity_Extraction_Balloon extends EntityCreature
+public class Entity_Extraction_Balloon extends EntityLiving
 {
-    /**
-     * Time when this creeper was last in an active state (Messed up code here, probably causes creeper animation to go
-     * weird)
-     */
-    private int lastActiveTime;
-    /** The amount of time since the creeper was close enough to the player to ignite */
-    private int timeSinceIgnited;
-    private int fuseTime = 30;
-    /** Explosion radius for this creeper. */
-    private int explosionRadius = 3;
-    private static final String __OBFID = "CL_00001684";
-    
-    
-    
-    
+   
     public int lift_wait = 40;
     public Entity Original_Player;
+    
+    public String player_id ;
+    public int x = 0;
+    public int y = 0;
+    public int z = 0;
     
 
     public Entity_Extraction_Balloon(World world)
     {
         super(world);
         this.setHealth(1);    
-        
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
-        this.tasks.addTask(5, new EntityAIWander(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
     }
     
     //lets not please
@@ -94,6 +77,25 @@ public class Entity_Extraction_Balloon extends EntityCreature
         this.setHealth(1);
         this.Original_Player = player;   
     }
+    
+    
+    public Entity_Extraction_Balloon(World world, EntityPlayer player, int x, int y, int z)
+    {
+        super(world);
+
+        this.setHealth(1);
+        //this.Original_Player = player;  
+        
+        //this.player_id = player.getp;
+        
+        //this.player_id = player.getUniqueID().toString();
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        
+        
+        
+    }
 
     protected void applyEntityAttributes()
     {
@@ -117,19 +119,6 @@ public class Entity_Extraction_Balloon extends EntityCreature
         return this.getAttackTarget() == null ? 3 : 3 + (int)(this.getHealth() - 1.0F);
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
-    protected void fall(float p_70069_1_)
-    {
-        super.fall(p_70069_1_);
-        this.timeSinceIgnited = (int)((float)this.timeSinceIgnited + p_70069_1_ * 1.5F);
-
-        if (this.timeSinceIgnited > this.fuseTime - 5)
-        {
-            this.timeSinceIgnited = this.fuseTime - 5;
-        }
-    }
 
     protected void entityInit()
     {
@@ -180,7 +169,7 @@ public class Entity_Extraction_Balloon extends EntityCreature
     public void readEntityFromNBT(NBTTagCompound tag)
     {
         super.readEntityFromNBT(tag);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)(tag.getBoolean("powered") ? 1 : 0)));
+       // this.dataWatcher.updateObject(17, Byte.valueOf((byte)(tag.getBoolean("powered") ? 1 : 0)));
 
         
         lift_wait = tag.getInteger("lift_wait");
@@ -240,6 +229,10 @@ public class Entity_Extraction_Balloon extends EntityCreature
         		int z1 = 255;
         		z1 = -998;
         		
+        		x1 = this.x;
+        		y1 = this.y+1;
+        		z1 = this.z;
+        		
         		//dimensional code - overlook for copy data
         		//target.travelToDimension(this.dimension);
         		//Text.out(this.dimension);
@@ -288,19 +281,6 @@ public class Entity_Extraction_Balloon extends EntityCreature
     protected String getDeathSound()
     {
         return "mob.creeper.death";
-    }
-
-    /**
-     * Called when the mob's health reaches 0.
-     */
-    public boolean attackEntityAsMob(Entity p_70652_1_)
-    {
-        return true;
-    }
-
-    protected Item getDropItem()
-    {
-        return Items.gunpowder;
     }
 
     protected boolean interact(EntityPlayer p_70085_1_)

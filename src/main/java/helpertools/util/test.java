@@ -116,10 +116,11 @@ public class test {
 				
 				if(world.getBlock(x,y,z) != Blocks.air){
 					int mode = Tool.getMode(heldstack);
-						
 							Set<Coordinate> coordinates;
 							if (mode ==2){coordinates = Tool.pillar_selection(heldstack,(EntityPlayer)player, world, x, y, z, hit, true);
-							renderOutlines(evt, player, coordinates, 80, 180, 240);}
+							renderOutlines(evt, player, coordinates, 80, 180, 240);
+							
+							;}
 							
 							if (mode ==4){coordinates = Tool.wall_selection(heldstack,(EntityPlayer)player, world, x, y, z, hit, true);
 							renderOutlines(evt, player, coordinates, 80, 180, 240);}
@@ -132,6 +133,9 @@ public class test {
 		}
 
 	}
+	
+	
+	
 	
 	@SubscribeEvent 
 	public void Block_Render(RenderWorldLastEvent evt){
@@ -305,41 +309,6 @@ public class test {
 	}
 	
 	
-	public void reflect_o_matic(){
-		Class c = RenderBlocks.class;
-		
-		for (Method m : c.getDeclaredMethods()) {
-		//for (Field f : RenderBlocks.class.getDeclaredFields()) {
-	        m.setAccessible(true);
-	        //System.out.println("doing");
-	        
-	        
-	        	//System.out.println(m.getName());
-	        /*
-	        	for (Field f :c.getFields()) {
-	        		System.out.println(f.getName());
-	        	}
-	        	*/
-	       //m.
-	        /*
-	        if (f.getType() == int.class) {
-	        	System.out.println(f.getName());
-	        }
-	        */
-	        /*
-	        if (f.getName().equals("l")){	
-	        	
-	        	System.out.println("field");
-		            try {
-						f.set("l", 4);
-					} catch (Exception e) {						
-						e.printStackTrace();
-					}		       
-	        }
-	        */
-	        }
-		
-	}
 	
 	
 	public boolean renderBlockLog(Block p_147742_1_, int p_147742_2_, int p_147742_3_, int p_147742_4_, RenderBlocks render, int meta)
@@ -441,6 +410,7 @@ public class test {
 
 	private static void renderBlockOutline(Tessellator tessellator, float mx,
 			float my, float mz, float o) {
+		
 		tessellator.addVertex(mx - o, my - o, mz - o);
 		tessellator.addVertex(mx + 1 + o, my - o, mz - o);
 		tessellator.addVertex(mx - o, my - o, mz - o);

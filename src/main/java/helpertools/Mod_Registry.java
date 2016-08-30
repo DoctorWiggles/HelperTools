@@ -1,12 +1,5 @@
 package helpertools;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import helpertools.blocks.Jelly_Fluid_Block;
 import helpertools.blocks.tile_entities.TileEntityTranscriber;
 import helpertools.entities.BombProjectile_Entity;
 import helpertools.entities.EntityBoltProjectile;
@@ -17,6 +10,7 @@ import helpertools.entities.EntityRedTorchProjectile;
 import helpertools.entities.EntitySandBombProjectile;
 import helpertools.entities.EntityTorchProjectile;
 import helpertools.entities.Entity_Extraction_Balloon;
+import helpertools.entities.particle.Phantom_Cube;
 import helpertools.item_blocks.Charm_block_item;
 import helpertools.item_blocks.Floater_block_item;
 import helpertools.item_blocks.Item_Block_Balloon;
@@ -25,31 +19,29 @@ import helpertools.item_blocks.Item_block_Chimney;
 import helpertools.item_blocks.TranscriberBlock_Item;
 import helpertools.items.Armor_Mystic;
 import helpertools.items.ItemChocolateMilk;
-import helpertools.items.ItemDirtBomb;
 import helpertools.items.ItemDynamiteBolt;
 import helpertools.items.ItemMilkBottle;
-import helpertools.items.ItemSandBomb;
 import helpertools.items.Item_Block_Bomb;
 import helpertools.items.Item_Extraction_Balloon;
 import helpertools.items.Item_creative_builder_charm;
 import helpertools.items.Item_debug;
-import helpertools.items.Item_jelly_Bucket;
 import helpertools.tools.ItemEuclideanTransposer;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.ItemTorchLauncher;
-import helpertools.tools.Item_Bubblegun;
-import helpertools.tools.Item_Bubblegun_2;
+
+import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
+
+import com.google.common.collect.Sets;
+
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Mod_Registry extends Mod_Configuration{
 	
@@ -213,6 +205,9 @@ public class Mod_Registry extends Mod_Configuration{
         EntityRegistry.registerModEntity(Entity_Extraction_Balloon.class, "Extraction_Balloon", 18, instance, 350, 30, true);
         EntityList.addMapping(Entity_Extraction_Balloon.class, "Extraction_Balloon", 3539, 0xB3B4C4, 0x715A75);
         
+        EntityRegistry.registerModEntity(Phantom_Cube.class, "Phantom_Cube", 19, Main.instance, 350, 30, true);
+	    EntityList.addMapping(Phantom_Cube.class, "Phantom_Cube", 3540, 0xB3B4C4, 0x715A75);
+       
         //EntityRegistry.registerGlobalEntityID(Entity_Extraction_Balloon.class, "Extraction_Balloon", 35, 0x14D21E, 0x58595C);
        
 		/** Tile Ents **/        

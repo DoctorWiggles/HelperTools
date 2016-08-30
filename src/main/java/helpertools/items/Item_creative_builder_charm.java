@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import helpertools.Mod_Configuration;
+import helpertools.ConfigurationFactory;
 import helpertools.HelpTab;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,7 +64,7 @@ public class Item_creative_builder_charm extends Item {
 			  stack.getTagCompound().removeTag("ench");			 
 		  }
 		  
-		  if(Mod_Configuration.ToolModeMesseges == true){
+		  if(ConfigurationFactory.ToolModeMesseges == true){
         	 ChatComponentTranslation text = new ChatComponentTranslation(EnumChatFormatting.GRAY +"Boost: +"+ nextMax*5, new Object[0]);
         	 ChatComponentTranslation text2 = new ChatComponentTranslation(EnumChatFormatting.GRAY +"Boost: off", new Object[0]);
         	 if (nextMax == 0){ player.addChatComponentMessage(text2); }

@@ -1,17 +1,15 @@
 package helpertools.item_blocks;
 
-import helpertools.Mod_Registry;
+import helpertools.Common_Registry;
 
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -39,7 +37,6 @@ public class Floater_block_item extends ItemBlock
         this.blocky = block;
     }
 
-    
     /**
      * Sets the unlocalized name of this item to the string passed as the parameter, prefixed by "item."
      */
@@ -114,38 +111,44 @@ public class Floater_block_item extends ItemBlock
         		
         	
     	}
-    	if(!player.isSneaking()){ 
-    	MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
-		int x = mouseOver.blockX;
-		int y = mouseOver.blockY;
-		int z = mouseOver.blockZ;
-		
-    	Block block;
-    	block = world.getBlock(x, y, z);
-    	Material matt;
-    	matt = block.getMaterial();
-    	//block = world.getBlock(x1, y1, z1);
     	
-    	if(block == Blocks.air 
-    			|| matt == Material.fire
-    			|| matt == Material.water
-    			|| matt == Material.lava
-    			|| matt == Material.plants
-    			|| matt == Material.vine){ 
-    		if(!player.canPlayerEdit(x, y-1, z,  0,stack)){
-    			return stack;
-    		}
-    		if (!world.canMineBlock(player, x, y-1, z))
+    	MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
+
+        if (movingobjectposition == null)
+        {
+            return stack;
+        }
+        if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+        {
+            int i = movingobjectposition.blockX;
+            int j = movingobjectposition.blockY;
+            int k = movingobjectposition.blockZ;
+
+            if (!world.canMineBlock(player, i, j, k))
             {
                 return stack;
             }
-    		customplace(world,x, y, z);
-    		--stack.stackSize;
-    	}
-    			return stack;
-    		
-    	}
-		return stack;       
+
+            
+                if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, stack))
+                {
+                    return stack;
+                }
+
+                Material material = world.getBlock(i, j, k).getMaterial();
+
+                if (material == Material.water && world.getBlock(i, j+1, k) == Blocks.air
+                		||material == Material.lava && world.getBlock(i, j+1, k) == Blocks.air)
+                {
+                   // world.setBlockToAir(i, j, k);
+                    customplace(world,i, j, k);
+                    --stack.stackSize;
+                    
+                }
+        }
+        
+        return stack;
+        
         
     }
     
@@ -374,7 +377,7 @@ public class Floater_block_item extends ItemBlock
 				}
         	}
     }
-    Block balloon = Mod_Registry.Balloon;
+    Block balloon = Common_Registry.Balloon;
     public void balloon(World world, int x, int y, int z){
     Block block;
 	block = world.getBlock(x, y+1, z);

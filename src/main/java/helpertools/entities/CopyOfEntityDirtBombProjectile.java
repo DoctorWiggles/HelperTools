@@ -1,7 +1,7 @@
 package helpertools.entities;
 
-import helpertools.Mod_Registry;
-import helpertools.Main;
+import helpertools.Common_Registry;
+import helpertools.Helpertoolscore;
 
 import java.util.Random;
 import java.util.Stack;
@@ -70,7 +70,7 @@ public class CopyOfEntityDirtBombProjectile extends EntityThrowable{
 	   
 	   if(this.worldObj.isRemote){
 		      Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-		      Block pblock = Mod_Registry.LooseDirtBlock;
+		      Block pblock = Common_Registry.LooseDirtBlock;
 		      
 		      if (mop.entityHit != null )
 		      {
@@ -123,10 +123,10 @@ public class CopyOfEntityDirtBombProjectile extends EntityThrowable{
 	  //The block it lands on in the world
       Block theblock = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
       //The torch block to be placed in the world
-      Block pblock = Mod_Registry.LooseDirtBlock;
+      Block pblock = Common_Registry.LooseDirtBlock;
       
       if (Type == 0){
-      pblock = Mod_Registry.LooseDirtBlock;
+      pblock = Common_Registry.LooseDirtBlock;
       }
       if (Type == 2){
           pblock = Blocks.sand;

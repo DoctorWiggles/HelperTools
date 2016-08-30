@@ -13,12 +13,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class Render_Block_Obelisk extends TileEntitySpecialRenderer {
+public class BlockRenderObelisk extends TileEntitySpecialRenderer {
     
     //The model of your block
     private final ModelObeliskBLock model;
    
-    public Render_Block_Obelisk() {
+    public BlockRenderObelisk() {
             this.model = new ModelObeliskBLock();
     }
    

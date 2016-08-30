@@ -1,7 +1,7 @@
 package helpertools.renders;
 
-import helpertools.Mod_Registry;
-import helpertools.Main;
+import helpertools.Common_Registry;
+import helpertools.Helpertoolscore;
 import helpertools.entities.EntityDirtBombProjectile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

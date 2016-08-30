@@ -1,19 +1,12 @@
 package helpertools.blocks.tile_entities;
 
-import helpertools.entities.particle.Phantom_Cube;
-import helpertools.util.ParticleUtil;
-
 import java.util.Random;
 
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public class TileEntityTranscriber extends TileEntity{
  
@@ -67,7 +60,8 @@ public class TileEntityTranscriber extends TileEntity{
 	      int j4 = this.yCoord;
 	      int k4 = this.zCoord;
 	      
-	     	      
+	   
+	      
  /*
         if(!worldObj.isRemote) {
  
@@ -80,17 +74,16 @@ public class TileEntityTranscriber extends TileEntity{
         }
         */
         if(worldObj.isRemote){
-        	World world = this.worldObj;
         	int i = growrand.nextInt(2);
         	//if(i ==1){
         	 short short1 =1;
 				for (int lp = 0; lp < short1; ++lp)
 		       {
 		           double d6 = (double)lp / ((double)short1 - 1.0D);
-		           float f = (this.growrand.nextFloat()/20F) ;
+		           float f = (this.growrand.nextFloat()/5F) ;
 		           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
-		           float f1 = (this.growrand .nextFloat()/20F );
-		           float f2 = (this.growrand .nextFloat()/20F );
+		           float f1 = (this.growrand .nextFloat()/5F );
+		           float f2 = (this.growrand .nextFloat()/5F );
 		           /**
 		           float f = (this.growrand.nextFloat()*1.2F)-.55F ;
 		           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
@@ -111,16 +104,11 @@ public class TileEntityTranscriber extends TileEntity{
 		           //this.worldObj.spawnParticle("cloud", finX+f-.5, finY+f1+.5, finZ+f2+.5, p, p1, p2);
 		           //this.worldObj.spawnParticle("magicCrit", finX+f+.2, finY+.5+f1, finZ+f2+.3, 0, 0, 0);
 		           this.worldObj.spawnParticle("reddust", finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 0, 0, 0);
-		        
-		           //RenderBlocks renderblocks = new RenderBlocks(worldObj);		           
-		           //RenderBlocks.renderBlockByRenderType(Blocks.stone, (int)finX, (int)finY, (int)finZ);
 		           
 		           //this.worldObj.spawnParticle("slime", finX-.5, finY+.5, finZ+.5, 0, 0, 0);
 		           
 		           for (int G2 = 0; G2 < 5; ++G2)
 		           {
-		        	   
-		        	   //ParticleUtil.GhostBlock(world, finX+f+.18+G2, finY+.56+f1, finZ+f2+.38 );
 		        	   this.worldObj.spawnParticle("reddust", finX+f+.2+G2, finY+.5+f1, finZ+f2+.3, 0, p, p);		        	   
 		        	   this.worldObj.spawnParticle("reddust", finX+f+.2+G2, finY+.5+f1, finZ+f2+.3+4, 0, p, p);
 		        	   this.worldObj.spawnParticle("reddust", finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3+4, 0, p, p);

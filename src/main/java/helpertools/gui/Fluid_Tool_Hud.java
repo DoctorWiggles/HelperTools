@@ -1,7 +1,7 @@
 package helpertools.gui;
 
-import helpertools.Mod_Configuration;
-import helpertools.Main;
+import helpertools.ConfigurationFactory;
+import helpertools.Helpertoolscore;
 import helpertools.tools.ItemStaffofExpansion;
 import helpertools.tools.ItemStaffofTransformation2;
 import helpertools.tools.Item_Bubblegun_2;
@@ -88,7 +88,7 @@ public class Fluid_Tool_Hud extends Gui
     }    
     
     //config hook
-    if(Mod_Configuration.RenderToolHuds == false){
+    if(ConfigurationFactory.RenderToolHuds == false){
     	return;
     }
 

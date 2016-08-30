@@ -1,6 +1,6 @@
 package helpertools.items;
 
-import helpertools.Mod_Registry;
+import helpertools.Common_Registry;
 import helpertools.HelpTab;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.block.Block;

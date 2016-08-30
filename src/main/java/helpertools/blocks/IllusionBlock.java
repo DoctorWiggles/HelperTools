@@ -3,7 +3,7 @@ package helpertools.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
-import helpertools.Main;
+import helpertools.Helpertoolscore;
 import helpertools.blocks.tile_entities.TileEntityIllusion;
 import helpertools.entities.EntityDynamiteProjectile;
 

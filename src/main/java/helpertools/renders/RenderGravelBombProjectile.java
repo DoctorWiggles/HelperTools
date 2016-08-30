@@ -1,7 +1,7 @@
 package helpertools.renders;
 
-import helpertools.Mod_Registry;
-import helpertools.Main;
+import helpertools.Common_Registry;
+import helpertools.Helpertoolscore;
 import helpertools.entities.EntityDirtBombProjectile;
 import helpertools.entities.EntityGravelBombProjectile;
 import helpertools.entities.EntitySandBombProjectile;
@@ -46,7 +46,7 @@ public class RenderGravelBombProjectile extends Render
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         float f2 = this.field_77002_a;
         GL11.glScalef(f2 / 1.0F, f2 / 1.0F, f2 / 1.0F);
-        IIcon iicon = Mod_Registry.gravelbomb.getIconFromDamage(0);
+        IIcon iicon = Common_Registry.gravelbomb.getIconFromDamage(0);
         Tessellator tessellator = Tessellator.instance;
         float f3 = iicon.getMinU();
         float f4 = iicon.getMaxU();

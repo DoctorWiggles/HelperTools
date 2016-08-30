@@ -1,8 +1,8 @@
 package helpertools.entities;
 
-import helpertools.Mod_Registry;
-import helpertools.Mod_Configuration;
-import helpertools.Main;
+import helpertools.Common_Registry;
+import helpertools.ConfigurationFactory;
+import helpertools.Helpertoolscore;
 
 import java.util.Random;
 import java.util.Stack;
@@ -229,7 +229,7 @@ public class EntityGravelBombProjectile extends EntityThrowable{
 		}
 		
 		else {
-			if(Mod_Configuration.Bomb_Debris){
+			if(ConfigurationFactory.Bomb_Debris){
 			dirtblock.dropBlockAsItem(worldObj, x,y,z, 0, 0);
 		}}
   }

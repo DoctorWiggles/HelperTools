@@ -1,7 +1,7 @@
 package helpertools.util;
 
-import helpertools.Mod_Registry;
-import helpertools.Mod_Configuration;
+import helpertools.Common_Registry;
+import helpertools.ConfigurationFactory;
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 public class Bomb_Helper {
 	
 	
-	Boolean Debris = Mod_Configuration.Bomb_Debris;
+	Boolean Debris = ConfigurationFactory.Bomb_Debris;
 	
 	//protected Random rand;
 	   protected static Random rand = new Random();
@@ -180,7 +180,7 @@ public class Bomb_Helper {
 		}
 		
 		else {
-			if(Mod_Configuration.Bomb_Debris && flag){
+			if(ConfigurationFactory.Bomb_Debris && flag){
 			dirtblock.dropBlockAsItem(world, x,y,z, 0, 0);
 		}}
   }
@@ -266,7 +266,7 @@ public class Bomb_Helper {
 	 Block below2 = world.getBlock(x, y-2, z);
 	 
 	  if(target == Blocks.dirt ||
-			  target == Mod_Registry.LooseDirtBlock)
+			  target == Common_Registry.LooseDirtBlock)
 		{
 		  world.setBlock(x,y,z, Blocks.grass);}
 	  if(target == Blocks.cobblestone)
@@ -461,7 +461,7 @@ public class Bomb_Helper {
 	 if(target == Blocks.grass)
 		{world.setBlock(x,y,z, Blocks.dirt);}
 	 
-	 if(target == Blocks.dirt ||target == Mod_Registry.LooseDirtBlock )
+	 if(target == Blocks.dirt ||target == Common_Registry.LooseDirtBlock )
 		{ world.setBlock(x,y,z, Blocks.sand);}
 	 
 	 if(target == Blocks.stone_stairs)
@@ -665,7 +665,7 @@ public class Bomb_Helper {
 	 int ig2 = rand.nextInt(30);
 	 int ig3 = rand.nextInt(80);
 	 
-	 if(target == Mod_Registry.LooseDirtBlock){
+	 if(target == Common_Registry.LooseDirtBlock){
 		 world.setBlock(x,y,z, Blocks.dirt);
 	 }
 	 if (chance(2)){ 

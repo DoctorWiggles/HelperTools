@@ -1,7 +1,7 @@
 package helpertools.renders;
 
-import helpertools.Mod_Registry;
-import helpertools.Main;
+import helpertools.Common_Registry;
+import helpertools.Helpertoolscore;
 import helpertools.entities.BombProjectile_Entity;
 import helpertools.entities.EntityDirtBombProjectile;
 import cpw.mods.fml.relauncher.Side;
@@ -31,7 +31,7 @@ public class BombProjectile_Render extends Render
 
     
     public IIcon text (int type){    
-    return Mod_Registry.bomb.getIconFromDamage(type);	
+    return Common_Registry.bomb.getIconFromDamage(type);	
     }
     
     //===============================================================================================//

@@ -27,12 +27,16 @@ public class Whitelist_Util {
 		 {
 			//if(block instanceof ICarvable ){return true;}
 		 }
+		//if(block instanceof BlockStairs){return true;}
+		
+		//if(block instanceof BlockLog){return true;}
 		
 		if(block instanceof BlockRotatedPillar
 				||block instanceof BlockStairs
 				||block == Blocks.quartz_block){
 			int newMeta = block.damageDropped(meta);
 			ItemStack stacky = new ItemStack (block,0, newMeta); 
+			//System.out.println(meta);
 			//System.out.println("new"+newMeta);
 			if(InventoryUtil.StackScan(stacky, player.inventory) >0){return true;
 				}
@@ -40,21 +44,6 @@ public class Whitelist_Util {
 			}
 	
 		return false;
-	}
-	
-	public static ItemStack Whitelist_stack(ItemStack stack, EntityPlayer player, Block block, int meta){
-		ItemStack last_stack = stack;
-	
-		if(block instanceof BlockRotatedPillar
-				||block instanceof BlockStairs
-				||block == Blocks.quartz_block){
-			int newMeta = block.damageDropped(meta);
-			ItemStack stacky = new ItemStack (block,0, newMeta); 
-			//System.out.println("new"+newMeta);
-			last_stack = stacky;
-		}
-		
-			return last_stack;
 	}
 	
 	
@@ -65,10 +54,15 @@ public class Whitelist_Util {
 				||block == Blocks.quartz_block){
 			int newMeta = block.damageDropped(meta);
 			ItemStack stacky = new ItemStack (block,0, newMeta); 
+			//System.out.println(meta);
 			//System.out.println("new"+newMeta);
 			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
 				
 			}
+		//else
+		//	InventoryUtil.consumeInventoryItemStack(stack, player.inventory); 
+		
+		
 	}
 
 }

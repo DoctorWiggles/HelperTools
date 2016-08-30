@@ -13,7 +13,6 @@ public class GuiSmasher extends GuiScreen{
 	 private int xSize, ySize;
 	 private ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/GuiSmasher.png");
 	 
-	 
 	    public GuiSmasher(EntityPlayer player, World world, int x, int y, int z) {
 	 
 	        this.x = x;

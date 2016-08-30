@@ -1,6 +1,6 @@
 package helpertools.entities;
 
-import helpertools.Main;
+import helpertools.Helpertoolscore;
 
 import java.util.Random;
 import java.util.Stack;

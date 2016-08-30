@@ -195,9 +195,9 @@ public class CopyOfEntity_DirtBombProjectile extends EntityThrowable{
   						BlockPos pos2 = new BlockPos(i1+U, j1+1+l, k1+G2);
       if(worldObj.isAirBlock(pos2)
     	  
-    	  ||  worldObj.getBlockState(pos2).getBlock().getMaterial()== Material.plants
-    	  ||  worldObj.getBlockState(pos2).getBlock().getMaterial()== Material.lava
-    	  ||  worldObj.getBlockState(pos2).getBlock().getMaterial()== Material.water)
+    	  ||  worldObj.getBlockState(pos2).getBlock().getMaterial()== Material.PLANTS
+    	  ||  worldObj.getBlockState(pos2).getBlock().getMaterial()== Material.LAVA
+    	  ||  worldObj.getBlockState(pos2).getBlock().getMaterial()== Material.WATER)
       {
     	  //this.worldObj.setBlock(i1+U, j1+1+l, k1+G2, pblock); 
     	  worldObj.setBlockState(pos2, pblock.getDefaultState(), 02);
@@ -227,9 +227,9 @@ public class CopyOfEntity_DirtBombProjectile extends EntityThrowable{
   						BlockPos pos3 = new BlockPos(i2+U, j2+1+l, k2+G2);
       if(worldObj.isAirBlock(pos3)
     	  
-    		  ||  worldObj.getBlockState(pos3).getBlock().getMaterial()== Material.plants
-        	  ||  worldObj.getBlockState(pos3).getBlock().getMaterial()== Material.lava
-        	  ||  worldObj.getBlockState(pos3).getBlock().getMaterial()== Material.water)
+    		  ||  worldObj.getBlockState(pos3).getBlock().getMaterial()== Material.PLANTS
+        	  ||  worldObj.getBlockState(pos3).getBlock().getMaterial()== Material.LAVA
+        	  ||  worldObj.getBlockState(pos3).getBlock().getMaterial()== Material.WATER)
       {
     	  worldObj.setBlockState(pos3, pblock.getDefaultState(), 02); 
       }
@@ -254,9 +254,9 @@ public class CopyOfEntity_DirtBombProjectile extends EntityThrowable{
   					BlockPos pos4 = new BlockPos(i3+U, j3+1+l, k3+G2);
       if(worldObj.isAirBlock(pos4)
     	  
-    		  ||  worldObj.getBlockState(pos4).getBlock().getMaterial()== Material.plants
-        	  ||  worldObj.getBlockState(pos4).getBlock().getMaterial()== Material.lava
-        	  ||  worldObj.getBlockState(pos4).getBlock().getMaterial()== Material.water)
+    		  ||  worldObj.getBlockState(pos4).getBlock().getMaterial()== Material.PLANTS
+        	  ||  worldObj.getBlockState(pos4).getBlock().getMaterial()== Material.LAVA
+        	  ||  worldObj.getBlockState(pos4).getBlock().getMaterial()== Material.WATER)
       {
     	  //this.worldObj.setBlock(i3+U, j3+1+l, k3+G2, pblock);
     	  worldObj.setBlockState(pos4, pblock.getDefaultState(), 02);

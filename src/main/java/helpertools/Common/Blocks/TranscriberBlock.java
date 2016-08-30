@@ -4,30 +4,19 @@ package helpertools.Common.Blocks;
 import helpertools.Common.ItemRegistry;
 import helpertools.Utils.HelpTab;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 
 /**
  * Tile entity construction
@@ -40,7 +29,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
 {
     public TranscriberBlock(String unlocalizedName)
     {
-        super(Material.clay);
+        super(Material.CLAY);
         this.setUnlocalizedName(unlocalizedName);
         this.setCreativeTab(HelpTab.HelperTools); 
         this.setHardness(0.6F);

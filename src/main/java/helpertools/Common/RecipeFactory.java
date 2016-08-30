@@ -36,7 +36,7 @@ public class RecipeFactory extends ConfigurationFactory{
 	public static void RegisterRecipes(){
 		Main.logger.info("Loading Recipes");
 		
-		OreDictionary.registerOre("string", Items.string);
+		OreDictionary.registerOre("string", Items.STRING);
 		
 		//Tools
 		//expand
@@ -48,7 +48,7 @@ public class RecipeFactory extends ConfigurationFactory{
 		ShapedRecipe(Pearls_forTools, new ItemStack(expandertool,1,0),new Object[]{
 			"XZX",
 			" Y ",
-			" Y ", 'X',"ingotIron", 'Z', Items.ender_pearl,'Y',"stickWood"});		
+			" Y ", 'X',"ingotIron", 'Z', Items.ENDER_PEARL,'Y',"stickWood"});		
 		ShapedRecipe(Emeralds_forTools, new ItemStack(expandertool,1,0),new Object[]{
 			"XZX",
 			" Y ",
@@ -62,7 +62,7 @@ public class RecipeFactory extends ConfigurationFactory{
 		ShapedRecipe(Pearls_forTools, new ItemStack(exchange_tool,1,0),new Object[]{
 			"XZX",
 			" Y ",
-			" Y ", 'X',"ingotGold", 'Z', Items.ender_pearl,'Y',"stickWood"});		
+			" Y ", 'X',"ingotGold", 'Z', Items.ENDER_PEARL,'Y',"stickWood"});		
 		ShapedRecipe(Emeralds_forTools, new ItemStack(exchange_tool,1,0),new Object[]{
 			"XZX",
 			" Y ",
@@ -72,32 +72,32 @@ public class RecipeFactory extends ConfigurationFactory{
 		ShapedRecipe(Diamonds_forTools, new ItemStack(pattern_tool,1,0),new Object[]{
 			"SZS",
 			"LYL",
-			" Y ", 'S',"sandstone", 'L',"gemLapis",'Z',"gemDiamond",'Y',Items.reeds});
+			" Y ", 'S',"sandstone", 'L',"gemLapis",'Z',"gemDiamond",'Y',Items.REEDS});
 		ShapedRecipe(Pearls_forTools, new ItemStack(pattern_tool,1,0),new Object[]{
 			"SZS",
 			"LYL",
-			" Y ", 'S',"sandstone", 'L',"gemLapis",'Z',Items.ender_pearl,'Y',Items.reeds});
+			" Y ", 'S',"sandstone", 'L',"gemLapis",'Z',Items.ENDER_PEARL,'Y',Items.REEDS});
 		ShapedRecipe(Emeralds_forTools, new ItemStack(pattern_tool,1,0),new Object[]{
 			"SZS",
 			"LYL",
-			" Y ", 'S',"sandstone", 'L',"gemLapis",'Z',"gemEmerald",'Y',Items.reeds});
+			" Y ", 'S',"sandstone", 'L',"gemLapis",'Z',"gemEmerald",'Y',Items.REEDS});
 		
 		//Torch launcher		
 	    ShapedRecipe(Recipe_TorchLauncher, new ItemStack(crossbow_tool,1,0),new Object[]{
 	    	"   ",
 	    	"FBR",
-	    	"   ", 'B', Items.bow,'F', Items.flint_and_steel,'R', "plankWood"});	    
+	    	"   ", 'B', Items.BOW,'F', Items.FLINT_AND_STEEL,'R', "plankWood"});	    
 	    ShapedRecipe(Recipe_TorchLauncher, new ItemStack(crossbow_tool,1,0),new Object[]{
 	    	"FWS",
     		"W S",
-    		"RWS", 'S', "string", 'F', Items.flint_and_steel,'R', "plankWood",'W', "stickWood"});	    
+    		"RWS", 'S', "string", 'F', Items.FLINT_AND_STEEL,'R', "plankWood",'W', "stickWood"});	    
 	    ShapelessRecipe(Recipe_TorchLauncher,new ItemStack(crossbow_tool, 1 , 0), new Object[]{
-	    	Items.bow, Items.flint_and_steel, "plankWood"});
+	    	Items.BOW, Items.FLINT_AND_STEEL, "plankWood"});
 	    
 	    ShapedRecipe(Recipe_DirtBombs, new ItemStack(dirtbomb, Output_DirtBombs,0),new Object[]{
 	    	"SSS",
     		"SWS",
-    		"SSS", 'S', Blocks.dirt, 'W', Items.gunpowder});
+    		"SSS", 'S', Blocks.DIRT, 'W', Items.GUNPOWDER});
 	    	
 		
 		//Blocks		
@@ -107,27 +107,27 @@ public class RecipeFactory extends ConfigurationFactory{
     		" L ", 's', "sandstone", 'L', "gemLapis"});
 		
 		ShapelessRecipe(Recipe_Fake_Bedrock,new ItemStack(falseBedrock, Output_False_Bedrock , 0), new Object[]{
-			"cobblestone", "cobblestone", "cobblestone", Blocks.coal_block });
+			"cobblestone", "cobblestone", "cobblestone", Blocks.COAL_BLOCK });
 		
 	    	
 		
 		//Items
-		ItemStack BucketOut = new ItemStack(Items.milk_bucket.setContainerItem(Items.bucket));		
+		ItemStack BucketOut = new ItemStack(Items.MILK_BUCKET.setContainerItem(Items.BUCKET));		
 		ShapelessRecipe(Recipe_BottledMilk,new ItemStack(milkbottle, 1 , 0), new Object[]{
-			BucketOut, Items.glass_bottle});
+			BucketOut, Items.GLASS_BOTTLE});
 		
 		ItemStack Bottledestroy = new ItemStack(milkbottle.setContainerItem(null));
 		ShapelessRecipe(Recipe_Chocolatemilk,new ItemStack(chocolatemilk, 1 , 0), new Object[]{
-    		Bottledestroy, new ItemStack(Items.dye, 1, 3)});
+    		Bottledestroy, new ItemStack(Items.DYE, 1, 3)});
 		
 		ShapelessRecipe(Recipe_String_For_Dynamite, new ItemStack(ItemRegistry.dynamitebolt, Output_Dynamite, 0), new Object[]{
-    		Blocks.tnt, Items.arrow, Items.arrow, Items.arrow,Items.arrow, "string"});
+    		Blocks.TNT, Items.ARROW, Items.ARROW, Items.ARROW,Items.ARROW, "string"});
 		
 		ShapelessRecipe(Recipe_Slime_For_Dynamite, new ItemStack(ItemRegistry.dynamitebolt, Output_Dynamite, 0), new Object[]{
-    		Blocks.tnt, Items.arrow, Items.arrow, Items.arrow,Items.arrow, "slimeball"});
+    		Blocks.TNT, Items.ARROW, Items.ARROW, Items.ARROW,Items.ARROW, "slimeball"});
 		
-		ShapelessRecipe(Recipe_Podzol, new ItemStack(Blocks.dirt, 1 , 2), new Object[]{
-    		Blocks.dirt, "treeLeaves"});
+		ShapelessRecipe(Recipe_Podzol, new ItemStack(Blocks.DIRT, 1 , 2), new Object[]{
+    		Blocks.DIRT, "treeLeaves"});
 		
     		
 		

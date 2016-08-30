@@ -223,31 +223,31 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 					((EntityPlayer) theplayer)
 							.addChatComponentMessage(chatcomponenttranslation);
     				**/
-    				if (returnTBlock_FromState(thestaff, Nbtcounter) != Blocks.air){
+    				if (returnTBlock_FromState(thestaff, Nbtcounter) != Blocks.AIR){
     				
     					/** displacement whitelist **/
     				if (world.isAirBlock(pos2)
-    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.lava 
-    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.water
-    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants 
-    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine
-    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.snow)
+    						|| world.getBlockState(pos2).getMaterial() == Material.LAVA 
+    						|| world.getBlockState(pos2).getMaterial() == Material.WATER
+    						|| world.getBlockState(pos2).getMaterial() == Material.PLANTS 
+    						|| world.getBlockState(pos2).getMaterial() == Material.VINE
+    						|| world.getBlockState(pos2).getMaterial() == Material.snow)
     				{
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
-    					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0);
+    					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0);
     					//if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
     					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItemStack(stacky)
     							){
     					//theblock.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
-    						if (world.getBlockState(pos2).getBlock().getMaterial() == Material.vine
-    	    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants
-    	    						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.snow) 
+    						if (world.getBlockState(pos2).getMaterial() == Material.VINE
+    	    						|| world.getBlockState(pos2).getMaterial() == Material.PLANTS
+    	    						|| world.getBlockState(pos2).getMaterial() == Material.snow) 
     						{
     							//world.getBlockState(pos2).getBlock().dropBlockAsItem(world,X_1 , Y_1 , Z_1 , (world.getBlockMetadata(pos2)), 0);
     							world.getBlockState(pos2).getBlock().dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);
     						}
-    						//theblock.setBlock(X_1 , Y_1 , Z_1 , Blocks.dirt);
+    						//theblock.setBlock(X_1 , Y_1 , Z_1 , Blocks.DIRT);
     						
     					//world.setBlock(X_1 , Y_1 , Z_1 , returnTBlock_FromState(thestaff, Nbtcounter), (returnTMeta(thestaff, Nbtcounter)), 0);
     					world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff, Nbtcounter)), 02);
@@ -272,7 +272,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     					
     					if (!theplayer.capabilities.isCreativeMode){
     						//theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
-    						//stacky = new ItemStack (Item.getItemFromBlock(Blocks.dirt), 0,0); 
+    						//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0); 
     						InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);
     						 thestaff.damageItem(1, theplayer);
     					}

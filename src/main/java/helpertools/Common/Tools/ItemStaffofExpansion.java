@@ -110,20 +110,20 @@ public class ItemStaffofExpansion extends ToolBase_Default
 
         //Whitelist Placement
 		if (world.isAirBlock(pos2)
-        		|| world.getBlockState(pos2).getBlock().getMaterial() == Material.lava 
-        		|| world.getBlockState(pos2).getBlock().getMaterial() == Material.water
-				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants 
-				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine 
-				|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer)
+        		|| world.getBlockState(pos2).getMaterial() == Material.LAVA 
+        		|| world.getBlockState(pos2).getMaterial() == Material.WATER
+				|| world.getBlockState(pos2).getMaterial() == Material.PLANTS 
+				|| world.getBlockState(pos2).getMaterial() == Material.VINE 
+				|| world.getBlockState(pos2).getBlock() == Blocks.SNOW_LAYER)
         {
 			//ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
         	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
     		{
         		//destroys and returns blocks like grass
-        		if (world.getBlockState(pos2).getBlock().getMaterial() == Material.vine
-						|| world.getBlockState(pos2).getBlock().getMaterial() == Material.plants
-						|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer) 
+        		if (world.getBlockState(pos2).getMaterial() == Material.VINE
+						|| world.getBlockState(pos2).getMaterial() == Material.PLANTS
+						|| world.getBlockState(pos2).getBlock() == Blocks.SNOW_LAYER) 
 				{
 					//(world.getBlockState(pos2)).dropBlockAsItem(world,pos2, (((Chunk) world).getBlockMetadata(x2, y2, z2)), 0);
 					//(world.getBlockState(pos2)).dropBlockAsItem();
@@ -140,7 +140,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
         		 
         		//world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
-        		//world.setBlock(x2, y2, z2, Blocks.air);  
+        		//world.setBlock(x2, y2, z2, Blocks.AIR);  
         		//world.setBlockState(pos2, BlockStateHelper.returnState(choiseID), 012);
         		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
         		

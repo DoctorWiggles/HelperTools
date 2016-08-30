@@ -1,12 +1,11 @@
 package helpertools.Client;
 
 import helpertools.Main;
-import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 /**http://bedrockminer.jimdo.com/modding-tutorials/basic-modding-1-8/first-item/**/
 public final class RenderRegistry {

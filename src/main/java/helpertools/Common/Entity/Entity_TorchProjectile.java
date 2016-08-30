@@ -1,38 +1,15 @@
 package helpertools.Common.Entity;
 
-import helpertools.Utils.BlockStateHelper;
-
-import java.util.Stack;
-
-
-
-
-
-
-
-
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Entity_TorchProjectile extends EntityThrowable{
@@ -120,8 +97,8 @@ public class Entity_TorchProjectile extends EntityThrowable{
 	      EnumFacing sideHit = mop.sideHit; //face of a block
 	      World world = this.worldObj;
 	      BlockPos pos1 = mop.getBlockPos();
-	      Block P_Block = Blocks.torch;
-	      IBlockState P_State = Blocks.torch.getDefaultState();
+	      Block P_Block = Blocks.TORCH;
+	      IBlockState P_State = Blocks.TORCH.getDefaultState();
 	     
 	      
 	      Block_Impact(mop, world, pos1, sideHit, P_Block, P_State);	
@@ -165,14 +142,14 @@ public class Entity_TorchProjectile extends EntityThrowable{
 	   default:
 		break;	   
 	   }	   
-	   if(world.getBlockState(pos1).getBlock().getMaterial() == Material.plants 
-				|| world.getBlockState(pos1).getBlock().getMaterial() == Material.vine 
-				|| world.getBlockState(pos1).getBlock() == Blocks.snow_layer){
+	   if(world.getBlockState(pos1).getMaterial() == Material.PLANTS 
+				|| world.getBlockState(pos1).getMaterial() == Material.VINE 
+				|| world.getBlockState(pos1).getBlock() == Blocks.SNOW_LAYER){
 		   drop_blockItem(world, pos1);
 		   //world.setBlockState(pos1, p_State, 02);
 		   boolean flag = false;
-		   if(world.getBlockState(pos1).getBlock().getMaterial() == Material.vine
-				   && !(world.getBlockState(pos1).getBlock() == Blocks.tallgrass)){
+		   if(world.getBlockState(pos1).getMaterial() == Material.VINE
+				   && !(world.getBlockState(pos1).getBlock() == Blocks.TALLGRASS)){
 			   flag = true;
 		   }
 		   place_block(world, pos1, sideHit, p_Block, flag);
@@ -180,9 +157,9 @@ public class Entity_TorchProjectile extends EntityThrowable{
 		   return;		   
 		   
 	   }
-	   if(world.getBlockState(pos2).getBlock().getMaterial() == Material.plants 
-				|| world.getBlockState(pos2).getBlock().getMaterial() == Material.vine 
-				|| world.getBlockState(pos2).getBlock() == Blocks.snow_layer){
+	   if(world.getBlockState(pos2).getMaterial() == Material.PLANTS 
+				|| world.getBlockState(pos2).getMaterial() == Material.VINE 
+				|| world.getBlockState(pos2).getBlock() == Blocks.SNOW_LAYER){
 		   drop_blockItem(world, pos2);
 		   place_block(world, pos2, sideHit, p_Block, true);
 		   this.setDead();

@@ -6,7 +6,9 @@ import helpertools.Utils.HelpTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.util.SoundEvent;
 
 public class FalseBedrock extends Block {
 
@@ -17,14 +19,15 @@ public class FalseBedrock extends Block {
         this.setHardness(hardness);
         this.setResistance(resistance);
         this.setHarvestLevel("pickaxe", 1); 
-        this.setStepSound(soundTypePiston); 
+        this.setStepSound(soundTypePiston);
+        //this.setSoundType(SoundEvents.BLOCK_ANVIL_STEP);
         //this.setTickRandomly (false);
         //this.setBlockUnbreakable();
         //this.setLightOpacity(16);
     }
 
     public FalseBedrock(String unlocalizedName, float hardness, float resistance) {
-        this(unlocalizedName, Material.rock, hardness, resistance);
+        this(unlocalizedName, Material.ROCK, hardness, resistance);
     }
 
     public FalseBedrock(String unlocalizedName) {

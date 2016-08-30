@@ -24,7 +24,6 @@ public class ToolBase_Default extends ItemSpade{
 	//public short aShort;
 	public ToolBase_Default(ToolMaterial material) {
 		super(material);
-		// TODO Auto-generated constructor stub
 	}
 	
 

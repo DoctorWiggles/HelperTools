@@ -2,32 +2,19 @@ package helpertools.Common.Entity;
 
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
-import helpertools.Utils.BlockStateHelper;
 
-import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Entity_DirtBombProjectile extends EntityThrowable{
@@ -93,7 +80,7 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 	    	 return;
 	      }
 	   Block pblock = ItemRegistry.LooseDirtBlock;
-	   Block dirtblock = Blocks.dirt;      
+	   Block dirtblock = Blocks.DIRT;      
 	   EnumFacing sideHit = mop.sideHit;
 	   
 	   //valid_hit(worldObj, mop);
@@ -214,15 +201,15 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
    public void place_block (BlockPos pos, Block pblock, Block dirtblock){
 
 		if(worldObj.isAirBlock(pos)   	  
-				||  worldObj.getBlockState(pos).getBlock().getMaterial()== Material.plants
-				||  worldObj.getBlockState(pos).getBlock().getMaterial()== Material.lava
-				||  worldObj.getBlockState(pos).getBlock().getMaterial()== Material.water)
+				||  worldObj.getBlockState(pos).getMaterial()== Material.PLANTS
+				||  worldObj.getBlockState(pos).getMaterial()== Material.LAVA
+				||  worldObj.getBlockState(pos).getMaterial()== Material.WATER)
 		{
 			worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
 		}
-		if(worldObj.getBlockState(pos).getBlock().getMaterial()== Material.plants
-				|| worldObj.getBlockState(pos).getBlock().getMaterial()== Material.vine
-				|| worldObj.getBlockState(pos).getBlock() == Blocks.snow_layer){
+		if(worldObj.getBlockState(pos).getMaterial()== Material.PLANTS
+				|| worldObj.getBlockState(pos).getMaterial()== Material.VINE
+				|| worldObj.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER){
 			(worldObj.getBlockState(pos).getBlock()).dropBlockAsItem(worldObj, pos, worldObj.getBlockState(pos), 0);			
 			worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
 		}

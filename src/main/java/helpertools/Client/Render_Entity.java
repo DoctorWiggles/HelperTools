@@ -10,13 +10,10 @@ import helpertools.Common.Entity.Renders.RenderDynamiteProjectile;
 import helpertools.Common.Entity.Renders.RenderRedTorchProjectile;
 import helpertools.Common.Entity.Renders.RenderTorchProjectile;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.init.Items;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class Render_Entity {

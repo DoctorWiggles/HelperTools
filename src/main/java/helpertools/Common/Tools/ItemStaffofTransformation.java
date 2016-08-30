@@ -78,7 +78,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
   	};
    
 	
-	private Block Gblock = Blocks.air;	
+	private Block Gblock = Blocks.AIR;	
 	private int Gmeta = 0;	
 	
 	
@@ -151,7 +151,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
    				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
 			(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);
       		//Gblock.dropBlockAsItem(theblock, x2, y2, z2, Gmeta, 0);
-      		//theblock.setBlock(x2, y2, z2, Blocks.air);
+      		//theblock.setBlock(x2, y2, z2, Blocks.AIR);
       		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
       		
       		
@@ -213,11 +213,11 @@ public class ItemStaffofTransformation extends ToolBase_Default
 		/**      ~~~~~~~~      Small Mode       ~~~~~~~~             **/
 		////////////////////////////////////////////////////////////////
 		/** if this is true it performs this action **/
-		if (!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.air    			
+		if (!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
       			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
       			&& getMode(thestaff) == 2
       					||
-      			!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.air    			
+      			!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
       			&& theplayer.capabilities.isCreativeMode
       			&& getMode(thestaff) == 2)
       	{ 
@@ -243,11 +243,11 @@ public class ItemStaffofTransformation extends ToolBase_Default
     		////////////////////////////////////////////////////////////////////////////
 
 
-    	if (!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.air    			
+    	if (!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
       			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
       			&& getMode(thestaff) == 4
       					||
-      			!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.air    			
+      			!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
       			&& theplayer.capabilities.isCreativeMode
       			&& getMode(thestaff) == 4)
       	{  
@@ -337,11 +337,11 @@ public class ItemStaffofTransformation extends ToolBase_Default
 		/////////////////////////////////////////////////////////////////////////
 		/**          ~~~~~~~         Mass mode 6        ~~~~~~~             **/
 		////////////////////////////////////////////////////////////////////////
-		if (!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.air    			
+		if (!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
       			&& !theplayer.capabilities.isCreativeMode && Gblock != Blocks.bedrock
       			&& getMode(thestaff) == 6
       					||
-      			!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.air    			
+      			!theplayer.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
       			&& theplayer.capabilities.isCreativeMode
       			&& getMode(thestaff) == 6)
       	{  

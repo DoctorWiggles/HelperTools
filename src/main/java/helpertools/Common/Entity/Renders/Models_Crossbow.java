@@ -1,9 +1,10 @@
 package helpertools.Common.Entity.Renders;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import helpertools.Main;
 
 import java.util.ArrayList;
+
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 
 /**
  * User: The Grey Ghost

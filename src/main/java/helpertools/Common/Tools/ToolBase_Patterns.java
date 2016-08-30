@@ -23,7 +23,6 @@ public class ToolBase_Patterns extends ItemSpade{
 
 	public ToolBase_Patterns(ToolMaterial material) {
 		super(material);
-		// TODO Auto-generated constructor stub
 	}
 	
 

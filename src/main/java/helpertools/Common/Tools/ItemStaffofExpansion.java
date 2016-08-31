@@ -13,10 +13,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -85,10 +88,16 @@ public class ItemStaffofExpansion extends ToolBase_Default
 					
 					(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);
 				}
+        		/**
         		 world.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), 
         				 returnTBlock(thestaff).stepSound.getStepSound(), 
         				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
+        				 **/
+        		 //world.playSound(theplayer, pos2, null, SoundCategory.BLOCKS, 2F, 1F);
+        		 //world.playSound(theplayer, pos2, returnTBlock_FromState(thestaff).getSoundType(), SoundCategory.BLOCKS, 2F, 1F);
+        		 
+        		 	
         		 
         		 
         		//world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
@@ -188,8 +197,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3);
         			}
 
-        			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
-        					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+        			failedsound(world, theplayer);
     	        		 return true;
     	               	           
     	        }
@@ -274,8 +282,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
                 			}
             			}
         			}
-        			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
-        					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+        			failedsound(world, theplayer);
         			return true;
     	}
     
@@ -381,8 +388,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            }
         			}        	
         		}
-        			world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
-        					(double)z1 + 0.5D, "fire.ignite", .4F, itemRand.nextFloat() * 0.4F + 0.8F);
+        			failedsound(world, theplayer);
         			return true;
     	}
         
@@ -410,10 +416,8 @@ public class ItemStaffofExpansion extends ToolBase_Default
     		//ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
     		
     		
-    		world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, 
-    				(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-    		
-    		
+    		//TODO world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D,(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		failedsound(world, theplayer);
     		
     		 setOffMode(thestaff, 4);
  			return true;

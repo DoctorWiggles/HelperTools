@@ -4,6 +4,7 @@ package helpertools.Client;
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
+import helpertools.Common.Tools.ToolBase;
 
 import java.awt.Point;
 import java.lang.reflect.Field;
@@ -34,6 +35,7 @@ import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -152,8 +154,16 @@ public class ToolHud extends Gui
 
     int xPos = 20;
     int yPos = 20;
+    int offhandPos = 0;
     
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
+      /*TODO Do this stuff
+      ItemStack mainhand = this.mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
+      ItemStack offhand = this.mc.thePlayer.getHeldItem(EnumHand.OFF_HAND);
+      if ((mainhand.getItem() instanceof ToolBase) && (offhand.getItem() instanceof ToolBase)){
+    	  offhandPos = 30;
+      }
+      */
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
 			 
 			 if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){

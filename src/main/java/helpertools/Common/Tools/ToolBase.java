@@ -18,6 +18,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -96,6 +97,14 @@ public class ToolBase extends ItemTool{
 			setMode(itemStack, cur+2);
 		}
 	}
+		
+	public static void failedsound(World world, EntityPlayer player)
+	{
+		world.playSound(player, player.getPosition(), 
+				SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.NEUTRAL,
+				.4F, itemRand.nextFloat() * 0.4F + 0.8F);
+	}
+	
 	/** @deprecated Don't use 
 	public void ModeSound(EntityLivingBase living, ItemStack itemStack){
 		int mode = getMode(itemStack);
@@ -137,4 +146,5 @@ public class ToolBase extends ItemTool{
     	return modestring;
     };
 	**/
+	
 }

@@ -9,8 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
@@ -24,7 +26,35 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
        this.maxStackSize = 1;  
        setUnlocalizedName(unlocalizedName);
        setCreativeTab(HelpTab.HelperTools);
-       //this.setHasSubtypes(true);
+       this.addPropertyOverride(new ResourceLocation("mode"), new IItemPropertyGetter()
+       {
+           @SideOnly(Side.CLIENT)
+           public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn)
+           {	if(entityIn == null){
+        	   		return 0F;
+           	   	}
+           		float mode = 0F;
+           		if(entityIn instanceof EntityPlayer && entityIn.getHeldItemMainhand() == stack){
+        	   		if(getTload(stack)== 0){
+        	   			return 0F;
+        	   		}
+        	   		switch(getMode(stack)){
+        	   		case 0:	mode = 0.1F;				 
+       					break;		
+        	   		case 1: mode = 0.2F;
+       					break;
+        	   		case 2: mode = 0.3F;
+       					break;
+        	   		case 3: mode = 0.4F;
+       					break;
+        	   		default: mode = 0F;
+       					break;
+        	   		}
+           		}
+       		 return mode;
+               //return entityIn == null ? 0.0F : (entityIn.getHeldItemMainhand() == stack && entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).fishEntity != null ? 1.0F : 0.0F);
+           }
+       });
        
    }
    @Override
@@ -39,6 +69,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    }
    
    /**https://github.com/TheGreyGhost/MinecraftByExample/tree/master/src/main/java/minecraftbyexample/mbe12_item_nbt_animate **/
+   /**
    @Override
    @SideOnly(Side.CLIENT)
    public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int ticksRemaining) {
@@ -53,7 +84,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
      return Models_Crossbow.getInstance().getModel(mode);
 	 }
    }
-      
+     **/ 
    
    /**
    @Override

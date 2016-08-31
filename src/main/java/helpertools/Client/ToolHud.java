@@ -4,47 +4,20 @@ package helpertools.Client;
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
-import helpertools.Common.Tools.ToolBase;
-
-import java.awt.Point;
-import java.lang.reflect.Field;
-import java.nio.FloatBuffer;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
+import helpertools.Common.Tools.ToolBase_Default;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import org.lwjgl.opengl.GL11;
 
 /**http://www.minecraftforum.net/forums/mapping-and-modding/
  * minecraft-mods/modification-development/1420597-trying-to-render-an-item-within-a-gui**/
@@ -164,13 +137,10 @@ public class ToolHud extends Gui
     	  offhandPos = 30;
       }
       */
-		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
-			 
-			 if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){
-		      return;
-			 }
-		    }
-		 
+      
+	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {return;}
+	if(!heldItem.hasTagCompound()){return;}
+	
 		 //Defualting
 		 int Empowerment = 0;
 		 int Modo = 0;

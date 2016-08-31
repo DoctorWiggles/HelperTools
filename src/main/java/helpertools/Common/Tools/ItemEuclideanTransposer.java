@@ -1,5 +1,6 @@
 package helpertools.Common.Tools;
 
+import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Utils.BlockStateHelper;
@@ -14,10 +15,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -26,61 +31,63 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 {
     public ItemEuclideanTransposer(ToolMaterial material, String unlocalizedName)
     {
-    	super (material);
-        this.maxStackSize = 1;  
+    	super (material); 
 	    setUnlocalizedName(unlocalizedName);
-        setCreativeTab(HelpTab.HelperTools);
+	    this.MaxMode = 4;
     }
     protected static Random growrand = new Random();
     
     
     //flavor text
     @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
     {
-    par3List.add(TextFormatting.ITALIC + "sets patterns 5x5");
+    	list.add(TextFormatting.ITALIC + "sets patterns 5x5");
+    	if (stack.hasTagCompound()){
+    		list.add(whatModeString(stack)+ " mode");
+    	}
     }
       
-	//Custom mode changing code
+	/** Cycle through modes on swing and prevents backflow from onItemUse**/
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
-		
-		if (getMode(stack)== 0)
-   		{
-		   setMode(stack, 2);
-   		}
-		if (getOffMode(stack)== 0)
-   		{
-		   setOffMode(stack, 2);
-   		}
-		if (!entityLiving.worldObj.isRemote) {
+		if (getOffMode(stack)== 0){ setOffMode(stack, 2); }
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
-    	{ 
-			if (getMode(stack) == 4)
-			{
-		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
-		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
-				Texty.print(entityLiving, TextFormatting.GRAY + "Flush Mode");				
-				setMode(stack,2);
+    	{ 	
+			ModeSound(entityLiving, stack);
+			if (!entityLiving.worldObj.isRemote) {
+				nextMode(stack);
+				ModeText(entityLiving, stack);
 				return true;
-			}
-			else if (getMode(stack) == 2)
-			{	
-				Texty.print(entityLiving, TextFormatting.GRAY + "Submerged -1");
-			//entityLiving.playSound("mob.chicken.plop", .3F, 3.0F);}
-			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", .3F, 3.0F);
-			setMode(stack,4);
+			}			
     	}
-			return true;
-    	}
-		}
-		if (getOffMode(stack)== 4)
-   		{
-		   setOffMode(stack, 2);
-   		}
-		 return false;
+		if (getOffMode(stack)== 4){ setOffMode(stack, 2); }
+		return false;
     }
+	
+	public String whatModeString(ItemStack itemStack){	  
+    	String modestring= "Error";
+    	int mode = getMode(itemStack);    	
+    	switch(mode){
+		case 2:	modestring = "Flush";				 
+			break;		
+		case 4: modestring = "Submerged -1";
+			break;
+		default: modestring = "Error";
+			break;
+		}
+    	return modestring;
+    };
+    
+	
+	public void ModeText(EntityLivingBase living, ItemStack itemStack){
+		int mode = getMode(itemStack);
+		if(ConfigurationFactory.ToolModeMesseges){
+			String Messy = whatModeString(itemStack) + " Mode";
+			Texty.print(living, TextFormatting.GRAY + Messy);
+		    }
+	}
 	
 		
 	//The guts of the placement code
@@ -90,8 +97,9 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	/**During this, it looks for Which mode -> Which face of the block 
 	 * -> Which blocks are legal -> If they are legal, place or swap
 	 * -> And finally depending on which gamemode to remove durability and items**/
-	public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3)    
-    {
+	//public boolean onItemUse(ItemStack thestaff, EntityPlayer player, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3)    
+	public EnumActionResult onItemUse(ItemStack thestaff, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	{
 		
 		int x1 = pos.getX();
     	int y1 = pos.getY();
@@ -116,7 +124,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     	int successful = 0;
     	int P = 5;
     	int proxyskip = 0;
-    	if (!theplayer.isSneaking()){
+    	if (!player.isSneaking()){
     		
     		
     		//placement via transcriber proxy
@@ -201,7 +209,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     				/**
     				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
 							"Counter is? : " + (Nbtcounter), new Object[0]);
-					((EntityPlayer) theplayer)
+					((EntityPlayer) player)
 							.addChatComponentMessage(chatcomponenttranslation);
     				**/
     				if (returnTBlock_FromState(thestaff, Nbtcounter) != Blocks.AIR){
@@ -216,8 +224,8 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     				{
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
     					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0);
-    					//if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
-    					if (theplayer.capabilities.isCreativeMode|| theplayer.inventory.hasItemStack(stacky)
+    					//if (player.capabilities.isCreativeMode|| player.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
+    					if (player.capabilities.isCreativeMode|| player.inventory.hasItemStack(stacky)
     							){
     					//theblock.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
@@ -251,11 +259,11 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     		               
     		            }
     					
-    					if (!theplayer.capabilities.isCreativeMode){
-    						//theplayer.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
+    					if (!player.capabilities.isCreativeMode){
+    						//player.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
     						//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0); 
-    						InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);
-    						 thestaff.damageItem(1, theplayer);
+    						InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
+    						 thestaff.damageItem(1, player);
     					}
     					}
     					
@@ -271,21 +279,24 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     	if (successful == 1){
 			
     		
-			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.2F, .5F+py);
-			theplayer.worldObj.playSoundAtEntity(theplayer, "mob.endermen.portal", 1.7F, .5F+py);
+			//player.worldObj.playSoundAtEntity(player, "mob.endermen.portal", 1.2F, .5F+py);
+			//player.worldObj.playSoundAtEntity(player, "mob.endermen.portal", 1.7F, .5F+py);
+    		player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, .5F+py);
+			player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.7F, .5F+py);
 			successful = 0;
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
 		if (successful ==0){
-			theplayer.worldObj.playSoundAtEntity(theplayer, "random.click",.4F, itemRand.nextFloat() * 0.4F + 0.5F);
+			//player.worldObj.playSoundAtEntity(player, "random.click",.4F, itemRand.nextFloat() * 0.4F + 0.5F);
+			player.playSound(SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, .4F, itemRand.nextFloat() * 0.4F + 0.5F);
 			successful = 0;
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
     	}
     	
     	/////////////////////////////
     	/** Pattern Collection **/
-    	if (theplayer.isSneaking()){
+    	if (player.isSneaking()){
     		
     		if(world.getBlockState(pos1).getBlock() == ItemRegistry.transcriberBlock){
     			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(pos1);
@@ -293,7 +304,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
                 {
 
     				
-    				//theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.2F, .2F+py/5);
+    				//player.worldObj.playSoundAtEntity(player, "mob.ghast.fireball", 1.2F, .2F+py/5);
     				
     				x1 = x1 + (tile.offX);
     				y1 = y1 + (tile.offY);
@@ -319,7 +330,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
         				/**
         				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
     							"Counter is? : " + (Nbtcounter), new Object[0]);
-    					((EntityPlayer) theplayer)
+    					((EntityPlayer) player)
     							.addChatComponentMessage(chatcomponenttranslation);
         				**/
         				
@@ -335,15 +346,16 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
         				}
         			}
             }
-    		if(!theplayer.worldObj.isRemote){				
-				Texty.print(theplayer, TextFormatting.GRAY + "Pattern Saved");
-    		theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.5F, .2F+py/4);
+    		player.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, .2F+py/4);
+    		if(!player.worldObj.isRemote){
+    			Texty.print((EntityLivingBase)player, TextFormatting.GRAY + "Pattern Saved");
+				//player.worldObj.playSoundAtEntity(player, "mob.ghast.fireball", 1.5F, .2F+py/4);
     		}
     		setOffMode(thestaff, 4);
-    		return true;
+    		return EnumActionResult.SUCCESS;
     		
     	}
-    	return false;
+    	return EnumActionResult.FAIL; 
     }
 
     

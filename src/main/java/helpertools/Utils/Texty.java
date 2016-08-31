@@ -24,9 +24,14 @@ public class Texty {
 		ITextComponent chatmessy = new TextComponentTranslation(text, new Object[0]);
 		((EntityPlayer)living).addChatComponentMessage(chatmessy);
 	}
-	
+	/** Bridge method is bugging out hard somehow **/
+	@Deprecated
 	public static void print(EntityPlayer player, String text){
 		print(player, text);
+	}
+	
+	public static void print(String text){
+		System.out.println(text);
 	}
 	
 }

@@ -107,7 +107,7 @@ public class ToolBase extends ItemTool{
 				.4F, itemRand.nextFloat() * 0.4F + 0.8F);
 	}
 	
-	/** @deprecated Don't use 
+	
 	public void ModeSound(EntityLivingBase living, ItemStack itemStack){
 		int mode = getMode(itemStack);
 		switch(mode){
@@ -124,7 +124,7 @@ public class ToolBase extends ItemTool{
 			break;
 		}
 	}
-	
+	/** @deprecated Don't use 
 	public void ModeText(EntityLivingBase living, ItemStack itemStack){
 		int mode = getMode(itemStack);
 		if(ConfigurationFactory.ToolModeMesseges){

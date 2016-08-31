@@ -99,18 +99,14 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
 		           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
 		           float f1 = (this.growrand .nextFloat()/5F );
 		           float f2 = (this.growrand .nextFloat()/5F );
-		           /**
-		           float f = (this.growrand.nextFloat()*1.2F)-.55F ;
-		           //float f1 = (this.growrand .nextFloat()/1 )-.5F;
-		           float f1 = (this.growrand .nextFloat()*1.2F )-.55F;
-		           float f2 = (this.growrand .nextFloat()*1.2F -.55F);
-		           **/
+		           		       
+		           //RED 
+		           float s_X = 0F;
+		           //Blue
+		           float s_Y = -0.05F;
+		           //Green
+		           float s_Z = -0.05F;      
 		           
-		           float p1 = (this.growrand .nextFloat()/5 ) ;
-		           float p = (this.growrand .nextFloat()*3 )+2F  ;
-		           float p4 = (this.growrand .nextFloat()*5 )+1F  ;
-		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;
-		           //float p2 = (this.growrand .nextFloat()-.5F/5 ) ;
 		           
 		           float finX = i4 + offy_X +.3F-2;
 		           float finY = j4 + offy_Y -.1F;
@@ -119,30 +115,35 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
 		           
 		           //this.worldObj.spawnParticle("cloud", finX+f-.5, finY+f1+.5, finZ+f2+.5, p, p1, p2);
 		           //this.worldObj.spawnParticle("magicCrit", finX+f+.2, finY+.5+f1, finZ+f2+.3, 0, 0, 0);
-		           //this.worldObj.spawnParticle("reddust", finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 0, 0, 0);
-		           this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 0, 0, 0 ); 
+		           //this.worldObj.spawnParticle("reddust", finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 0, 0, 0);		           
+		           EnumParticleTypes center = EnumParticleTypes.REDSTONE;
+		           EnumParticleTypes outside = EnumParticleTypes.REDSTONE;
+		           //outside = EnumParticleTypes.CRIT_MAGIC;
+		           
+		           
+		           this.worldObj.spawnParticle(center, finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 2F, 0, 0); 
 		           
 		           //this.worldObj.spawnParticle("slime", finX-.5, finY+.5, finZ+.5, 0, 0, 0);
 		           
 		           for (int G2 = 0; G2 < 5; ++G2)
 		           {
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3, 0, p, p);		        	   
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3+4, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3+4, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3, 0, p, p);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3, s_X, s_Y, s_Z);		        	   
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3+4, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3+4,s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3, s_X, s_Y, s_Z);
 		           }
 		           for (int G3 = 0; G3 < 3; ++G3)
 		           {
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2, finY+.5+f1, finZ+f2+.3+G3+1, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+4, finY+.5+f1, finZ+f2+.3+G3+1, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2, finY+.5+f1+4, finZ+f2+.3+G3+1, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+4, finY+.5+f1+4, finZ+f2+.3+G3+1, 0, p, p);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1+4, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+4, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
 		           
 		        	   //verticals
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3+4, 0, p, p);
-		        	   this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3+4, 0, p, p);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3+4, s_X, s_Y, s_Z);
+		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3+4, s_X, s_Y, s_Z);
 		        	  
 		           }
 		           

@@ -52,28 +52,6 @@ public class ToolBase_Patterns extends ToolBase{
 
     }
     
-    
-    public String whatModeString(ItemStack stack){	  
-    	String modestring = "null";
-
-    	if (getMode(stack) == 2){
-    		modestring = "Pillar";
-    	}
-    	else if(getMode(stack) == 4){
-    		modestring = "Wall";
-    	}
-    	else if(getMode(stack) == 6){
-    		modestring = "Matching";
-    	}
-    	else{
-    		modestring = "null";
-    	}  
-    	return modestring;
-    };
-
-
-		
-	
 
     //=====================================================================//
   	public int getMode(ItemStack itemStack) {
@@ -147,14 +125,13 @@ public class ToolBase_Patterns extends ToolBase{
     
 	/** Offmode here prevents getblock from double dipping into switch mode code because i suck**/
 	// ///////////////////////////////////////////////////////////
-		public int getOffMode(ItemStack itemStack) {
+		public int getOffMode(ItemStack stack) {
 			
-			return itemStack.getTagCompound().getInteger("OffMode");
+			return stack.getTagCompound().getInteger("OffMode");
 
 		}		
-		public void setOffMode(ItemStack itemStack, int Value) {
-			
-			itemStack.getTagCompound().setInteger("OffMode", Value);			
+		public void setOffMode(ItemStack stack, int Value) {			
+			stack.getTagCompound().setInteger("OffMode", Value);
 		}
     
     //////////////////////////////////////////////////////////////    

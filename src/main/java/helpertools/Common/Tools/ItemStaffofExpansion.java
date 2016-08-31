@@ -46,17 +46,44 @@ public class ItemStaffofExpansion extends ToolBase_Default
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }}}
     
+    public String whatModeString(ItemStack itemStack){	  
+    	String modestring= "Error";
+    	int mode = getMode(itemStack);    	
+    	switch(mode){
+		case 2:	modestring = "Pillar";				 
+			break;		
+		case 4: modestring = "Wall";
+			break;
+		case 6: modestring = "Matching";
+		break;
+		default: modestring = "Error";
+			break;
+		}
+    	return modestring;
+    };
+    
+	
+	public void ModeText(EntityLivingBase living, ItemStack itemStack){
+		int mode = getMode(itemStack);
+		if(ConfigurationFactory.ToolModeMesseges){
+			String Messy = whatModeString(itemStack) + " Mode";
+			Texty.print(living, TextFormatting.GRAY + Messy);
+		    }
+	}
+    
+	/** Cycle through modes on swing and prevents backflow from onItemUse**/
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
 		if (getOffMode(stack)== 0){ setOffMode(stack, 2); }
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
-    	{ 
+    	{ 	
+			ModeSound(entityLiving, stack);
 			if (!entityLiving.worldObj.isRemote) {
 				nextMode(stack);
+				ModeText(entityLiving, stack);
 				return true;
-			}
-			
+			}			
     	}
 		if (getOffMode(stack)== 4){ setOffMode(stack, 2); }
 		return false;
@@ -88,13 +115,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 						|| world.getBlockState(pos2).getMaterial() == Material.PLANTS
 						|| world.getBlockState(pos2).getBlock() == Blocks.SNOW_LAYER) 
 				{
-					//(world.getBlockState(pos2)).dropBlockAsItem(world,pos2, (((Chunk) world).getBlockMetadata(x2, y2, z2)), 0);
-					//(world.getBlockState(pos2)).dropBlockAsItem();
-					
-					//int METACUCK = (world.getBlockState(pos2).getBlock()).getStateId(world.getBlockState(pos2));
-					
-					//(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, Status, 0);
-					
+										
 					(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);
 				}
         		/** TODO
@@ -105,13 +126,8 @@ public class ItemStaffofExpansion extends ToolBase_Default
         				 **/
         		 //world.playSound(player, pos2, null, SoundCategory.BLOCKS, 2F, 1F);
         		 //world.playSound(player, pos2, returnTBlock_FromState(thestaff).getSoundType(), SoundCategory.BLOCKS, 2F, 1F);
-        		 
-        		 	
-        		 
-        		 
-        		//world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
-        		//world.setBlock(x2, y2, z2, Blocks.AIR);  
-        		//world.setBlockState(pos2, BlockStateHelper.returnState(choiseID), 012);
+        		
+        		
         		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
         		
         		int crackid = (getTBlock(thestaff));
@@ -122,8 +138,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
                 float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
                 float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-        		//world.spawnParticle(particle, x2+f, y2+f1+.3, z2+f2, 0, 0, 0);    
-        		//world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2, y2, z2, f, f1+.3, f2, crackid,crackmeta ); 
+        		
         		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2+f, y2+f1+.3, z2+f2, 0, 0, 0, crackid,crackmeta ); 
     			}
         		
@@ -380,14 +395,9 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            int xT4 = x2 + x5;
         	            int yT4 = y2 + y5;
         	            int zT4 = z2 + z5;   
-        	            //if (world.getBlockMetadata(x2, y2, z2) == returnTMeta(thestaff) && 
-        	            		//world.getBlockState(x2, y2, z2) == returnTBlock(thestaff)){
-        	            
+        	                   	            
         	            BlockPos pos3 = new BlockPos(x2, y2, z2);	
-        	            if (
-        	            		//BlockStateHelper.getMetafromState(world, pos3) == returnTMeta(thestaff) && 
-            	            	//BlockStateHelper.getBlockfromState(world, pos3) == returnTBlock(thestaff)
-            	            	//|| 
+        	            if (        	            		
             	            	world.getBlockState(pos3) ==BlockStateHelper.returnState(getTBlock(thestaff))){
         	            	
         	            	/////////////////////////
@@ -409,9 +419,6 @@ public class ItemStaffofExpansion extends ToolBase_Default
         ///////////////////////////////
     	if (player.isSneaking())
     	{ 
-    		//setTBlock(thestaff, world.getBlock(x1, y1, z1).getIdFromBlock(world.getBlock(x1, y1, z1)));
-    		//setTMeta(thestaff,world.getBlockMetadata(x1, y1, z1)); 		
-    		//
     		
     		setTBlock(thestaff, BlockStateHelper.returnID(world, pos1)); 
     		setTMeta(thestaff, BlockStateHelper.getMetafromState(world, pos1)); 	
@@ -419,7 +426,6 @@ public class ItemStaffofExpansion extends ToolBase_Default
     		//ItemStack stacky2 = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
     		
     		
-    		//TODO world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D,(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
     		failedsound(world, player);
     		
     		 setOffMode(thestaff, 4);

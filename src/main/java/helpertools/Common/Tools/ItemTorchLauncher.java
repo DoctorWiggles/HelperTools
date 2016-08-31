@@ -1,35 +1,17 @@
 package helpertools.Common.Tools;
 
-import helpertools.Common.ItemRegistry;
-import helpertools.Common.Entity.Entity_DynamiteProjectile;
-import helpertools.Common.Entity.Entity_RedTorchProjectile;
-import helpertools.Common.Entity.Entity_TorchProjectile;
 import helpertools.Common.Entity.Renders.Models_Crossbow;
 import helpertools.Utils.HelpTab;
 
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.DataWatcher;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -83,8 +65,8 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    @Override
    public void addInformation(ItemStack stack, EntityPlayer entity, List list, boolean par4)
    {
-	   list.add(EnumChatFormatting.ITALIC + "fires torches ");
-	   list.add(EnumChatFormatting.ITALIC + "& more");
+	   list.add(TextFormatting.ITALIC + "fires torches ");
+	   list.add(TextFormatting.ITALIC + "& more");
 	   if (stack.hasTagCompound()){
 		    if(whatModeString(stack) != "null"){
 		    	list.add(whatModeString(stack)+ " mode");

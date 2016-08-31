@@ -7,10 +7,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
+import net.minecraft.util.text.TextFormatting;
 
 public class ItemDynamiteBolt extends Item {
 
@@ -24,6 +21,6 @@ public class ItemDynamiteBolt extends Item {
 	  @Override
 	    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	    {
-	    par3List.add(EnumChatFormatting.GRAY + "*Danger-Explosive*");
+	    par3List.add(TextFormatting.GRAY + "*Danger-Explosive*");
 	    }
 }

@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class Entity_TorchProjectile extends EntityThrowable{
@@ -86,7 +87,7 @@ public class Entity_TorchProjectile extends EntityThrowable{
    
    /** Called whenever the entities hitbox touches another box, being an entitie's or block. **/
    @Override
-  protected void onImpact(MovingObjectPosition mop) {
+  protected void onImpact(RayTraceResult mop) {
 	   
 	   if (this.worldObj.isRemote){ return;}
 	   if(mop.entityHit != null){
@@ -108,7 +109,7 @@ public class Entity_TorchProjectile extends EntityThrowable{
    }
    
    /** Seperate Unit for entity processing **/
-   public void Entity_Impact(MovingObjectPosition mop){
+   public void Entity_Impact(RayTraceResult mop){
 	   
 	 //when it hits an entity do this
 	      if (mop.entityHit != null &&!(mop.entityHit instanceof EntityEnderman))
@@ -123,7 +124,7 @@ public class Entity_TorchProjectile extends EntityThrowable{
    }
    
    /** Seperate Unit for block impact processing **/
-   public void Block_Impact(MovingObjectPosition mop, World world, BlockPos pos1, EnumFacing sideHit, Block p_Block, IBlockState p_State) {
+   public void Block_Impact(RayTraceResult mop, World world, BlockPos pos1, EnumFacing sideHit, Block p_Block, IBlockState p_State) {
 	   BlockPos pos2 = pos1;
 	   
 	   switch(sideHit){

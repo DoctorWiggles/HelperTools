@@ -3,6 +3,7 @@ package helpertools.Common.Blocks;
 import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
@@ -32,7 +33,7 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
     	this.offY = nbt.getInteger("offY");
     	this.offZ = nbt.getInteger("offZ");
     }   
-    
+    /**TODO
     @Override
     public void writeToNBT(NBTTagCompound nbt) { 	   
     	super.writeToNBT(nbt);
@@ -41,6 +42,15 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
     	nbt.setInteger("offY", this.offY);
     	nbt.setInteger("offZ", this.offZ);
  	   
+    }
+    **/
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+    {	super.writeToNBT(nbt);
+    	//new NBTTagList();	
+		nbt.setInteger("offX", this.offX);
+		nbt.setInteger("offY", this.offY);
+		nbt.setInteger("offZ", this.offZ);
+		return nbt;
     }
     
 	

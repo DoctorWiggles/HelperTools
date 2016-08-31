@@ -1,57 +1,31 @@
 package helpertools.Common.Tools;
 
-import helpertools.Main;
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Utils.BlockStateHelper;
+import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 
-public class ToolBase_Default extends ItemSpade{
+public class ToolBase_Default extends ToolBase{
 
 	//public short aShort;
 	public ToolBase_Default(ToolMaterial material) {
 		super(material);
 	}
 	
-
-	//Generic tool stuff
-	public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, BlockPos pos1, EntityLivingBase entity)
-    {
-		
-		
-        if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
-        {
-            stack.damageItem(1, entity);
-        }
-
-        return true;
-    }
-	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entity2)
-    {
-		stack.damageItem(2, entity2);
-        return true;
-    }
-	
-
-    public boolean isMetadataSpecific(ItemStack itemStack)
- 	{
- 		return false;
- 	}
-    
-
 	/**
 	 public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	    {
@@ -61,8 +35,6 @@ public class ToolBase_Default extends ItemSpade{
 	    }
 	**/
     
-
-
     /////////////////////////////////////////////////////////////////////
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {
     	
@@ -75,7 +47,7 @@ public class ToolBase_Default extends ItemSpade{
     		stack.getTagCompound().setInteger("OffMode", 0); 
     		
     		//String Messy = "No compound";
-    		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+    		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
 			//((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     		}
     	
@@ -87,7 +59,7 @@ public class ToolBase_Default extends ItemSpade{
     				+ " Block " + BlockStateHelper.returnBlock_ID((getTBlock(stack)))
     				+ " Name " + this.returnTBlock_FromState(stack)
     				+ " meta " + getTMeta(stack));
-    		ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+    		ChatComponentTranslation chatmessy = new ChatComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     	}
     	**/
@@ -221,21 +193,27 @@ public class ToolBase_Default extends ItemSpade{
 		}
 		
 		public void ToolEmpower(ItemStack itemStack, EntityLivingBase entityLiving){
-			int Toolmax = EnchantmentHelper.getEnchantmentLevel(32, itemStack);
+			World world = entityLiving.worldObj;
+			EntityPlayer player = (EntityPlayer)entityLiving;
+			
+			int Toolmax = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(32), itemStack);
 			int NextLevel = (getToolLevel(itemStack))+1;
 			if(NextLevel>Toolmax){
 				setToolLevel(itemStack,0);
-				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));
+				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));
+				world.playSound(player, player.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH,
+						SoundCategory.PLAYERS, (float)(1), (float)(1.3));
 			}
 			if(NextLevel<=Toolmax){
 				setToolLevel(itemStack,NextLevel);
-				entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+				world.playSound(player, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,
+						SoundCategory.PLAYERS, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
 			
 			 if(ConfigurationFactory.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
-					ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
-					((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+					Texty.print(entityLiving, TextFormatting.GRAY + Messy);
 				    }
 				    
 			//

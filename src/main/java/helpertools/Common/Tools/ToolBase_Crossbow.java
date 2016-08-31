@@ -6,7 +6,9 @@ import helpertools.Common.ItemRegistry;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
 import helpertools.Common.Entity.Entity_TorchProjectile;
+import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,32 +19,32 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ToolBase_Crossbow extends ItemSpade{
+public class ToolBase_Crossbow extends ToolBase{
 
 	public ToolBase_Crossbow(ToolMaterial material) {
 		super(material);
 		}
 		
-	
 	//Generic tool stuff
-		public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, BlockPos pos1, EntityLivingBase entity)
+		@Override
+		public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+		{
+			if ((double)state.getBlockHardness(worldIn, pos) != 0.0D)
+       		{
+				stack.damageItem(4, entityLiving);
+       		}
+
+			return true;
+		}
+		@Override
+		public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	    {
-	        if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
-	        {
-	            stack.damageItem(4, entity);
-	        }
-	        return true;
-	    }
-		
-		public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entity2)
-	    {
-			stack.damageItem(4, entity2);
+	        stack.damageItem(4, attacker);
 	        return true;
 	    }
 		
@@ -108,10 +110,10 @@ public class ToolBase_Crossbow extends ItemSpade{
 	    };
 	    
 	    //Item Gallery
-	    Item torch = Item.getItemFromBlock(Blocks.torch);
-	    Item redstone = Item.getItemFromBlock(Blocks.redstone_torch);
+	    Item torch = Item.getItemFromBlock(Blocks.TORCH);
+	    Item redstone = Item.getItemFromBlock(Blocks.REDSTONE_TORCH);
 	    //Item dynamite = ItemRegistry.dynamitebolt; - doesn't register for some reason ¯\_(*-*)_/¯
-	    Item arrow = Items.arrow;
+	    Item arrow = Items.ARROW;
 	    
 	    /** Checks inventory if specified mode's item exists **/
 	    public boolean is_Mode_Availible(ItemStack stack, EntityPlayer player, int mode) {
@@ -230,8 +232,7 @@ public class ToolBase_Crossbow extends ItemSpade{
 	    	Float sound = Main.Randy.nextFloat()+ 5F; //1f
 	    	player.worldObj.playSoundAtEntity(player, "mob.chicken.plop", sound, 3.0F);	
 	    	if(ConfigurationFactory.ToolModeMesseges){
-			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + whatModeString(stack)+" loaded", new Object[0]);
-			player.addChatComponentMessage(chatcomponenttranslation);
+			Texty.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
 	    	}
 	    }
 	    

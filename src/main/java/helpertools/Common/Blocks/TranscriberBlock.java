@@ -6,15 +6,20 @@ import helpertools.Utils.HelpTab;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,8 +42,8 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
         
         
     }
-    
-    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+  //public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
 		return Item.getItemFromBlock(ItemRegistry.transcriberBlock);
     }
@@ -53,17 +58,25 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
         super.breakBlock(world, pos, state);
         world.removeTileEntity(pos);
     }
-
-    @Override
+    /**@TODO
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
         super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+        return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
+    }
+    **/
+    @Override
+    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos,  int eventID, int eventParam) {
+        super.eventReceived(state, worldIn, pos, eventID, eventParam);
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
     }
     
     
     //public boolean onBlockActivated(World worldIn, int x1, int y1, int z1, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+    //public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    //{
     {
     	    	
     	int x1 = pos.getX();
@@ -93,8 +106,8 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
                 	//(tileentityhopper).atck7 = 6;
             	if(!player.isSneaking()){
 
-            		worldIn.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, (double)z1 + 0.5D, "random.click", 0.3F,   0.5F);
-            		
+            		//worldIn.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, (double)z1 + 0.5D, "random.click", 0.3F,   0.5F);            		
+            		worldIn.playSound(player, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.6F);
             	 switch(side){
 	    		 //Bottom 0
 	    		 case DOWN:	(tile).offY = (tile).offY +1;
@@ -122,7 +135,8 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
             	
             	//on off?
             	if(player.isSneaking()){
-            		worldIn.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, (double)z1 + 0.5D, "random.click", 0.3F,   0.6F);
+            		//worldIn.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D, (double)z1 + 0.5D, "random.click", 0.3F,   0.6F);
+            		worldIn.playSound(player, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.6F);
             		//ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation((tile).offX +"X " + (tile).offY +"Y " + (tile).offZ +"Z ", new Object[0]);
             	   	// player.addChatComponentMessage(chatcomponenttranslation); 
             		

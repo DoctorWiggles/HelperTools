@@ -11,7 +11,7 @@ public class HelpTab extends CreativeTabs
 	
 	public HelpTab()
 	{
-		//super(EnumChatFormatting.BLUE +"" + EnumChatFormatting.ITALIC + "Helper Tools");
+		//super(TextFormatting.BLUE +"" + TextFormatting.ITALIC + "Helper Tools");
 		super("HelperTools");
 		
 		 this.setBackgroundImageName("items8.png");

@@ -2,16 +2,22 @@ package helpertools.Common.Items;
 
 import helpertools.Utils.HelpTab;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemMilkBottle extends Item
 {
-   
+	private boolean alwaysEdible = true;
 
     public ItemMilkBottle(String unlocalizedName)
     {
@@ -22,34 +28,44 @@ public class ItemMilkBottle extends Item
 	   
     }
     @Override
-    public ItemStack onItemUseFinish(ItemStack p_150910_1_, World p_77654_2_, EntityPlayer p_150910_2_)
+    //TODO public ItemStack onItemUseFinish(ItemStack stack, World world, EntityPlayer player)
+    public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase living)
     {
-    	 if (!p_77654_2_.isRemote)
+    	if (!(living instanceof EntityPlayer)){return stack; }    	 
+    	EntityPlayer player = (EntityPlayer)living;
+    	
+    	 if (!world.isRemote)
          {
+    		 
              //p_77654_3_.curePotionEffects(p_77654_1_);
-    		 p_150910_2_.curePotionEffects(new ItemStack(Items.milk_bucket));
-    		 p_77654_2_.playSoundAtEntity(p_150910_2_, "random.burp", 0.5F, p_77654_2_.rand.nextFloat() * 0.1F + 0.9F);
-             //p_77654_3_.setFire(0);
+    		 player.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
+    		 //world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+    		 world.playSound(player, player.getPosition(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+    		
+    		 //p_77654_3_.setFire(0);
              //p_77654_3_.extinguish();             
          }
     	 
-        if (p_150910_2_.capabilities.isCreativeMode)
+        if (player.capabilities.isCreativeMode)
         {
-            return p_150910_1_;
+            return stack;
         }
-        else if (--p_150910_1_.stackSize <= 0)
+        else if (--stack.stackSize <= 0)
         {
-            return new ItemStack(Items.glass_bottle);
+            return new ItemStack(Items.GLASS_BOTTLE);
         }
         else
         {
-            if (!p_150910_2_.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle)))
+            if (!player.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE)))
             {
-                p_150910_2_.dropPlayerItemWithRandomChoice(new ItemStack(Items.glass_bottle, 1, 0), false);
+                //player.dropPlayerItemWithRandomChoice(new ItemStack(Items.GLASS_BOTTLE, 1, 0), false);
+                //player.dropItem(Items.GLASS_BOTTLE, 1);
+                player.entityDropItem(new ItemStack(Items.GLASS_BOTTLE, 1, 0), 1);
             }
 
-            return p_150910_1_;
+            return stack;
         }
+    	 
     }
 
     /**
@@ -71,9 +87,23 @@ public class ItemMilkBottle extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
+    /*
     public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
         p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
         return p_77659_1_;
+    }
+    */
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+    {
+        if (playerIn.canEat(this.alwaysEdible))
+        {
+            playerIn.setActiveHand(hand);
+            return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+        }
+        else
+        {
+            return new ActionResult(EnumActionResult.FAIL, itemStackIn);
+        }
     }
 }

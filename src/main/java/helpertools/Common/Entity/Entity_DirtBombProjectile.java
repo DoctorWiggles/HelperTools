@@ -2,19 +2,29 @@ package helpertools.Common.Entity;
 
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.ItemRegistry;
+import helpertools.Utils.BlockStateHelper;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class Entity_DirtBombProjectile extends EntityThrowable{
@@ -74,7 +84,7 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
    protected static Random growrand = new Random();
    
    @Override
-  protected void onImpact(MovingObjectPosition mop) {
+  protected void onImpact(RayTraceResult mop) {
 	   if (mop.entityHit != null )
 	      {
 	    	 return;

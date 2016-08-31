@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 public class Main {
 	
 	public static final String MODID = "HelperTools";
+	public static final String PATH = MODID + ":";
 	public static final String MODNAME = "HelperTools";
 	public static final String VERSION = "v2.5c";
 	public static final Logger logger = LogManager.getLogger(Main.MODID);

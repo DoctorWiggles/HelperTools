@@ -5,39 +5,22 @@ import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
+import helpertools.Utils.Texty;
 
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.event.world.ChunkEvent;
 
 public class ItemEuclideanTransposer extends ToolBase_Patterns
 {
@@ -55,7 +38,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    par3List.add(EnumChatFormatting.ITALIC + "sets patterns 5x5");
+    par3List.add(TextFormatting.ITALIC + "sets patterns 5x5");
     }
       
 	//Custom mode changing code
@@ -78,15 +61,13 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 			{
 		   		//entityLiving.playSound("mob.chicken.plop", 3.0F, .3F);
 		   		entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", 3F, .3F);
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Flush Mode", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+				Texty.print(entityLiving, TextFormatting.GRAY + "Flush Mode");				
 				setMode(stack,2);
 				return true;
 			}
 			else if (getMode(stack) == 2)
-			{			
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(EnumChatFormatting.GRAY + "Submerged -1", new Object[0]);
-				((EntityPlayer) entityLiving).addChatComponentMessage(chatcomponenttranslation);
+			{	
+				Texty.print(entityLiving, TextFormatting.GRAY + "Submerged -1");
 			//entityLiving.playSound("mob.chicken.plop", .3F, 3.0F);}
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", .3F, 3.0F);
 			setMode(stack,4);
@@ -231,7 +212,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     						|| world.getBlockState(pos2).getMaterial() == Material.WATER
     						|| world.getBlockState(pos2).getMaterial() == Material.PLANTS 
     						|| world.getBlockState(pos2).getMaterial() == Material.VINE
-    						|| world.getBlockState(pos2).getMaterial() == Material.snow)
+    						|| world.getBlockState(pos2).getMaterial() == Material.SNOW)
     				{
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
     					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0);
@@ -242,7 +223,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
     						if (world.getBlockState(pos2).getMaterial() == Material.VINE
     	    						|| world.getBlockState(pos2).getMaterial() == Material.PLANTS
-    	    						|| world.getBlockState(pos2).getMaterial() == Material.snow) 
+    	    						|| world.getBlockState(pos2).getMaterial() == Material.SNOW) 
     						{
     							//world.getBlockState(pos2).getBlock().dropBlockAsItem(world,X_1 , Y_1 , Z_1 , (world.getBlockMetadata(pos2)), 0);
     							world.getBlockState(pos2).getBlock().dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);
@@ -354,11 +335,8 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
         				}
         			}
             }
-    		if(!theplayer.worldObj.isRemote){
-				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-						EnumChatFormatting.GRAY + "Pattern Saved", new Object[0]);
-				((EntityPlayer) theplayer)
-						.addChatComponentMessage(chatcomponenttranslation);
+    		if(!theplayer.worldObj.isRemote){				
+				Texty.print(theplayer, TextFormatting.GRAY + "Pattern Saved");
     		theplayer.worldObj.playSoundAtEntity(theplayer, "mob.ghast.fireball", 1.5F, .2F+py/4);
     		}
     		setOffMode(thestaff, 4);

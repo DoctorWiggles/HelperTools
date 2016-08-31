@@ -1,5 +1,11 @@
 package helpertools.Common.Tools;
 
+import helpertools.Common.ConfigurationFactory;
+import helpertools.Utils.BlockStateHelper;
+import helpertools.Utils.HelpTab;
+import helpertools.Utils.InventoryUtil;
+import helpertools.Utils.Texty;
+
 import java.util.List;
 import java.util.Random;
 
@@ -9,26 +15,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-
-import helpertools.Common.ConfigurationFactory;
-import helpertools.Utils.BlockStateHelper;
-import helpertools.Utils.HelpTab;
-import helpertools.Utils.InventoryUtil;
 
 public class ItemStaffofExpansion extends ToolBase_Default
 {
     public ItemStaffofExpansion(ToolMaterial material, String unlocalizedName)
     {
     	super (material);
-        this.maxStackSize = 1;  
         setUnlocalizedName(unlocalizedName);
-        setCreativeTab(HelpTab.HelperTools);
     }
     
     protected static Random growrand = new Random();
@@ -36,67 +34,20 @@ public class ItemStaffofExpansion extends ToolBase_Default
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	par3List.add(EnumChatFormatting.ITALIC + "sets blocks");
+    	par3List.add(TextFormatting.ITALIC + "sets blocks");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }}}
-        
     
-	//(theblock.getBlock(i1, j1+2, k1)).setTickRandomly(false);
-   
-	//tileEntity.setFacing((short)change);
-	//tileBlock.setFacing((short)theface);
-	 
-	
-	//Custom mode changing code
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
-		if (getOffMode(stack)== 0)
-   		{
-		   setOffMode(stack, 2);
-   		}
 		if (!entityLiving.worldObj.isRemote) {
-		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
-    	{ 
-			//Chat Messege and mode switcher
-			setMode(stack, getMode(stack)+2);
-			if (getMode(stack) > 6){
-				setMode(stack, 2);
-			}
-			String Messy = "";
-			double loud1 = 3;
-			double loud2 = 0.3;
-			
-			switch(getMode(stack)){
-			case 2: Messy = whatModeString(stack) + " Mode";
-			break;
-			case 4: Messy = whatModeString(stack) + " Mode";
-					loud1 = 0.3;
-					loud2 = 3;
-			break;
-			case 6: Messy = whatModeString(stack) + " Mode";
-			break;
-			default:
-			break;
-			}
-			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
-			//config hook
-			
-			if(ConfigurationFactory.ToolModeMesseges){  
-			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
-			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
-		    }
-			
+			nextMode(stack);
 			return true;
     	}
-		}
-		if (getOffMode(stack)== 4)
-   		{
-		   setOffMode(stack, 2);
-   		}
-		 return false;
+		return false;
     }
 	
 	//Expanding function
@@ -138,6 +89,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         				 returnTBlock(thestaff).stepSound.getStepSound(), 
         				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
+        		 
         		 
         		//world.setBlockState(pos2, (IBlockState) Blocks.cobblestone);
         		//world.setBlock(x2, y2, z2, Blocks.AIR);  
@@ -423,7 +375,6 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            	
         	            	/////////////////////////
             	            /**Expanding function**/
-            	            ///////////////////////
             	            EXPAND(thestaff, theplayer, world, xT4, yT4, zT4, theface, fty1, fty2, fty3);
         	            
                 			}

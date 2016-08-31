@@ -20,12 +20,12 @@ public class Texty {
 	 * @param living The target to send the messege to
 	 * @param text The ITextCompnent (string with optional formatting)
 	 */
-	public void print(EntityLivingBase living, String text){
+	public static void print(EntityLivingBase living, String text){
 		ITextComponent chatmessy = new TextComponentTranslation(text, new Object[0]);
 		((EntityPlayer)living).addChatComponentMessage(chatmessy);
 	}
 	
-	public void print(EntityPlayer player, String text){
+	public static void print(EntityPlayer player, String text){
 		print(player, text);
 	}
 	

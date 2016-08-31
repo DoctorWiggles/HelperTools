@@ -1,34 +1,24 @@
 package helpertools.Common.Tools;
 
-import helpertools.Main;
 import helpertools.Common.ConfigurationFactory;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
+import helpertools.Utils.Texty;
 
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class ItemStaffofTransformation extends ToolBase_Default
@@ -47,7 +37,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	par3List.add(EnumChatFormatting.ITALIC + "swaps blocks");
+    	par3List.add(TextFormatting.ITALIC + "swaps blocks");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
@@ -122,9 +112,8 @@ public class ItemStaffofTransformation extends ToolBase_Default
 			entityLiving.worldObj.playSoundAtEntity(entityLiving, "mob.chicken.plop", (float)(loud1), (float)(loud2));
 			//config hook
 			
-			if(ConfigurationFactory.ToolModeMesseges){	    
-			ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
-			((EntityPlayer) entityLiving).addChatComponentMessage(chatmessy);
+			if(ConfigurationFactory.ToolModeMesseges){	  
+			Texty.print(entityLiving, TextFormatting.GRAY + Messy);
 		    }
 			
 			return true;

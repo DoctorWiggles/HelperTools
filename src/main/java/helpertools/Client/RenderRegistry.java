@@ -28,12 +28,12 @@ public final class RenderRegistry {
 	}
 	public static void Bakery_Advance() {
 		
-		ModelBakery.addVariantName(ItemRegistry.crossbow_tool, 
-				modid + ":" + "crossbow_item_0",
-				modid + ":" + "crossbow_item_1",
-				modid + ":" + "crossbow_item_2",
-				modid + ":" + "crossbow_item_3",
-				modid + ":" + "crossbow_item_4"
+		ModelBakery.registerItemVariants(ItemRegistry.crossbow_tool, 
+				new ModelResourceLocation(path + "crossbow_item_0", "inventory"),
+				new ModelResourceLocation(path + "crossbow_item_1", "inventory"),
+				new ModelResourceLocation(path + "crossbow_item_2", "inventory"),
+				new ModelResourceLocation(path + "crossbow_item_3", "inventory"),
+				new ModelResourceLocation(path + "crossbow_item_4", "inventory")
 				);
 		
 	}
@@ -47,6 +47,8 @@ public final class RenderRegistry {
 	//==========================================================================//
 
 	public static String modid = Main.MODID;
+	public static String path = Main.PATH;
+	
 
 	public static void reg(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register

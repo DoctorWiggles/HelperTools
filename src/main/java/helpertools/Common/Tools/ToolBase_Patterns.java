@@ -1,57 +1,22 @@
 package helpertools.Common.Tools;
 
-import helpertools.Main;
-import helpertools.Common.ConfigurationFactory;
 import helpertools.Utils.BlockStateHelper;
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 
-public class ToolBase_Patterns extends ItemSpade{
+public class ToolBase_Patterns extends ToolBase{
 
 	public ToolBase_Patterns(ToolMaterial material) {
 		super(material);
 	}
 	
-
-	//Generic tool stuff
-	public boolean onBlockDestroyed(ItemStack stack, World world, Block theblock, BlockPos pos1, EntityLivingBase entity)
-    {
-		
-        if ((double)theblock.getBlockHardness(world, pos1) != 0.0D)
-        {
-            stack.damageItem(1, entity);
-        }
-
-        return true;
-    }
-	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entity2)
-    {
-		stack.damageItem(2, entity2);
-        return true;
-    }
-	
-
-    public boolean isMetadataSpecific(ItemStack itemStack)
- 	{
- 		return false;
- 	}
-    
-
-
-
     /////////////////////////////////////////////////////////////////////
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {
     	
@@ -65,7 +30,7 @@ public class ToolBase_Patterns extends ItemSpade{
     		stack.getTagCompound().setInteger("Corner", 0); 
     		
     		//String Messy = "No compound";
-    		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+    		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
 			//((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     		}
     	
@@ -77,7 +42,7 @@ public class ToolBase_Patterns extends ItemSpade{
     				+ " Block " + BlockStateHelper.returnBlock_ID((getTBlock(stack)))
     				+ " Name " + this.returnTBlock_FromState(stack)
     				+ " meta " + getTMeta(stack));
-    		ChatComponentTranslation chatmessy = new ChatComponentTranslation(EnumChatFormatting.GRAY + Messy, new Object[0]);
+    		ChatComponentTranslation chatmessy = new ChatComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
 			((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     	}
     	**/

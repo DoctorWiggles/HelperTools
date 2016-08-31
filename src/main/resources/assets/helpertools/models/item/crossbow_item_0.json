@@ -21,5 +21,31 @@
         "translation": [ 0.00, 0.00, 0.00 ],
         "scale": [ 1.00, 1.00, 1.00 ]
     }
-}
+        },
+"overrides": [
+        {
+            "predicate": {
+                "mode": 0.1
+            },
+            "model": "helpertools:item/crossbow_item_1"
+        },
+        {
+            "predicate": {
+                "mode": 0.2
+            },
+            "model": "helpertools:item/crossbow_item_2"
+        },
+        {
+            "predicate": {
+                "mode": 0.3
+            },
+            "model": "helpertools:item/crossbow_item_3"
+        },
+        {
+            "predicate": {
+                "mode": 0.4
+            },
+            "model": "helpertools:item/crossbow_item_4"
+        }
+    ]
 }

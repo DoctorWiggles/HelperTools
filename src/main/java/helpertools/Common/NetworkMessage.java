@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
+import helpertools.Utils.Texty;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -42,6 +43,7 @@ public class NetworkMessage implements IMessage {
             //System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
             EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
             ItemStack heldItem = theplayer.inventory.getCurrentItem();
+            
             
             if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
             	

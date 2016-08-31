@@ -12,7 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
@@ -23,7 +27,9 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 
    public ItemTorchLauncher(ToolMaterial material, String unlocalizedName) {
        super(material);
-       this.maxStackSize = 1;  
+       this.maxStackSize = 1;
+       this.damageVsEntity = 3;
+       this.attackSpeed = -2.0F;
        setUnlocalizedName(unlocalizedName);
        setCreativeTab(HelpTab.HelperTools);
        this.addPropertyOverride(new ResourceLocation("mode"), new IItemPropertyGetter()
@@ -161,9 +167,11 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    }
    
    @Override
-   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) 
+   //public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) 
+   public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	
    {	
-	   if(player.worldObj.isRemote){return stack;}
+	   if(player.worldObj.isRemote){return EnumActionResult.FAIL;  }
 	   
 	   if(!player.isSneaking() && getTload(stack) ==2){
 		   //Firing function
@@ -171,8 +179,9 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    		}
 	   	if(player.isSneaking() && getTload(stack)== 0){
 	   		//Loading function
-	   		crossbow_LOAD(stack, world, player);
+	   		//crossbow_LOAD(stack, world, player);
+	   		setTload(stack, 2);
 	   	}	  
-	   	return stack;
+	   	return EnumActionResult.SUCCESS;
    }
 }

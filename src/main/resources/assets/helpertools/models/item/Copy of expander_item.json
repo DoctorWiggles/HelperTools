@@ -1,0 +1,24 @@
+{    "parent":"helpertools:block/expander_tool_block",
+   "display": {
+    "thirdperson": {
+        "rotation": [ 184, 270, 90 ],
+        "translation": [ -0.25, 1.50, -0.25 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
+    },
+    "firstperson": {
+        "rotation": [ 2, 240, 0 ],
+        "translation": [ -2.50, 1.50, 0.00 ],
+        "scale": [ 1.25, 1.25, 1.25 ]
+    },
+    "gui": {
+        "rotation": [ 18, 324, 44 ],
+        "translation": [ 2.00, -2.00, 0.75 ],
+        "scale": [ 1.10, 1.10, 1.10 ]
+    },
+    "head": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
+    }
+}
+}

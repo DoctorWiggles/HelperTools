@@ -16,7 +16,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -30,6 +32,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
     {
     	super (material);
         setUnlocalizedName(unlocalizedName);
+        this.MaxMode = 6;
     }
     
     protected static Random growrand = new Random();
@@ -46,15 +49,21 @@ public class ItemStaffofExpansion extends ToolBase_Default
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
-		if (!entityLiving.worldObj.isRemote) {
-			nextMode(stack);
-			return true;
+		if (getOffMode(stack)== 0){ setOffMode(stack, 2); }
+		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
+    	{ 
+			if (!entityLiving.worldObj.isRemote) {
+				nextMode(stack);
+				return true;
+			}
+			
     	}
+		if (getOffMode(stack)== 4){ setOffMode(stack, 2); }
 		return false;
     }
 	
 	//Expanding function
-	public void EXPAND (ItemStack thestaff, EntityPlayer theplayer, World world, int x2, int y2, int z2, EnumFacing theface, float fty1, float fty2, float fty3)
+	public void EXPAND (ItemStack thestaff, EntityPlayer player, World world, int x2, int y2, int z2, EnumFacing theface, float hitX, float hitY, float hitZ)
 	{
         BlockPos pos2 = new BlockPos(x2, y2, z2);
 
@@ -72,7 +81,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         {
 			//ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
-        	if(theplayer.capabilities.isCreativeMode || theplayer.inventory.hasItemStack(stacky))
+        	if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky))
     		{
         		//destroys and returns blocks like grass
         		if (world.getBlockState(pos2).getMaterial() == Material.VINE
@@ -88,14 +97,14 @@ public class ItemStaffofExpansion extends ToolBase_Default
 					
 					(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);
 				}
-        		/**
+        		/** TODO
         		 world.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), 
         				 returnTBlock(thestaff).stepSound.getStepSound(), 
         				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
         				 **/
-        		 //world.playSound(theplayer, pos2, null, SoundCategory.BLOCKS, 2F, 1F);
-        		 //world.playSound(theplayer, pos2, returnTBlock_FromState(thestaff).getSoundType(), SoundCategory.BLOCKS, 2F, 1F);
+        		 //world.playSound(player, pos2, null, SoundCategory.BLOCKS, 2F, 1F);
+        		 //world.playSound(player, pos2, returnTBlock_FromState(thestaff).getSoundType(), SoundCategory.BLOCKS, 2F, 1F);
         		 
         		 	
         		 
@@ -118,9 +127,9 @@ public class ItemStaffofExpansion extends ToolBase_Default
         		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2+f, y2+f1+.3, z2+f2, 0, 0, 0, crackid,crackmeta ); 
     			}
         		
-        		if (!theplayer.capabilities.isCreativeMode){                	
-        			InventoryUtil.consumeInventoryItemStack(stacky, theplayer.inventory);        	                        
-                    thestaff.damageItem(1, theplayer);
+        		if (!player.capabilities.isCreativeMode){                	
+        			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);        	                        
+                    thestaff.damageItem(1, player);
                     }	
     		}
         
@@ -136,8 +145,9 @@ public class ItemStaffofExpansion extends ToolBase_Default
 	/**During this, it looks for Which mode -> Which face of the block 
 	 * -> Which blocks are legal -> If they are legal, place or swap
 	 * -> And finally depending on which gamemode to remove durability and items**/		
-	public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3){
-    {
+	//public boolean onItemUse(ItemStack thestaff, EntityPlayer player, World world, BlockPos pos, EnumFacing theface, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(ItemStack thestaff, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	{
     	//Modifies size based on tool level	
     	int pillar = (getToolLevel(thestaff)+ 3);
     	int wall = (getToolLevel(thestaff)+ 2); 
@@ -154,7 +164,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
     	/** ~~~~~~~~ Pillar Mode 2  ~~~~~~~~~~~~~ **/
     	////////////////////////////////////////////
     	
-    	if (!theplayer.isSneaking()
+    	if (!player.isSneaking()
     			&& getMode(thestaff) == 2)
     	{ 
     	            //BOTTOM FACE
@@ -194,11 +204,11 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            /////////////////////////
         	            /**Expanding function**/
         	            ///////////////////////
-        	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3);
+        	            EXPAND(thestaff, player, world, x2, y2, z2, theface, hitX, hitY, hitZ);
         			}
 
-        			failedsound(world, theplayer);
-    	        		 return true;
+        			failedsound(world, player);
+        			return EnumActionResult.SUCCESS;
     	               	           
     	        }
     	///////////////////////////////////////////////////////////////////////////
@@ -206,7 +216,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
     	/////////////////////////////////////////////////////////////////////////
     	
 
-    	if (!theplayer.isSneaking()
+    	if (!player.isSneaking()
     			&& getMode(thestaff) == 4)
     	{ 
     	            //BOTTOM FACE
@@ -275,21 +285,21 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            /////////////////////////
         	            /**Expanding function**/
         	            ///////////////////////
-        	            EXPAND(thestaff, theplayer, world, x2, y2, z2, theface, fty1, fty2, fty3);
+        	            EXPAND(thestaff, player, world, x2, y2, z2, theface, hitX, hitY, hitZ);
         	            
     	        	
     	          
                 			}
             			}
         			}
-        			failedsound(world, theplayer);
-        			return true;
+        			failedsound(world, player);
+        			return EnumActionResult.SUCCESS;
     	}
     
     	/////////////////////////////////////////////////////////////////////////
     	/** Matching Mode 6 **/
     	/////////////////////////////////////////////////////////////////////////
-    	if (!theplayer.isSneaking()
+    	if (!player.isSneaking()
     			&& getMode(thestaff) == 6)
     	{ 
     		//int successful = 0;
@@ -382,29 +392,22 @@ public class ItemStaffofExpansion extends ToolBase_Default
         	            	
         	            	/////////////////////////
             	            /**Expanding function**/
-            	            EXPAND(thestaff, theplayer, world, xT4, yT4, zT4, theface, fty1, fty2, fty3);
+            	            EXPAND(thestaff, player, world, xT4, yT4, zT4, theface, hitX, hitY, hitZ);
         	            
                 			}
         	            }
         			}        	
         		}
-        			failedsound(world, theplayer);
-        			return true;
+        			failedsound(world, player);
+        			return EnumActionResult.SUCCESS;
     	}
         
-        //I don't actually know what this does, so that's kill
-        /**
-        if (!theplayer.canPlayerEdit(pos1, theface, thestaff))
-        {
-            return false;
-        }
-        **/
         
     	
     	/////////////////////////////////
         /** If Sneaking Select Block **/
         ///////////////////////////////
-    	if (theplayer.isSneaking())
+    	if (player.isSneaking())
     	{ 
     		//setTBlock(thestaff, world.getBlock(x1, y1, z1).getIdFromBlock(world.getBlock(x1, y1, z1)));
     		//setTMeta(thestaff,world.getBlockMetadata(x1, y1, z1)); 		
@@ -417,19 +420,19 @@ public class ItemStaffofExpansion extends ToolBase_Default
     		
     		
     		//TODO world.playSoundEffect((double)x1 + 0.5D, (double)y1 + 0.5D,(double)z1 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-    		failedsound(world, theplayer);
+    		failedsound(world, player);
     		
     		 setOffMode(thestaff, 4);
- 			return true;
+    		 return EnumActionResult.SUCCESS;
     	}
     	else
     	{ 
     		
-    		return false;     		
+    		return EnumActionResult.FAIL;   		
     	}
     	
     }
-	}
+	
     
     
 }

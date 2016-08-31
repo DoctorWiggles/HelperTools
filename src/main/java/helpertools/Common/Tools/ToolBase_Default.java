@@ -36,6 +36,7 @@ public class ToolBase_Default extends ToolBase{
 	**/
     
     /////////////////////////////////////////////////////////////////////
+	//@Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {
     	
     	if (!stack.hasTagCompound()) {
@@ -198,6 +199,9 @@ public class ToolBase_Default extends ToolBase{
 			
 			int Toolmax = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(32), itemStack);
 			int NextLevel = (getToolLevel(itemStack))+1;
+			if(player.capabilities.isCreativeMode){
+				Toolmax = 5;
+			}
 			if(NextLevel>Toolmax){
 				setToolLevel(itemStack,0);
 				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));

@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -230,7 +231,8 @@ public class ToolBase_Crossbow extends ToolBase{
 	    /** Static special effect clause **/
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
 	    	Float sound = Main.Randy.nextFloat()+ 5F; //1f
-	    	player.worldObj.playSoundAtEntity(player, "mob.chicken.plop", sound, 3.0F);	
+	    	//player.worldObj.playSoundAtEntity(player, "mob.chicken.plop", sound, 3.0F);	
+	    	player.playSound(SoundEvents.ENTITY_CHICKEN_EGG,  3F, .3F);	
 	    	if(ConfigurationFactory.ToolModeMesseges){
 			Texty.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
 	    	}

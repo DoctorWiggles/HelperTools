@@ -30,8 +30,10 @@ public class ToolBase extends ItemTool{
 	
 	int MaxMode;	
 	protected ToolBase(ToolMaterial materialIn) {
-		super(materialIn, EFFECTIVE_ON);
-		this.maxStackSize = 1;  
+		super((float) ConfigurationFactory.Tool_Attack_Damage,
+			(float) ConfigurationFactory.Tool_Attack_Speed,
+			materialIn, EFFECTIVE_ON);
+		this.maxStackSize = 1; 
 		setCreativeTab(HelpTab.HelperTools);
 		this.MaxMode = 0;
 		
@@ -87,10 +89,10 @@ public class ToolBase extends ItemTool{
 	public void nextMode(ItemStack itemStack){
 		int cap = this.MaxMode;
 		int cur = getMode(itemStack);
-		if (cur == cap){
+		if (cur >= cap){
 			setMode(itemStack, 2);
 		}
-		if(cur == 0){
+		else if(cur == 0){
 			setMode(itemStack, 2);
 		}
 		else{

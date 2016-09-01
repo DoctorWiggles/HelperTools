@@ -21,12 +21,10 @@ public class HelpTab extends CreativeTabs
 	public ItemStack getIconItemStack()
 	{
 		return new ItemStack(ItemRegistry.exchange_tool);
-		//return new ItemStack(Helpertoolscore.staffoftransformation2);
 	}
 	@Override
 	public Item getTabIconItem() 
 	{
-		//return Items.command_block_minecart;
 		return ItemRegistry.exchange_tool;
 	}
 }

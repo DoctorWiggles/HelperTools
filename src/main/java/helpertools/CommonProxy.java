@@ -37,7 +37,6 @@ public class CommonProxy {
 
 	public void init(FMLInitializationEvent e) {
 		
-		
 		RecipeFactory.RegisterRecipes();
 		Registry_Entity.register_entities();
 

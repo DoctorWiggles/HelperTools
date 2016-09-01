@@ -5,7 +5,6 @@ import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.Texty;
-import helpertools.Utils.Whitelist_Util;
 
 import java.util.List;
 import java.util.Random;
@@ -27,9 +26,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemStaffofExpansion extends ToolBase_Default
+public class CopyOfItemStaffofExpansion extends ToolBase_Default
 {
-    public ItemStaffofExpansion(ToolMaterial material, String unlocalizedName)
+    public CopyOfItemStaffofExpansion(ToolMaterial material, String unlocalizedName)
     {
     	super (material);
         setUnlocalizedName(unlocalizedName);
@@ -44,7 +43,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
     	par3List.add(TextFormatting.ITALIC + "sets blocks");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
-    	par3List.add(whatBlockString(stack) +returnTMeta(stack) +" "+ whatModeString(stack)+ " mode");
+    	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }}}
     
     public String whatModeString(ItemStack itemStack){	  
@@ -109,11 +108,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
         {
 			//ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
-			
-			Boolean whitelist_flag;
-			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(thestaff), player, returnTMeta(thestaff));
-        	if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky)
-        			|| whitelist_flag)
+        	if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky))
     		{
         		//destroys and returns blocks like grass
         		if (world.getBlockState(pos2).getMaterial() == Material.VINE
@@ -148,10 +143,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
     			}
         		
         		if (!player.capabilities.isCreativeMode){                	
-        			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
-        			if(whitelist_flag){
-        				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(thestaff), returnTMeta(thestaff));
-        				}
+        			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);        	                        
                     thestaff.damageItem(1, player);
                     }	
     		}

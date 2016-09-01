@@ -7,6 +7,7 @@ import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.Texty;
+import helpertools.Utils.Whitelist_Util;
 
 import java.util.List;
 import java.util.Random;
@@ -225,8 +226,10 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     					ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff, Nbtcounter)),0, returnTMeta(thestaff, Nbtcounter)); 
     					//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0);
     					//if (player.capabilities.isCreativeMode|| player.inventory.hasItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)))
+    					Boolean whitelist_flag;
+    					whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(thestaff, Nbtcounter), player, returnTMeta(thestaff, Nbtcounter));
     					if (player.capabilities.isCreativeMode|| player.inventory.hasItemStack(stacky)
-    							){
+    							||whitelist_flag){
     					//theblock.playSoundEffect((double)((float)X_1  + 0.5F), (double)((float)Y_1  + 0.5F), (double)((float)Z_1  + 0.5F), returnTBlock(thestaff, Nbtcounter).stepSound.getStepResourcePath(), (returnTBlock(thestaff, Nbtcounter).stepSound.getVolume() + 1.0F) / 2.0F, returnTBlock(thestaff, Nbtcounter).stepSound.getPitch() * 0.8F);
     						/** plants reinbursement **/ /**Having to work around blocks like this isn't fun **/
     						if (world.getBlockState(pos2).getMaterial() == Material.VINE
@@ -262,7 +265,11 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     					if (!player.capabilities.isCreativeMode){
     						//player.inventory.consumeInventoryItem(Item.getItemFromBlock(returnTBlock(thestaff, Nbtcounter)));	
     						//stacky = new ItemStack (Item.getItemFromBlock(Blocks.DIRT), 0,0); 
-    						InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
+    						if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+    		    			if(whitelist_flag){
+    		    				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(thestaff, Nbtcounter), returnTMeta(thestaff, Nbtcounter));
+    		    				//player.inventory.consumeInventoryItem(item);
+    		    				}
     						 thestaff.damageItem(1, player);
     					}
     					}

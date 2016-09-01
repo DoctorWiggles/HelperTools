@@ -5,6 +5,7 @@ import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.Texty;
+import helpertools.Utils.Whitelist_Util;
 
 import java.util.List;
 import java.util.Random;
@@ -99,7 +100,10 @@ public class ItemStaffofTransformation extends ToolBase_Default
         
       //The block that is being transformed
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
-		if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky))
+			Boolean whitelist_flag;
+			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(thestaff), player, returnTMeta(thestaff));
+		if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky)
+				|| whitelist_flag)
   		{	/**TODO
 			world.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), 
    				 returnTBlock(thestaff).stepSound.getStepSound(), 
@@ -122,7 +126,10 @@ public class ItemStaffofTransformation extends ToolBase_Default
 			}
 			//successful = 1;
 			if (!player.capabilities.isCreativeMode){                	
-    			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);        	                        
+				if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+    			if(whitelist_flag){
+    				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(thestaff), returnTMeta(thestaff));
+    			}
                 thestaff.damageItem(1, player);
                 }	
   		}

@@ -107,8 +107,8 @@ public class ConfigurationFactory extends ItemRegistry{
 		Durability_ExchangingTool  = config.get(sect_Dura.name, "Durability_ExchangingTool", 1024).getInt();
 		Durability_PatternTool  = config.get(sect_Dura.name, "Durability_PatternTool", 1240).getInt();
 		Durability_CrossbowTool  = config.get(sect_Dura.name, "Durability_CrossbowTool", 1428).getInt();
-		Tool_Attack_Damage  = config.get(sect_Dura.name, "Tool_Attack_Damage", 6, "Play around with attack damage and speed, from slow yet heavy hitter or quick but week attacks").getDouble();
-		Tool_Attack_Speed  = config.get(sect_Dura.name, "Tool_Attack_Speed", -3.4F, "-4F = 0 Attacks per second, -3F = 1, 0F = 4 Attacks per second").getDouble();
+		Tool_Attack_Damage  = config.get(sect_Dura.name, "Tool_Attack_Damage", 4, "Play around with attack damage and speed, from slow yet heavy hitter or quick but week attacks").getDouble();
+		Tool_Attack_Speed  = config.get(sect_Dura.name, "Tool_Attack_Speed", -3.2F, "-4F = 0 Attacks per second, -3F = 1, 0F = 4 Attacks per second").getDouble();
 		
 		
 		//sect Extra settings

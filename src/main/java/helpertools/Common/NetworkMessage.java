@@ -3,6 +3,7 @@ package helpertools.Common;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
 import helpertools.Utils.Texty;
@@ -42,17 +43,19 @@ public class NetworkMessage implements IMessage {
         public IMessage onMessage(NetworkMessage message, MessageContext ctx) {
             //System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
             EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
-            ItemStack heldItem = theplayer.inventory.getCurrentItem();
+            //ItemStack heldItem = theplayer.inventory.getCurrentItem();
+            ItemStack heldItem = theplayer.getHeldItem(EnumHand.MAIN_HAND);
             
             
             if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
-            	
-            	if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){
-            	
-            	//System.out.println("Returned null Erra!!!"); 
+            if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){            	
+            	heldItem = theplayer.getHeldItem(EnumHand.OFF_HAND);
+            		
+            if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
+            if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){
   		      return null;
-            	}
-  		    }
+                    	
+            }}}}
             if(heldItem.getItem() instanceof ItemStaffofExpansion){
             	ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
             	Tool.ToolEmpower(heldItem, theplayer);

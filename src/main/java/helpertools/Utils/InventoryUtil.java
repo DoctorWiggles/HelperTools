@@ -11,7 +11,7 @@ public class InventoryUtil{
 	/** Adds a metadata sensitive search and remove for items. **/
 	  
 	  /**Scans inventory for a specific item, and metadata (stack sensitive)**/
-	  private static int StackScan(ItemStack stack, InventoryPlayer entity)
+	  public static int StackScan(ItemStack stack, InventoryPlayer entity)
 	    {
 		  //String asd = entity.getCommandSenderName();
 		  //System.out.println(" " + asd);
@@ -25,6 +25,19 @@ public class InventoryUtil{
 	        }
 	        
 	        return -1;
+	    }
+	  /**Scans inventory for a specific item**/
+	  public static boolean hasItem(Item item, InventoryPlayer entity)
+	    {
+	        for (int i = 0; i < entity.mainInventory.length; ++i)
+	        {
+	            if (entity.mainInventory[i] != null && entity.mainInventory[i].getItem() == item)
+	            {
+	                return true;
+	            }
+	        }
+
+	        return false;
 	    }
 	  
 	  /**Attempts to remove an itemstack from the inventory (metadata senstive)**/

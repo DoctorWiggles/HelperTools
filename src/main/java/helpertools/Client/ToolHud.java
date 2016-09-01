@@ -5,12 +5,18 @@ import helpertools.Common.ConfigurationFactory;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
 import helpertools.Common.Tools.ToolBase_Default;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRotatedPillar;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -18,6 +24,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.lwjgl.opengl.GL11;
+
 
 /**http://www.minecraftforum.net/forums/mapping-and-modding/
  * minecraft-mods/modification-development/1420597-trying-to-render-an-item-within-a-gui**/
@@ -42,7 +49,7 @@ public class ToolHud extends Gui
   
   //protected RenderItem itemRender = mc.getRenderItem();
   
-  private void drawItemStack(ItemStack itemstack, int X1, int Y1, String p_146982_4_)
+  private void drawItemStack(ItemStack itemstack, int X1, int Y1, String string)
   {
 	  
 	  GL11.glPushMatrix();
@@ -128,7 +135,7 @@ public class ToolHud extends Gui
     int xPos = 20;
     int yPos = 20;
     int offhandPos = 0;
-    
+    	/**
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
       /*TODO Do this stuff
       ItemStack mainhand = this.mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
@@ -136,9 +143,16 @@ public class ToolHud extends Gui
       if ((mainhand.getItem() instanceof ToolBase) && (offhand.getItem() instanceof ToolBase)){
     	  offhandPos = 30;
       }
-      */
+      **/
+    	ItemStack heldItem = this.mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
       
-	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {return;}
+	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {
+		//return;
+			heldItem = this.mc.thePlayer.getHeldItem(EnumHand.OFF_HAND);
+		if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {
+			return;
+		}
+		}
 	if(!heldItem.hasTagCompound()){return;}
 	
 		 //Defualting
@@ -153,7 +167,9 @@ public class ToolHud extends Gui
 			 ItemStaffofTransformation  Tool = (ItemStaffofTransformation)heldItem.getItem();
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
-			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, Tool.returnTMeta(heldItem));
+			 int meta = Tool.returnTMeta(heldItem);
+			 meta = PillarAdjust(Tool.returnTBlock_FromState(heldItem), meta);
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, meta);
 			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_7.png");
 		 }
 		 
@@ -163,7 +179,9 @@ public class ToolHud extends Gui
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
 			 //StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
-			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, Tool.returnTMeta(heldItem));
+			 int meta = Tool.returnTMeta(heldItem);
+			 meta = PillarAdjust(Tool.returnTBlock_FromState(heldItem), meta);
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, meta);
 		 }	 
 		 
 		 
@@ -184,6 +202,23 @@ public class ToolHud extends Gui
 
 
   } 
+  
+  public static int PillarAdjust(Block block, int meta){
+	  
+	  if(block instanceof BlockRotatedPillar
+			  ||block instanceof BlockStairs){
+			meta = 0;
+			}
+	  if(block instanceof BlockSlab && meta >= 8){
+		  return meta - 8;
+	  }
+	  
+	  if(block == Blocks.QUARTZ_BLOCK && meta >= 2){
+			meta = 2;
+			}
+	  
+	  return meta;
+  }
   
   
   //////////////////////////////////////////////////////////////

@@ -17,8 +17,7 @@ public class Whitelist_Util {
 	static String Chisel = "chisel";
 	
 	public static boolean Block_Whitelist(Block block, EntityPlayer player, int meta){
-		//int last_Meta = -1;
-		
+			
 		//if(!player.inventory.hasItem(Item.getItemFromBlock(block))){
 		if(!InventoryUtil.hasItem(Item.getItemFromBlock(block), player.inventory)){
 			return false;

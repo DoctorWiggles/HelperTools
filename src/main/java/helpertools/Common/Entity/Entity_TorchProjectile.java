@@ -19,14 +19,15 @@ public class Entity_TorchProjectile extends EntityThrowable{
    public Entity_TorchProjectile(World world) {
        super(world);
    }
-
+   EntityPlayer person;
    public Entity_TorchProjectile(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
    
    
    @Override
-   protected void entityInit() { }
+   protected void entityInit() { 
+   }
    
    public void onUpdate()
    {

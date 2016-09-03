@@ -6,17 +6,22 @@ import helpertools.Common.ItemRegistry;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
 import helpertools.Common.Entity.Entity_TorchProjectile;
+import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,11 +53,11 @@ public class ToolBase_Crossbow extends ToolBase{
 	        stack.damageItem(4, attacker);
 	        return true;
 	    }
-		
+		/**
 		@Override
 		   public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3)
 			{return false;}
-		
+		**/
 		/**Established nbt factors **/
 		public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {
 	    	
@@ -122,16 +127,16 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	if(mode>3){return false;}
 			switch (mode){
 			case 0:
-				if(player.inventory.hasItem(torch)){return true;}		
+				if(InventoryUtil.hasItem(torch, player.inventory)){return true;}		
 			break;
 			case 1:
-				if(player.inventory.hasItem(redstone)){return true;}		
+				if(InventoryUtil.hasItem(redstone, player.inventory)){return true;}		
 			break;
 			case 2:
-				if(player.inventory.hasItem(ItemRegistry.dynamitebolt)){return true;}		
+				if(InventoryUtil.hasItem(ItemRegistry.dynamitebolt, player.inventory)){return true;}		
 			break;					
 			case 3:
-				if(player.inventory.hasItem(arrow)){return true;}				
+				if(InventoryUtil.hasItem(arrow, player.inventory)){return true;}				
 			break;			
 			}
 			return false;
@@ -161,16 +166,19 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	 	switch(mode)
 				{
 					case 0:
-						player.inventory.consumeInventoryItem(torch);
+						//player.inventory.consumeInventoryItem(torch);
+						//InventoryUtil.consumeInventoryItemStack(new ItemStack(torch), player.inventory);
+						InventoryUtil.consumeItem(torch, player);
 					break;
 					case 1:
-						player.inventory.consumeInventoryItem(redstone);	
+						InventoryUtil.consumeItem(redstone, player);
 					break;
 					case 2:
-						player.inventory.consumeInventoryItem(ItemRegistry.dynamitebolt);
+						InventoryUtil.consumeItem(ItemRegistry.dynamitebolt, player);
+						
 					break;					
 					case 3:
-						player.inventory.consumeInventoryItem(arrow);
+						InventoryUtil.consumeItem(arrow, player);
 					break;		   
 				}
 				return;
@@ -242,25 +250,44 @@ public class ToolBase_Crossbow extends ToolBase{
 	    /** fires the missle **/
 	    public void crossbow_FIRE(ItemStack stack,  World world, EntityPlayer player){
 	    	
-	    	EntityArrow entityarrow = new EntityArrow(world, player, 1 * 2.0F);
+	    	//EntityArrow entityarrow = new EntityArrow(world, player, 1 * 2.0F);
+	    	//EntityArrow entityarrow = new EntityArrow(world, player);
+	    	ItemStack itemstack = new ItemStack(arrow);
+	    	ItemArrow itemarrow = (ItemArrow)((ItemArrow)(itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW));
+            EntityArrow entityarrow = itemarrow.createArrow(world, itemstack, player);            
 	    	float f = 6.0F;
-	        f = (f * f + f * 2.0F) / 3.0F;	    	
+	        f = (f * f + f * 2.0F) / 3.0F;	
+	        entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+	        EntityThrowable SHOT;
 	    	switch(getMode(stack))
 			{
 				case 0:
-					world.spawnEntityInWorld(new Entity_TorchProjectile(world, player));
+					//world.spawnEntityInWorld(new Entity_TorchProjectile(world, player));
+					//EntityThrowable SHOT;
+					//Entity_TorchProjectile
+					SHOT = new Entity_TorchProjectile(world,player);					
+					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					world.spawnEntityInWorld(SHOT);
+					
 				break;
 				case 1:
-					world.spawnEntityInWorld(new Entity_RedTorchProjectile(world, player));
+					//world.spawnEntityInWorld(new Entity_RedTorchProjectile(world, player));
+					SHOT = new Entity_RedTorchProjectile(world,player);					
+					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					world.spawnEntityInWorld(SHOT);
 				break;
 				case 2:
-					world.spawnEntityInWorld(new Entity_DynamiteProjectile(world, player));
+					//world.spawnEntityInWorld(new Entity_DynamiteProjectile(world, player));
+					SHOT = new Entity_DynamiteProjectile(world,player);					
+					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					world.spawnEntityInWorld(SHOT);
 				break;					
 				case 3:
 					world.spawnEntityInWorld(entityarrow);
 				break;		   
 			}
-	    	 world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+	    	 //world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+	    	 Texty.playSound(player, SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 			 setTload(stack, 0);
 			 if(!player.capabilities.isCreativeMode){stack.damageItem(1, player);}
 	    	
@@ -270,13 +297,14 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	
 	    	if(player.capabilities.isCreativeMode){	    		
 	    		setTload(stack, 2);
-	    		world.playSoundAtEntity(player, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);	
+	    		//world.playSoundAtEntity(player, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);	
+	    		failedsound(world, player);
 	    		return;
 	    	}
 	    	else{
 	    		if(is_Mode_Availible(stack, player, getMode(stack))){	    			
 	    			setTload(stack, 2);
-	    			world.playSoundAtEntity(player, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);
+	    			failedsound(world, player);
 		    		consume_item(stack, player, getMode(stack));		    		
 		    		stack.damageItem(1, player);
 		    		return;
@@ -284,7 +312,7 @@ public class ToolBase_Crossbow extends ToolBase{
 		    		
 	    		}	    		
 	    		else{
-	    			world.playSoundAtEntity(player, "fire.ignite",4F, itemRand.nextFloat() * 0.4F + 0.9F);
+	    			failedsound(world, player);
 		   			return;
 		   			}
 	    	}
@@ -292,5 +320,26 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	
 	    	
 	    }
+	    
+	    /** TODO Arrow types and enchantments
+	       int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+
+                        if (j > 0)
+                        {
+                            entityarrow.setDamage(entityarrow.getDamage() + (double)j * 0.5D + 0.5D);
+                        }
+
+                        int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+
+                        if (k > 0)
+                        {
+                            entityarrow.setKnockbackStrength(k);
+                        }
+
+                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0)
+                        {
+                            entityarrow.setFire(100);
+                        }
+	     */
 
 }

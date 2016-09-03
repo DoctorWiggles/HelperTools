@@ -2,6 +2,7 @@ package helpertools.Common.Tools;
 
 import helpertools.Common.Entity.Renders.Models_Crossbow;
 import helpertools.Utils.HelpTab;
+import helpertools.Utils.Texty;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -124,7 +126,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 	//String TinkTorch = "HelperToolsID:SugarBlock";
 	String Tcon = "TConstruct";
 	//String Tcon = "HelperToolsID";
-	
+	/* TODO outdated tcon support
 	public boolean StoneTorchSearch(EntityLivingBase entityLiving) {
 		
 		if(Loader.isModLoaded(Tcon))
@@ -146,7 +148,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 		 else
 			return false;
 			};
-			
+	*/		
 			
    @Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
@@ -168,10 +170,14 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    
    @Override
    //public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) 
-   public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
-	
-   {	
-	   if(player.worldObj.isRemote){return EnumActionResult.FAIL;  }
+   //public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+   //{
+   public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+   {
+	   Texty.print(player, "Loaded? "+getTload(stack));
+	   Texty.print(player, "mode "+getMode(stack)+"");
+	   if(player.worldObj.isRemote){//return EnumActionResult.FAIL;
+	   		return new ActionResult(EnumActionResult.FAIL, stack);}
 	   
 	   if(!player.isSneaking() && getTload(stack) ==2){
 		   //Firing function
@@ -182,6 +188,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 	   		//crossbow_LOAD(stack, world, player);
 	   		setTload(stack, 2);
 	   	}	  
-	   	return EnumActionResult.SUCCESS;
+	   	//return EnumActionResult.SUCCESS;
+	   	return new ActionResult(EnumActionResult.SUCCESS, stack);
    }
 }

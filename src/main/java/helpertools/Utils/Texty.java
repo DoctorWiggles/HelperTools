@@ -4,6 +4,9 @@ import java.lang.annotation.Inherited;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -24,14 +27,18 @@ public class Texty {
 		ITextComponent chatmessy = new TextComponentTranslation(text, new Object[0]);
 		((EntityPlayer)living).addChatComponentMessage(chatmessy);
 	}
-	/** Bridge method is bugging out hard somehow **/
-	@Deprecated
+	
 	public static void print(EntityPlayer player, String text){
-		print(player, text);
+		print((EntityLivingBase)player, text);
 	}
 	
 	public static void print(String text){
 		System.out.println(text);
+	}
+	
+	public static void playSound(EntityPlayer player,SoundEvent event, Float volume, Float pitch){
+		player.worldObj.playSound(player, player.getPosition(), 
+				event, SoundCategory.NEUTRAL,volume, pitch);
 	}
 	
 }

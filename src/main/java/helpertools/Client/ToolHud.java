@@ -135,19 +135,11 @@ public class ToolHud extends Gui
     int xPos = 20;
     int yPos = 20;
     int offhandPos = 0;
-    	/**
-      ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
-      /*TODO Do this stuff
-      ItemStack mainhand = this.mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-      ItemStack offhand = this.mc.thePlayer.getHeldItem(EnumHand.OFF_HAND);
-      if ((mainhand.getItem() instanceof ToolBase) && (offhand.getItem() instanceof ToolBase)){
-    	  offhandPos = 30;
-      }
-      **/
+    	
+    	
     	ItemStack heldItem = this.mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
       
-	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {
-		//return;
+	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {		
 			heldItem = this.mc.thePlayer.getHeldItem(EnumHand.OFF_HAND);
 		if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {
 			return;
@@ -211,10 +203,9 @@ public class ToolHud extends Gui
 			}
 	  if(block instanceof BlockSlab && meta >= 8){
 		  return meta - 8;
-	  }
-	  
+	  }	  
 	  if(block == Blocks.QUARTZ_BLOCK && meta >= 2){
-			meta = 2;
+		  return meta = 2;
 			}
 	  
 	  return meta;

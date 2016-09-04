@@ -5,6 +5,7 @@ import helpertools.Client.KeyInputHandler;
 import helpertools.Client.RenderRegistry;
 import helpertools.Client.Render_Entity;
 import helpertools.Client.ToolHud;
+import helpertools.Common.Config;
 import helpertools.Common.Registry_Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;

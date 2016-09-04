@@ -1,6 +1,6 @@
 package helpertools.Common.Tools;
 
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.Texty;
 
@@ -30,8 +30,8 @@ public class ToolBase extends ItemTool{
 	
 	int MaxMode;	
 	protected ToolBase(ToolMaterial materialIn) {
-		super((float) ConfigurationFactory.Tool_Attack_Damage,
-			(float) ConfigurationFactory.Tool_Attack_Speed,
+		super((float) Config.Tool_Attack_Damage,
+			(float) Config.Tool_Attack_Speed,
 			materialIn, EFFECTIVE_ON);
 		this.maxStackSize = 1; 
 		setCreativeTab(HelpTab.HelperTools);

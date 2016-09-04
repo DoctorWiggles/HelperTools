@@ -1,6 +1,6 @@
 package helpertools.Common.Tools;
 
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Utils.BlockStateHelper;
@@ -84,7 +84,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	
 	public void ModeText(EntityLivingBase living, ItemStack itemStack){
 		int mode = getMode(itemStack);
-		if(ConfigurationFactory.ToolModeMesseges){
+		if(Config.ToolModeMesseges){
 			String Messy = whatModeString(itemStack) + " Mode";
 			Texty.print(living, TextFormatting.GRAY + Messy);
 		    }

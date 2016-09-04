@@ -1,6 +1,6 @@
 package helpertools.Common.Entity;
 
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Common.ItemRegistry;
 import helpertools.Utils.BlockStateHelper;
 
@@ -225,7 +225,7 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 		}
 		
 		else {
-			if(ConfigurationFactory.DirtBomb_Debris){
+			if(Config.DirtBomb_Debris){
 			dirtblock.dropBlockAsItem(worldObj, pos, dirtblock.getDefaultState(), 0);
 		}}
    }

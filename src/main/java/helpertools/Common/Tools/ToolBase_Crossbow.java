@@ -1,7 +1,7 @@
 package helpertools.Common.Tools;
 
 import helpertools.Main;
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
@@ -226,7 +226,7 @@ public class ToolBase_Crossbow extends ToolBase{
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
 	    	Float sound = Main.Randy.nextFloat()+ 5F;
 	    	player.playSound(SoundEvents.ENTITY_CHICKEN_EGG,  3F, .3F);	
-	    	if(ConfigurationFactory.ToolModeMesseges){
+	    	if(Config.ToolModeMesseges){
 			Texty.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
 	    	}			
 	    }

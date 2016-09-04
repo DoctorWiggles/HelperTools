@@ -1,7 +1,7 @@
 package helpertools.Client;
 
 
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Common.Tools.ItemStaffofExpansion;
 import helpertools.Common.Tools.ItemStaffofTransformation;
 import helpertools.Common.Tools.ToolBase_Default;
@@ -128,7 +128,7 @@ public class ToolHud extends Gui
     }    
     
     //config hook
-    if(ConfigurationFactory.RenderToolHuds == false){
+    if(Config.RenderToolHuds == false){
     	return;
     }
 

@@ -1,6 +1,6 @@
 package helpertools.Common.Tools;
 
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
@@ -215,7 +215,7 @@ public class ToolBase_Default extends ToolBase{
 						SoundCategory.PLAYERS, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
 			
-			 if(ConfigurationFactory.ToolPowerMesseges == true){	
+			 if(Config.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
 					Texty.print(entityLiving, TextFormatting.GRAY + Messy);
 				    }

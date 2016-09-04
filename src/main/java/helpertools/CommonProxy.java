@@ -1,7 +1,7 @@
 package helpertools;
 
 import helpertools.Client.ToolHud;
-import helpertools.Common.ConfigurationFactory;
+import helpertools.Common.Config;
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.NetworkMessage;
 import helpertools.Common.RecipeFactory;
@@ -23,8 +23,9 @@ public class CommonProxy {
     	MinecraftForge.EVENT_BUS.register(Main.eventHandler);
 		
 		/** Configs **/
-		ConfigurationFactory.InitialConfig(e);
-		ConfigurationFactory.PostConfig(e);
+    	Config.configOptions(e);
+		//Config.InitialConfig(e);
+		//Config.PostConfig(e);
 		
 		/** Networking & Packets **/
     	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat"); 	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)

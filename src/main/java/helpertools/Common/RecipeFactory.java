@@ -1,7 +1,6 @@
 package helpertools.Common;
 
 import helpertools.Main;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -10,7 +9,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class RecipeFactory extends ConfigurationFactory{
+public class RecipeFactory extends Config{
 
 	/** Boolean for Configuration, The ItemStack Output(Item,Number,Metadata), and the Recipes **/
 	public static void ShapedRecipe(Boolean Bool,ItemStack output, Object... recipe ){		

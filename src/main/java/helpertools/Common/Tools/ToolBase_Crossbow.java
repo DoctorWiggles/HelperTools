@@ -233,16 +233,15 @@ public class ToolBase_Crossbow extends ToolBase{
 	    
 	    
 	    /** fires the missle **/
-	    public void crossbow_FIRE(ItemStack stack,  World world, EntityPlayer player){
-	    	
+	    public void crossbow_FIRE(ItemStack stack,  World world, EntityPlayer player){	    	
 	    	
 	    	ItemStack itemstack = new ItemStack(arrow);
 	    	ItemArrow itemarrow = (ItemArrow)((ItemArrow)(itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW));
-            EntityArrow entityarrow = itemarrow.createArrow(world, itemstack, player);            
+                      
 	    	float f = 6.0F;
 	    	float vel = 3.0F;
 	        f = (f * f + f * 2.0F) / 3.0F;	
-	        entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
+	        
 	        EntityThrowable SHOT;
 	    	switch(getMode(stack))
 			{
@@ -262,6 +261,8 @@ public class ToolBase_Crossbow extends ToolBase{
 					world.spawnEntityInWorld(SHOT);
 				break;					
 				case 3:
+					EntityArrow entityarrow = itemarrow.createArrow(world, itemstack, player); 
+					entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, vel+1, 1.0F);
 					world.spawnEntityInWorld(entityarrow);
 				break;		   
 			}

@@ -43,7 +43,11 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
     {
-    	list.add(TextFormatting.ITALIC + "sets patterns 5x5");
+    	list.add(TextFormatting.WHITE + "Sets blocks in a 5^cube pattern");
+    	list.add(TextFormatting.ITALIC + "Use while sneaking for a pattern");
+    	list.add(" ");
+    	list.add(TextFormatting.ITALIC + "Can also be used with");
+    	list.add(TextFormatting.ITALIC + "- Transcriber Block");
     	if (stack.hasTagCompound()){
     		list.add(whatModeString(stack)+ " mode");
     	}

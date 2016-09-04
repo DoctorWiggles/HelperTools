@@ -1,5 +1,7 @@
 package helpertools.Common.Items;
 
+import java.util.List;
+
 import helpertools.Utils.HelpTab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,7 +15,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMilkBottle extends Item
 {
@@ -28,7 +33,13 @@ public class ItemMilkBottle extends Item
 	   
     }
     @Override
-    //TODO public ItemStack onItemUseFinish(ItemStack stack, World world, EntityPlayer player)
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
+      {
+      par3List.add(TextFormatting.ITALIC + "Cures Ailments");      
+      }
+    
+    @Override
     public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase living)
     {
     	if (!(living instanceof EntityPlayer)){return stack; }    	 

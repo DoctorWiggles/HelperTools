@@ -4,6 +4,7 @@ import helpertools.Main;
 import helpertools.Common.Blocks.FalseBedrock;
 import helpertools.Common.Blocks.TileEntityTranscriber;
 import helpertools.Common.Blocks.TranscriberBlock;
+import helpertools.Common.Blocks.TranscriberBlock_Item;
 import helpertools.Common.Blocks.LooseDirtBlock;
 import helpertools.Common.Items.Debug_States;
 import helpertools.Common.Items.ItemChocolateMilk;
@@ -55,7 +56,8 @@ public class ItemRegistry {
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
 		GameRegistry.registerBlock(falseBedrock = new FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F), "falseBedrock_block");
-        GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),"transcriber_block");
+        //GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),"transcriber_block");
+		GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),TranscriberBlock_Item.class, "transcriber_block");        
         GameRegistry.registerBlock(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"),"loosedirt_block");
         
         //Tiles

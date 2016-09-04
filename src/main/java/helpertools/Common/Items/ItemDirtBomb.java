@@ -1,6 +1,8 @@
 package helpertools.Common.Items;
 
 
+import java.util.List;
+
 import helpertools.Common.ItemRegistry;
 import helpertools.Common.Entity.Entity_DirtBombProjectile;
 import helpertools.Utils.HelpTab;
@@ -15,7 +17,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDirtBomb extends Item {
 
@@ -28,7 +33,13 @@ public class ItemDirtBomb extends Item {
 	       setUnlocalizedName(unlocalizedName);
 	       
 	   }
-	  
+	  @Override
+	    @SideOnly(Side.CLIENT)
+	    public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
+	      {
+		  par3List.add(TextFormatting.ITALIC + "Portable dirt technology");
+	      par3List.add(TextFormatting.ITALIC + "Coats a small area with dirt");	      
+	      }
 	  
 	  @Override	  
 	  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)

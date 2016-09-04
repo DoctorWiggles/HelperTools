@@ -1,5 +1,7 @@
 package helpertools.Common.Items;
 
+import java.util.List;
+
 import helpertools.Utils.HelpTab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +13,10 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemChocolateMilk extends ItemFood
 {
@@ -25,6 +30,14 @@ public class ItemChocolateMilk extends ItemFood
     this.setAlwaysEdible();
     
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
+      {
+      par3List.add(TextFormatting.ITALIC + "Cures Ailments");
+      par3List.add(TextFormatting.ITALIC + "- Also a snack");
+      }
 
     @Override
     public void onFoodEaten(ItemStack stack, World world, EntityPlayer player)

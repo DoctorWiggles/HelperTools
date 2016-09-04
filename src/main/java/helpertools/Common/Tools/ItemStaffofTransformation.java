@@ -42,7 +42,12 @@ public class ItemStaffofTransformation extends ToolBase_Default
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	par3List.add(TextFormatting.ITALIC + "swaps blocks");
+    	par3List.add(TextFormatting.WHITE + "Swaps blocks in the world");
+        par3List.add(TextFormatting.ITALIC + "While sneaking change mode");
+        par3List.add(TextFormatting.ITALIC + "- Or select block to swap");
+        par3List.add(TextFormatting.ITALIC + "While enchanted with efficiency");
+        par3List.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
+        par3List.add(TextFormatting.ITALIC + "");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
     	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");

@@ -75,36 +75,12 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
       // return super.getUnlocalizedName() + "." + (stack.getItemDamage() == 0 ? "white" : "black");
    }
    
-   /**https://github.com/TheGreyGhost/MinecraftByExample/tree/master/src/main/java/minecraftbyexample/mbe12_item_nbt_animate **/
-   /**
-   @Override
-   @SideOnly(Side.CLIENT)
-   public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int ticksRemaining) {
-	   
-	 if (!stack.hasTagCompound()) {return Models_Crossbow.getInstance().getModel(0);} 
-	 int loaded = getTload(stack);
-	 if (loaded == 0){
-		 return Models_Crossbow.getInstance().getModel(0);
-	 }
-	 else{
-     int mode = getMode(stack)+1;     
-     return Models_Crossbow.getInstance().getModel(mode);
-	 }
-   }
-     **/ 
-   
-   /**
-   @Override
-   public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
-       subItems.add(new ItemStack(itemIn, 1, 0));
-       subItems.add(new ItemStack(itemIn, 1, 1));
-   }
-   **/
    @Override
    public void addInformation(ItemStack stack, EntityPlayer entity, List list, boolean par4)
    {
-	   list.add(TextFormatting.ITALIC + "fires torches ");
-	   list.add(TextFormatting.ITALIC + "& more");
+	   list.add(TextFormatting.WHITE + "Fires Torches & Arrows & Dynamite ");
+	   list.add(TextFormatting.ITALIC + "While sneaking to toggle ammunition");
+	   list.add(TextFormatting.ITALIC + "Right click to reload or Fire");
 	   if (stack.hasTagCompound()){
 		    if(whatModeString(stack) != "null"){
 		    	list.add(whatModeString(stack)+ " mode");

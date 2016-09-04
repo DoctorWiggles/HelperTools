@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,6 +22,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -104,12 +106,10 @@ public class ItemStaffofTransformation extends ToolBase_Default
 			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(thestaff), player, returnTMeta(thestaff));
 		if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky)
 				|| whitelist_flag)
-  		{	/**TODO
-			world.playSoundEffect((double)((float)x2 + 0.5F), (double)((float)y2 + 0.5F), (double)((float)z2 + 0.5F), 
-   				 returnTBlock(thestaff).stepSound.getStepSound(), 
-   				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
-   				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
-   				 **/
+  		{	
+			SoundType soundtype = returnTBlock_FromState(thestaff).getSoundType();
+            world.playSound(player, player.getPosition(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+            
 			(world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);      		
       		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);    		
       		

@@ -1,22 +1,42 @@
 {
     "parent":"helpertools:block/Crossbow_Unloaded",
     "display": {
-    "thirdperson": {
-        "rotation": [ 264, 0, 0 ],
-        "translation": [ -0.25, 2.25, -4.50 ],
-        "scale": [ 1.25, 1.25, 1.25 ]
+    "thirdperson_righthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
     },
-    "firstperson": {
-        "rotation": [ 356, 132, 358 ],
-        "translation": [ -0.25, 5.00, -0.75 ],
-        "scale": [ 2.50, 2.50, 2.50 ]
+    "thirdperson_lefthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
+    },
+    "firstperson_righthand": {
+        "rotation": [ 10, 176, 358 ],
+        "translation": [ -0.25, 3.75, -3.50 ],
+        "scale": [ 1.05, 1.05, 1.05 ]
+    },
+    "firstperson_lefthand": {
+        "rotation": [ 10, 176, 358 ],
+        "translation": [ 0.25, 3.75, -3.50 ],
+        "scale": [ 1.05, 1.05, 1.05 ]
     },
     "gui": {
-        "rotation": [ 344, 12, 358 ],
-        "translation": [ 1.00, 2.75, -0.25 ],
-        "scale": [ 2.55, 2.55, 2.55 ]
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
     },
     "head": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
+    },
+    "fixed": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0.00, 0.00, 0.00 ],
+        "scale": [ 1.00, 1.00, 1.00 ]
+    },
+    "ground": {
         "rotation": [ 0, 0, 0 ],
         "translation": [ 0.00, 0.00, 0.00 ],
         "scale": [ 1.00, 1.00, 1.00 ]

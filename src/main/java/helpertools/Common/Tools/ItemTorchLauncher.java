@@ -38,33 +38,31 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
        {
            @SideOnly(Side.CLIENT)
            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn)
-           {	if(entityIn == null){
-        	   		return 0F;
+           {
+        	   if(entityIn == null){
+        	   		return 0.0F;
            	   	}
-           		float mode = 0F;
            		if(entityIn instanceof EntityPlayer && entityIn.getHeldItemMainhand() == stack){
         	   		if(getTload(stack)== 0){
-        	   			return 0F;
-        	   		}
+        	   			return 0.0F;
+        	   		}/*
         	   		switch(getMode(stack)){
-        	   		case 0:	mode = 0.1F;				 
-       					break;		
-        	   		case 1: mode = 0.2F;
-       					break;
-        	   		case 2: mode = 0.3F;
-       					break;
-        	   		case 3: mode = 0.4F;
-       					break;
-        	   		default: mode = 0F;
-       					break;
+        	   		case 0:	return 0.1F;				 
+					case 1: return 0.2F;
+					case 2: return 0.3F;
+					case 3: return 0.4F;
+					default: return 0.0F;
         	   		}
+        	   		*/
+        	   		return getMode(stack)+1;
            		}
-       		 return mode;
+       		 return 0.0F;
                //return entityIn == null ? 0.0F : (entityIn.getHeldItemMainhand() == stack && entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).fishEntity != null ? 1.0F : 0.0F);
            }
        });
        
    }
+   
    @Override
    public String getUnlocalizedName(ItemStack stack) {
 	   String name= "Torch";
@@ -174,8 +172,8 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    //{
    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
    {
-	   Texty.print(player, "Loaded? "+getTload(stack));
-	   Texty.print(player, "mode "+getMode(stack)+"");
+	   //Texty.print(player, "Loaded? "+getTload(stack));
+	   //Texty.print(player, "mode "+getMode(stack)+"");
 	   if(player.worldObj.isRemote){//return EnumActionResult.FAIL;
 	   		return new ActionResult(EnumActionResult.FAIL, stack);}
 	   
@@ -185,7 +183,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    		}
 	   	if(player.isSneaking() && getTload(stack)== 0){
 	   		//Loading function
-	   		//crossbow_LOAD(stack, world, player);
+	   		crossbow_LOAD(stack, world, player);
 	   		setTload(stack, 2);
 	   	}	  
 	   	//return EnumActionResult.SUCCESS;

@@ -10,6 +10,7 @@ import helpertools.Utils.Whitelist_Util;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -129,9 +130,11 @@ public class ItemStaffofExpansion extends ToolBase_Default
         				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
         				 **/
-        		 //world.playSound(player, pos2, null, SoundCategory.BLOCKS, 2F, 1F);
-        		 //world.playSound(player, pos2, returnTBlock_FromState(thestaff).getSoundType(), SoundCategory.BLOCKS, 2F, 1F);
         		
+        		
+        		SoundType soundtype = returnTBlock_FromState(thestaff).getSoundType();
+                world.playSound(player, player.getPosition(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+        		        		
         		
         		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
         		

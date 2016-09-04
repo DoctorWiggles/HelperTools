@@ -26,6 +26,7 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -71,15 +72,7 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	//if(isheld){	stack.setItemDamage(getMode(stack));}	    	
 		}
 		//Modes and load factors
-		public int getMode(ItemStack itemStack)
-			{
-			return itemStack.getTagCompound().getInteger("mode");
-			}
-		   
-		public void setMode(ItemStack itemStack, int Value)
-			{
-			itemStack.getTagCompound().setInteger("mode",  Value );				
-			} 
+		
 		
 		public int getTload(ItemStack itemStack)
 			{
@@ -168,7 +161,7 @@ public class ToolBase_Crossbow extends ToolBase{
 					case 0:
 						//player.inventory.consumeInventoryItem(torch);
 						//InventoryUtil.consumeInventoryItemStack(new ItemStack(torch), player.inventory);
-						InventoryUtil.consumeItem(torch, player);
+						InventoryUtil.consumeItem(torch, player);						
 					break;
 					case 1:
 						InventoryUtil.consumeItem(redstone, player);
@@ -256,8 +249,9 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	ItemArrow itemarrow = (ItemArrow)((ItemArrow)(itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW));
             EntityArrow entityarrow = itemarrow.createArrow(world, itemstack, player);            
 	    	float f = 6.0F;
+	    	float vel = 3.0F;
 	        f = (f * f + f * 2.0F) / 3.0F;	
-	        entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+	        entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 	        EntityThrowable SHOT;
 	    	switch(getMode(stack))
 			{
@@ -266,20 +260,20 @@ public class ToolBase_Crossbow extends ToolBase{
 					//EntityThrowable SHOT;
 					//Entity_TorchProjectile
 					SHOT = new Entity_TorchProjectile(world,player);					
-					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 					
 				break;
 				case 1:
 					//world.spawnEntityInWorld(new Entity_RedTorchProjectile(world, player));
 					SHOT = new Entity_RedTorchProjectile(world,player);					
-					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 				break;
 				case 2:
 					//world.spawnEntityInWorld(new Entity_DynamiteProjectile(world, player));
 					SHOT = new Entity_DynamiteProjectile(world,player);					
-					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 				break;					
 				case 3:
@@ -287,7 +281,8 @@ public class ToolBase_Crossbow extends ToolBase{
 				break;		   
 			}
 	    	 //world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-	    	 Texty.playSound(player, SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+	    	world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+	    	 //Texty.playSound(player, SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 			 setTload(stack, 0);
 			 if(!player.capabilities.isCreativeMode){stack.damageItem(1, player);}
 	    	

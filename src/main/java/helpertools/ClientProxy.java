@@ -22,7 +22,7 @@ public class ClientProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(new KeyInputHandler());
 		KeyBindings.init();  
 		MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
-		RenderRegistry.Bakery_Advance();
+		//RenderRegistry.Bakery_Advance();
 	}
 
 	@Override

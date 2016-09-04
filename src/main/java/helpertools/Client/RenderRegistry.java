@@ -20,12 +20,13 @@ public final class RenderRegistry {
 		//reg(ItemRegistry.debug_states_tool);
 		reg(ItemRegistry.dynamitebolt);
 		//reg(ItemRegistry.crossbow_tool);
+		reg(ItemRegistry.crossbow_tool);
 		reg(ItemRegistry.dirtbomb);
 		
 		//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_0", "inventory");
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_1", "inventory");
+		//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_1", "inventory");
 	    final int DEFAULT_ITEM_SUBTYPE = 0;
-	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ItemRegistry.crossbow_tool, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
+	    //Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ItemRegistry.crossbow_tool, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
 	}
 	public static void Bakery_Advance() {
 		
@@ -54,6 +55,12 @@ public final class RenderRegistry {
 	public static void reg(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
 		(item, 0, new ModelResourceLocation(modid + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+		//Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
+	}
+	
+	public static void reg(Item item, String path) {
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
+		(item, 0, new ModelResourceLocation(modid + ":" + path, "inventory"));
 		//Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
 	}
 	

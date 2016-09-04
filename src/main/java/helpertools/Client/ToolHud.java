@@ -121,9 +121,9 @@ public class ToolHud extends Gui
     
   @SubscribeEvent(priority = EventPriority.NORMAL)
   public void onRenderExperienceBar(RenderGameOverlayEvent event)
-  {
+  { 
     if(event.isCancelable() || event.getType() != ElementType.EXPERIENCE)
-    {      
+    {    
       return;
     }    
     

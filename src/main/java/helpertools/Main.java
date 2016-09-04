@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 @Mod(modid = Main.MODID, name = Main.MODNAME, version = Main.VERSION)
 public class Main {
 	
-	public static final String MODID = "HelperTools";
+	public static final String MODID = "helpertools";
 	public static final String PATH = MODID + ":";
 	public static final String MODNAME = "HelperTools";
 	public static final String VERSION = "v2.5c";

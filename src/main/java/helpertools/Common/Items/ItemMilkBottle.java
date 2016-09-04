@@ -39,12 +39,10 @@ public class ItemMilkBottle extends Item
     		 
              //p_77654_3_.curePotionEffects(p_77654_1_);
     		 player.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
-    		 //world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-    		 world.playSound(player, player.getPosition(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-    		
     		 //p_77654_3_.setFire(0);
              //p_77654_3_.extinguish();             
          }
+    	 world.playSound(player, player.getPosition(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
     	 
         if (player.capabilities.isCreativeMode)
         {

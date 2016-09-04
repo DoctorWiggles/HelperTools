@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -42,7 +44,8 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
         	   if(entityIn == null){
         	   		return 0.0F;
            	   	}
-           		if(entityIn instanceof EntityPlayer && entityIn.getHeldItemMainhand() == stack){
+           		if(entityIn instanceof EntityPlayer && entityIn.getHeldItemMainhand() == stack
+           			|| entityIn instanceof EntityPlayer && entityIn.getHeldItemOffhand() == stack){
         	   		if(getTload(stack)== 0){
         	   			return 0.0F;
         	   		}/*
@@ -56,9 +59,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
         	   		*/
         	   		return getMode(stack)+1;
            		}
-       		 return 0.0F;
-               //return entityIn == null ? 0.0F : (entityIn.getHeldItemMainhand() == stack && entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).fishEntity != null ? 1.0F : 0.0F);
-           }
+       		 return 0.0F;}
        });
        
    }
@@ -111,12 +112,6 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 		    	}}
    }
    
-     
-	 public void onCreated(ItemStack p_77622_1_, World p_77622_2_, EntityPlayer p_77622_3_) 
-	 {
-		 //Add unique name for bow
-		 // Player's Torch Launcher
-	 }
 	
 	//Tinker's Construct Stone Torch Support
 	
@@ -153,28 +148,28 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
    {
 	   EntityPlayer player = (EntityPlayer) entityLiving;
 	   World world = entityLiving.worldObj;
-	   
-	   if(world.isRemote){return false;}
+	   boolean flag = false;
+	   if(!world.isRemote){
 		  
 		if (entityLiving.isSneaking() )
 		{ 	
 			if(Transfer_Mode(stack, world, player)){
-				return true;
+				//return true;
+				flag = true;
 			}
-			else {return false;}
-		}  
-		 return false;
+	   }
+	   }	
+		 return flag;
    }
    
    @Override
-   //public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) 
-   //public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
-   //{
    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
    {
-	   //Texty.print(player, "Loaded? "+getTload(stack));
-	   //Texty.print(player, "mode "+getMode(stack)+"");
-	   if(player.worldObj.isRemote){//return EnumActionResult.FAIL;
+	   
+	   if(player.worldObj.isRemote){
+		   if(!player.isSneaking() && getTload(stack) ==2){
+		   world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F));
+		   }
 	   		return new ActionResult(EnumActionResult.FAIL, stack);}
 	   
 	   if(!player.isSneaking() && getTload(stack) ==2){
@@ -184,9 +179,7 @@ public class ItemTorchLauncher extends ToolBase_Crossbow{
 	   	if(player.isSneaking() && getTload(stack)== 0){
 	   		//Loading function
 	   		crossbow_LOAD(stack, world, player);
-	   		setTload(stack, 2);
 	   	}	  
-	   	//return EnumActionResult.SUCCESS;
 	   	return new ActionResult(EnumActionResult.SUCCESS, stack);
    }
 }

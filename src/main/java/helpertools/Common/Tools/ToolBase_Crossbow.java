@@ -54,11 +54,6 @@ public class ToolBase_Crossbow extends ToolBase{
 	        stack.damageItem(4, attacker);
 	        return true;
 	    }
-		/**
-		@Override
-		   public boolean onItemUse(ItemStack thestaff, EntityPlayer theplayer, World world, BlockPos pos, EnumFacing theface, float fty1, float fty2, float fty3)
-			{return false;}
-		**/
 		/**Established nbt factors **/
 		public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {
 	    	
@@ -111,12 +106,10 @@ public class ToolBase_Crossbow extends ToolBase{
 	    //Item Gallery
 	    Item torch = Item.getItemFromBlock(Blocks.TORCH);
 	    Item redstone = Item.getItemFromBlock(Blocks.REDSTONE_TORCH);
-	    //Item dynamite = ItemRegistry.dynamitebolt; - doesn't register for some reason ¯\_(*-*)_/¯
 	    Item arrow = Items.ARROW;
 	    
 	    /** Checks inventory if specified mode's item exists **/
-	    public boolean is_Mode_Availible(ItemStack stack, EntityPlayer player, int mode) {
-	    	
+	    public boolean is_Mode_Availible(ItemStack stack, EntityPlayer player, int mode) {	    	
 	    	if(mode>3){return false;}
 			switch (mode){
 			case 0:
@@ -231,20 +224,18 @@ public class ToolBase_Crossbow extends ToolBase{
 
 	    /** Static special effect clause **/
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
-	    	Float sound = Main.Randy.nextFloat()+ 5F; //1f
-	    	//player.worldObj.playSoundAtEntity(player, "mob.chicken.plop", sound, 3.0F);	
+	    	Float sound = Main.Randy.nextFloat()+ 5F;
 	    	player.playSound(SoundEvents.ENTITY_CHICKEN_EGG,  3F, .3F);	
 	    	if(ConfigurationFactory.ToolModeMesseges){
 			Texty.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
-	    	}
+	    	}			
 	    }
 	    
 	    
 	    /** fires the missle **/
 	    public void crossbow_FIRE(ItemStack stack,  World world, EntityPlayer player){
 	    	
-	    	//EntityArrow entityarrow = new EntityArrow(world, player, 1 * 2.0F);
-	    	//EntityArrow entityarrow = new EntityArrow(world, player);
+	    	
 	    	ItemStack itemstack = new ItemStack(arrow);
 	    	ItemArrow itemarrow = (ItemArrow)((ItemArrow)(itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW));
             EntityArrow entityarrow = itemarrow.createArrow(world, itemstack, player);            
@@ -256,22 +247,16 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	switch(getMode(stack))
 			{
 				case 0:
-					//world.spawnEntityInWorld(new Entity_TorchProjectile(world, player));
-					//EntityThrowable SHOT;
-					//Entity_TorchProjectile
 					SHOT = new Entity_TorchProjectile(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
-					
 				break;
 				case 1:
-					//world.spawnEntityInWorld(new Entity_RedTorchProjectile(world, player));
 					SHOT = new Entity_RedTorchProjectile(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 				break;
 				case 2:
-					//world.spawnEntityInWorld(new Entity_DynamiteProjectile(world, player));
 					SHOT = new Entity_DynamiteProjectile(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
@@ -280,24 +265,24 @@ public class ToolBase_Crossbow extends ToolBase{
 					world.spawnEntityInWorld(entityarrow);
 				break;		   
 			}
-	    	 //world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-	    	world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-	    	 //Texty.playSound(player, SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-			 setTload(stack, 0);
-			 if(!player.capabilities.isCreativeMode){stack.damageItem(1, player);}
 	    	
-	    }
+	    		world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+	    	
+	    		setTload(stack, 0);
+	    		if(!player.capabilities.isCreativeMode){stack.damageItem(1, player);}
+	    	
+	    	}
 	    /** loads the missle **/
 	    public void crossbow_LOAD(ItemStack stack,  World world, EntityPlayer player){
 	    	
-	    	if(player.capabilities.isCreativeMode){	    		
-	    		setTload(stack, 2);
-	    		//world.playSoundAtEntity(player, "fire.ignite",.4F, itemRand.nextFloat() * 0.4F + 0.8F);	
+	    	if(player.capabilities.isCreativeMode){	  
+	    		
+	    		setTload(stack, 2);	
 	    		failedsound(world, player);
 	    		return;
 	    	}
 	    	else{
-	    		if(is_Mode_Availible(stack, player, getMode(stack))){	    			
+	    		if(is_Mode_Availible(stack, player, getMode(stack))){
 	    			setTload(stack, 2);
 	    			failedsound(world, player);
 		    		consume_item(stack, player, getMode(stack));		    		
@@ -307,6 +292,7 @@ public class ToolBase_Crossbow extends ToolBase{
 		    		
 	    		}	    		
 	    		else{
+	    			
 	    			failedsound(world, player);
 		   			return;
 		   			}

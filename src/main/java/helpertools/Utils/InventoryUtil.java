@@ -37,10 +37,10 @@ public class InventoryUtil{
 	        {
 	            if (entity.mainInventory[i] != null && entity.mainInventory[i].getItem() == item)
 	            {
+	            	
 	                return true;
 	            }
-	        }
-
+	        }	        
 	        return false;
 	    }
 	  

@@ -25,9 +25,9 @@
         "translation": [ 2.00, -2.00, 0.75 ],
         "scale": [ 0.80, 0.80, 0.80 ]
     },
-    "ground": {
-        "rotation": [ 0, 0, 20 ],
-        "translation": [ 0.00, 0.00, 0.00 ],
+     "ground": {
+        "rotation": [ 0, 0, 16 ],
+        "translation": [ 0.00, 6.50, 0.00 ],
         "scale": [ 0.80, 0.80, 0.80 ]
     }
 }

@@ -104,7 +104,7 @@ public class ToolBase extends ItemTool{
 	{
 		world.playSound(player, player.getPosition(), 
 				SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.NEUTRAL,
-				.4F, itemRand.nextFloat() * 0.4F + 0.8F);
+				.6F, itemRand.nextFloat() * 0.4F + 0.8F);
 	}
 	
 	

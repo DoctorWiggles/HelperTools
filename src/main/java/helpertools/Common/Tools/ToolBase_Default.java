@@ -4,6 +4,7 @@ import helpertools.Common.Config;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -199,20 +200,20 @@ public class ToolBase_Default extends ToolBase{
 			
 			int Toolmax = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(32), itemStack);
 			int NextLevel = (getToolLevel(itemStack))+1;
+			
 			if(player.capabilities.isCreativeMode){
 				Toolmax = 5;
 			}
 			if(NextLevel>Toolmax){
 				setToolLevel(itemStack,0);
 				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));
-				world.playSound(player, player.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH,
-						SoundCategory.PLAYERS, (float)(1), (float)(1.3));
+				Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+				
 			}
 			if(NextLevel<=Toolmax){
 				setToolLevel(itemStack,NextLevel);
 				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
-				world.playSound(player, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,
-						SoundCategory.PLAYERS, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+				Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
 			
 			 if(Config.ToolPowerMesseges == true){	

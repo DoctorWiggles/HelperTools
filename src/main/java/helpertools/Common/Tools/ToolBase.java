@@ -102,24 +102,30 @@ public class ToolBase extends ItemTool{
 		
 	public static void failedsound(World world, EntityPlayer player)
 	{
-		world.playSound(player, player.getPosition(), 
+		/*world.playSound(player, player.getPosition(), 
 				SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.NEUTRAL,
-				.6F, itemRand.nextFloat() * 0.4F + 0.8F);
+				.6F, itemRand.nextFloat() * 0.4F + 0.8F);*/
+		Texty.Sound_Server(world, player, SoundEvents.ITEM_FLINTANDSTEEL_USE, .6F, itemRand.nextFloat() * 0.4F + 0.8F);
 	}
 	
 	
 	public void ModeSound(EntityLivingBase living, ItemStack itemStack){
 		int mode = getMode(itemStack);
 		switch(mode){
-		case 0: living.playSound(SoundEvents.ENTITY_CHICKEN_EGG, .3F, 3.0F);
+		case 0: //living.playSound(SoundEvents.ENTITY_CHICKEN_EGG, .3F, 3.0F);
+			  	Texty.Sound_Server(living, SoundEvents.ENTITY_CHICKEN_EGG, 3F, 3.0F);		
 			break;
-		case 2:	living.playSound(SoundEvents.ENTITY_CHICKEN_EGG,  3F, .3F);					 
+		case 2: //Texty.Sound_Server(living, SoundEvents.ENTITY_CHICKEN_EGG,  3F, 1F);
+				living.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
 			break;		
-		case 4: living.playSound(SoundEvents.ENTITY_CHICKEN_EGG, .3F, 3.0F);
+		case 4: Texty.Sound_Server(living, SoundEvents.ENTITY_CHICKEN_EGG, 3F, 3.0F);
 			break;
-		case 6: living.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
+		case 6: //Texty.Sound_Server(living, SoundEvents.ENTITY_CHICKEN_EGG,  3F, 1F);
+		living.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
+		
 		break;
-		default: living.playSound(SoundEvents.ITEM_FLINTANDSTEEL_USE,
+		default: 
+		Texty.Sound_Server(living, SoundEvents.ITEM_FLINTANDSTEEL_USE,
 				.4F, itemRand.nextFloat() * 0.4F + 0.8F);
 			break;
 		}

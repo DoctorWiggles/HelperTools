@@ -10,6 +10,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 
 /** Consolidating class to simplify the text process **/
 public class Texty {
@@ -40,5 +41,18 @@ public class Texty {
 		player.worldObj.playSound(player, player.getPosition(), 
 				event, SoundCategory.NEUTRAL,volume, pitch);
 	}
-	
+	public static void Sound_Server(World world,EntityPlayer player,SoundEvent event, Float volume, Float pitch){
+		world.playSound(null, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
+				event, SoundCategory.PLAYERS, volume, pitch);
+	}
+	public static void Sound_Blocks(World world,EntityPlayer player,SoundEvent event, Float volume, Float pitch){
+		world.playSound(null, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
+				event, SoundCategory.BLOCKS, volume, pitch);
+	}
+	public static void Sound_Server(EntityPlayer player,SoundEvent event, Float volume, Float pitch){
+		Sound_Server(player.worldObj, player, event, pitch, pitch);
+	}
+	public static void Sound_Server(EntityLivingBase living,SoundEvent event, Float volume, Float pitch){
+		Sound_Server(living.worldObj, (EntityPlayer)living, event, pitch, pitch);
+	}
 }

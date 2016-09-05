@@ -138,8 +138,8 @@ public class ItemStaffofExpansion extends ToolBase_Default
         		
         		
         		SoundType soundtype = returnTBlock_FromState(thestaff).getSoundType();
-                world.playSound(player, player.getPosition(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-        		        		
+               // world.playSound(player, player.getPosition(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+        		Texty.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);        		
         		
         		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
         		

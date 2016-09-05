@@ -225,7 +225,7 @@ public class ToolBase_Crossbow extends ToolBase{
 	    /** Static special effect clause **/
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
 	    	Float sound = Main.Randy.nextFloat()+ 5F;
-	    	player.playSound(SoundEvents.ENTITY_CHICKEN_EGG,  3F, .3F);	
+	    	Texty.Sound_Server(player.worldObj, player, SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
 	    	if(Config.ToolModeMesseges){
 			Texty.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
 	    	}			

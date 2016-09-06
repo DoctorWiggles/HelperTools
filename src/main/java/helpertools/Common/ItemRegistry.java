@@ -52,12 +52,12 @@ public class ItemRegistry {
 	public static Block falseBedrock;
 	public static Block transcriberBlock;
 	public static Block LooseDirtBlock;
+	public static Item TranscriberBlock_Item;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
 		GameRegistry.registerBlock(falseBedrock = new FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F), "falseBedrock_block");
-        //GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),"transcriber_block");
-		GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),TranscriberBlock_Item.class, "transcriber_block");        
+		GameRegistry.registerBlock(transcriberBlock = new TranscriberBlock("transcriber_block"),TranscriberBlock_Item.class, "transcriber_block"); 
         GameRegistry.registerBlock(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"),"loosedirt_block");
         
         //Tiles

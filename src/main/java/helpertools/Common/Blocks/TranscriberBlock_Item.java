@@ -14,7 +14,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TranscriberBlock_Item extends ItemBlock
 {
     public final Block blocky;
-    @SideOnly(Side.CLIENT)
 
     public TranscriberBlock_Item(Block block)
     {	super(block);

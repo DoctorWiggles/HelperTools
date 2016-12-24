@@ -22,7 +22,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-/** Massive Rewrite thanks to bedrockminer sourcecode & Tutorials**/
+/** Rewrite Source for 1.8+ updates
+ * https://github.com/TheGreyGhost/MinecraftByExample
+ * https://bedrockminer.jimdo.com **/
 @Mod(modid = Main.MODID, name = Main.MODNAME, version = Main.VERSION, guiFactory = Main.GUIFactory)
 public class Main {
 	
@@ -73,4 +75,6 @@ public class Main {
 	public static void print(String messege){
 		System.out.println("Helper Tools Debug : " + messege);
 	}
+
+	
 }

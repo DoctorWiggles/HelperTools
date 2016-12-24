@@ -1,10 +1,15 @@
 package helpertools.Utils;
 
-import java.lang.annotation.Inherited;
+import helpertools.Main;
 
+import java.lang.annotation.Inherited;
+import java.util.Random;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
@@ -37,6 +42,8 @@ public class Texty {
 		System.out.println(text);
 	}
 	
+	
+	//============================ Sound Routines ==========================//
 	public static void playSound(EntityPlayer player,SoundEvent event, Float volume, Float pitch){
 		player.worldObj.playSound(player, player.getPosition(), 
 				event, SoundCategory.NEUTRAL,volume, pitch);
@@ -54,5 +61,19 @@ public class Texty {
 	}
 	public static void Sound_Server(EntityLivingBase living,SoundEvent event, Float volume, Float pitch){
 		Sound_Server(living.worldObj, (EntityPlayer)living, event, pitch, pitch);
+	}
+	
+	
+	//========================Particle Routines =====================//
+	public static void Particle(Entity Host, EnumParticleTypes type, double x, double y, double z){
+		Random rand = Main.Randy;
+		Host.worldObj.spawnParticle(type, 
+				Host.posX + (rand.nextDouble() - 0.5D)*3 * (double)Host.width, 
+				Host.posY + (rand.nextDouble() * (double)Host.height), 
+				Host.posZ + (rand.nextDouble() - 0.5D)*3 * (double)Host.width,
+				x, y, z);
+	}
+	public static void Particle(Entity Host, EnumParticleTypes type){
+		Particle(Host, type, 0, 0, 0);
 	}
 }

@@ -22,6 +22,7 @@ public final class RenderRegistry {
 		//reg(ItemRegistry.crossbow_tool);
 		reg(ItemRegistry.crossbow_tool);
 		reg(ItemRegistry.dirtbomb);
+		reg(ItemRegistry.miragehusk);
 		
 		//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_0", "inventory");
 		//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(modid + ":" + "crossbow_item_1", "inventory");

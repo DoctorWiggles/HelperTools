@@ -1,5 +1,6 @@
 package helpertools;
 
+import helpertools.Client.Armor_Render_Handler;
 import helpertools.Client.KeyBindings;
 import helpertools.Client.KeyInputHandler;
 import helpertools.Client.RenderRegistry;
@@ -33,6 +34,7 @@ public class ClientProxy extends CommonProxy {
 		RenderRegistry.registerItemRenderer();
 		RenderRegistry.registerBlockRenderer();		
 		Render_Entity.register_entity_renderer();
+		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
 		
 	}
 

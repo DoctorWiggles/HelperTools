@@ -1,6 +1,7 @@
 package helpertools.Common.Entity.Renders;
 
 import helpertools.Common.Entity.Entity_FlyingItem;
+import helpertools.Common.Items.Item_MirageHusk;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -39,8 +40,14 @@ public class Render_FlyingItem extends Render
         
         this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         Entity_FlyingItem mob = (Entity_FlyingItem)entity;
+        ItemStack stack = mob.getEntityItem();
         
-        this.render.renderItem(mob.getEntityItem(), ItemCameraTransforms.TransformType.GROUND);
+        if(!(stack.getItem() instanceof Item_MirageHusk)){
+        	float f = 0.9F;
+        	stack = new ItemStack(stack.getItem(), 1, 0);
+        	GlStateManager.scale(f, f, f);}
+        
+        this.render.renderItem(stack, ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, p_76986_8_, partialTicks);

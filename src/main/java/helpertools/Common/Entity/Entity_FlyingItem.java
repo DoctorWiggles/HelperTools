@@ -131,6 +131,8 @@ public class Entity_FlyingItem extends EntityAmbientCreature
      */
     public void onUpdate()
     {
+    	//this.setDead();
+    	
         super.onUpdate();
         
         if (this.delayBeforeCanPickup > 0)
@@ -149,7 +151,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
         {
         	BlockPos pos = this.getPosition();
         	for (int i = 0; i < this.rand.nextInt(3); ++i)
-        		Texty.Particle(this, EnumParticleTypes.SPELL_WITCH, 0 , 0, 0);
+        		Texty.Particle(3F,this, EnumParticleTypes.SPELL_WITCH, 0 , 0, 0);
             this.motionY *= 0.6000000238418579D;
         }
     }

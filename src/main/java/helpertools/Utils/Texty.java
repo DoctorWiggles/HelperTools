@@ -65,15 +65,18 @@ public class Texty {
 	
 	
 	//========================Particle Routines =====================//
-	public static void Particle(Entity Host, EnumParticleTypes type, double x, double y, double z){
+	public static void Particle(Float f, Entity Host, EnumParticleTypes type, double x, double y, double z){
 		Random rand = Main.Randy;
 		Host.worldObj.spawnParticle(type, 
-				Host.posX + (rand.nextDouble() - 0.5D)*3 * (double)Host.width, 
+				Host.posX + (rand.nextDouble() - 0.5D)*f * (double)Host.width, 
 				Host.posY + (rand.nextDouble() * (double)Host.height), 
-				Host.posZ + (rand.nextDouble() - 0.5D)*3 * (double)Host.width,
+				Host.posZ + (rand.nextDouble() - 0.5D)*f * (double)Host.width,
 				x, y, z);
 	}
+	public static void Particle(Float f, Entity Host, EnumParticleTypes type){
+		Particle(f, Host, type, 0, 0, 0);
+	}
 	public static void Particle(Entity Host, EnumParticleTypes type){
-		Particle(Host, type, 0, 0, 0);
+		Particle(2F, Host, type, 0, 0, 0);
 	}
 }

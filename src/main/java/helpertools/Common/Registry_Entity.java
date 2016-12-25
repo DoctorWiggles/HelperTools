@@ -4,6 +4,7 @@ import helpertools.Main;
 import helpertools.Common.Entity.Entity_DirtBombProjectile;
 import helpertools.Common.Entity.Entity_DynamiteProjectile;
 import helpertools.Common.Entity.Entity_FlyingItem;
+import helpertools.Common.Entity.Entity_Mirage;
 import helpertools.Common.Entity.Entity_RedTorchProjectile;
 import helpertools.Common.Entity.Entity_TorchProjectile;
 import helpertools.Common.Entity.Renders.RenderDynamiteProjectile;
@@ -23,7 +24,8 @@ public class Registry_Entity {
 		 reg(Entity_DynamiteProjectile.class, "DynamiteBolt", 12);
 		 reg(Entity_DirtBombProjectile.class, "DirtBomb", 13);
 		
-		 reg(Entity_FlyingItem.class, "FlyingItem", 14, 010201,327238 );
+		 reg(Entity_FlyingItem.class, "FlyingItem", 14, 010201,327238 );		 
+		 reg(Entity_Mirage.class, "Mirage", 15, 010201,327238);
 	}
 	
 	

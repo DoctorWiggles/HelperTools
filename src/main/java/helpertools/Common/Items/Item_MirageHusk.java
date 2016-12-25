@@ -1,16 +1,22 @@
 package helpertools.Common.Items;
 
 import helpertools.Common.Entity.Entity_FlyingItem;
+import helpertools.Common.Entity.Entity_Mirage;
+import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 
 import java.util.List;
+import java.util.UUID;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -55,16 +61,33 @@ public class Item_MirageHusk extends ItemArmor{
     	//world.spawnEntityInWorld(ent );
         return ent;
     }
+    
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world,
+    		BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ){
+    	    	    	
+    	if(!world.isRemote){
+    	Block block = BlockStateHelper.getBlockfromState(world, pos);
+    	int meta = BlockStateHelper.getMetafromState(world,	pos);
+    	ItemStack target_stack = new ItemStack(block, 1, meta);
+    	
+    	Entity_FlyingItem  ent = new Entity_FlyingItem(world, target_stack);    	
+    	ent.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);
+    	world.spawnEntityInWorld(ent);
+    	
+    	world.setBlockToAir(pos);
+    	}
+    	return EnumActionResult.SUCCESS;
+	}
 	
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand)
     {
 		
 		World world = playerIn.worldObj;
 		if(world.isRemote){return false;}
+		/**
 		BlockPos pos = target.getPosition();
 		Entity_FlyingItem  ent = new Entity_FlyingItem(world, stack);
-		ent.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);
-		//ent.
+		ent.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);		
 		world.spawnEntityInWorld(ent );
 		ent.startRiding(target);
        int ID = target.getEntityId();       
@@ -72,14 +95,33 @@ public class Item_MirageHusk extends ItemArmor{
        
        
        Entity mob = world.getEntityByID(ID);
+       
        //mob= mob.gete
        if(mob == null) return false;
        //mob.addVelocity(0, 2, 0);
-      
+      **/
        
-       
+       Mirage(playerIn);
        
        return true;
     }
+	
+	
+	public void Mirage(EntityPlayer player){		
+		World world = player.worldObj;
+		if(world.isRemote){return;}
+		
+		BlockPos pos = player.getPosition();
+		UUID ID = player.getUniqueID();
+		
+		System.out.println(ID);
+		if(ID == null){return;}
+		
+		Entity_Mirage mob = new Entity_Mirage(world,ID, player);
+		mob.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);
+		world.spawnEntityInWorld(mob);
+		
+		
+	}
 	
 }

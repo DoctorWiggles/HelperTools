@@ -3,7 +3,8 @@ package helpertools;
 import helpertools.Client.ToolHud;
 import helpertools.Common.Config;
 import helpertools.Common.ItemRegistry;
-import helpertools.Common.NetworkMessage;
+import helpertools.Common.Mirage_Message;
+import helpertools.Common.Tool_Message;
 import helpertools.Common.RecipeFactory;
 import helpertools.Common.Registry_Entity;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,8 @@ public class CommonProxy {
 		
 		/** Networking & Packets **/
     	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel("GoatsInABoat"); 	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
-    	Main.network.registerMessage(NetworkMessage.Handler.class, NetworkMessage.class, 0, Side.SERVER);  // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+    	Main.network.registerMessage(Tool_Message.Handler.class, Tool_Message.class, 0, Side.SERVER);  // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+    	Main.network.registerMessage(Mirage_Message.Handler.class, Mirage_Message.class, 1, Side.SERVER); 
     	
     	ItemRegistry.createItems();
 		ItemRegistry.createBlocks();

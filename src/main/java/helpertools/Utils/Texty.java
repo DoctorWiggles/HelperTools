@@ -25,6 +25,11 @@ public class Texty {
 		((EntityPlayer)living).addChatComponentMessage(chatmessy);
 	}
 	*/
+	public static void whatSides(World world){
+		if(world.isRemote){System.out.println("Client");}
+		if(!world.isRemote){System.out.println("Server");}
+	}
+	
 	/** Send a messege to a player.	  
 	 * @param living The target to send the messege to
 	 * @param text The ITextCompnent (string with optional formatting)

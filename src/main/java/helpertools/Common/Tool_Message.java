@@ -16,13 +16,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 /** http://www.minecraftforge.net/wiki/Packet_Handling **/
 /** http://www.minecraftforge.net/forum/index.php/topic,20135.0.html	**/
-public class NetworkMessage implements IMessage {
+public class Tool_Message implements IMessage {
    
     private String text;
 
-    public NetworkMessage() { }
+    public Tool_Message() { }
 
-    public NetworkMessage(String text) {
+    public Tool_Message(String text) {
         this.text = text;
     }
 
@@ -37,10 +37,10 @@ public class NetworkMessage implements IMessage {
         ByteBufUtils.writeUTF8String(buf, text);
     }
 
-    public static class Handler implements IMessageHandler<NetworkMessage, IMessage> {
+    public static class Handler implements IMessageHandler<Tool_Message, IMessage> {
        
         @Override
-        public IMessage onMessage(NetworkMessage message, MessageContext ctx) {
+        public IMessage onMessage(Tool_Message message, MessageContext ctx) {
             //System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
             EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
             //ItemStack heldItem = theplayer.inventory.getCurrentItem();

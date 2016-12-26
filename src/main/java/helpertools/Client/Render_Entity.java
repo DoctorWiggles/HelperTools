@@ -40,7 +40,7 @@ public class Render_Entity {
        
 		reg(Entity_FlyingItem.class, new Render_FlyingItem(render, ItemRegistry.miragehusk, Item));
 				
-		reg(Entity_Mirage.class, new Render_Mirage(render, new ModelPlayer(1f, false), 0.5f));
+		reg(Entity_Mirage.class, new Render_Mirage(render));
         
 	}
 	

@@ -331,10 +331,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
         }
     }
     
-    protected boolean canDespawn()
-    {
-        return false;
-    }
+    protected boolean canDespawn(){ return false;}
     
     
     public static void func_189754_b(DataFixer p_189754_0_){EntityLiving.func_189752_a(p_189754_0_, "Bat");}

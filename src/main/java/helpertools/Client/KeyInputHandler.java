@@ -1,7 +1,8 @@
 package helpertools.Client;
 
 import helpertools.Main;
-import helpertools.Common.Tool_Message;
+import helpertools.Com.Mirage_Server_Message;
+import helpertools.Com.Tool_Message;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -12,17 +13,18 @@ public class KeyInputHandler {
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) { 
-    	//Primary " O "
+    	//Tool Functions "o"
         if(KeyBindings.ding.isPressed()){
             //System.out.println("Primary"); 
             Main.network.sendToServer(new Tool_Message("Primary"));
             }
-        /**
-        //Primary p
+        
+        //Other Functions "p"
         if(KeyBindings.dong.isPressed()){
-            System.out.println("Primary p");
+        	
+        	Main.network.sendToServer(new Mirage_Server_Message());
         }
-        **/
+        
     }
 
 }

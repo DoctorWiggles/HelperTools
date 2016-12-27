@@ -23,10 +23,11 @@ item.crossbow_item_Arrow.name=§oArrow §rLauncher
 
 #          #
 # Entities #
-entity.TorchBolt.name=Torch Bolt
-entity.RedTorchBolt.name=Redstone Torch Bolt
-entity.DynamiteBolt.name=Dynamite Bolt
+entity.helpertools.TorchBolt.name=Torch Bolt
+entity.helpertools.RedTorchBolt.name=Redstone Torch Bolt
+entity.helpertools.DynamiteBolt.name=Dynamite Bolt
 entity.helpertools.FlyingItem.name=Haunted Item
+entity.helpertools.Mirage.name=Mirage
 
 
 #        #

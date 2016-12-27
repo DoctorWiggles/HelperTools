@@ -1,6 +1,6 @@
 package helpertools.Utils;
 
-import helpertools.Common.ItemRegistry;
+import helpertools.Com.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

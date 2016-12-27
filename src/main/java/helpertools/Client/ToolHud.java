@@ -1,10 +1,10 @@
 package helpertools.Client;
 
 
-import helpertools.Common.Config;
-import helpertools.Common.Tools.ItemStaffofExpansion;
-import helpertools.Common.Tools.ItemStaffofTransformation;
-import helpertools.Common.Tools.ToolBase_Default;
+import helpertools.Com.Config;
+import helpertools.Com.Tools.ItemStaffofExpansion;
+import helpertools.Com.Tools.ItemStaffofTransformation;
+import helpertools.Com.Tools.ToolBase_Default;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.BlockSlab;

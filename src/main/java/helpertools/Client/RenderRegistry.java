@@ -1,7 +1,7 @@
 package helpertools.Client;
 
 import helpertools.Main;
-import helpertools.Common.ItemRegistry;
+import helpertools.Com.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;

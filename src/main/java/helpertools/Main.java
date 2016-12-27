@@ -2,7 +2,7 @@ package helpertools;
 
 import java.util.Random;
 
-import helpertools.Common.Config;
+import helpertools.Com.Config;
 import helpertools.Utils.ForgeEventHandler;
 
 import org.apache.logging.log4j.LogManager;

@@ -2,9 +2,9 @@ package helpertools.Client;
 
 import java.util.List;
 
-import helpertools.Common.ItemRegistry;
-import helpertools.Common.Entity.Entity_FlyingItem;
-import helpertools.Common.Items.Item_MirageHusk;
+import helpertools.Com.ItemRegistry;
+import helpertools.Com.Entity.Entity_FlyingItem;
+import helpertools.Com.Items.Item_MirageHusk;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;

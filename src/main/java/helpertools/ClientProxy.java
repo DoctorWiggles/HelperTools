@@ -6,14 +6,16 @@ import helpertools.Client.KeyInputHandler;
 import helpertools.Client.RenderRegistry;
 import helpertools.Client.Render_Entity;
 import helpertools.Client.ToolHud;
-import helpertools.Common.Config;
-import helpertools.Common.Registry_Entity;
+import helpertools.Com.Config;
+import helpertools.Com.Mirage_Client_Message;
+import helpertools.Com.Registry_Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy {
 
@@ -24,6 +26,7 @@ public class ClientProxy extends CommonProxy {
 		FMLCommonHandler.instance().bus().register(new KeyInputHandler());
 		KeyBindings.init();  
 		MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+		Main.network.registerMessage(Mirage_Client_Message.Handler.class, Mirage_Client_Message.class, 2, Side.CLIENT); 
 		//RenderRegistry.Bakery_Advance();
 	}
 

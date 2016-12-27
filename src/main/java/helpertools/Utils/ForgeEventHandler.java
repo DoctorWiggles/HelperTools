@@ -1,7 +1,7 @@
 package helpertools.Utils;
 
 
-import helpertools.Common.ItemRegistry;
+import helpertools.Com.ItemRegistry;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGlassBottle;

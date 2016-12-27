@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL12;
 
 public class RenderRedTorchProjectile extends Render
 {
-	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap2.png"); 
+	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap.png"); 
 	protected ModelBase Model_Bolt = new Model_BoltProjectile();
 	
 	public RenderRedTorchProjectile(RenderManager render)
@@ -55,7 +55,7 @@ public class RenderRedTorchProjectile extends Render
             GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
         }
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/TorchRedtextpmap1.png"));  
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/TorchRedtextpmap.png"));  
         
         GL11.glRotatef(47F, 10F, 0.0F, 0.0F);
         GL11.glRotatef(89F, 0F, 10F, 0.0F);
@@ -66,17 +66,11 @@ public class RenderRedTorchProjectile extends Render
         GL11.glPopMatrix();
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity_RedTorchProjectile p_110775_1_)
     {
         return arrowTextures;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
         return this.getEntityTexture((Entity_RedTorchProjectile)p_110775_1_);

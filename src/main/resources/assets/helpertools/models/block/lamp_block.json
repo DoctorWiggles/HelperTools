@@ -1,0 +1,8 @@
+
+{
+"parent": "helpertools:block/Tube_Model",
+    "textures": {
+        "top":      "helpertools:blocks/lamp_block_top",
+        "side":         "helpertools:blocks/lamp_block_side"
+    }
+}

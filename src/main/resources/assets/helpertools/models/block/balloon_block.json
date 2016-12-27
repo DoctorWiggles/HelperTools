@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": 	"helpertools:blocks/balloon_block"
+    }
+}

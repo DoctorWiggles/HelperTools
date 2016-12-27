@@ -45,6 +45,8 @@ public final class RenderRegistry {
 		reg(ItemRegistry.falseBedrock);
 		reg(ItemRegistry.transcriberBlock);
 		reg(ItemRegistry.LooseDirtBlock);
+		reg(ItemRegistry.BalloonBlock);
+		reg(ItemRegistry.LampBlock);
 	}
 
 	//==========================================================================//

@@ -18,7 +18,6 @@ public class RenderDirtBombProjectile extends Render
 {
     protected final Item field_177084_a;
     private final RenderItem field_177083_e;
-    private static final String __OBFID = "CL_00001008";
 
     public RenderDirtBombProjectile(RenderManager p_i46137_1_, Item p_i46137_2_, RenderItem p_i46137_3_)
     {

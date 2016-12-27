@@ -1,6 +1,7 @@
 package helpertools.Com;
 
 import helpertools.Main;
+import helpertools.Com.Blocks.Balloon_Block;
 import helpertools.Com.Blocks.FalseBedrock;
 import helpertools.Com.Blocks.LooseDirtBlock;
 import helpertools.Com.Blocks.TileEntityTranscriber;
@@ -74,13 +75,18 @@ public class ItemRegistry {
 	public static Block transcriberBlock;
 	public static Block LooseDirtBlock;
 	public static Item TranscriberBlock_Item;
+	public static Block BalloonBlock;
+	public static Block LampBlock;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
 		reg(falseBedrock = new FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F), "falseBedrock_block");
 		reg(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"),"loosedirt_block");
 		custom(transcriberBlock = new TranscriberBlock("transcriber_block"), "transcriber_block",
-				TranscriberBlock_Item = new TranscriberBlock_Item(transcriberBlock));		
+				TranscriberBlock_Item = new TranscriberBlock_Item(transcriberBlock));	
+		reg(BalloonBlock = new Balloon_Block("balloon_block"),"balloon_block");
+		reg(LampBlock = new Balloon_Block("lamp_block"),"lamp_block");
+		
         
         //Tiles
         GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);

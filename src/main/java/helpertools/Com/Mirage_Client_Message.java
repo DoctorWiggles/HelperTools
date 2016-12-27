@@ -53,7 +53,15 @@ public class Mirage_Client_Message implements IMessage {
     	buf.writeInt(y);
     	buf.writeInt(z);    	
     }
-
+    
+    //Dummy server handler to prevent server implosions
+    public static class Dummy_Handler implements IMessageHandler<Mirage_Client_Message, IMessage>
+    {
+      public IMessage onMessage(Mirage_Client_Message message, MessageContext ctx) {
+        return null;
+      }
+    }
+    //The real handler for the client side
     public static class Handler implements IMessageHandler<Mirage_Client_Message, IMessage> {
        
         @Override

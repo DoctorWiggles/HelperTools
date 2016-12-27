@@ -1,0 +1,6 @@
+{
+    "parent":"helpertools:item/standard_item",
+    "textures": {
+        "layer0":"helpertools:blocks/balloon_block"
+    }
+}

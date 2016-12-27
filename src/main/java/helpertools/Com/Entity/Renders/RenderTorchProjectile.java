@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL12;
 
 public class RenderTorchProjectile extends Render
 {
-	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap2.png"); 
+	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap.png"); 
 	protected ModelBase Model_Bolt = new Model_BoltProjectile();
 	
 	public RenderTorchProjectile(RenderManager renderu)
@@ -23,12 +23,6 @@ public class RenderTorchProjectile extends Render
     }
 	
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity_TorchProjectile entity, double off_X, double off_Y, double off_Z, float fl_1, float fl_2)
     {
         this.bindEntityTexture(entity);
@@ -68,7 +62,7 @@ public class RenderTorchProjectile extends Render
             GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
         }
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/Torchtexpmap1.png"));  
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/Torchtexpmap.png"));  
         GL11.glRotatef(47F, 10F, 0.0F, 0.0F);
         GL11.glRotatef(89F, 0F, 10F, 0.0F);
         GL11.glScalef(25, 25, 25);
@@ -79,28 +73,18 @@ public class RenderTorchProjectile extends Render
         GL11.glPopMatrix();
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity_TorchProjectile ent)
     {
         return arrowTextures;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
+    
     protected ResourceLocation getEntityTexture(Entity ent)
     {
         return this.getEntityTexture((Entity_TorchProjectile)ent);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
+    
     public void doRender(Entity entity, double off_X, double off_Y, double off_Z, float fl_1, float fl_2)
     {
         this.doRender((Entity_TorchProjectile)entity, off_X, off_Y, off_Z, fl_1, fl_2);

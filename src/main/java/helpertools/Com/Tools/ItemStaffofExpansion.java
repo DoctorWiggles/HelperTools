@@ -431,7 +431,6 @@ public class ItemStaffofExpansion extends ToolBase_Default
         
     	
     	/////////////////////////////////
-        /** If Sneaking Select Block **/
         ///////////////////////////////
     	if (player.isSneaking())
     	{ 

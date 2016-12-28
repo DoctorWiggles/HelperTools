@@ -33,12 +33,12 @@ entity.helpertools.Mirage.name=Mirage
 #        #
 # Blocks #
 tile.falseBedrock_block.name=§7Imitation Bedrock
-tile.StokedPipe.name=§7ChimneyPipe §9[W.I.P.]
-tile.StokedBlock.name=Stoked Block §9[W.I.P.]
 tile.transcriber_block.name=§3Euclidean Transcriber
-tile.SelectionBlock.name=§4Selection Block §5[DEV]
-tile.MagicalFuelBlock.name=§3Magical Fuel §9[W.I.P.]
-tile.ActiveMagicalFuelBlock.name=§3Active Magical Fuel §9[W.I.P.]
+tile.lamp_block.name=§3Magical Lamp
+tile.lamp_block_on.name=§3Active Magical Lamp
+tile.lamp_block_perm.name=§3Autonomous Magical Lamp
+
+
 tile.loosedirt_block.name=Loose Dirt
 tile.SugarBlock.name=Sugar Cube
 

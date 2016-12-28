@@ -47,6 +47,9 @@ public final class RenderRegistry {
 		reg(ItemRegistry.LooseDirtBlock);
 		reg(ItemRegistry.BalloonBlock);
 		reg(ItemRegistry.LampBlock);
+		reg(ItemRegistry.LampBlock_on);
+		reg(ItemRegistry.LampBlock_perm);
+		
 	}
 
 	//==========================================================================//
@@ -61,22 +64,29 @@ public final class RenderRegistry {
 		//Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
 	}
 	
-	public static void reg(Item item, String path) {
+	public static void reg(Item item, String file) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
-		(item, 0, new ModelResourceLocation(modid + ":" + path, "inventory"));
+		(item, 0, new ModelResourceLocation(path + file, "inventory"));
 		//Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
 	}
 	
 	public static void Meta_reg(Item item, int meta, String file) {
 	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
-	    (item, meta, new ModelResourceLocation(modid + ":" + file, "inventory"));
+	    (item, meta, new ModelResourceLocation(path + file, "inventory"));
 	    //Main.logger.info(modid + ":" + file, "inventory");
 	}
 	
 
 	public static void reg(Block block) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
-		.register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(modid + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+		.register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(path + block.getUnlocalizedName().substring(5), "inventory"));
+		//Main.logger.info(modid + ":" + block.getUnlocalizedName().substring(5), "inventory");
+	}
+		
+	public static void Meta_reg(Block block, int meta, String file) {
+	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
+	    (Item.getItemFromBlock(block), meta, new ModelResourceLocation(path + file, "inventory"));
+	    //Main.logger.info(modid + ":" + file, "inventory");
 	}
 
 	

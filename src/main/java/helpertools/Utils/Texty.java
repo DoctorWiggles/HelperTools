@@ -12,6 +12,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -57,6 +58,11 @@ public class Texty {
 		world.playSound(null, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
 				event, SoundCategory.PLAYERS, volume, pitch);
 	}
+	public static void Sound_Server(World world, BlockPos pos,SoundEvent event, Float volume, Float pitch){
+		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(),
+				event, SoundCategory.PLAYERS, volume, pitch);
+	}
+	
 	public static void Sound_Blocks(World world,EntityPlayer player,SoundEvent event, Float volume, Float pitch){
 		world.playSound(null, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
 				event, SoundCategory.BLOCKS, volume, pitch);
@@ -78,10 +84,5 @@ public class Texty {
 				Host.posZ + (rand.nextDouble() - 0.5D)*f * (double)Host.width,
 				x, y, z);
 	}
-	public static void Particle(Float f, Entity Host, EnumParticleTypes type){
-		Particle(f, Host, type, 0, 0, 0);
-	}
-	public static void Particle(Entity Host, EnumParticleTypes type){
-		Particle(2F, Host, type, 0, 0, 0);
-	}
+	
 }

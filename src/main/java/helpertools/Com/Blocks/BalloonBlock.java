@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -19,11 +20,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class Balloon_Block extends Block
+public class BalloonBlock extends Block
 {
 	protected static final AxisAlignedBB HitBox = new AxisAlignedBB(0.2D, 0.0D, 0.2D, 0.8D, 1.0D, 0.8D);
 	
-    public Balloon_Block(String unlocal)
+    public BalloonBlock(String unlocal)
     {
     	super(Material.CIRCUITS);
         this.setUnlocalizedName(unlocal);
@@ -32,6 +33,7 @@ public class Balloon_Block extends Block
         this.setCreativeTab(HelpTab.HelperTools);  
         this.setSoundType(SoundType.CLOTH);
     }
+    
     
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {

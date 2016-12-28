@@ -49,6 +49,7 @@ public final class RenderRegistry {
 		reg(ItemRegistry.LampBlock);
 		reg(ItemRegistry.LampBlock_on);
 		reg(ItemRegistry.LampBlock_perm);
+		reg(ItemRegistry.FloaterBlock);
 		
 	}
 

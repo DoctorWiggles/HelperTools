@@ -7,8 +7,10 @@ import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -84,5 +86,15 @@ public class Texty {
 				Host.posZ + (rand.nextDouble() - 0.5D)*f * (double)Host.width,
 				x, y, z);
 	}
+	
+	//========================= Spawn Item =============================//
+	public static void itemdrop(World world, BlockPos pos,  ItemStack stack){
+		if(world.isRemote){return;}
+		EntityItem entity = new EntityItem(world, 0, 0, 0, stack);
+		entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+		world.spawnEntityInWorld(entity);
+		
+	}
+	
 	
 }

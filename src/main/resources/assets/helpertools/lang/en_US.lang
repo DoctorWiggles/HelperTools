@@ -34,9 +34,11 @@ entity.helpertools.Mirage.name=Mirage
 # Blocks #
 tile.falseBedrock_block.name=§7Imitation Bedrock
 tile.transcriber_block.name=§3Euclidean Transcriber
+tile.balloon_block.name=Balloon
 tile.lamp_block.name=§3Magical Lamp
 tile.lamp_block_on.name=§3Active Magical Lamp
 tile.lamp_block_perm.name=§3Autonomous Magical Lamp
+tile.floater_block.name=Floater
 
 
 tile.loosedirt_block.name=Loose Dirt

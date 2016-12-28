@@ -1,0 +1,11 @@
+{
+"parent": "helpertools:block/cube_upright",
+    "textures": {
+    
+"top":	
+"helpertools:blocks/floater_block_top",
+
+"bottom": 		"helpertools:blocks/floater_block_bottom",
+        "side": 		"helpertools:blocks/floater_block_side"
+    }
+}

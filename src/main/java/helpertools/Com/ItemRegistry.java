@@ -8,6 +8,7 @@ import helpertools.Com.Blocks.LooseDirtBlock;
 import helpertools.Com.Blocks.TileEntityTranscriber;
 import helpertools.Com.Blocks.TranscriberBlock;
 import helpertools.Com.Blocks.TranscriberBlock_Item;
+import helpertools.Com.Blocks.FloaterBlock;
 import helpertools.Com.Items.ItemChocolateMilk;
 import helpertools.Com.Items.ItemDirtBomb;
 import helpertools.Com.Items.ItemDynamiteBolt;
@@ -80,6 +81,7 @@ public class ItemRegistry {
 	public static Item LampBlock_Item;
 	public static Block LampBlock_on;
 	public static Block LampBlock_perm;
+	public static Block FloaterBlock;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
@@ -93,6 +95,7 @@ public class ItemRegistry {
 				LampBlock_Item = new LampBlock.LampBlock_Item(LampBlock));
 		reg(LampBlock_on = new LampBlock("lamp_block_on", true),"lamp_block_on");
 		reg(LampBlock_perm = new LampBlock("lamp_block_perm", true),"lamp_block_perm");
+		reg(FloaterBlock = new FloaterBlock("floater_block"),"floater_block");
 		
         
         //Tiles

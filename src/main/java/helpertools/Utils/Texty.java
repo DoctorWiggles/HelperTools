@@ -5,6 +5,7 @@ import helpertools.Main;
 import java.lang.annotation.Inherited;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -91,6 +92,14 @@ public class Texty {
 	public static void itemdrop(World world, BlockPos pos,  ItemStack stack){
 		if(world.isRemote){return;}
 		EntityItem entity = new EntityItem(world, 0, 0, 0, stack);
+		entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+		world.spawnEntityInWorld(entity);
+		
+	}
+	
+	public static void itemdrop(World world, BlockPos pos, Block block){
+		if(world.isRemote){return;}
+		EntityItem entity = new EntityItem(world, 0, 0, 0, new ItemStack(block));
 		entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 		world.spawnEntityInWorld(entity);
 		

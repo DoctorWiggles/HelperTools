@@ -17,9 +17,9 @@ public class BlockStateHelper {
 	//int meta= (world.getBlockState(pos2).getBlock()).getStateId(world.getBlockState(pos2));
 	
 	/**Extract an ID integer from a blockstate**/
-	public static int returnID(World world, BlockPos pos1 ){
+	public static int returnID(World world, BlockPos pos ){
 		int GET = 0;		
-		GET =(world.getBlockState(pos1).getBlock()).getStateId(world.getBlockState(pos1));		
+		GET =(world.getBlockState(pos).getBlock()).getStateId(world.getBlockState(pos));		
 		return GET;
 	}
 	
@@ -48,20 +48,20 @@ public class BlockStateHelper {
     }
 	
 	/**Extracts a Block from a State via bridge**/
-	public static Block getBlockfromState (World world, BlockPos pos1){
+	public static Block getBlockfromState (World world, BlockPos pos){
 		Block blocky = Blocks.AIR;
 		
-		int ID = BlockStateHelper.returnID(world, pos1);
+		int ID = BlockStateHelper.returnID(world, pos);
 		blocky = BlockStateHelper.returnBlock(ID);
 		
 		return blocky;
 	}
 	
 	/**Extracts a Meta Value from a State via bridge**/
-	public static int getMetafromState (World world, BlockPos pos1){
+	public static int getMetafromState (World world, BlockPos pos){
 		int meta = 0;
 		
-		int ID = BlockStateHelper.returnID(world, pos1);
+		int ID = BlockStateHelper.returnID(world, pos);
 		meta = BlockStateHelper.returnMeta(ID);
 				
 		return meta;

@@ -145,8 +145,10 @@ public class ItemStaffofExpansion extends ToolBase_Default
         		
         		int crackid = (getTBlock(thestaff));
                 int crackmeta = (returnTMeta(thestaff));
-                String particle = "blockcrack_" + crackid + "_" + crackmeta;
-        		for (int pl = 0; pl < 5; ++pl)
+                
+                //TODO redo particle effects
+                //In general redo EVERYTHING from scratch tbhmbffj
+        		for (int pl = 0; pl < 50/(1*getToolLevel(thestaff)+1); ++pl)
     			{
         		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
                 float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;

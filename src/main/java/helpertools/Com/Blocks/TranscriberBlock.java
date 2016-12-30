@@ -206,7 +206,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
         
     }
     
-    public static class TranscriberBlock_Item extends ItemBlock
+public static class TranscriberBlock_Item extends ItemBlock
     {
         public final Block blocky;
 

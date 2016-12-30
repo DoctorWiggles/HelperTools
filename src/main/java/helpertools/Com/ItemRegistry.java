@@ -3,12 +3,11 @@ package helpertools.Com;
 import helpertools.Main;
 import helpertools.Com.Blocks.BalloonBlock;
 import helpertools.Com.Blocks.FalseBedrock;
+import helpertools.Com.Blocks.FloaterBlock;
 import helpertools.Com.Blocks.LampBlock;
 import helpertools.Com.Blocks.LooseDirtBlock;
 import helpertools.Com.Blocks.TileEntityTranscriber;
 import helpertools.Com.Blocks.TranscriberBlock;
-import helpertools.Com.Blocks.TranscriberBlock_Item;
-import helpertools.Com.Blocks.FloaterBlock;
 import helpertools.Com.Items.ItemChocolateMilk;
 import helpertools.Com.Items.ItemDirtBomb;
 import helpertools.Com.Items.ItemDynamiteBolt;
@@ -82,6 +81,7 @@ public class ItemRegistry {
 	public static Block LampBlock_on;
 	public static Block LampBlock_perm;
 	public static Block FloaterBlock;
+	public static Item FloaterBlock_Item;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
@@ -90,12 +90,12 @@ public class ItemRegistry {
 		custom(transcriberBlock = new TranscriberBlock("transcriber_block"), "transcriber_block",
 				TranscriberBlock_Item = new TranscriberBlock.TranscriberBlock_Item(transcriberBlock));	
 		reg(BalloonBlock = new BalloonBlock("balloon_block"),"balloon_block");
-		//reg(LampBlock = new LampBlock("lamp_block", false),"lamp_block");
 		custom(LampBlock = new LampBlock("lamp_block", false),"lamp_block",
 				LampBlock_Item = new LampBlock.LampBlock_Item(LampBlock));
 		reg(LampBlock_on = new LampBlock("lamp_block_on", true),"lamp_block_on");
 		reg(LampBlock_perm = new LampBlock("lamp_block_perm", true),"lamp_block_perm");
-		reg(FloaterBlock = new FloaterBlock("floater_block"),"floater_block");
+		custom(FloaterBlock = new FloaterBlock("floater_block"),"floater_block",
+				FloaterBlock_Item = new FloaterBlock.FloaterBlock_Item(FloaterBlock));
 		
         
         //Tiles

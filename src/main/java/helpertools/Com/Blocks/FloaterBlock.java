@@ -77,10 +77,11 @@ public class FloaterBlock extends Block{
         return this.getStateFromMeta(meta);
     }
     
-    public static boolean valid_Whitelist( IBlockState state, World world, BlockPos pos){
+    public static boolean valid_Whitelist(IBlockState state, World world, BlockPos pos){
     	Material matt = state.getMaterial();
 
     	if(state.getBlock().isAir(state, world, pos)
+    			|| state.getBlock() == Blocks.SNOW_LAYER
     			|| matt == Material.FIRE
     			|| matt == Material.WATER
     			|| matt == Material.LAVA
@@ -133,7 +134,8 @@ public static class FloaterBlock_Item extends ItemBlock
 			RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;			
 			BlockPos pos = mouseOver.getBlockPos();
 			IBlockState state = world.getBlockState(pos); 
-			if(!player.capabilities.isCreativeMode&& Place_Floater(state, world, pos)){
+			if(Place_Floater(state, world, pos)){
+				if(!player.capabilities.isCreativeMode)
 				--stack.stackSize;}
 			
 			return new ActionResult(EnumActionResult.SUCCESS, stack);
@@ -147,7 +149,7 @@ public static class FloaterBlock_Item extends ItemBlock
 	public static boolean Place_Floater(IBlockState state, World world, BlockPos pos){
 		IBlockState floater = ItemRegistry.FloaterBlock.getDefaultState();
 		
-		if (valid_Whitelist(state, world, pos)){
+		if (Texty.isValid(state, world, pos)){
 			for (int pl = 0; pl < 200; ++pl)
 			{
         		float f = (Main.Randy.nextFloat() - .2F) * 1.4F;
@@ -163,7 +165,7 @@ public static class FloaterBlock_Item extends ItemBlock
 			world.setBlockState(pos, floater, 123);
 			Texty.Sound_Server(world, pos, SoundEvents.BLOCK_STONE_PLACE, 1F, 1F);
 
-			if(valid_Whitelist(state, world, pos.up())){
+			if(Texty.isValid(state, world, pos.up())){
 				world.setBlockState(pos.up(), ItemRegistry.BalloonBlock.getDefaultState(), 123);    			
 			}
 			else{

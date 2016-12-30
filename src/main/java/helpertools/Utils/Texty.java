@@ -6,10 +6,13 @@ import java.lang.annotation.Inherited;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
@@ -104,6 +107,24 @@ public class Texty {
 		world.spawnEntityInWorld(entity);
 		
 	}
+	
+	//========================== Whitelist Util =================================//
+	/** Whitelist for block placement **/
+	public static boolean isValid(IBlockState state, World world, BlockPos pos){
+    	Material matt = state.getMaterial();
+
+    	if(state.getBlock().isAir(state, world, pos)
+    			|| state.getBlock() == Blocks.SNOW_LAYER
+    			|| matt == Material.FIRE
+    			|| matt == Material.WATER
+    			|| matt == Material.LAVA
+    			|| matt == Material.PLANTS
+    			|| matt == Material.VINE){
+
+    		return true;
+    	}
+    	return false;
+    }
 	
 	
 }

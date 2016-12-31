@@ -3,9 +3,13 @@ package helpertools.Client;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.opengl.GL11;
 
+import helpertools.Com.ItemRegistry;
 import helpertools.Com.Blocks.FloaterBlock.FloaterBlock_Item;
+import helpertools.Com.Tools.ItemStaffofTransformation;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -18,6 +22,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -29,15 +36,24 @@ public class Highlight_Handler {
 	
 	@SubscribeEvent
 	public void Floater_Highlight(RenderWorldLastEvent evt) {
+		try {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayerSP player = mc.thePlayer;
-		if (player.getHeldItemMainhand() != null) {
-
-			ItemStack heldstack = player.getHeldItemMainhand();
-			Item held = heldstack.getItem();
-
-			if (held != null && held instanceof FloaterBlock_Item) {
-				//TODO for Tools Set<BlockPos> positions = new HashSet<BlockPos>();
+		EnumHand hand = null;
+		if(player.getHeldItemMainhand() != null){
+			if(player.getHeldItemMainhand().getItem() instanceof FloaterBlock_Item){
+				hand = EnumHand.MAIN_HAND;
+			}
+		}
+		if(player.getHeldItemOffhand() != null){
+			if(player.getHeldItemOffhand().getItem() instanceof FloaterBlock_Item){
+				hand = EnumHand.OFF_HAND;
+			}
+		}	
+		if(hand == null){return;}
+		
+				ItemStack heldstack = player.getHeldItem(hand);
+				Item held = heldstack.getItem();
 
 				World world = player.worldObj;
 
@@ -46,22 +62,70 @@ public class Highlight_Handler {
 					BlockPos pos = mouseOver.getBlockPos();
 					IBlockState state = world.getBlockState(pos); 
 					if(Texty.isValid(state, world, pos)){
-						//positions.add(pos);
-						Render_Outlines(evt, state, pos, 240, 180, 240, 2.5F);
+						
+						fluctuate();
+						Render_Outlines(evt, state, pos, 240, 180, 240, 3F*this.scale);
 					}
-				}
-			}
+				
+			
 
-		}
+				}
+		} catch(Exception e){}
 	}
 	
+	@SubscribeEvent
+	public void TransformationTool_Highlight(RenderWorldLastEvent evt) {
+		try{
+		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayerSP player = mc.thePlayer;
+		
+		EnumHand hand = null;
+		if(player.getHeldItemMainhand() != null){
+			if(player.getHeldItemMainhand().getItem() instanceof ItemStaffofTransformation){
+				hand = EnumHand.MAIN_HAND;
+			}
+		}
+		if(player.getHeldItemOffhand() != null){
+			if(player.getHeldItemOffhand().getItem() instanceof ItemStaffofTransformation){
+				hand = EnumHand.OFF_HAND;
+			}
+		}	
+		if(hand == null){return;}
+		
+				ItemStack heldstack = player.getHeldItem(hand);
+				Item held = heldstack.getItem();
+				World world = player.worldObj;
+
+				if (!player.isSneaking()) {
+					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
+					EnumFacing theface = mouseOver.sideHit;
+					BlockPos pos = mouseOver.getBlockPos();
+					IBlockState state = world.getBlockState(pos); 
+					
+					ItemStaffofTransformation staff = (ItemStaffofTransformation)held;
+					fluctuate();
+					
+					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
+					if(positions != null && !positions.isEmpty()){
+						for (BlockPos location : positions) {
+							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
+						}
+					}
+			
+
+		}
+		} catch(Exception e){}
+		
+	}
+	//Highlighter
 	public void Render_Outlines (RenderWorldLastEvent event, IBlockState state, BlockPos pos, int r, int g, int b, float f){
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayerSP player = mc.thePlayer;
 		
+		GlStateManager.pushMatrix();
 		GlStateManager.disableTexture2D();
         GlStateManager.disableBlend();
-        GlStateManager.depthMask(true);
+        //GlStateManager.depthMask(true);
         GL11.glLineWidth(f);
             double partialTicks = event.getPartialTicks();
             double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
@@ -69,7 +133,7 @@ public class Highlight_Handler {
             double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
 
             AxisAlignedBB slightlyLargeBB = state.getSelectedBoundingBox(player.worldObj, pos)
-                    .expand(-0.005, -0.005, -0.005)
+                    .expand(0.005, 0.005, 0.005)
                     .offset(-d0, -d1, -d2);
             RenderGlobal.func_189697_a(slightlyLargeBB, (float) r/255F, (float) g/255F, (float) b/255F, (float) 100/255F);
         
@@ -77,8 +141,31 @@ public class Highlight_Handler {
         GL11.glDisable(GL11.GL_BLEND);
         GlStateManager.enableTexture2D();
         GlStateManager.enableBlend();
-        GlStateManager.depthMask(false);
+        //GlStateManager.depthMask(false);
+        GlStateManager.popMatrix();
 	}
 	
+	Float scale = 1F;
+	Boolean toggle = false;
+	//Global scaling
+	public void fluctuate(){
+		Float prev_scale = this.scale;
+				
+		if (prev_scale >= 2.5F){
+			this.toggle = true;
+		}
+		if (prev_scale <= 1F){
+			this.toggle = false;
+		}
+		if(this.toggle){
+			this.scale = prev_scale - 0.05F ;
+			return;
+		}
+		if(!this.toggle){
+			this.scale = prev_scale + 0.05F ;
+			return;
+		}
+		
+	}
 	
 }

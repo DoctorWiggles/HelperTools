@@ -7,8 +7,12 @@ import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.Texty;
 import helpertools.Utils.Whitelist_Util;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -38,19 +42,19 @@ public class ItemStaffofTransformation extends ToolBase_Default
     
     protected static Random growrand = new Random();
     
-    //Adds fancy flavor text for item
+    
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
     {
-    	par3List.add(TextFormatting.WHITE + "Swaps blocks in the world");
-        par3List.add(TextFormatting.ITALIC + "While sneaking change mode");
-        par3List.add(TextFormatting.ITALIC + "- Or select block to swap");
-        par3List.add(TextFormatting.ITALIC + "While enchanted with efficiency");
-        par3List.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
-        par3List.add(TextFormatting.ITALIC + "");
+    	list.add(TextFormatting.WHITE + "Swaps blocks in the world");
+        list.add(TextFormatting.ITALIC + "While sneaking change mode");
+        list.add(TextFormatting.ITALIC + "- Or select block to swap");
+        list.add(TextFormatting.ITALIC + "While enchanted with efficiency");
+        list.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
+        list.add(TextFormatting.ITALIC + "");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
-    	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
+    	list.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
     }}}
     
     
@@ -100,283 +104,278 @@ public class ItemStaffofTransformation extends ToolBase_Default
 		if (getOffMode(stack)== 4){ setOffMode(stack, 2); }
 		return false;
     }
+	
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	{	
 		
-	public void TRANSFORM (ItemStack thestaff, EntityPlayer player, World world, int x2, int y2, int z2, EnumFacing theface, float hitY, float hitX, float hitZ)
-	{
-        BlockPos pos2 = new BlockPos(x2, y2, z2);
-        
-      //The block that is being transformed
-			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
-			Boolean whitelist_flag;
-			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(thestaff), player, returnTMeta(thestaff));
-		if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky)
-				|| whitelist_flag)
-  		{	
-			SoundType soundtype = returnTBlock_FromState(thestaff).getSoundType();
-            //world.playSound(player, player.getPosition(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-            Texty.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+		if(player.isSneaking()){
+			select_Block(stack, player, pos);
+			setOffMode(stack, 4);
+			return EnumActionResult.SUCCESS;
+		}
+		Set<BlockPos> positions = Mode_Function(stack, player, pos, theface, false);
+		if(positions != null && !positions.isEmpty()){
+			return EnumActionResult.SUCCESS;
+		}
+		failedsound(world, player);
+		return EnumActionResult.FAIL;    	
+    }
+	
+	//Change function depending on mode
+	//Can perform differently for simulations	
+	@Nullable
+	public Set<BlockPos> Mode_Function(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
+				
+		if(!player.isSneaking() && creative_Check(stack, player, pos)){
+			switch(getMode(stack)){
 			
-            (world.getBlockState(pos2).getBlock()).dropBlockAsItem(world, pos2, world.getBlockState(pos2), 0);      		
-      		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);    		
-      		
-      		int crackid = (getTBlock(thestaff));
-			int crackmeta = (returnTMeta(thestaff));
+			case 2:				 
+				return Single_Mode(stack, player, pos, simulation);	
 			
-			String particle = "blockcrack_" + crackid + "_" + crackmeta;
-			for (int pl = 0; pl < 5; ++pl)
-			{
-				float f = (this.growrand.nextFloat() - .2F) * 1.4F;
-				float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
-				float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
-				world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, x2+f, y2+f1+.3, z2+f2, 0, 0, 0, crackid,crackmeta );       	            		
+			case 4: 
+				return Wall_Mode(stack, player, pos, theface, simulation);
+			
+			case 6: 
+				return Mass_Mode(stack, player, pos, theface, simulation);
+			
+			default: return null;
 			}
-			//successful = 1;
-			if (!player.capabilities.isCreativeMode){                	
-				if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
-    			if(whitelist_flag){
-    				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(thestaff), returnTMeta(thestaff));
-    			}
-                thestaff.damageItem(1, player);
-                }	
-  		}
-        
-        
+						
+		}
+		return null;
 	}
 	
 	
+	//Block to select	
+	public void select_Block(ItemStack stack, EntityPlayer player, BlockPos pos){
+		World world = player.worldObj;
+		setTBlock(stack, BlockStateHelper.returnID(world, pos)); 
+		setTMeta(stack, BlockStateHelper.getMetafromState(world, pos)); 	
+
+		failedsound(world, player);
+
+		setOffMode(stack, 4);
+	}
+	
+	//Check to modify black listed blocks
+	public boolean creative_Check(ItemStack stack, EntityPlayer player, BlockPos pos){		
+		World world = player.worldObj;
+		if ((returnTBlock_FromState(stack)) != Blocks.AIR){
+			
+			if(!player.capabilities.isCreativeMode &&
+					BlockStateHelper.getBlockfromState(world, pos) != Blocks.BEDROCK
+					&& BlockStateHelper.getBlockfromState(world, pos) != Blocks.AIR
+					|| player.capabilities.isCreativeMode
+					&& BlockStateHelper.getBlockfromState(world, pos) != Blocks.AIR){
+				
+				return true;
+			}
+		}    			
+		return false;		
+	}
 	
 	
-	//The guts of the placement code
-	/** This is a huge mess **/
-	
-	//Basically It will go through checks and determine what action it should perform next
-	/**During this, it looks for Which mode -> Which face of the block 
-	 * -> Which blocks are legal -> If they are legal, place or swap
-	 * -> And finally depending on which gamemode to remove durability and items**/
-	//public boolean onItemUse(ItemStack thestaff, EntityPlayer player, World world, BlockPos pos, EnumFacing theface, float hitY, float hitX, float hitZ)
-	public EnumActionResult onItemUse(ItemStack thestaff, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
-	{
-		//Modifies size based on tool level
-    	int mass = (getToolLevel(thestaff)+ 3);
-    	int wall = (getToolLevel(thestaff)+ 2); 
-    	
-    	int x1 = pos.getX();
-    	int y1 = pos.getY();
-    	int z1 = pos.getZ();    	
-    	BlockPos pos1 = new BlockPos(x1, y1, z1);
-    		
-    	
-    	if (getOffMode(thestaff)== 0)
-   		{
-		   setOffMode(thestaff, 2);
-   		}
-    	
-    	//Adds the block you are looking to the boolean, it is checked later or droped etc.
-    	//For the pallete
-		Gblock = BlockStateHelper.getBlockfromState(world, pos1);
-		Gmeta = BlockStateHelper.getMetafromState(world, pos1); 
+	//Area to place blocks
+	public Set<BlockPos> Single_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, boolean simulation){
+		World world = player.worldObj;
+		Set<BlockPos> positions = new HashSet<BlockPos>();
 		
-		////////////////////////////////////////////////////////////////
-		/**      ~~~~~~~~      Small Mode       ~~~~~~~~             **/
-		////////////////////////////////////////////////////////////////
-		/** if this is true it performs this action **/
-		if (!player.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
-      			&& !player.capabilities.isCreativeMode && Gblock != Blocks.BEDROCK
-      			&& getMode(thestaff) == 2
-      					||
-      			!player.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
-      			&& player.capabilities.isCreativeMode
-      			&& getMode(thestaff) == 2)
-      	{ 
-			int x2= x1;
-	    	int y2= y1;
-	    	int z2= z1;
-	    	BlockPos pos2 = new BlockPos(x2, y2, z2);
-      		if (BlockStateHelper.getBlockfromState(world, pos2) != (returnTBlock_FromState(thestaff))
-              		|| BlockStateHelper.getMetafromState(world, pos2) != (returnTMeta(thestaff))
-                       && BlockStateHelper.getBlockfromState(world, pos2) == (returnTBlock_FromState(thestaff)))
-      		{
-      			
-      			TRANSFORM(thestaff, player, world, x2, y2, z2, theface, hitY, hitX, hitZ);      			
-      		
-      		}
-      		failedsound(world, player);
-      		return EnumActionResult.SUCCESS;
-      	
-      	} 
-    		////////////////////////////////////////////////////////////////////////////
-    		/**    ~~~~~~~~                  Wall Mode               ~~~~~~~~~~~~~  **/
-    		////////////////////////////////////////////////////////////////////////////
+  		if (BlockStateHelper.getBlockfromState(world, pos) != (returnTBlock_FromState(stack))
+          		|| BlockStateHelper.getMetafromState(world, pos) != (returnTMeta(stack))
+                   && BlockStateHelper.getBlockfromState(world, pos) == (returnTBlock_FromState(stack)))
+  		{
+  			if(inventory_Check(stack, player, simulation)){
+  				  positions.add(pos);  
+  				  if(!simulation)TRANSFORM(stack, player, world, pos);
+  			}
+  		}  		
+  		
+  		
+  		failedsound(world, player);
+		return positions;
+	}
+	//Area to place blocks
+	public Set<BlockPos> Wall_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
+		World world = player.worldObj;
+		Set<BlockPos> positions = new HashSet<BlockPos>();
+		int wall = (getToolLevel(stack)+ 2); 
+		int x1 = pos.getX();
+		int y1 = pos.getY();
+		int z1 = pos.getZ();   
+		
+		Gblock = BlockStateHelper.getBlockfromState(world, pos);
+		Gmeta = BlockStateHelper.getMetafromState(world, pos); 
+		
+		//Some sort of spaghetti monster code
+		for (int l = 0; l < wall; ++l)
+		{   
+			for (int ml = 0; ml < wall; ++ml)
+			{ 
+				for (int sl = 0; sl < 4; ++sl)
+				{ 
+
+					int sectA =1;
+					int sectB =1;
+					switch(sl){
+					case 0:
+						break;
+					case 1: sectA= -1;       						
+						break;        							
+					case 2:	sectA= -1;
+							sectB= -1;
+						break;
+					case 3:	sectB= -1;
+						break;
+					}
+					int x3 = 0;
+					int y3 = 0;
+					int z3 = 0;
+					//////////////////////////////////////
+					switch(theface){
+					case DOWN:	z3 = z3 - l*sectA; 
+								x3 = x3 - ml*sectB;        	    			 		
+								break;
+					case UP:	z3 = z3 - l*sectA; 
+								x3 = x3 - ml*sectB;
+								break;
+					case NORTH:	y3 = y3 - l*sectA; 
+								x3 = x3 - ml*sectB; 
+								break;
+					case SOUTH:	y3 = y3 - l*sectA; 
+								x3 = x3 - ml*sectB;
+								break;
+					case WEST:   y3 = y3 - l*sectA; 
+								z3 = z3 - ml*sectB;			 
+								break;
+					case EAST:	 y3 = y3 - l*sectA; 
+					z3 = z3 - ml*sectB;	
+								break;
+					default: 
+					}
+					int x2 = x1 + x3;
+					int y2 = y1 + y3;
+					int z2 = z1 + z3;
+					BlockPos pos2 = new BlockPos(x2, y2, z2);
+					Block Compare_Block = BlockStateHelper.getBlockfromState(world, pos2);
+					int Compare_Meta = BlockStateHelper.getMetafromState(world, pos2);
+					
+					//Whitelist Placement
+					if (Compare_Block != (returnTBlock_FromState(stack))
+							&& Compare_Block == Gblock
+							&& Compare_Meta == Gmeta
+							|| Compare_Meta != (returnTMeta(stack))
+							&& Compare_Block == (returnTBlock_FromState(stack))
+							&& Compare_Block == Gblock
+							&& Compare_Meta == Gmeta)
+					{
+						if(inventory_Check(stack, player, simulation)){
+							positions.add(pos2);  
+							if(!simulation)TRANSFORM(stack, player, world, pos2);
+						} 
+					}
+
+				}
+			}
+		}
+		failedsound(world, player);
+		return positions;
+	}
+	//Area to place blocks
+	public Set<BlockPos> Mass_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
+		World world = player.worldObj;
+		Set<BlockPos> positions = new HashSet<BlockPos>();
+		int mass = (getToolLevel(stack)+ 3);
+		int x1 = pos.getX();
+		int y1 = pos.getY();
+		int z1 = pos.getZ();  
+		
+		Gblock = BlockStateHelper.getBlockfromState(world, pos);
+		Gmeta = BlockStateHelper.getMetafromState(world, pos); 
 
 
-    	if (!player.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
-      			&& !player.capabilities.isCreativeMode && Gblock != Blocks.BEDROCK
-      			&& getMode(thestaff) == 4
-      					||
-      			!player.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
-      			&& player.capabilities.isCreativeMode
-      			&& getMode(thestaff) == 4)
-      	{  
-    		
-    			
-    			for (int l = 0; l < wall; ++l)
-    			{   
-    				for (int ml = 0; ml < wall; ++ml)
-    				{ 
-    					for (int sl = 0; sl < 4; ++sl)
-    					{ 
 
-    						int sectA =1;
-    						int sectB =1;
-    						switch(sl){
-    						case 0:
-    							break;
-    						case 1: sectA= -1;       						
-    							break;        							
-    						case 2:	sectA= -1;
-    								sectB= -1;
-    							break;
-    						case 3:	sectB= -1;
-    							break;
-    							
-    						}
-    						int x3 = 0;
-    						int y3 = 0;
-    						int z3 = 0;
-    						//////////////////////////////////////
-    						switch(theface){
-    						//Bottom 0
-    						case DOWN:	z3 = z3 - l*sectA; 
-    						x3 = x3 - ml*sectB;        	    			 		
-    						break;
-    						//Top 1
-    						case UP:	z3 = z3 - l*sectA; 
-    						x3 = x3 - ml*sectB;
+		for (int xl = 0; xl < mass; ++xl)
+		{   
+			for (int yl = 0; yl < mass; ++yl)
+			{ 
+				for (int zl = 0; zl < mass; ++zl)
+				{    						
+					int offy = (mass-1)/2;
+					int x3 = xl - offy;
+					int y3 = yl - offy;
+					int z3 = zl - offy;
+					//////////////////////////////////////
+					int x2 = x1 + x3;
+					int y2 = y1 + y3;
+					int z2 = z1 + z3;
 
-    						break;
-    						//North 2
-    						case NORTH:	y3 = y3 - l*sectA; 
-    						x3 = x3 - ml*sectB; 
-    						break;
-    						//South 3
-    						case SOUTH:	y3 = y3 - l*sectA; 
-    						x3 = x3 - ml*sectB;
-    						break;
-    						//West 4
-    						case WEST:   y3 = y3 - l*sectA; 
-    						z3 = z3 - ml*sectB;			 
-    						break;
-    						//East 5
-    						case EAST:	 y3 = y3 - l*sectA; 
-    						z3 = z3 - ml*sectB;	
-    						break;
-    						default: 
-    						}
-    						int x2 = x1 + x3;
-    						int y2 = y1 + y3;
-    						int z2 = z1 + z3;
-            	            BlockPos pos2 = new BlockPos(x2, y2, z2);
-            	            Block Compare_Block = BlockStateHelper.getBlockfromState(world, pos2);
-            	            int Compare_Meta = BlockStateHelper.getMetafromState(world, pos2);
-    						//Whitelist Placement
-    							if (Compare_Block != (returnTBlock_FromState(thestaff))
-    				    				&& Compare_Block == Gblock
-    				    				&& Compare_Meta == Gmeta
-    				            		|| Compare_Meta != (returnTMeta(thestaff))
-    				                     && Compare_Block == (returnTBlock_FromState(thestaff))
-    				     				&& Compare_Block == Gblock
-    				     				&& Compare_Meta == Gmeta)
-    				    			{
-    								TRANSFORM(thestaff, player, world, x2, y2, z2, theface, hitY, hitX, hitZ);  
-    				    			}
-    				    			
-    					}
-    				}
-    			}
-    			failedsound(world, player);
-    			return EnumActionResult.SUCCESS;
+					BlockPos pos2 = new BlockPos(x2, y2, z2);
+					Block Compare_Block = BlockStateHelper.getBlockfromState(world, pos2);
+					int Compare_Meta = BlockStateHelper.getMetafromState(world, pos2);
+					//Whitelist Placement
 
-    		}
-
-		/////////////////////////////////////////////////////////////////////////
-		/**          ~~~~~~~         Mass mode 6        ~~~~~~~             **/
-		////////////////////////////////////////////////////////////////////////
-		if (!player.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
-      			&& !player.capabilities.isCreativeMode && Gblock != Blocks.BEDROCK
-      			&& getMode(thestaff) == 6
-      					||
-      			!player.isSneaking() && (returnTBlock_FromState(thestaff)) != Blocks.AIR    			
-      			&& player.capabilities.isCreativeMode
-      			&& getMode(thestaff) == 6)
-      	{  
-    			
-    			for (int xl = 0; xl < mass; ++xl)
-    			{   
-    				for (int yl = 0; yl < mass; ++yl)
-    				{ 
-    					for (int zl = 0; zl < mass; ++zl)
-        				{    						
-    						int offy = (mass-1)/2;
-    						int x3 = xl - offy;
-    						int y3 = yl - offy;
-    						int z3 = zl - offy;
-    						//////////////////////////////////////
-    						int x2 = x1 + x3;
-    						int y2 = y1 + y3;
-    						int z2 = z1 + z3;
-
-    						BlockPos pos2 = new BlockPos(x2, y2, z2);
-            	            Block Compare_Block = BlockStateHelper.getBlockfromState(world, pos2);
-            	            int Compare_Meta = BlockStateHelper.getMetafromState(world, pos2);
-    						//Whitelist Placement
-    						
-    							if (Compare_Block != (returnTBlock_FromState(thestaff))
-    				    				&& Compare_Block == Gblock
-    				    				&& Compare_Meta == Gmeta
-    				            		|| Compare_Meta != (returnTMeta(thestaff))
-    				                     && Compare_Block == (returnTBlock_FromState(thestaff))
-    				     				&& Compare_Block == Gblock
-    				     				&& Compare_Meta == Gmeta)
-    				    			{
-    								TRANSFORM(thestaff, player, world, x2, y2, z2, theface, hitY, hitX, hitZ);  
-    				    			}
-    						}
-        				}
-    			
-    				
-    			}
-    			failedsound(world, player);
-    			return EnumActionResult.SUCCESS;
-
-    		}
-    
-    		
-    		
-    		/**
-    		 * If these all are false it returns with a default action
-    		 */
-    		
-    		
-    		
-    	if (player.isSneaking())
-    	{ 
-    		setTBlock(thestaff, BlockStateHelper.returnID(world, pos1)); 
-    		setTMeta(thestaff, BlockStateHelper.getMetafromState(world, pos1)); 	
-    		
-    		failedsound(world, player);
-    		
-    		 setOffMode(thestaff, 4);
-    		 return EnumActionResult.SUCCESS;
-    		
-    	}
-    	
-    	 
-    	failedsound(world, player);
-    	return EnumActionResult.FAIL; 
-    	
-    }
-    
-    
+					if (Compare_Block != (returnTBlock_FromState(stack))
+							&& Compare_Block == Gblock
+							&& Compare_Meta == Gmeta
+							|| Compare_Meta != (returnTMeta(stack))
+							&& Compare_Block == (returnTBlock_FromState(stack))
+							&& Compare_Block == Gblock
+							&& Compare_Meta == Gmeta)
+					{
+						if(inventory_Check(stack, player, simulation)){
+							positions.add(pos2);  
+							if(!simulation)TRANSFORM(stack, player, world, pos2);
+						} 
+					}
+				}
+			}
+		}		
+		failedsound(world, player);
+		return positions;
+	}
+	//Scan inventory and remove items
+	public boolean inventory_Check(ItemStack stack, EntityPlayer player, boolean simulation){
+		
+		if(player.capabilities.isCreativeMode){return true;}
+		
+		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(stack)),0, returnTMeta(stack)); 
+		Boolean whitelist_flag;
+		whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(stack), player, returnTMeta(stack));
+		if( player.inventory.hasItemStack(stacky) || whitelist_flag)
+		{
+			if(simulation){return true;}
+			
+			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+			if(whitelist_flag){
+				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(stack), returnTMeta(stack));
+			}
+            stack.damageItem(1, player);
+            return true;
+		}
+		return false;
+		
+	}
 	
-    
+	//Place the Block and apply FX
+	public void TRANSFORM (ItemStack stack, EntityPlayer player, World world, BlockPos pos)
+	{
+		SoundType soundtype = returnTBlock_FromState(stack).getSoundType();
+        Texty.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+		
+        (world.getBlockState(pos).getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);      		
+  		world.setBlockState(pos, BlockStateHelper.returnState(getTBlock(stack)), 02);    		
+  		
+  		int crackid = (getTBlock(stack));
+		int crackmeta = (returnTMeta(stack));
+		
+		for (int pl = 0; pl < 50/(1*getToolLevel(stack)+1); ++pl)
+		{
+			float f = (this.growrand.nextFloat() - .2F) * 1.4F;
+			float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
+			float f2 = (this.growrand .nextFloat() - .2F) * 1.4F;
+			world.spawnParticle(EnumParticleTypes.BLOCK_CRACK,
+					pos.getX()+f, pos.getY()+f1+.3, pos.getZ()+f2, 0, 0, 0, crackid,crackmeta );       	            		
+		}
+	}
+	
 }

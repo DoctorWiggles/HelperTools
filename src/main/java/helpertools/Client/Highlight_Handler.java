@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Blocks.FloaterBlock.FloaterBlock_Item;
+import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
@@ -103,6 +104,51 @@ public class Highlight_Handler {
 					IBlockState state = world.getBlockState(pos); 
 					
 					ItemStaffofTransformation staff = (ItemStaffofTransformation)held;
+					fluctuate();
+					
+					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
+					if(positions != null && !positions.isEmpty()){
+						for (BlockPos location : positions) {
+							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
+						}
+					}
+			
+
+		}
+		} catch(Exception e){}
+		
+	}
+	
+	@SubscribeEvent
+	public void ExpandingTool_Highlight(RenderWorldLastEvent evt) {
+		try{
+		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayerSP player = mc.thePlayer;
+		
+		EnumHand hand = null;
+		if(player.getHeldItemMainhand() != null){
+			if(player.getHeldItemMainhand().getItem() instanceof ItemStaffofExpansion){
+				hand = EnumHand.MAIN_HAND;
+			}
+		}
+		if(player.getHeldItemOffhand() != null){
+			if(player.getHeldItemOffhand().getItem() instanceof ItemStaffofExpansion){
+				hand = EnumHand.OFF_HAND;
+			}
+		}	
+		if(hand == null){return;}
+		
+				ItemStack heldstack = player.getHeldItem(hand);
+				Item held = heldstack.getItem();
+				World world = player.worldObj;
+
+				if (!player.isSneaking()) {
+					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
+					EnumFacing theface = mouseOver.sideHit;
+					BlockPos pos = mouseOver.getBlockPos();
+					IBlockState state = world.getBlockState(pos); 
+					
+					ItemStaffofExpansion staff = (ItemStaffofExpansion)held;
 					fluctuate();
 					
 					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);

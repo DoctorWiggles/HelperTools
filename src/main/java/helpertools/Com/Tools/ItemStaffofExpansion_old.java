@@ -5,10 +5,12 @@ import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.Texty;
+import helpertools.Utils.Whitelist_Util;
 
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,9 +28,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class CopyOfItemStaffofExpansion extends ToolBase_Default
+public class ItemStaffofExpansion_old extends ToolBase_Default
 {
-    public CopyOfItemStaffofExpansion(ToolMaterial material, String unlocalizedName)
+    public ItemStaffofExpansion_old(ToolMaterial material, String unlocalizedName)
     {
     	super (material);
         setUnlocalizedName(unlocalizedName);
@@ -40,10 +42,15 @@ public class CopyOfItemStaffofExpansion extends ToolBase_Default
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	par3List.add(TextFormatting.ITALIC + "sets blocks");
+    	par3List.add(TextFormatting.WHITE + "Sets blocks in the world");
+        par3List.add(TextFormatting.ITALIC + "While sneaking change mode");
+        par3List.add(TextFormatting.ITALIC + "- Or select block to place");
+        par3List.add(TextFormatting.ITALIC + "While enchanted with efficiency");
+        par3List.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
+        par3List.add(TextFormatting.ITALIC + "");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
-    	par3List.add(whatBlockString(stack) + whatModeString(stack)+ " mode");
+    	par3List.add(whatBlockString(stack) +returnTMeta(stack) +" "+ whatModeString(stack)+ " mode");
     }}}
     
     public String whatModeString(ItemStack itemStack){	  
@@ -108,7 +115,11 @@ public class CopyOfItemStaffofExpansion extends ToolBase_Default
         {
 			//ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock(thestaff)),0, returnTMeta(thestaff)); 
 			ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(thestaff)),0, returnTMeta(thestaff)); 
-        	if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky))
+			
+			Boolean whitelist_flag;
+			whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(thestaff), player, returnTMeta(thestaff));
+        	if(player.capabilities.isCreativeMode || player.inventory.hasItemStack(stacky)
+        			|| whitelist_flag)
     		{
         		//destroys and returns blocks like grass
         		if (world.getBlockState(pos2).getMaterial() == Material.VINE
@@ -124,16 +135,20 @@ public class CopyOfItemStaffofExpansion extends ToolBase_Default
         				 (returnTBlock(thestaff).stepSound.getVolume() + 1.0F) / 2.0F, 
         				 returnTBlock(thestaff).stepSound.getFrequency() * 0.8F);
         				 **/
-        		 //world.playSound(player, pos2, null, SoundCategory.BLOCKS, 2F, 1F);
-        		 //world.playSound(player, pos2, returnTBlock_FromState(thestaff).getSoundType(), SoundCategory.BLOCKS, 2F, 1F);
         		
+        		
+        		SoundType soundtype = returnTBlock_FromState(thestaff).getSoundType();
+               // world.playSound(player, player.getPosition(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+        		Texty.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);        		
         		
         		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(thestaff)), 02);
         		
         		int crackid = (getTBlock(thestaff));
                 int crackmeta = (returnTMeta(thestaff));
-                String particle = "blockcrack_" + crackid + "_" + crackmeta;
-        		for (int pl = 0; pl < 5; ++pl)
+                
+                //TODO redo particle effects
+                //In general redo EVERYTHING from scratch tbhmbffj
+        		for (int pl = 0; pl < 50/(1*getToolLevel(thestaff)+1); ++pl)
     			{
         		float f = (this.growrand.nextFloat() - .2F) * 1.4F;
                 float f1 = (this.growrand .nextFloat() - .2F) * 1.4F;
@@ -143,7 +158,10 @@ public class CopyOfItemStaffofExpansion extends ToolBase_Default
     			}
         		
         		if (!player.capabilities.isCreativeMode){                	
-        			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);        	                        
+        			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+        			if(whitelist_flag){
+        				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(thestaff), returnTMeta(thestaff));
+        				}
                     thestaff.damageItem(1, player);
                     }	
     		}
@@ -415,7 +433,6 @@ public class CopyOfItemStaffofExpansion extends ToolBase_Default
         
     	
     	/////////////////////////////////
-        /** If Sneaking Select Block **/
         ///////////////////////////////
     	if (player.isSneaking())
     	{ 

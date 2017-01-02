@@ -43,5 +43,4 @@ public class ForgeEventHandler {
 		 event.setCanceled(true);
 	}
 	
-	
 }

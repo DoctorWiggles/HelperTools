@@ -23,6 +23,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -32,6 +33,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 public class ItemStaffofExpansion extends ToolBase_Default
 {
@@ -392,7 +394,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 	}
 	
 	//Place the Block and apply FX
-	public void EXPAND (ItemStack stack, EntityPlayer player, World world, BlockPos pos)
+	public void EXPAND (final ItemStack stack, EntityPlayer player, final World world, final BlockPos pos)
 	{
 		SoundType soundtype = returnTBlock_FromState(stack).getSoundType();
 		Texty.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
@@ -404,7 +406,8 @@ public class ItemStaffofExpansion extends ToolBase_Default
 		{
 
 			(world.getBlockState(pos).getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
-		}      		
+		}     
+		
 		world.setBlockState(pos, BlockStateHelper.returnState(getTBlock(stack)), 02);    		
 
 		int crackid = (getTBlock(stack));

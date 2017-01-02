@@ -7,12 +7,14 @@ import helpertools.Com.Entity.Entity_FlyingItem;
 import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Com.Entity.Entity_RedTorchProjectile;
 import helpertools.Com.Entity.Entity_TorchProjectile;
+import helpertools.Com.Entity.Phantom_Cube;
 import helpertools.Com.Entity.Renders.RenderDirtBombProjectile;
 import helpertools.Com.Entity.Renders.RenderDynamiteProjectile;
 import helpertools.Com.Entity.Renders.RenderRedTorchProjectile;
 import helpertools.Com.Entity.Renders.RenderTorchProjectile;
 import helpertools.Com.Entity.Renders.Render_FlyingItem;
 import helpertools.Com.Entity.Renders.Render_Mirage;
+import helpertools.Com.Entity.Renders.Render_PhantomCube;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
@@ -41,6 +43,8 @@ public class Render_Entity {
 		reg(Entity_FlyingItem.class, new Render_FlyingItem(render, ItemRegistry.miragehusk, Item));
 				
 		reg(Entity_Mirage.class, new Render_Mirage(render));
+		
+		reg(Phantom_Cube.class, new Render_PhantomCube(render));
         
 	}
 	

@@ -8,6 +8,7 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -91,8 +92,11 @@ public class Render_Mirage extends Render{
 		//GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE); 
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+		//float alpha = (entity.getHealth()/40)+0.2F;
+		float alpha = 0.5F;
+		
 		Float f2 = 0.5F;
-		GL11.glColor4f(f2,f2, f2,0.5F);  
+		GL11.glColor4f(f2,f2, f2,alpha);  
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
         GL11.glDisable(GL11.GL_BLEND);
         

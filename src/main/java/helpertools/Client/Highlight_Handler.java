@@ -1,6 +1,7 @@
 package helpertools.Client;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -9,8 +10,11 @@ import org.lwjgl.opengl.GL11;
 
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Blocks.FloaterBlock.FloaterBlock_Item;
+import helpertools.Com.Entity.Phantom_Cube;
+import helpertools.Com.Tools.ItemEuclideanTransposer;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
+import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -105,11 +109,15 @@ public class Highlight_Handler {
 					
 					ItemStaffofTransformation staff = (ItemStaffofTransformation)held;
 					fluctuate();
+					//IBlockState blocky = BlockStateHelper.returnState(staff.getTBlock(heldstack));
 					
 					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
 					if(positions != null && !positions.isEmpty()){
 						for (BlockPos location : positions) {
 							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
+							
+							//Phantom_Cube cube = new Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
+							//world.spawnEntityInWorld(cube);
 						}
 					}
 			
@@ -150,11 +158,17 @@ public class Highlight_Handler {
 					
 					ItemStaffofExpansion staff = (ItemStaffofExpansion)held;
 					fluctuate();
+					IBlockState blocky = BlockStateHelper.returnState(staff.getTBlock(heldstack));
+					
 					
 					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
 					if(positions != null && !positions.isEmpty()){
 						for (BlockPos location : positions) {
 							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
+							
+							Phantom_Cube cube = new Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
+							world.spawnEntityInWorld(cube);
+							
 						}
 					}
 			
@@ -163,6 +177,76 @@ public class Highlight_Handler {
 		} catch(Exception e){}
 		
 	}
+	
+	@SubscribeEvent
+	public void Euclidean_Highlight(RenderWorldLastEvent evt) {
+		try{
+		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayerSP player = mc.thePlayer;
+		
+		EnumHand hand = null;
+		if(player.getHeldItemMainhand() != null){
+			if(player.getHeldItemMainhand().getItem() instanceof ItemEuclideanTransposer){
+				hand = EnumHand.MAIN_HAND;
+			}
+		}
+		if(player.getHeldItemOffhand() != null){
+			if(player.getHeldItemOffhand().getItem() instanceof ItemEuclideanTransposer){
+				hand = EnumHand.OFF_HAND;
+			}
+		}	
+		if(hand == null){return;}
+		
+				ItemStack heldstack = player.getHeldItem(hand);
+				Item held = heldstack.getItem();
+				World world = player.worldObj;
+
+				if (!player.isSneaking()) {
+					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
+					EnumFacing theface = mouseOver.sideHit;
+					BlockPos pos = mouseOver.getBlockPos();
+					
+					if(BlockStateHelper.getBlockfromState(player.worldObj, pos) == Blocks.AIR){return;}
+							
+					IBlockState state = world.getBlockState(pos); 
+					
+					ItemEuclideanTransposer staff = (ItemEuclideanTransposer)held;
+					fluctuate();
+					pos = staff.apply_Offset(heldstack, player, world, pos, theface, false);
+					
+					int NBT = 0;
+					for(int X = 0; X < 5; ++X){
+						for(int Y = 0; Y < 5; ++Y){
+							for(int Z = 0; Z < 5; ++Z){
+								
+								BlockPos pos2 = pos.add(X, Y, Z);
+								IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));
+								
+								if(states != Blocks.AIR.getDefaultState()){
+								Render_Outlines(evt, state, pos2, 180, 240, 180, 3.5F*this.scale);
+								
+								Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
+								world.spawnEntityInWorld(cube);
+								}
+								NBT++;
+								
+							}
+						}
+					}
+					
+			
+
+		}
+		} catch(Exception e){}
+		
+	}
+	/*
+	protected static Random growrand = new Random();
+	float f = (this.growrand.nextFloat()/30F) ;	        
+    float f1 = (this.growrand .nextFloat()/30F );
+    float f2 = (this.growrand .nextFloat()/30F );
+	*/
+	
 	//Highlighter
 	public void Render_Outlines (RenderWorldLastEvent event, IBlockState state, BlockPos pos, int r, int g, int b, float f){
 		Minecraft mc = Minecraft.getMinecraft();

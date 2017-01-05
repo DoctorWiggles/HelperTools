@@ -24,19 +24,6 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
         return name;
     }
     
-    //TODO uh right okay
-    public BlockPos getPosition() {
-		return new BlockPos(offX, offY, offZ);
-	}
-
-	public void setPosition(BlockPos pos)
-	{
-		offX = pos.getX();
-		offY = pos.getY();
-		offZ = pos.getZ();
-		
-	}
-	
     
     public int offX = 0;
     public int offY = 1;

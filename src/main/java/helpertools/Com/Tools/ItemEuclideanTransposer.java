@@ -114,12 +114,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 
 
 	
-	public void place_block(World world, BlockPos pos, int X, int Y, int Z, ItemStack stack, int NBT){
-		
-		BlockPos pos2 = pos.add(X, Y, Z);
-		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(stack, NBT)), 02);
-		
-	}
+	
 	
 	public void place_pattern(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing theface ){
 		int NBT = 0;
@@ -132,42 +127,42 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		case 0:	
 			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){	
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}break;			
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;			
 			
 		case 1:	
 			for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;	
 			
 		case 2: 
 			for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;	
 			
 		case 3: 
 			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;	
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
 		case 4:	
 			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){	
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;	
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
 		case 5:	
 			for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;	
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
 		case 6: 
 			for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;	
 			
 		case 7: 
 			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
 				
-				place_block(world, pos, X, Y, Z, stack, NBT); NBT++;}}}	break;	
+				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
 		default:
 		}
@@ -177,7 +172,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	}
 	
 	public void create_pattern(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing theface ){
-
+				
 		int NBT = 0;
 		for(int X = 0; X < 5; ++X){
 			for(int Y = 0; Y < 5; ++Y){
@@ -199,6 +194,8 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		BlockPos pos2 = pos.add(-2, 0, -2);
 		
 		switch(getCorner(stack)){
+		case 0:	
+			break;
 		case 1:	pos2 = pos2.add(+4,0,0);
 			break;
 		case 2:	pos2 = pos2.add(+4,0,+4);
@@ -213,9 +210,10 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 			break;
 		case 7:	pos2 = pos2.add(0,+4,+4);
 			break;
-			
-			
 		}
+		int a = 0;
+		//if(a == 0) return pos2;
+		
 		if(world.getBlockState(pos).getBlock() == ItemRegistry.transcriberBlock){
 			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(pos);
 			if (tile != null)
@@ -224,20 +222,21 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				return pos2;
             }
 		}
+		
 		if(pattern)return pos2;
 		
 		switch(theface){
-		case DOWN:	pos2 = pos.add(-2, -5, -2);			 
+		case DOWN:	pos2 = pos2.add(0, -5, 0);			 
 			break;
-		case UP:				 
+		case UP:	pos2 = pos2.add(0, +1, 0);				 
 			break;
-		case NORTH: pos2 = pos.add(-2, -2, -5);	
+		case NORTH: pos2 = pos2.add(0, -2, -3);	
 			break;
-		case SOUTH: pos2 = pos.add(-2, -2, +1);	
+		case SOUTH: pos2 = pos2.add(0, -2, +3);	
 			break;
-		case WEST: 	pos2 = pos.add(-5, -2, -2);	
+		case WEST: 	pos2 = pos2.add(-3, -2, 0);	
 			break;
-		case EAST:	pos2 = pos.add(+1, -2, -2);
+		case EAST:	pos2 = pos2.add(+3, -2, 0);
 			break;
 		default:
 		}
@@ -247,6 +246,49 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	}
 	
 	
+	//Scan inventory and remove items
+	public boolean inventory_Check(ItemStack stack, EntityPlayer player, int NBT, boolean simulation){
+
+		if(player.capabilities.isCreativeMode){return true;}
+
+		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(stack, NBT)),0, returnTMeta(stack, NBT)); 
+		Boolean whitelist_flag;
+		whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(stack, NBT), player, returnTMeta(stack, NBT));
+		if( player.inventory.hasItemStack(stacky) || whitelist_flag)
+		{
+			if(simulation){return true;}
+
+			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+			if(whitelist_flag){
+				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(stack, NBT), returnTMeta(stack, NBT));
+			}
+			stack.damageItem(1, player);
+			return true;
+		}
+		return false;
+
+	}
+	
+	public void place_block(World world,EntityPlayer player, BlockPos pos, int X, int Y, int Z, ItemStack stack, int NBT){
+
+		BlockPos pos2 = pos.add(X, Y, Z);
+		IBlockState state = world.getBlockState(pos2);
+
+		if (returnTBlock_FromState(stack, NBT) == Blocks.AIR){return;}
+		if(!(Texty.isValid(state, world, pos2))){return;}
+		if(!(inventory_Check(stack, player, NBT, false))){return;}
+		if (world.getBlockState(pos).getMaterial() == Material.VINE
+				|| world.getBlockState(pos).getMaterial() == Material.PLANTS
+				|| world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER) 
+		{
+
+			(world.getBlockState(pos).getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
+		}  
+		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(stack, NBT)), 02);
+
+
+	}
+
 	@SuppressWarnings("null")
 	public Set<IBlockState> Blockmap (ItemStack stack){
 		

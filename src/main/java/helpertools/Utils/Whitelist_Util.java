@@ -1,6 +1,7 @@
 package helpertools.Utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
@@ -17,8 +18,7 @@ public class Whitelist_Util {
 	static String Chisel = "chisel";
 	
 	public static boolean Block_Whitelist(Block block, EntityPlayer player, int meta){
-			
-		//if(!player.inventory.hasItem(Item.getItemFromBlock(block))){
+		
 		if(!InventoryUtil.hasItem(Item.getItemFromBlock(block), player.inventory)){
 			return false;
 		}
@@ -27,6 +27,12 @@ public class Whitelist_Util {
 		 {
 			//if(block instanceof ICarvable ){return true;}
 		 }
+		
+		if(block instanceof BlockLeaves){
+			ItemStack stacky  = new ItemStack (block,0, meta-4);
+			if(InventoryUtil.StackScan(stacky, player.inventory) >0){return true;
+			}
+		  }
 		
 		if(block instanceof BlockRotatedPillar
 				||block instanceof BlockStairs
@@ -39,7 +45,6 @@ public class Whitelist_Util {
 			if(block instanceof BlockSlab && meta >= 8){
 				stacky = new ItemStack (block,0, meta - 8);
 			  }
-			//System.out.println("new"+newMeta);
 			if(InventoryUtil.StackScan(stacky, player.inventory) >0){return true;
 				}
 				
@@ -50,7 +55,11 @@ public class Whitelist_Util {
 	
 	public static ItemStack Whitelist_stack(ItemStack stack, EntityPlayer player, Block block, int meta){
 		ItemStack last_stack = stack;
-	
+		
+		if(block instanceof BlockLeaves){
+			return new ItemStack (block,0, meta-4);
+		  }
+		
 		if(block instanceof BlockRotatedPillar
 				||block instanceof BlockStairs
 				||block instanceof BlockSlab && meta >= 8
@@ -62,7 +71,6 @@ public class Whitelist_Util {
 			if(block instanceof BlockSlab && meta >= 8){
 				stacky = new ItemStack (block,0, meta - 8);
 			  }
-			//System.out.println("new"+newMeta);
 			last_stack = stacky;
 		}
 		
@@ -72,6 +80,11 @@ public class Whitelist_Util {
 	
 	public static void Consume_Whitelist(ItemStack stack, EntityPlayer player, Block block, int meta){
 		
+		if(block instanceof BlockLeaves){
+			ItemStack stacky  = new ItemStack (block,0, meta-4);
+			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
+		  }
+		
 		if(block instanceof BlockRotatedPillar
 				||block instanceof BlockStairs
 				||block instanceof BlockSlab && meta >= 8
@@ -83,7 +96,6 @@ public class Whitelist_Util {
 			if(block instanceof BlockSlab && meta >= 8){
 				stacky = new ItemStack (block,0, meta - 8);
 			  }
-			//System.out.println("new"+newMeta);
 			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
 				
 			}

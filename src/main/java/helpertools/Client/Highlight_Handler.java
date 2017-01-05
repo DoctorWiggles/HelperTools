@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -223,42 +224,42 @@ public class Highlight_Handler {
 					case 0:	
 						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){	
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
 						
 					case 1:	
 						for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
 						
 					case 2: 
 						for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
 					case 3: 
 						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;			
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;			
 						
 					case 4:	
 						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){	
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
 					case 5:	
 						for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
 					case 6: 
 						for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;			
 						
 					case 7: 
 						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
 							
-							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
 					default:
 					}
@@ -271,18 +272,22 @@ public class Highlight_Handler {
 	}
 	
 	
-	public void Eu_Cubes(World world, BlockPos pos,ItemStack heldstack, double X, double Y, double Z, int NBT, ToolBase_Patterns staff, RenderWorldLastEvent evt, IBlockState state){
+	public void Eu_Cubes(World world, EntityPlayer player, BlockPos pos,ItemStack heldstack, double X, double Y, double Z, int NBT, ItemEuclideanTransposer staff, RenderWorldLastEvent evt, IBlockState state){
 		
 		BlockPos pos2 = pos.add(X, Y, Z);
 		IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));
+		IBlockState state_to_replace = world.getBlockState(pos2);
 		
-		if(states != Blocks.AIR.getDefaultState()){
-			
-		Render_Outlines(evt, state, pos2, 180, 240, 180, 3.5F*this.scale);
+		
+		if(states.getBlock() == Blocks.AIR){return;}
+		if(!(Texty.isValid(state_to_replace, world, pos2))){return;}
+		if(!staff.inventory_Check(heldstack, player, NBT, true)){return;}
+		
+		Render_Outlines(evt, states, pos2, 180, 240, 180, 3.5F*this.scale);
 		
 		Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
 		world.spawnEntityInWorld(cube);
-		}
+		
 	}
 	
 	

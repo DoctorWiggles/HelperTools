@@ -8,6 +8,7 @@ import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
 import helpertools.Com.Tools.ToolBase_Default;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
@@ -263,6 +264,10 @@ public class ToolHud extends Gui
   
   
   public static int PillarAdjust(Block block, int meta){
+	  
+	  if(block instanceof BlockLeaves){
+		  return meta-4;
+	  }
 	  
 	  if(block instanceof BlockRotatedPillar
 			  ||block instanceof BlockStairs){

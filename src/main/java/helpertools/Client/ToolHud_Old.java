@@ -1,14 +1,11 @@
 package helpertools.Client;
 
 
-import helpertools.Main;
 import helpertools.Com.Config;
 import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Com.Items.Item_MirageHusk;
-import helpertools.Com.Tools.ItemEuclideanTransposer;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
-import helpertools.Com.Tools.ToolBase;
 import helpertools.Com.Tools.ToolBase_Default;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -40,16 +37,20 @@ import org.lwjgl.opengl.GL11;
 /**http://www.minecraftforge.net/wiki/Gui_Overlay **/
 /**https://www.opengl.org/discussion_boards/showthread.php/156794-How-to-change-the-brightness **/
 
-public class ToolHud extends Gui
+public class ToolHud_Old extends Gui
 {
   private static Minecraft mc;
 
-  public ToolHud(Minecraft mc)
+  public ToolHud_Old(Minecraft mc)
   {
     super();   
     this.mc = mc;
   }
   
+  //protected static RenderItem itemRender = new RenderItem();
+  //protected static RenderItem itemRender = new RenderItem(mc.getTextureManager(), mc.itemModelMesher);
+  //protected RenderItem itemRender ;  
+  //protected static RenderBlocks blockRender = new RenderBlocks();
   protected  FontRenderer fontRendererObj;
   
   //protected RenderItem itemRender = mc.getRenderItem();
@@ -132,9 +133,9 @@ public class ToolHud extends Gui
     	EntityPlayerSP player = this.mc.thePlayer;
     	ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
       
-	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase))) {		
+	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {		
 			heldItem = player.getHeldItem(EnumHand.OFF_HAND);
-		if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase))) {
+		if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase_Default))) {
 			return;
 		}
 		}
@@ -144,7 +145,7 @@ public class ToolHud extends Gui
 		 int Empowerment = 0;
 		 int Modo = 0;
 		 ItemStack StackyHelper = null;
-		 ResourceLocation backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/Expand_Tab.png");
+		 ResourceLocation backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_4.png");
 		 
 		 
 		 //Exchange Stave Castings		 
@@ -155,10 +156,7 @@ public class ToolHud extends Gui
 			 int meta = Tool.returnTMeta(heldItem);
 			 meta = PillarAdjust(Tool.returnTBlock_FromState(heldItem), meta);
 			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, meta);
-			 backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/Exchange_Tab.png");
-			 
-			 draw_things(xPos, yPos, backgroundimage, Modo, Empowerment, StackyHelper);
-			 return;
+			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_7.png");
 		 }
 		 
 		//Expanding Stave Casting
@@ -166,106 +164,89 @@ public class ToolHud extends Gui
 			 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
+			 //StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 			 int meta = Tool.returnTMeta(heldItem);
 			 meta = PillarAdjust(Tool.returnTBlock_FromState(heldItem), meta);
 			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, meta);
-			 
-			 draw_things(xPos, yPos, backgroundimage, Modo, Empowerment, StackyHelper);
-			 return;
-		 }
-		 
-		//Expanding Stave Casting
-		 if(heldItem.getItem() instanceof ItemEuclideanTransposer){
-			 ItemEuclideanTransposer  Tool = (ItemEuclideanTransposer)heldItem.getItem();
-			 int rotation = Tool.getCorner(heldItem);
-			 if(rotation >3){rotation = rotation -4;}
-			 
-			 
-			 backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/EU_Tab.png");
-			 
-			 drawHudFrame(xPos-2, yPos-4, 8, 6, 24, 28, backgroundimage);
-			 
-			 drawModeIcons(xPos, yPos+3, 10, 40, 21*rotation, 17, 16, backgroundimage, Modo);
-			 return;
-			 
 		 }	 
 		 
 		 
 		 /////////////////////////
 		 /** Draw some Things **/
 		 ///////////////////////		 
-		 //drawHudFrame(xPos, yPos,backgroundimage);
-		 /**
-		 drawHudFrame(xPos-1, yPos,65, 117, 41, 28, backgroundimage);
+		 drawHudFrame(xPos, yPos,backgroundimage);
 		 
-		 drawModeIcons(xPos, yPos,16, 15, 16*(Modo)-1, 40, 28, backgroundimage, Modo);
+		 drawModeIcons(xPos, yPos,backgroundimage, Modo);
 	      
 	      	
 	      	if(Empowerment >0){
-	      	drawEmpoweredBar(xPos-1, yPos,backgroundimage, Empowerment);
+	      	drawEmpoweredBar(xPos, yPos,backgroundimage, Empowerment);
 	      	}
 	      	
-	      this.drawItemStack(StackyHelper, xPos+3, yPos+3, (String)null);
+	      this.drawItemStack(StackyHelper, xPos+2, yPos+2, (String)null);
 			     
-		**/
+
 
   } 
   
-  public void draw_things(int xPos, int yPos, 
-		  ResourceLocation backgroundimage, int Modo, int Empowerment, ItemStack StackyHelper){
-
-	  drawHudFrame(xPos-2, yPos,65, 117, 41, 28, backgroundimage);
-
-	  drawModeIcons(xPos, yPos,16, 15, 16*(Modo)-1, 40, 28, backgroundimage, Modo);
-
-	  if(Empowerment >0){
-		  drawEmpoweredBar(xPos-2, yPos,backgroundimage, Empowerment);
-	  }
-
-	  this.drawItemStack(StackyHelper, xPos+3, yPos+3, (String)null);
-
-
-  }
+  
   
   private void drawItemStack(ItemStack itemstack, int X1, int Y1, String string)
   {
 	  
 	  GL11.glPushMatrix();
-      FontRenderer font = null;      
+      //itemRender.zLevel = -2.0F;
+      FontRenderer font = null;
+      //RenderHelper.disableStandardItemLighting();
       
+      
+      /**
+      Now using Mc's version which seems to be fixed now 
+	   **/
       RenderHelper.enableGUIStandardItemLighting();
+      //this.enableGUIStandardItemLighting();
       
       try{
+      //itemRender.renderItemIntoGUI(font, this.mc.getTextureManager(), itemstack, X1, Y1);
+      //RenderItem.renderItemIntoGUI(itemstack, X1, Y1);
+      
       mc.getRenderItem().renderItemIntoGUI(itemstack, X1, Y1);
       }
       catch(NullPointerException exception){}
       
+      //RenderHelper.disableStandardItemLighting();
+      //itemRender.zLevel = 0.0F;
       GL11.glPopMatrix();
       
   }
 
-  private void drawHudFrame(int xPos, int yPos, int xStart, int ystart, int xSize, int ySize,  ResourceLocation backgroundimage) {
+  private void drawHudFrame(int xPos, int yPos, ResourceLocation backgroundimage) {
 
-	  
+      int xSize = 38+2;
+      int ySize = 26+2;
+
+
       	GL11.glPushMatrix();
+      	//GL11.glEnable(GL11.GL_BLEND);
       	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
       	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
       	this.mc.getTextureManager().bindTexture(backgroundimage);
-      	this.drawTexturedModalRect(xPos, yPos, xStart, ystart, xSize,  ySize);
+      	this.drawTexturedModalRect(xPos-1, yPos-1, 67-1, 118-1, xSize,  ySize);
+      	//GL11.glDisable(GL11.GL_BLEND);
       	GL11.glPopMatrix();
       	
       		  
   }
   
-  private void drawModeIcons(int xPos, int yPos, int xStart, int ystart,int yoffset, int xSize, int ySize,  ResourceLocation backgroundimage, int modo) {
-	  //int xSize = 38+2;
-     // int ySize = 26+2;
+  private void drawModeIcons(int xPos, int yPos, ResourceLocation backgroundimage, int modo) {
+	  int xSize = 38+2;
+      int ySize = 26+2;
 
       	GL11.glPushMatrix();
       	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
       	GL11.glColor4f(1.0F, 1.0F, 1.0F,1.0F);  
       	this.mc.getTextureManager().bindTexture(backgroundimage);
-      	this.drawTexturedModalRect(xPos, yPos, xStart, ystart+yoffset, xSize,  ySize);
+      	this.drawTexturedModalRect(xPos-1, yPos-1, 16-1, 15+16*(modo)-1, xSize,  ySize);
       	GL11.glPopMatrix();
 	}
   
@@ -276,7 +257,7 @@ public class ToolHud extends Gui
       	GL11.glPushMatrix();
       	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       	this.mc.getTextureManager().bindTexture(Image);
-      	this.drawTexturedModalRect(xPos+4, yPos+21, 68, 92, xSize,  3);
+      	this.drawTexturedModalRect(xPos+2, yPos+20, 68, 92, xSize,  3);
       	GL11.glPopMatrix();
   }
     
@@ -303,5 +284,22 @@ public class ToolHud extends Gui
   }
   
   
+  //////////////////////////////////////////////////////////////
+  /** Bunch of crud needed to properly shade blocks selected **/
+  /////////////////////////////////////////////////////////////
+  
+  @ Deprecated
+  public static void enableGUIStandardItemLighting()
+  {
+	  float f1 = -35;
+	  float f2 = 188;
+	  f1 = -30   ;
+	  f2 = 165     ;
+      GL11.glPushMatrix();
+      GL11.glRotatef(f1, 0.0F, 1.0F, 0.0F);
+      GL11.glRotatef(f2, 1.0F, 0.0F, 0.0F);
+      RenderHelper.enableStandardItemLighting();
+      GL11.glPopMatrix();
+  }
 
 }

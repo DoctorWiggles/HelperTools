@@ -53,7 +53,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     	list.add(TextFormatting.ITALIC + "- Transcriber Block");
     	if (stack.hasTagCompound()){
     		list.add(whatModeString(stack)+ " mode");
-    		list.add(getCorner(stack)+ " vertex");
+    		list.add(whatCornerString(stack));
     	}
     }
       
@@ -61,11 +61,12 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
-		if (getOffMode(stack)== 0){ setOffMode(stack, 2); }
+		if (getOffMode(stack)== 0){ setOffMode(stack, 2); return false;}
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
     	{ 	
 			ModeSound(entityLiving, stack);
 			if (!entityLiving.worldObj.isRemote) {
+				
 				nextMode(stack);
 				ModeText(entityLiving, stack);
 				return true;
@@ -75,7 +76,28 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		return false;
     }
 	
-	public String whatModeString(ItemStack itemStack){	  
+	
+	public String whatCornerString(ItemStack itemStack){
+    	String corner= "Default", flip = "";    	
+    	int value = getCorner(itemStack);   
+    	
+    	if(value > 3){
+    		flip = "flipped & ";
+    		value = value-4;
+    		}
+    	switch(value){
+    	case 1: corner = "turned 90*";
+    	break;
+    	case 2: corner = "turned 180*";
+    	break;
+    	case 3: corner = "turned 270*";
+    	break;    	
+    	}
+    	return "Pattern is "+flip+corner;
+    	
+    };
+	
+	public String whatModeString(ItemStack itemStack){
     	String modestring= "Error";
     	int mode = getMode(itemStack);    	
     	switch(mode){
@@ -94,13 +116,14 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		int mode = getMode(itemStack);
 		if(Config.ToolModeMesseges){
 			String Messy = whatModeString(itemStack) + " Mode";
-			//Texty.print(living, TextFormatting.GRAY + Messy);
+			Texty.print(living, TextFormatting.GRAY + Messy);
 		    }
 	}
 	
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
 	{	
 		changed = false;
+		setOffMode(stack, 0);
 		
 		//if(world.isRemote)return EnumActionResult.FAIL;
 		if(!player.isSneaking()){
@@ -239,9 +262,12 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		if(pattern)return pos2;
 		
 		switch(theface){
-		case DOWN:	pos2 = pos2.add(0, -5, 0);			 
+		case DOWN:	pos2 = pos2.add(0, -5, 0);					
 			break;
-		case UP:	pos2 = pos2.add(0, +1, 0);				 
+		case UP:	pos2 = pos2.add(0, +1, 0);	
+					if(getMode(stack) == 4){
+						pos2 = pos2.add(0, -1, 0);	
+					}
 			break;
 		case NORTH: pos2 = pos2.add(0, -2, -3);	
 			break;

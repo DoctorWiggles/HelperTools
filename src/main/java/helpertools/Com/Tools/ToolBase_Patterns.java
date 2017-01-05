@@ -34,11 +34,6 @@ public class ToolBase_Patterns extends ToolBase{
     		
     		}
     	
-    	
-    	
-
-   	
-
     }
     
 
@@ -110,20 +105,7 @@ public class ToolBase_Patterns extends ToolBase{
 	public void setCorner(ItemStack itemStack, int Value) {
 		itemStack.getTagCompound().setInteger("Corner", Value);			
 	}
-	/**
-	public void rotateCorner(ItemStack stack, EntityPlayer player){
-		int current = getCorner(stack);
-		World world = player.worldObj;
-		if(current+1 < 4){
-			setCorner(stack, current+1);
-			Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
-			return;
-		}
-		else{ setCorner(stack, 0);
-		Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
-		}
-	}
-	**/
+	
 	public void rotateCorner(ItemStack stack, EntityPlayer player){
 		int current = getCorner(stack);
 		World world = player.worldObj;

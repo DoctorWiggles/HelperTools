@@ -2,18 +2,14 @@ package helpertools.Com.Blocks;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 
-public class TileEntityTranscriber extends TileEntity implements ITickable {
+public class TileEntityTranscriber_old extends TileEntity implements ITickable {
  
     public static final String publicName = "tileEntityTranscriber";
     private String name = publicName;
@@ -24,55 +20,11 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
         return name;
     }
     
-    //TODO uh right okay
-    public BlockPos getPosition() {
-		return new BlockPos(offX, offY, offZ);
-	}
-
-	public void setPosition(BlockPos pos)
-	{
-		offX = pos.getX();
-		offY = pos.getY();
-		offZ = pos.getZ();
-		
-	}
-	
     
+    int tick = 0;
     public int offX = 0;
     public int offY = 1;
-    public int offZ = 0;  
-    
-    @Override
-    @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket()
-    {
-  		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-  		writeToNBT(nbtTagCompound);
-  		int metadata = getBlockMetadata();
-  		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
-  	}
-
-  	@Override
-  	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-  		readFromNBT(pkt.getNbtCompound());
-  	}
-
-  	
-    
-    @Override
-    public NBTTagCompound getUpdateTag()
-    {
-      NBTTagCompound nbtTagCompound = new NBTTagCompound();
-      writeToNBT(nbtTagCompound);
-      return nbtTagCompound;
-    }
-    
-    @Override
-    public void handleUpdateTag(NBTTagCompound tag)
-    {
-      this.readFromNBT(tag);
-    }
-    
+    public int offZ = 0;    
     
     @Override
     public void readFromNBT(NBTTagCompound nbt) { 	   
@@ -81,16 +33,24 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
     	this.offX = nbt.getInteger("offX");
     	this.offY = nbt.getInteger("offY");
     	this.offZ = nbt.getInteger("offZ");
-    }
-    
-    
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt)
-    {	super.writeToNBT(nbt);
-    
+    }   
+    /**TODO
+    @Override
+    public void writeToNBT(NBTTagCompound nbt) { 	   
+    	super.writeToNBT(nbt);
+    	
     	nbt.setInteger("offX", this.offX);
     	nbt.setInteger("offY", this.offY);
     	nbt.setInteger("offZ", this.offZ);
-    	
+ 	   
+    }
+    **/
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+    {	super.writeToNBT(nbt);
+    	//new NBTTagList();	
+		nbt.setInteger("offX", this.offX);
+		nbt.setInteger("offY", this.offY);
+		nbt.setInteger("offZ", this.offZ);
 		return nbt;
     }
     
@@ -99,6 +59,7 @@ public class TileEntityTranscriber extends TileEntity implements ITickable {
     
     @Override
     public void update() {
+    	
     	
     	int offy_X = offX;
     	int offy_Y = offY;

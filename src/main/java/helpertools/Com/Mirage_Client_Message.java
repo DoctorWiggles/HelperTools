@@ -51,7 +51,7 @@ public class Mirage_Client_Message implements IMessage {
     public void toBytes(ByteBuf buf) {
     	buf.writeInt(x);
     	buf.writeInt(y);
-    	buf.writeInt(z);    	
+    	buf.writeInt(z);    
     }
     
     //Dummy server handler to prevent server implosions

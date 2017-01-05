@@ -1,9 +1,12 @@
 package helpertools.Com.Tools;
 
 import helpertools.Utils.BlockStateHelper;
+import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,23 +32,9 @@ public class ToolBase_Patterns extends ToolBase{
     		stack.getTagCompound().setInteger("OffMode", 0); 
     		stack.getTagCompound().setInteger("Corner", 0); 
     		
-    		//String Messy = "No compound";
-    		//ChatComponentTranslation chatmessy = new ChatComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
-			//((EntityPlayer) entity).addChatComponentMessage(chatmessy);
     		}
     	
-    	/**
-    	if (stack.hasTagCompound() && (Main.Randy.nextFloat() >= .96)) {
-    		String Messy = "mode " + (getMode(stack) 
-    				+ " ID " + (getTBlock(stack))
-    				+ " Level " + getToolLevel(stack)
-    				+ " Block " + BlockStateHelper.returnBlock_ID((getTBlock(stack)))
-    				+ " Name " + this.returnTBlock_FromState(stack)
-    				+ " meta " + getTMeta(stack));
-    		ChatComponentTranslation chatmessy = new ChatComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
-			((EntityPlayer) entity).addChatComponentMessage(chatmessy);
-    	}
-    	**/
+    	
     	
 
    	
@@ -120,6 +109,45 @@ public class ToolBase_Patterns extends ToolBase{
 	}		
 	public void setCorner(ItemStack itemStack, int Value) {
 		itemStack.getTagCompound().setInteger("Corner", Value);			
+	}
+	/**
+	public void rotateCorner(ItemStack stack, EntityPlayer player){
+		int current = getCorner(stack);
+		World world = player.worldObj;
+		if(current+1 < 4){
+			setCorner(stack, current+1);
+			Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			return;
+		}
+		else{ setCorner(stack, 0);
+		Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+		}
+	}
+	**/
+	public void rotateCorner(ItemStack stack, EntityPlayer player){
+		int current = getCorner(stack);
+		World world = player.worldObj;
+		if(!player.isSneaking()){
+			if(current+1 == 8){setCorner(stack, 4);
+			Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+			return;}
+			if(current+1 == 4){setCorner(stack, 0);
+			Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+			return;}
+			setCorner(stack, current+1);
+			Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			return;
+		}
+		if(player.isSneaking()){
+			if(current+4 >= 8){
+				setCorner(stack, current-4);
+				Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+				return;
+			}
+			setCorner(stack, current+4);
+			Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			return;
+		}
 	}
 	
     

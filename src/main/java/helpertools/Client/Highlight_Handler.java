@@ -14,6 +14,7 @@ import helpertools.Com.Entity.Phantom_Cube;
 import helpertools.Com.Tools.ItemEuclideanTransposer;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
+import helpertools.Com.Tools.ToolBase_Patterns;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
@@ -39,6 +40,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Highlight_Handler {
 	
+	private ItemStack heldstack;
 	@SubscribeEvent
 	public void Floater_Highlight(RenderWorldLastEvent evt) {
 		try {
@@ -214,24 +216,51 @@ public class Highlight_Handler {
 					fluctuate();
 					pos = staff.apply_Offset(heldstack, player, world, pos, theface, false);
 					
+					//System.out.println("HEllo?");
+					
 					int NBT = 0;
-					for(int X = 0; X < 5; ++X){
-						for(int Y = 0; Y < 5; ++Y){
-							for(int Z = 0; Z < 5; ++Z){
-								
-								BlockPos pos2 = pos.add(X, Y, Z);
-								IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));
-								
-								if(states != Blocks.AIR.getDefaultState()){
-								Render_Outlines(evt, state, pos2, 180, 240, 180, 3.5F*this.scale);
-								
-								Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
-								world.spawnEntityInWorld(cube);
-								}
-								NBT++;
-								
-							}
-						}
+					switch(staff.getCorner(heldstack)){
+					case 0:	
+						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){	
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
+						
+					case 1:	
+						for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
+						
+					case 2: 
+						for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+						
+					case 3: 
+						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;			
+						
+					case 4:	
+						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){	
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+						
+					case 5:	
+						for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+						
+					case 6: 
+						for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+						
+					case 7: 
+						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
+							
+							Eu_Cubes(world, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
+						
+					default:
 					}
 					
 			
@@ -240,6 +269,24 @@ public class Highlight_Handler {
 		} catch(Exception e){}
 		
 	}
+	
+	
+	public void Eu_Cubes(World world, BlockPos pos,ItemStack heldstack, double X, double Y, double Z, int NBT, ToolBase_Patterns staff, RenderWorldLastEvent evt, IBlockState state){
+		
+		BlockPos pos2 = pos.add(X, Y, Z);
+		IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));
+		
+		if(states != Blocks.AIR.getDefaultState()){
+			
+		Render_Outlines(evt, state, pos2, 180, 240, 180, 3.5F*this.scale);
+		
+		Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
+		world.spawnEntityInWorld(cube);
+		}
+	}
+	
+	
+	
 	/*
 	protected static Random growrand = new Random();
 	float f = (this.growrand.nextFloat()/30F) ;	        

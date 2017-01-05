@@ -284,7 +284,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
 	public Set<BlockPos> Mass_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
 		World world = player.worldObj;
 		Set<BlockPos> positions = new HashSet<BlockPos>();
-		int mass = (getToolLevel(stack)+ 3);
+		int mass = (getToolLevel(stack)*2+ 3);
 		int x1 = pos.getX();
 		int y1 = pos.getY();
 		int z1 = pos.getZ();  

@@ -4,8 +4,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import helpertools.Com.Tools.ItemEuclideanTransposer;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
+import helpertools.Com.Tools.ToolBase;
 import helpertools.Utils.Texty;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
@@ -42,28 +44,32 @@ public class Tool_Message implements IMessage {
         @Override
         public IMessage onMessage(Tool_Message message, MessageContext ctx) {
             //System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
-            EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
+            EntityPlayerMP player = ctx.getServerHandler().playerEntity;
             //ItemStack heldItem = theplayer.inventory.getCurrentItem();
-            ItemStack heldItem = theplayer.getHeldItem(EnumHand.MAIN_HAND);
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             
+            if((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase))){            	
+            	heldItem = player.getHeldItem(EnumHand.OFF_HAND);
+            	if(heldItem == null || (!(heldItem.getItem() instanceof ToolBase)))
+            		return null;
+            }
             
-            if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
-            if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){            	
-            	heldItem = theplayer.getHeldItem(EnumHand.OFF_HAND);
-            		
-            if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
-            if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation)){
-  		      return null;
-                    	
-            }}}}
             if(heldItem.getItem() instanceof ItemStaffofExpansion){
             	ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
-            	Tool.ToolEmpower(heldItem, theplayer);
+            	Tool.ToolEmpower(heldItem, player);
+            	return null;
             }
             
             if(heldItem.getItem() instanceof ItemStaffofTransformation){
             	ItemStaffofTransformation  Tool = (ItemStaffofTransformation)heldItem.getItem();
-            	Tool.ToolEmpower(heldItem, theplayer);
+            	Tool.ToolEmpower(heldItem, player);
+            	return null;
+            }
+            
+            if(heldItem.getItem() instanceof ItemEuclideanTransposer){
+            	ItemEuclideanTransposer  Tool = (ItemEuclideanTransposer)heldItem.getItem();
+            	Tool.rotateCorner(heldItem, player);
+            	return null;
             }
             
   		 

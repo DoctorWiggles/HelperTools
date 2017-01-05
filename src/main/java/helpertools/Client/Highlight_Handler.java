@@ -227,7 +227,7 @@ public class Highlight_Handler {
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
 						
 					case 1:	
-						for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){
+						for(int Z = 0; Z > -5; --Z){ for(int Y = 0; Y < 5; ++Y){ for(int X = 0; X < 5; ++X){
 							
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;	
 						
@@ -237,7 +237,7 @@ public class Highlight_Handler {
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
 					case 3: 
-						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
+						for(int Z = 0; Z < 5; ++Z){ for(int Y = 0; Y < 5; ++Y){ for(int X = 0; X > -5; --X){
 							
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;			
 						
@@ -247,7 +247,7 @@ public class Highlight_Handler {
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
 					case 5:	
-						for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){
+						for(int Z = 0; Z > -5; --Z){ for(int Y = 0; Y > -5; --Y){ for(int X = 0; X < 5; ++X){
 							
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						
@@ -257,7 +257,7 @@ public class Highlight_Handler {
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;			
 						
 					case 7: 
-						for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
+						for(int Z = 0; Z < 5; ++Z){ for(int Y = 0; Y > -5; --Y){ for(int X = 0; X > -5; --X){
 							
 							Eu_Cubes(world, player, pos, heldstack, X, Y, Z, NBT, staff, evt, state); NBT++;}}}	break;		
 						

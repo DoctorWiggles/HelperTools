@@ -1,5 +1,6 @@
 package helpertools.Com.Tools;
 
+import helpertools.Main;
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Blocks.TileEntityTranscriber;
@@ -99,17 +100,25 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
 	{	
+		changed = false;
 		
-		if(world.isRemote)return EnumActionResult.FAIL;
+		//if(world.isRemote)return EnumActionResult.FAIL;
 		if(!player.isSneaking()){
 			pos = apply_Offset(stack, player, world, pos, theface, false);
 			place_pattern(stack, player, world, pos, theface);
+			if(changed){
+				player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, .5F+Main.Randy.nextFloat());
+				player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.7F, .5F+Main.Randy.nextFloat());
+				return EnumActionResult.SUCCESS;
+			}
 		}
 		if(player.isSneaking()){
 			pos = apply_Offset(stack, player, world, pos, theface, true);
 			create_pattern(stack, player, world, pos, theface);
+			return EnumActionResult.SUCCESS;
 		}
-		return EnumActionResult.SUCCESS;
+		player.playSound(SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, .4F, itemRand.nextFloat() * 0.4F + 0.5F);
+		return EnumActionResult.FAIL;
 	}
 
 
@@ -130,7 +139,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;			
 			
 		case 1:	
-			for(int X = 0; X > -5; --X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){
+			for(int Z = 0; Z > -5; --Z){ for(int Y = 0; Y < 5; ++Y){ for(int X = 0; X < 5; ++X){
 				
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;	
 			
@@ -140,7 +149,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;	
 			
 		case 3: 
-			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z > -5; --Z){
+			for(int Z = 0; Z < 5; ++Z){ for(int Y = 0; Y < 5; ++Y){ for(int X = 0; X > -5; --X){
 				
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
@@ -150,7 +159,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
 		case 5:	
-			for(int X = 0; X > -5; --X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z < 5; ++Z){
+			for(int Z = 0; Z > -5; --Z){ for(int Y = 0; Y > -5; --Y){ for(int X = 0; X < 5; ++X){
 				
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
@@ -160,7 +169,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;	
 			
 		case 7: 
-			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y > -5; --Y){ for(int Z = 0; Z > -5; --Z){
+			for(int Z = 0; Z < 5; ++Z){ for(int Y = 0; Y > -5; --Y){ for(int X = 0; X > -5; --X){
 				
 				place_block(world, player, pos, X, Y, Z, stack, NBT); NBT++;}}}break;		
 			
@@ -186,6 +195,10 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				}
 			}
 		}
+		player.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, .2F+Main.Randy.nextFloat()/4);
+		if(!player.worldObj.isRemote){
+			Texty.print((EntityLivingBase)player, TextFormatting.GRAY + "Pattern Saved");
+		}
 
 	}
 	
@@ -193,26 +206,26 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	public BlockPos apply_Offset(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing theface, boolean pattern){
 		BlockPos pos2 = pos.add(-2, 0, -2);
 		
+		if(!pattern){
 		switch(getCorner(stack)){
 		case 0:	
 			break;
-		case 1:	pos2 = pos2.add(+4,0,0);
+		case 1:	pos2 = pos2.add(0,0,+4);
 			break;
 		case 2:	pos2 = pos2.add(+4,0,+4);
 			break;
-		case 3:	pos2 = pos2.add(0,0,+4);
+		case 3:	pos2 = pos2.add(+4,0,0);
 			break;
 		case 4:	pos2 = pos2.add(0,+4,0);
 			break;
-		case 5:	pos2 = pos2.add(+4,+4,0);
+		case 5:	pos2 = pos2.add(0,+4,+4);
 			break;
 		case 6:	pos2 = pos2.add(+4,+4,+4);
 			break;
-		case 7:	pos2 = pos2.add(0,+4,+4);
+		case 7:	pos2 = pos2.add(+4,+4,0);
 			break;
 		}
-		int a = 0;
-		//if(a == 0) return pos2;
+		}
 		
 		if(world.getBlockState(pos).getBlock() == ItemRegistry.transcriberBlock){
 			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(pos);
@@ -268,6 +281,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		return false;
 
 	}
+	public boolean changed = false;
 	
 	public void place_block(World world,EntityPlayer player, BlockPos pos, int X, int Y, int Z, ItemStack stack, int NBT){
 
@@ -284,9 +298,30 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 
 			(world.getBlockState(pos).getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
 		}  
+		
+		
 		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(stack, NBT)), 02);
+		particle_FX(world, pos2);
+		changed = true;
 
-
+	}
+	
+	public void particle_FX(World world, BlockPos pos){
+		
+		int X = pos.getX(), Y = pos.getY(), Z = pos.getZ();		
+		for (int lp = 0; lp < 32; ++lp)
+        {
+            double d6 = (double)lp / ((double)32 - 1.0D);
+            
+            float f = (this.growrand.nextFloat() - .5F) * 1.4F;
+            float f1 = (this.growrand .nextFloat() - .5F) * 1.4F;
+            float f2 = (this.growrand .nextFloat() - .5F) * 1.4F;
+            
+            float p = (this.growrand.nextFloat()) ;
+            float p1 = (this.growrand .nextFloat() ) ;
+            float p2 = (this.growrand .nextFloat() ) ;
+            world.spawnParticle(EnumParticleTypes.PORTAL, X +p+.1, Y+.6+p1, Z +p2+.1, f, f1, f2);
+        }
 	}
 
 	@SuppressWarnings("null")

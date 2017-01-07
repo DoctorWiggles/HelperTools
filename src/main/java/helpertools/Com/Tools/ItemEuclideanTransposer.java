@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.block.BlockRotatedPillar;
+import net.minecraft.block.BlockSkull;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,6 +29,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -49,12 +54,20 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
     	list.add(TextFormatting.WHITE + "Sets blocks in a 5^cube pattern");
     	list.add(TextFormatting.ITALIC + "Use while sneaking for a pattern");
     	list.add(" ");
-    	list.add(TextFormatting.ITALIC + "Can also be used with");
-    	list.add(TextFormatting.ITALIC + "- Transcriber Block");
+    	list.add(TextFormatting.ITALIC + "Press 'o' to rotate pattern horizontally");
+    	list.add(TextFormatting.ITALIC + "- While sneaking to flip it upside down");
     	if (stack.hasTagCompound()){
-    		list.add(whatModeString(stack)+ " mode");
-    		list.add(whatCornerString(stack));
+    		list.add(TextFormatting.WHITE + whatCornerString(stack));
     	}
+    	list.add(" ");
+    	list.add(TextFormatting.ITALIC + "Swinging while sneaking changes offset");
+    	if (stack.hasTagCompound()){
+    		list.add(TextFormatting.WHITE + whatModeString(stack)+ " mode");
+    	}
+    	list.add(" ");
+    	list.add(TextFormatting.ITALIC + "Can also be used with");
+    	list.add(TextFormatting.ITALIC+ "- Transcriber Block");
+    	
     }
       
 	/** Cycle through modes on swing and prevents backflow from onItemUse**/
@@ -125,7 +138,6 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		changed = false;
 		setOffMode(stack, 0);
 		
-		//if(world.isRemote)return EnumActionResult.FAIL;
 		if(!player.isSneaking()){
 			pos = apply_Offset(stack, player, world, pos, theface, false);
 			place_pattern(stack, player, world, pos, theface);
@@ -153,8 +165,10 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		
 		int c = getCorner(stack);
 		
-		//Tried condensing this with flags etc but could figure out how to make it work
+		//Tried condensing this with flags etc but couldn't figure out how to make it work
 		// So here goes a wall of what might as well be >if statements
+		
+		//arranges block in a different order, immitating a rotation
 		switch(getCorner(stack)){
 		case 0:	
 			for(int X = 0; X < 5; ++X){ for(int Y = 0; Y < 5; ++Y){ for(int Z = 0; Z < 5; ++Z){	
@@ -206,18 +220,14 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	public void create_pattern(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing theface ){
 				
 		int NBT = 0;
-		for(int X = 0; X < 5; ++X){
-			for(int Y = 0; Y < 5; ++Y){
-				for(int Z = 0; Z < 5; ++Z){
+		for(int X = 0; X < 5; ++X){for(int Y = 0; Y < 5; ++Y){for(int Z = 0; Z < 5; ++Z){
 					
 					BlockPos pos2 = pos.add(X, Y, Z);
 					setTBlock(stack, BlockStateHelper.returnID(world, pos2), NBT); 
 		    		setTMeta(stack, BlockStateHelper.getMetafromState(world, pos2), NBT);
 		    		NBT++;
 					
-				}
-			}
-		}
+		}}}
 		player.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, .2F+Main.Randy.nextFloat()/4);
 		if(!player.worldObj.isRemote){
 			Texty.print((EntityLivingBase)player, TextFormatting.GRAY + "Pattern Saved");
@@ -229,6 +239,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 	public BlockPos apply_Offset(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing theface, boolean pattern){
 		BlockPos pos2 = pos.add(-2, 0, -2);
 		
+		//Rotations
 		if(!pattern){
 		switch(getCorner(stack)){
 		case 0:	
@@ -249,7 +260,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 			break;
 		}
 		}
-		
+		//Transcriber offsets
 		if(world.getBlockState(pos).getBlock() == ItemRegistry.transcriberBlock){
 			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(pos);
 			if (tile != null)
@@ -258,25 +269,29 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 				return pos2;
             }
 		}
-		
+		//in world face offsets
 		if(pattern)return pos2;
+		boolean flag = (getMode(stack) == 4);
 		
 		switch(theface){
-		case DOWN:	pos2 = pos2.add(0, -5, 0);					
-			break;
+		case DOWN:	pos2 = pos2.add(0, -5, 0);
+					if(flag){pos2 = pos2.add(0, +1, 0);}
+				break;
 		case UP:	pos2 = pos2.add(0, +1, 0);	
-					if(getMode(stack) == 4){
-						pos2 = pos2.add(0, -1, 0);	
-					}
-			break;
+					if(flag){pos2 = pos2.add(0, -1, 0);}
+				break;
 		case NORTH: pos2 = pos2.add(0, -2, -3);	
-			break;
+					if(flag){pos2 = pos2.add(0, 0, +1);}
+				break;
 		case SOUTH: pos2 = pos2.add(0, -2, +3);	
-			break;
+					if(flag){pos2 = pos2.add(0, 0, -1);}
+				break;
 		case WEST: 	pos2 = pos2.add(-3, -2, 0);	
-			break;
+					if(flag){pos2 = pos2.add(+1, 0, 0);}
+				break;
 		case EAST:	pos2 = pos2.add(+3, -2, 0);
-			break;
+					if(flag){pos2 = pos2.add(-1, 0, 0);}
+				break;
 		default:
 		}
 		
@@ -324,9 +339,21 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 
 			(world.getBlockState(pos).getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
 		}  
+		IBlockState placer = BlockStateHelper.returnState(getTBlock(stack, NBT));			
 		
+			Rotation rot = Rotation.NONE;
+			int c = getCorner(stack);
+			switch(c){
+				case 1: rot = Rotation.COUNTERCLOCKWISE_90; break;
+				case 2: rot = Rotation.CLOCKWISE_180; break;
+				case 3: rot = Rotation.CLOCKWISE_90; break;
+				case 5: rot = Rotation.COUNTERCLOCKWISE_90;
+				case 6: rot = Rotation.CLOCKWISE_180; break;
+				case 7: rot = Rotation.CLOCKWISE_90; break;			
+				}
+			
+		world.setBlockState(pos2, placer.withRotation(rot), 02);
 		
-		world.setBlockState(pos2, BlockStateHelper.returnState(getTBlock(stack, NBT)), 02);
 		particle_FX(world, pos2);
 		changed = true;
 
@@ -350,15 +377,4 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
         }
 	}
 
-	@SuppressWarnings("null")
-	public Set<IBlockState> Blockmap (ItemStack stack){
-		
-		Set<IBlockState> BlockMap = null;
-		
-		for(int nbt = 0; nbt < 125; ++nbt){
-		BlockMap.add(BlockStateHelper.returnState(getTBlock(stack, nbt)));
-		}
-		return BlockMap;
-	}
-    
 }

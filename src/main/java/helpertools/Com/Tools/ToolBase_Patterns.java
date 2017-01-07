@@ -1,5 +1,6 @@
 package helpertools.Com.Tools;
 
+import helpertools.Com.Config;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.Texty;
 import net.minecraft.block.Block;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 
@@ -121,6 +123,8 @@ public class ToolBase_Patterns extends ToolBase{
 			return;
 		}
 		if(player.isSneaking()){
+			if(Config.ToolModeMesseges){
+				Texty.print(player, TextFormatting.GRAY +"Flipping Pattern");}
 			if(current+4 >= 8){
 				setCorner(stack, current-4);
 				Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));

@@ -47,17 +47,18 @@ public class ItemStaffofExpansion extends ToolBase_Default
     protected static Random growrand = new Random();
     //flavor text
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack stack, EntityPlayer entity, List list, boolean par4)
     {
-    	par3List.add(TextFormatting.WHITE + "Sets blocks in the world");
-        par3List.add(TextFormatting.ITALIC + "While sneaking change mode");
-        par3List.add(TextFormatting.ITALIC + "- Or select block to place");
-        par3List.add(TextFormatting.ITALIC + "While enchanted with efficiency");
-        par3List.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
-        par3List.add(TextFormatting.ITALIC + "");
+    	list.add(TextFormatting.WHITE + "Sets blocks in the world");
+        list.add(TextFormatting.ITALIC + "While sneaking change mode");
+        list.add(TextFormatting.ITALIC + "- Or select block to place");
+        list.add(" ");
+        list.add(TextFormatting.ITALIC + "While enchanted with efficiency");
+        list.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
+        list.add(TextFormatting.ITALIC + "");
     	if (stack.hasTagCompound()){
     if(whatBlockString(stack) != "null" && whatModeString(stack)!= "null"){
-    	par3List.add(whatBlockString(stack) +returnTMeta(stack) +" "+ whatModeString(stack)+ " mode");
+    	list.add(whatBlockString(stack) +returnTMeta(stack) +" "+ whatModeString(stack)+ " mode");
     }}}
     
     public String whatModeString(ItemStack itemStack){	  

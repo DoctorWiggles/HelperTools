@@ -49,6 +49,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
     	list.add(TextFormatting.WHITE + "Swaps blocks in the world");
         list.add(TextFormatting.ITALIC + "While sneaking change mode");
         list.add(TextFormatting.ITALIC + "- Or select block to swap");
+        list.add(" ");
         list.add(TextFormatting.ITALIC + "While enchanted with efficiency");
         list.add(TextFormatting.ITALIC + "- Press 'o' to toggle size");
         list.add(TextFormatting.ITALIC + "");

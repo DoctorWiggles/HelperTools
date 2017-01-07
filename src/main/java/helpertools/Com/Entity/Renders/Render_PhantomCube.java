@@ -31,9 +31,7 @@ public class Render_PhantomCube extends Render<Phantom_Cube>
         this.shadowSize = 0.0F;
     }
 
-    /**
-     * Renders the desired {@code T} type Entity.
-     */
+    
     public void doRender(Phantom_Cube entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         if (entity.getBlock() != null)

@@ -1,9 +1,23 @@
 package helpertools.Com;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import helpertools.Main;
+import helpertools.Com.Tools.ToolBase;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -100,7 +114,7 @@ public class RecipeFactory extends Config{
 	    	
 		
 		//Blocks		
-		ShapedRecipe(Emeralds_forTools, new ItemStack(transcriberBlock,1,0),new Object[]{
+		ShapedRecipe(Recipe_EuclideanBlock, new ItemStack(transcriberBlock,1,0),new Object[]{
 			" L ",
     		"LsL",
     		" L ", 's', "sandstone", 'L', "gemLapis"});
@@ -127,11 +141,148 @@ public class RecipeFactory extends Config{
 		
 		ShapelessRecipe(Recipe_Podzol, new ItemStack(Blocks.DIRT, 1 , 2), new Object[]{
     		Blocks.DIRT, "treeLeaves"});
-		
+		if(Repairs_allowed){
+		GameRegistry.addRecipe(new repair_recipe(new ItemStack(exchange_tool),Expander_Amount, new ItemStack(exchange_tool), Items.GOLD_INGOT));
+		GameRegistry.addRecipe(new repair_recipe(new ItemStack(expandertool),Exchanger_Amount, new ItemStack(expandertool), Items.IRON_INGOT));
+		GameRegistry.addRecipe(new repair_recipe(new ItemStack(pattern_tool),Pattern_Amount, new ItemStack(pattern_tool), new ItemStack(Items.DYE, 1, 4)));
+		GameRegistry.addRecipe(new repair_recipe(new ItemStack(crossbow_tool),Crossbow_Amount, new ItemStack(crossbow_tool), Items.STRING));
+		}
     		
-		
-		
-		
-		
+	}
+	
+	
+//================================ Custom Recipes for Repairs ===================================================//	
+	
+static class repair_recipe implements IRecipe{
+
+	protected ItemStack output = null;
+	protected int repairAmount = 0;
+
+	protected ArrayList<Object> input = new ArrayList<Object>();
+
+	public repair_recipe(ItemStack result, int repairAmount, Object... recipe)
+	{
+		this.repairAmount = repairAmount;
+		output = result.copy();
+		for (Object in : recipe)
+		{
+			if (in instanceof ItemStack)
+			{
+				input.add(((ItemStack)in).copy());
+			}
+			else if (in instanceof Item)
+			{
+				input.add(new ItemStack((Item)in));
+			}
+			else if (in instanceof Block)
+			{
+				input.add(new ItemStack((Block)in));
+			}
+			else if (in instanceof String)
+			{
+				input.add(OreDictionary.getOres((String)in));
+			}
+			else
+			{
+				String ret = "Invalid shapeless ore recipe: ";
+				for (Object tmp :  recipe)
+				{
+					ret += tmp + ", ";
+				}
+				ret += output;
+				throw new RuntimeException(ret);
+			}
+
+		}
+
+	}
+
+	@Override
+	public int getRecipeSize(){ return input.size(); }
+
+	@Override
+	public ItemStack getRecipeOutput(){ return output; }
+
+	/**
+	 * Returns an Item that is the result of this recipe
+	 */
+	@Override
+	public ItemStack getCraftingResult(InventoryCrafting var1){ return output.copy(); }
+
+	/**
+	 * Used to check if a recipe matches current crafting inventory
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean matches(InventoryCrafting inv, World world)
+	{
+		ArrayList<Object> required = new ArrayList<Object>(input);
+
+		ItemStack req0 = (ItemStack) input.get(0);
+		ItemStack req1 = (ItemStack) input.get(1);
+		ItemStack future = null;
+
+		Item i0 = req0.getItem();
+
+		boolean match0 = false, match1 = false;	        
+		Item compare;
+		int emptyslots = 0;
+		int additive = 0;
+
+		for (int x = 0; x < inv.getSizeInventory(); x++)
+		{
+			ItemStack slot = inv.getStackInSlot(x);
+
+			if (slot != null)
+			{	
+				compare = slot.getItem();
+				if(compare == i0){
+					match0 = true;
+					future = slot;
+
+				}
+				if(OreDictionary.itemMatches(req1, slot, false)){
+					match1 = true;
+					additive++;
+				}
+			}	            
+			else{
+				emptyslots++;
+			}
+		}
+		if(match1 && match0 && emptyslots >inv.getSizeInventory()-2 -additive){
+			if (future == null) return false;
+
+			output = repair(future, additive);
+			return true;
+		}
+
+		return required.isEmpty();
+	}
+
+	public ItemStack repair(ItemStack stack, int additive){
+		ItemStack future = stack.copy();
+		int max = future.getMaxDamage();
+		int cur = future.getItemDamage();
+
+		int repair = cur-repairAmount*additive;
+
+		if(repair > max){repair = max;}
+		future.setItemDamage(repair);	    	
+
+		return future;
+	}
+
+	public ArrayList<Object> getInput()
+	{
+		return this.input;
+	}
+
+	@Override
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) //getRecipeLeftovers
+	{
+		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
+	}		
+
 	}
 }

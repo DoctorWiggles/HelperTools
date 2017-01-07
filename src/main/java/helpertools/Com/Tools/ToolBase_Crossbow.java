@@ -69,9 +69,9 @@ public class ToolBase_Crossbow extends ToolBase{
 		//Modes and load factors
 		
 		
-		public int getTload(ItemStack itemStack)
-			{
-			return itemStack.getTagCompound().getInteger("Tload");
+		public int getTload(ItemStack stack)
+			{ if (!stack.hasTagCompound()) {return 0;}
+			return stack.getTagCompound().getInteger("Tload");
 			}
 	   
 		public void setTload(ItemStack itemStack, int Value)

@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
 
+import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Blocks.FloaterBlock.FloaterBlock_Item;
 import helpertools.Com.Entity.Phantom_Cube;
@@ -21,9 +22,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -34,6 +39,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -44,6 +50,7 @@ public class Highlight_Handler {
 	private ItemStack heldstack;
 	@SubscribeEvent
 	public void Floater_Highlight(RenderWorldLastEvent evt) {
+		if(!Config.Use_Wire_Frame_Guides){return;}
 		try {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayerSP player = mc.thePlayer;
@@ -83,6 +90,7 @@ public class Highlight_Handler {
 	
 	@SubscribeEvent
 	public void TransformationTool_Highlight(RenderWorldLastEvent evt) {
+		if(!Config.Use_Wire_Frame_Guides){return;}
 		try{
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayerSP player = mc.thePlayer;
@@ -112,15 +120,13 @@ public class Highlight_Handler {
 					
 					ItemStaffofTransformation staff = (ItemStaffofTransformation)held;
 					fluctuate();
-					//IBlockState blocky = BlockStateHelper.returnState(staff.getTBlock(heldstack));
 					
 					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
 					if(positions != null && !positions.isEmpty()){
 						for (BlockPos location : positions) {
 							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
 							
-							//Phantom_Cube cube = new Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
-							//world.spawnEntityInWorld(cube);
+							
 						}
 					}
 			
@@ -167,10 +173,13 @@ public class Highlight_Handler {
 					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
 					if(positions != null && !positions.isEmpty()){
 						for (BlockPos location : positions) {
+							if(Config.Use_Wire_Frame_Guides){
 							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
-							
+							}
+							if(Config.Use_Fake_Block_Guides){
 							Phantom_Cube cube = new Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
 							world.spawnEntityInWorld(cube);
+							}
 							
 						}
 					}
@@ -217,7 +226,6 @@ public class Highlight_Handler {
 					fluctuate();
 					pos = staff.apply_Offset(heldstack, player, world, pos, theface, false);
 					
-					//System.out.println("HEllo?");
 					
 					int NBT = 0;
 					switch(staff.getCorner(heldstack)){
@@ -282,14 +290,53 @@ public class Highlight_Handler {
 		if(states.getBlock() == Blocks.AIR){return;}
 		if(!(Texty.isValid(state_to_replace, world, pos2))){return;}
 		if(!staff.inventory_Check(heldstack, player, NBT, true)){return;}
+				
+		if(Config.Use_Fake_Block_Guides){
+			//false_block(evt, world, pos2, player, states);
+			
+			Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
+			world.spawnEntityInWorld(cube);
 		
-		Render_Outlines(evt, states, pos2, 180, 240, 180, 3.5F*this.scale);
-		
-		Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
-		world.spawnEntityInWorld(cube);
+		}
+		if(Config.Use_Wire_Frame_Guides){
+			Render_Outlines(evt, states, pos2, 180, 240, 180, 3.5F*this.scale);
+			}
 		
 	}
 	
+	static RenderManager render = Minecraft.getMinecraft().getRenderManager();	
+	//hnm.... doesn't actually seem to increase performance despite not dumping hundreds of entities every moment
+	public void false_block(RenderWorldLastEvent event, World world, BlockPos pos, EntityPlayer player, IBlockState state){
+
+		render.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.pushMatrix();
+		//GlStateManager.disableLighting();
+		Tessellator tessellator = Tessellator.getInstance();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+
+
+		vertexbuffer.begin(7, DefaultVertexFormats.BLOCK);
+		double partialTicks = event.getPartialTicks();
+		double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+        double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+        double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+		
+		GlStateManager.translate(
+				-d0, 
+				-d1, 
+				-d2);
+		
+		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+		blockrendererdispatcher.getBlockModelRenderer().
+		renderModel(world, blockrendererdispatcher.getModelForState(state), state, pos,
+				vertexbuffer,false);
+		tessellator.draw();
+
+		//GlStateManager.enableLighting();
+		GlStateManager.popMatrix();
+	}
+
+
 	
 	
 	/*

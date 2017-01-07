@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import helpertools.Main;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -49,6 +51,8 @@ public class Config extends ItemRegistry{
 	public static boolean ToolPowerMesseges = false;
 	//public static boolean Use_3D_Models = true;
 	public static boolean DirtBomb_Debris = true;
+	public static boolean Use_Wire_Frame_Guides = true;
+	public static boolean Use_Fake_Block_Guides = true;
 	
 	
 	//public static final Section sect_Blocks = new Section("Block Recipes", "block recipes");
@@ -65,6 +69,12 @@ public class Config extends ItemRegistry{
 	public static boolean Pearls_forTools;
 	public static boolean Emeralds_forTools;
 	public static boolean Recipe_TorchLauncher;
+	public static boolean Repairs_allowed;
+	public static int Expander_Amount;
+	public static int Exchanger_Amount;
+	public static int Pattern_Amount;
+	public static int Crossbow_Amount;
+	
 	
 	//public static final Section sect_Item_Rec = new Section("Item Recipes", "item recipes");
 	public static String ItemRecipe ="Item Recipes";
@@ -96,6 +106,10 @@ public class Config extends ItemRegistry{
 		RenderToolHuds  = config.get(GUI, "Tool Huds",true, "Enables Tools heads up displays").getBoolean();
 		ToolModeMesseges = config.get(GUI, "Tool Mode Messeges", true).getBoolean();
 		ToolPowerMesseges = config.get(GUI, "Tool Power Messeges", false).getBoolean();
+		Use_Wire_Frame_Guides = config.get(GUI, "Use Wire Frames for Hightlighting", true, "Disable for light performance gains").getBoolean();
+		Use_Fake_Block_Guides = config.get(GUI, "Use Fake Blocks for Highlights", true, "This is a huge performance hog, disable it if you have issues displaying it").getBoolean();
+		
+		
 		
 		//sect Block Recipes
 		// as of 1.8 technical blocks's itemstacks models were removed
@@ -111,7 +125,11 @@ public class Config extends ItemRegistry{
 		Pearls_forTools = config.get(ToolRecipe, "Pearls for Tools", true).getBoolean();
 		Emeralds_forTools = config.get(ToolRecipe, "Emeralds for Tools", true).getBoolean();
 		Recipe_TorchLauncher = config.get(ToolRecipe, rec+"TorchLauncher", true).getBoolean();
-		
+		Repairs_allowed = config.get(ToolRecipe, "Allow Easy Repairs", true,"Tools can be repaired without anvils").getBoolean();
+		Expander_Amount  = config.get(ToolRecipe, "Expander Repair Amount", 300, "How much an iron ingot is worth for repairs").getInt();
+		Exchanger_Amount  = config.get(ToolRecipe, "Exchanger Repair Amount", 300, "How much a gold into is worth for repairs").getInt();
+		Pattern_Amount  = config.get(ToolRecipe, "Pattern Repair Amount", 300, "How much a piece of lapis is worth for repairs").getInt();
+		Crossbow_Amount  = config.get(ToolRecipe, "Crossbow Repair Amount", 300, "How much a piece of string is worth for repairs").getInt();
 		//sect Item Recipes
 
 		DirtBomb_Debris = config.get(ItemRecipe, "DirtBomb Debris", true, "Toggles most of block items dropped by dirt bombs, disable if you have performance issues").getBoolean();
@@ -134,7 +152,7 @@ public class Config extends ItemRegistry{
 		public static void PostConfig(){
 				
 			ExpRod_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
-			Exchange_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
+			Exchange_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15).setRepairItem(new ItemStack(Items.GOLD_INGOT));
 			Pattern_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 			Crossbow_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 				

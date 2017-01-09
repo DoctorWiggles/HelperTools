@@ -69,6 +69,8 @@ public class Config extends ItemRegistry{
 	public static boolean Pearls_forTools;
 	public static boolean Emeralds_forTools;
 	public static boolean Recipe_TorchLauncher;
+	public static boolean Recipe_MirageHusk;
+	
 	public static boolean Repairs_allowed;
 	public static int Expander_Amount;
 	public static int Exchanger_Amount;
@@ -85,6 +87,13 @@ public class Config extends ItemRegistry{
 	public static int     Output_Dynamite;
 	public static boolean Recipe_DirtBombs;
 	public static int     Output_DirtBombs;
+	
+	
+	public static String Generation ="Generation";
+	public static boolean Extra_Dungeon_Loot;
+	public static boolean No_Fun_Allowed;
+	
+	
 	
 	public static String dura = TextFormatting.GREEN + "Durability " +TextFormatting.GRAY;
 	public static String rec = TextFormatting.YELLOW + "Recipe " +TextFormatting.GRAY;
@@ -125,13 +134,14 @@ public class Config extends ItemRegistry{
 		Pearls_forTools = config.get(ToolRecipe, "Pearls for Tools", true).getBoolean();
 		Emeralds_forTools = config.get(ToolRecipe, "Emeralds for Tools", true).getBoolean();
 		Recipe_TorchLauncher = config.get(ToolRecipe, rec+"TorchLauncher", true).getBoolean();
+		Recipe_MirageHusk = config.get(ToolRecipe, "Craftable Mirage Husk", true).getBoolean();
 		Repairs_allowed = config.get(ToolRecipe, "Allow Easy Repairs", true,"Tools can be repaired without anvils").getBoolean();
 		Expander_Amount  = config.get(ToolRecipe, "Expander Repair Amount", 300, "How much an iron ingot is worth for repairs").getInt();
 		Exchanger_Amount  = config.get(ToolRecipe, "Exchanger Repair Amount", 300, "How much a gold into is worth for repairs").getInt();
 		Pattern_Amount  = config.get(ToolRecipe, "Pattern Repair Amount", 300, "How much a piece of lapis is worth for repairs").getInt();
 		Crossbow_Amount  = config.get(ToolRecipe, "Crossbow Repair Amount", 300, "How much a piece of string is worth for repairs").getInt();
+		
 		//sect Item Recipes
-
 		DirtBomb_Debris = config.get(ItemRecipe, "DirtBomb Debris", true, "Toggles most of block items dropped by dirt bombs, disable if you have performance issues").getBoolean();
 		Recipe_BottledMilk = config.get(ItemRecipe, rec+"BottledMilk", true).getBoolean();
 		Recipe_Chocolatemilk = config.get(ItemRecipe, rec+"Chocolatemilk", true).getBoolean();
@@ -140,6 +150,10 @@ public class Config extends ItemRegistry{
 		Output_Dynamite  = config.get(ItemRecipe, output+"Dynamite", 4).getInt();
 		Recipe_DirtBombs = config.get(ItemRecipe, rec+"DirtBombs", true).getBoolean();
 		Output_DirtBombs  = config.get(ItemRecipe, output+"DirtBombs", 6).getInt();
+		
+		//sect Generation
+		Extra_Dungeon_Loot = config.get(Generation, "Extra Dungeon Loot", true,"Adds some tools and items to most generating chests").getBoolean();
+		No_Fun_Allowed = config.get(Generation, "No Fun Allowed", false,"Enable if you don't Like Haunted Items Flying away").getBoolean();
 		
 		PostConfig();
 		if(config.hasChanged())
@@ -152,7 +166,7 @@ public class Config extends ItemRegistry{
 		public static void PostConfig(){
 				
 			ExpRod_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
-			Exchange_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15).setRepairItem(new ItemStack(Items.GOLD_INGOT));
+			Exchange_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 			Pattern_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 			Crossbow_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 				

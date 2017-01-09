@@ -45,6 +45,7 @@ public class Config_Gui extends GuiConfig {
 			list.add(categoryElement(Config.Blockz,"Modify Block Recipes","Bock Recipes"));
 			list.add(categoryElement(Config.ToolRecipe,"Modify Tool Recipes","Tool Recipes"));
 			list.add(categoryElement(Config.ItemRecipe,"Modify Item Recipes","Item Recipes"));
+			list.add(categoryElement(Config.Generation,"Modify Generation","Generation"));
 			
 			return list;
 		}

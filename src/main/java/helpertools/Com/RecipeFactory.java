@@ -1,5 +1,7 @@
 package helpertools.Com;
 
+import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPELESS;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -50,7 +53,8 @@ public class RecipeFactory extends Config{
 		Main.logger.info("Loading Recipes");
 		
 		OreDictionary.registerOre("string", Items.STRING);
-		
+		//Recipe Type Registration
+		RecipeSorter.register(Main.PATH+"repair_recipe",  repair_recipe.class, SHAPELESS, "after:forge:shapelessore");
 		//Tools
 		//expand
 		
@@ -111,6 +115,11 @@ public class RecipeFactory extends Config{
 	    	"SSS",
     		"SWS",
     		"SSS", 'S', Blocks.DIRT, 'W', Items.GUNPOWDER});
+	    
+	    ShapedRecipe(Recipe_MirageHusk, new ItemStack(miragehusk,1,0),new Object[]{
+			"TXT",
+			"TYT",
+			" Z ", 'X',"logWood", 'Y', Items.ENDER_EYE,'Z',Items.REDSTONE, 'T',"treeLeaves"});
 	    	
 		
 		//Blocks		
@@ -121,8 +130,7 @@ public class RecipeFactory extends Config{
 		
 		ShapelessRecipe(Recipe_Fake_Bedrock,new ItemStack(falseBedrock, Output_False_Bedrock , 0), new Object[]{
 			"cobblestone", "cobblestone", "cobblestone", Blocks.COAL_BLOCK });
-		
-	    	
+			    	
 		
 		//Items
 		ItemStack BucketOut = new ItemStack(Items.MILK_BUCKET.setContainerItem(Items.BUCKET));		
@@ -141,6 +149,7 @@ public class RecipeFactory extends Config{
 		
 		ShapelessRecipe(Recipe_Podzol, new ItemStack(Blocks.DIRT, 1 , 2), new Object[]{
     		Blocks.DIRT, "treeLeaves"});
+		
 		if(Repairs_allowed){
 		GameRegistry.addRecipe(new repair_recipe(new ItemStack(exchange_tool),Expander_Amount, new ItemStack(exchange_tool), Items.GOLD_INGOT));
 		GameRegistry.addRecipe(new repair_recipe(new ItemStack(expandertool),Exchanger_Amount, new ItemStack(expandertool), Items.IRON_INGOT));

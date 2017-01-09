@@ -7,6 +7,7 @@ import helpertools.Com.Mirage_Server_Message;
 import helpertools.Com.RecipeFactory;
 import helpertools.Com.Registry_Entity;
 import helpertools.Com.Tool_Message;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

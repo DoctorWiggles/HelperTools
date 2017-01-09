@@ -66,7 +66,7 @@ public class ToolHud extends Gui
 	  EntityPlayerSP player = this.mc.thePlayer;
 	  World world = player.worldObj;
 	  ItemStack hat = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-	  
+	  //if(!player.isSneaking())return;
 	  
 	  if(hat == null){
 		  return;}
@@ -76,26 +76,23 @@ public class ToolHud extends Gui
 
 		 
 		  Item_MirageHusk husk = (Item_MirageHusk)hat.getItem();
-
 		  Entity_Mirage shade = husk.getMirage(hat, world);
 
 		  if(shade != null){
-
+			  
 		  int distance = (int)player.getDistanceToEntity(shade);
-
 		  int Health = (int)shade.getHealth();
 		  
-		  String distance_info = "Close";
-		  if(distance > 16){distance_info = "Nearby";}
-		  if(distance > 48){distance_info = "In the Area";}
-		  if(distance > 86){distance_info = "Away";}
-		  if(distance > 120){distance_info = "Remote";}
-		  if(distance > 170){distance_info = "Far Away";}
+		  String distance_info = "close";
+		  if(distance > 16){distance_info = "nearby";}
+		  if(distance > 48){distance_info = "in the area";}
+		  if(distance > 86){distance_info = "distant";}
+		  if(distance > 120){distance_info = "remote";}
+		  if(distance > 170){distance_info = "far away";}
 		  
-		  String health_info = " strong";		  		  
-		  if(Health <15){health_info = "n ordinary";}
-		  if(Health <10){health_info = " weak";}
-		  if(Health <5){health_info = " fading";}
+		  String health_info = "";	
+		  if(Health <12){health_info = " weak";}
+		  if(Health <7){health_info = " fading";}
 		  
 		  
 		  //this.drawString(fontRender, fluidname, 1, 1, 0xffffffff);
@@ -104,7 +101,7 @@ public class ToolHud extends Gui
 		  ("A"+health_info+" shadow is "+distance_info,  20, 8, 0xF4F2FF);
 		  }
 		  else {this.mc.fontRendererObj.drawStringWithShadow
-	  		("No active Shadow",  20, 8, 0xF4F2FF);
+	  		("No active shadow",  20, 8, 0xF4F2FF);
 		  	}
 	  }catch(Exception e){}
 	  

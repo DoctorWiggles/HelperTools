@@ -1,6 +1,7 @@
 package helpertools.Com.Items;
 
 import helpertools.Main;
+import helpertools.Com.Config;
 import helpertools.Com.Entity.Entity_FlyingItem;
 import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Utils.BlockStateHelper;
@@ -60,6 +61,7 @@ public class Item_MirageHusk extends ItemArmor{
 	//Custom Item Entity
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
+    	if(Config.No_Fun_Allowed){return null;}
     	BlockPos pos = location.getPosition();
     	Entity_FlyingItem  ent = new Entity_FlyingItem(world, itemstack);
     	
@@ -105,7 +107,6 @@ public class Item_MirageHusk extends ItemArmor{
     
     //Default Data Setter
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {  
-    	
     	
     	if(world.isRemote){return;}
     	
@@ -171,7 +172,7 @@ public class Item_MirageHusk extends ItemArmor{
 		BlockPos M = mob.getPosition();
 		BlockPos P = player.getPosition();
 		
-		System.out.println(player.getDistanceToEntity(mob));
+		//System.out.println(player.getDistanceToEntity(mob));
 		damageHat(player, stack);
 		
 		mob.setLocationAndAngles(P.getX()+0.5, P.getY(), P.getZ()+0.5, mob.rotationYaw, mob.rotationPitch);

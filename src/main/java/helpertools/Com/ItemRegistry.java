@@ -8,6 +8,7 @@ import helpertools.Com.Blocks.LampBlock;
 import helpertools.Com.Blocks.LooseDirtBlock;
 import helpertools.Com.Blocks.TileEntityTranscriber;
 import helpertools.Com.Blocks.TranscriberBlock;
+import helpertools.Com.Items.Chest_Debugger;
 import helpertools.Com.Items.ItemChocolateMilk;
 import helpertools.Com.Items.ItemDirtBomb;
 import helpertools.Com.Items.ItemDynamiteBolt;
@@ -17,6 +18,7 @@ import helpertools.Com.Tools.ItemEuclideanTransposer;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
 import helpertools.Com.Tools.ItemTorchLauncher;
+import helpertools.Utils.HelpTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.SoundEvents;
@@ -38,6 +40,7 @@ public class ItemRegistry {
 	public static Item dynamitebolt;
 	public static Item dirtbomb;
 	public static Item miragehusk;
+	public static Item shadecore;
 	
 
 	public static void createItems() {
@@ -54,6 +57,7 @@ public class ItemRegistry {
 		reg(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"),"dynamitebolt_item");
 		reg(dirtbomb = new ItemDirtBomb( "dirtbomb_item"),"dirtbomb_item");
 		reg(miragehusk = new Item_MirageHusk("miragehusk_item", Mystic_Material), "miragehusk_item");
+		reg(shadecore = new Chest_Debugger("shadecore"), "shadecore");
 	
 		
 	}

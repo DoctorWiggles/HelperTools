@@ -62,7 +62,7 @@ public final class RenderRegistry {
 
 	public static void reg(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
-		(item, 0, new ModelResourceLocation(modid + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+		(item, 0, new ModelResourceLocation(path + item.getUnlocalizedName().substring(5), "inventory"));
 		//Main.logger.info(modid + ":" + item.getUnlocalizedName().substring(5), "inventory");
 	}
 	

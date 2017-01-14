@@ -44,20 +44,19 @@ public class ItemRegistry {
 	
 
 	public static void createItems() {
-		Main.logger.info("Registering items");
-		//Legacy Registry
-		//GameRegistry.registerItem(chocolatemilk = new ItemChocolateMilk(3, 0.5f, true, "chocolatemilk_item"), "chocolatemilk_item");
-		reg(chocolatemilk= new ItemChocolateMilk(3, 0.5f, true, "chocolatemilk_item"), "chocolatemilk_item");
-		reg(milkbottle = new ItemMilkBottle("bottledmilk_item"), "bottledmilk_item");
-		reg(expandertool = new ItemStaffofExpansion(Config.ExpRod_Matt, "expander_item"), "expander_item");
-		reg(exchange_tool = new ItemStaffofTransformation(Config.Exchange_Matt, "exchange_item"), "exchange_item");
-		reg(pattern_tool = new ItemEuclideanTransposer(Config.Pattern_Matt, "pattern_item"), "pattern_item");
-		reg(crossbow_tool = new ItemTorchLauncher(Config.Crossbow_Matt, "crossbow_item"),"crossbow_item");		
+		Main.logger.info("Registering items");		
+		
+		reg(chocolatemilk = new ItemChocolateMilk(3, 0.5f, true, "chocolatemilk_item"));
+		reg(milkbottle = new ItemMilkBottle("bottledmilk_item"));
+		reg(expandertool = new ItemStaffofExpansion(Config.ExpRod_Matt, "expander_item"));
+		reg(exchange_tool = new ItemStaffofTransformation(Config.Exchange_Matt, "exchange_item"));
+		reg(pattern_tool = new ItemEuclideanTransposer(Config.Pattern_Matt, "pattern_item"));
+		reg(crossbow_tool = new ItemTorchLauncher(Config.Crossbow_Matt, "crossbow_item"));		
 		//reg(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
-		reg(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"),"dynamitebolt_item");
-		reg(dirtbomb = new ItemDirtBomb( "dirtbomb_item"),"dirtbomb_item");
-		reg(miragehusk = new Item_MirageHusk("miragehusk_item", Mystic_Material), "miragehusk_item");
-		reg(shadecore = new Chest_Debugger("shadecore"), "shadecore");
+		reg(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"));
+		reg(dirtbomb = new ItemDirtBomb( "dirtbomb_item"));
+		reg(miragehusk = new Item_MirageHusk("miragehusk_item", Mystic_Material));
+		reg(shadecore = new Chest_Debugger("shadecore"));
 	
 		
 	}
@@ -67,9 +66,9 @@ public class ItemRegistry {
 					35, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0);
 	
 	//Updated Registry Interface
-	public static void reg(Item item, String name){
+	public static void reg(Item item){
 		
-		item.setRegistryName(name);
+		item.setRegistryName(item.getUnlocalizedName().substring(5));
 		GameRegistry.register(item);
 	}
 
@@ -77,28 +76,28 @@ public class ItemRegistry {
 	
 	public static Block falseBedrock;
 	public static Block transcriberBlock;
-	public static Item TranscriberBlock_Item;
+	public static Item  TranscriberBlock_Item;
 	public static Block LooseDirtBlock;	
 	public static Block BalloonBlock;
 	public static Block LampBlock;
-	public static Item LampBlock_Item;
+	public static Item  LampBlock_Item;
 	public static Block LampBlock_on;
 	public static Block LampBlock_perm;
 	public static Block FloaterBlock;
-	public static Item FloaterBlock_Item;
+	public static Item  FloaterBlock_Item;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
-		reg(falseBedrock = new FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F), "falseBedrock_block");
-		reg(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"),"loosedirt_block");
-		custom(transcriberBlock = new TranscriberBlock("transcriber_block"), "transcriber_block",
+		reg(falseBedrock = new FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F));
+		reg(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"));
+		custom(transcriberBlock = new TranscriberBlock("transcriber_block"),
 				TranscriberBlock_Item = new TranscriberBlock.TranscriberBlock_Item(transcriberBlock));	
-		reg(BalloonBlock = new BalloonBlock("balloon_block"),"balloon_block");
-		custom(LampBlock = new LampBlock("lamp_block", false),"lamp_block",
+		reg(BalloonBlock = new BalloonBlock("balloon_block"));
+		custom(LampBlock = new LampBlock("lamp_block", false),
 				LampBlock_Item = new LampBlock.LampBlock_Item(LampBlock));
-		reg(LampBlock_on = new LampBlock("lamp_block_on", true),"lamp_block_on");
-		reg(LampBlock_perm = new LampBlock("lamp_block_perm", true),"lamp_block_perm");
-		custom(FloaterBlock = new FloaterBlock("floater_block"),"floater_block",
+		reg(LampBlock_on = new LampBlock("lamp_block_on", true));
+		reg(LampBlock_perm = new LampBlock("lamp_block_perm", true));
+		custom(FloaterBlock = new FloaterBlock("floater_block"),
 				FloaterBlock_Item = new FloaterBlock.FloaterBlock_Item(FloaterBlock));
 		
         
@@ -107,9 +106,9 @@ public class ItemRegistry {
 		
 	}
 	//Updated Registry Interface
-	public static void reg(Block block, String name){
+	public static void reg(Block block){
 
-		block.setRegistryName(name);
+		block.setRegistryName(block.getUnlocalizedName().substring(5));
 		GameRegistry.register(block);
 		register_item_Block(block);
 	}
@@ -121,9 +120,9 @@ public class ItemRegistry {
 	    GameRegistry.register(dummy_itemBlockSimple);
 	}
 	
-	public static void custom(Block block, String name, Item item){
+	public static void custom(Block block, Item item){
 
-		block.setRegistryName(name);
+		block.setRegistryName(block.getUnlocalizedName().substring(5));
 		GameRegistry.register(block);
 		item.setRegistryName(block.getRegistryName());
 		GameRegistry.register(item);

@@ -25,7 +25,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 /** Consolidating class to simplify the text process **/
-public class Texty {
+public class ModUtil {
 	/*
 	public void print(EntityLivingBase living, String Messy){
 		ITextComponent chatmessy = new TextComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
@@ -50,7 +50,7 @@ public class Texty {
 		print((EntityLivingBase)player, text);
 	}
 	
-	public static void print(String text){
+	public static void print(Object text){
 		System.out.println(text);
 	}
 	
@@ -110,7 +110,8 @@ public class Texty {
 	
 	//========================== Whitelist Util =================================//
 	/** Whitelist for block placement **/
-	public static boolean isValid(IBlockState state, World world, BlockPos pos){
+	public static boolean isValid(World world, BlockPos pos){
+		IBlockState state = world.getBlockState(pos);
     	Material matt = state.getMaterial();
 
     	if(state.getBlock().isAir(state, world, pos)
@@ -126,5 +127,18 @@ public class Texty {
     	return false;
     }
 	
-	
+	public static void Destructables(World world, BlockPos pos){
+		IBlockState State = world.getBlockState(pos);
+		
+		if (State.getMaterial() == Material.VINE
+				|| State.getMaterial() == Material.PLANTS
+				|| State.getBlock() == Blocks.SNOW_LAYER) 
+		{
+
+			(State.getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
+		}  
+
+	}
+
+
 }

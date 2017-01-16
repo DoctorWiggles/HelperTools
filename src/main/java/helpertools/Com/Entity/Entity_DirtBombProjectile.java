@@ -3,6 +3,7 @@ package helpertools.Com.Entity;
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
 import helpertools.Utils.BlockStateHelper;
+import helpertools.Utils.BombHelper;
 
 import java.util.List;
 import java.util.Random;
@@ -41,14 +42,13 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
     private String throwerName;
     private int ticksInGround;
     private int ticksInAir;
-    private static final String __OBFID = "CL_00001723";
 
-   public Entity_DirtBombProjectile(World par1World) {
-       super(par1World);
+   public Entity_DirtBombProjectile(World world) {
+       super(world);
    }
 
-   public Entity_DirtBombProjectile(World par2World, EntityPlayer par3EntityPlayer) {
-       super(par2World,par3EntityPlayer);
+   public Entity_DirtBombProjectile(World world, EntityPlayer player) {
+       super(world,player);
    }
 
    @Override
@@ -92,11 +92,12 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 	   Block pblock = ItemRegistry.LooseDirtBlock;
 	   Block dirtblock = Blocks.DIRT;      
 	   EnumFacing sideHit = mop.sideHit;
+	   World world = this.worldObj;
 	   
 	   //valid_hit(worldObj, mop);
 	   
 	   //Client Smoke rendering
-	   if(this.worldObj.isRemote){	      
+	   if(world.isRemote){	      
 		      	    
 		    	int blockX = mop.getBlockPos().getX();
 		    	int blockY = mop.getBlockPos().getY();
@@ -121,7 +122,7 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 		           float p = (this.growrand .nextFloat()-.5F )/5 ;
 		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;		
 		           
-		           this.worldObj.spawnParticle(EnumParticleTypes.CLOUD, i4+f-.5, j4+f1+.5, k4+f2+.5, p, p1, p2);
+		           world.spawnParticle(EnumParticleTypes.CLOUD, i4+f-.5, j4+f1+.5, k4+f2+.5, p, p1, p2);
 		        }
 				
 				short short2 = 8;
@@ -135,17 +136,17 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 		           float p = (this.growrand .nextFloat()-.5F )/5 ;
 		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;
 		           
-		           this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, i4+f-.5, j4+f1, k4+f2+.5, p, p1, p2);
+		           world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, i4+f-.5, j4+f1, k4+f2+.5, p, p1, p2);
 		           
 		       }
 	   }
 	   
 	   //server block placement
-	   if(!this.worldObj.isRemote){
+	   if(!world.isRemote){
 	  //The block it lands on in the world
       //once it has hit anything
       //create and explosion
-      this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
+		   world.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
       
       	int blockX = mop.getBlockPos().getX();
   		int blockY = mop.getBlockPos().getY();
@@ -169,6 +170,9 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
     	  j2 = j2-3;
     	  j3 = j3-3;
       }
+      //BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 4);
+      BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
+      /*
       //creates a static area to place dirt, becuase i'm dumb ;^)
       //top section
       block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
@@ -176,7 +180,7 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
       block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
       //bottom section
       block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
-    	
+    	*/
       //Ensures the entity itself is deleted once its objective is reached
       //otherwise it will slide along the ground for a while
       this.setDead();

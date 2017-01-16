@@ -17,7 +17,7 @@ import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
 import helpertools.Com.Tools.ToolBase_Patterns;
 import helpertools.Utils.BlockStateHelper;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -76,7 +76,7 @@ public class Highlight_Handler {
 					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
 					BlockPos pos = mouseOver.getBlockPos();
 					IBlockState state = world.getBlockState(pos); 
-					if(Texty.isValid(state, world, pos)){
+					if(ModUtil.isValid(world, pos)){
 						
 						fluctuate();
 						Render_Outlines(evt, state, pos, 240, 180, 240, 3F*this.scale);
@@ -174,7 +174,7 @@ public class Highlight_Handler {
 					if(positions != null && !positions.isEmpty()){
 						for (BlockPos location : positions) {
 							if(Config.Use_Wire_Frame_Guides){
-							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
+							Render_Outlines(evt, blocky, location, 180, 240, 180, 3.5F*this.scale);
 							}
 							if(Config.Use_Fake_Block_Guides){
 							Phantom_Cube cube = new Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
@@ -283,12 +283,10 @@ public class Highlight_Handler {
 	public void Eu_Cubes(World world, EntityPlayer player, BlockPos pos,ItemStack heldstack, double X, double Y, double Z, int NBT, ItemEuclideanTransposer staff, RenderWorldLastEvent evt, IBlockState state){
 		
 		BlockPos pos2 = pos.add(X, Y, Z);
-		IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));
-		IBlockState state_to_replace = world.getBlockState(pos2);
-		
+		IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));		
 		
 		if(states.getBlock() == Blocks.AIR){return;}
-		if(!(Texty.isValid(state_to_replace, world, pos2))){return;}
+		if(!(ModUtil.isValid(world, pos2))){return;}
 		if(!staff.inventory_Check(heldstack, player, NBT, true)){return;}
 				
 		if(Config.Use_Fake_Block_Guides){

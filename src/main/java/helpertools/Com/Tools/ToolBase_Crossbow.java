@@ -7,7 +7,7 @@ import helpertools.Com.Entity.Entity_DynamiteProjectile;
 import helpertools.Com.Entity.Entity_RedTorchProjectile;
 import helpertools.Com.Entity.Entity_TorchProjectile;
 import helpertools.Utils.InventoryUtil;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -225,9 +225,9 @@ public class ToolBase_Crossbow extends ToolBase{
 	    /** Static special effect clause **/
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
 	    	Float sound = Main.Randy.nextFloat()+ 5F;
-	    	Texty.Sound_Server(player.worldObj, player, SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
+	    	ModUtil.Sound_Server(player.worldObj, player, SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
 	    	if(Config.ToolModeMesseges){
-			Texty.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
+			ModUtil.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
 	    	}			
 	    }
 	    

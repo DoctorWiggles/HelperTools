@@ -2,7 +2,7 @@ package helpertools.Com.Tools;
 
 import helpertools.Com.Config;
 import helpertools.Utils.BlockStateHelper;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -113,25 +113,25 @@ public class ToolBase_Patterns extends ToolBase{
 		World world = player.worldObj;
 		if(!player.isSneaking()){
 			if(current+1 == 8){setCorner(stack, 4);
-			Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+			ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
 			return;}
 			if(current+1 == 4){setCorner(stack, 0);
-			Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+			ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
 			return;}
 			setCorner(stack, current+1);
-			Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			ModUtil.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			return;
 		}
 		if(player.isSneaking()){
 			if(Config.ToolModeMesseges){
-				Texty.print(player, TextFormatting.GRAY +"Flipping Pattern");}
+				ModUtil.print(player, TextFormatting.GRAY +"Flipping Pattern");}
 			if(current+4 >= 8){
 				setCorner(stack, current-4);
-				Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+				ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
 				return;
 			}
 			setCorner(stack, current+4);
-			Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+			ModUtil.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			return;
 		}
 	}

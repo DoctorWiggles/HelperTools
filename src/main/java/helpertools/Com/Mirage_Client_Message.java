@@ -16,7 +16,7 @@ import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Com.Items.Item_MirageHusk;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -77,7 +77,7 @@ public class Mirage_Client_Message implements IMessage {
             player.setLocationAndAngles(
             		x+0.5, y, z+0.5, player.rotationYaw, player.rotationPitch );
             for (int i = 0; i < (Main.Randy.nextInt(50)*2)+20; ++i)
-        		Texty.Particle(2F, player, EnumParticleTypes.SMOKE_NORMAL,0,0,0);
+        		ModUtil.Particle(2F, player, EnumParticleTypes.SMOKE_NORMAL,0,0,0);
             
             return null; 
         }

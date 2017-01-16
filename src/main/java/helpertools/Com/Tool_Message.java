@@ -8,7 +8,7 @@ import helpertools.Com.Tools.ItemEuclideanTransposer;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
 import helpertools.Com.Tools.ToolBase;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.ByteBufUtils;

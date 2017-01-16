@@ -1,7 +1,7 @@
 package helpertools.Com.Entity;
 
 import helpertools.Com.ItemRegistry;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -101,7 +101,7 @@ public class Entity_Mirage extends EntityLiving{
 		 
 		BlockPos pos = this.getPosition();
     	for (int i = 0; i < this.rand.nextInt(7); ++i)
-    		Texty.Particle(1.5F, this, EnumParticleTypes.SMOKE_LARGE,0,-0.05,0);
+    		ModUtil.Particle(1.5F, this, EnumParticleTypes.SMOKE_LARGE,0,-0.05,0);
 		
     }
 	

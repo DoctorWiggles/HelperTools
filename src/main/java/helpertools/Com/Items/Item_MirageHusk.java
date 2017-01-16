@@ -6,7 +6,7 @@ import helpertools.Com.Entity.Entity_FlyingItem;
 import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 
 import java.util.List;
 import java.util.UUID;
@@ -76,14 +76,14 @@ public class Item_MirageHusk extends ItemArmor{
     	if(player.isSneaking()){    
     		Create_Mirage(stack, player, world);
     		
-    		Texty.Sound_Server(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, 1.0F);}
+    		ModUtil.Sound_Server(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, 1.0F);}
     	
     	if(!player.isSneaking()){
     		Swap_Mirage(stack, player, world);   
     		
-    		Texty.Sound_Server(player, SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, 0.5F);     		 	
+    		ModUtil.Sound_Server(player, SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, 0.5F);     		 	
     		for (int i = 0; i < (Main.Randy.nextInt(50)*2)+20; ++i)
-    			Texty.Particle(2F, player, EnumParticleTypes.SMOKE_NORMAL,0,0,0);}
+    			ModUtil.Particle(2F, player, EnumParticleTypes.SMOKE_NORMAL,0,0,0);}
     	
     	return new ActionResult(EnumActionResult.SUCCESS, stack);
     	

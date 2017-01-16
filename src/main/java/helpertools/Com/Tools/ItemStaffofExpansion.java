@@ -4,7 +4,7 @@ import helpertools.Com.Config;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import helpertools.Utils.Whitelist_Util;
 
 import java.util.HashSet;
@@ -82,7 +82,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 		int mode = getMode(itemStack);
 		if(Config.ToolModeMesseges){
 			String Messy = whatModeString(itemStack) + " Mode";
-			Texty.print(living, TextFormatting.GRAY + Messy);
+			ModUtil.print(living, TextFormatting.GRAY + Messy);
 		    }
 	}
     
@@ -188,7 +188,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 			int y2 = y1 + y3;
 			int z2 = z1 + z3;
 			BlockPos pos2 = new BlockPos(x2, y2, z2);
-			if(Texty.isValid(world.getBlockState(pos2), world, pos2) && getTBlock(stack) != 0){
+			if(ModUtil.isValid(world, pos2) && getTBlock(stack) != 0){
 				
 				if(inventory_Check(stack, player, simulation)){
 					positions.add(pos2);  
@@ -264,7 +264,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 					int y2 = y1 + y3;
 					int z2 = z1 + z3;
 					BlockPos pos2 = new BlockPos(x2, y2, z2);
-					if(Texty.isValid(world.getBlockState(pos2), world, pos2) && getTBlock(stack) != 0){
+					if(ModUtil.isValid(world, pos2) && getTBlock(stack) != 0){
 
 						if(inventory_Check(stack, player, simulation)){
 							positions.add(pos2);  
@@ -356,7 +356,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 					BlockPos pos4 = new BlockPos(xT4, yT4, zT4);	
 					
 					if (world.getBlockState(pos3) == BlockStateHelper.returnState(getTBlock(stack))){
-						if(Texty.isValid(world.getBlockState(pos4), world, pos4) && getTBlock(stack) != 0){
+						if(ModUtil.isValid(world, pos4) && getTBlock(stack) != 0){
 
 							if(inventory_Check(stack, player, simulation)){
 								positions.add(pos4);  
@@ -398,7 +398,7 @@ public class ItemStaffofExpansion extends ToolBase_Default
 	public void EXPAND (final ItemStack stack, EntityPlayer player, final World world, final BlockPos pos)
 	{
 		SoundType soundtype = returnTBlock_FromState(stack).getSoundType();
-		Texty.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+		ModUtil.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 
 		//destroys and returns blocks like grass
 		if (world.getBlockState(pos).getMaterial() == Material.VINE

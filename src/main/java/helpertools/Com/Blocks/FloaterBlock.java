@@ -5,7 +5,7 @@ import helpertools.Com.ItemRegistry;
 import helpertools.Com.Blocks.TranscriberBlock.TranscriberBlock_Item;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -70,7 +70,7 @@ public class FloaterBlock extends Block{
     	}
     	else{
     		ItemStack item = new ItemStack(block);
-    		Texty.itemdrop(world, offset, item);
+    		ModUtil.itemdrop(world, offset, item);
     	}
     	
     	
@@ -149,7 +149,7 @@ public static class FloaterBlock_Item extends ItemBlock
 	public static boolean Place_Floater(IBlockState state, World world, BlockPos pos){
 		IBlockState floater = ItemRegistry.FloaterBlock.getDefaultState();
 		
-		if (Texty.isValid(state, world, pos)){
+		if (ModUtil.isValid(world, pos)){
 			for (int pl = 0; pl < 200; ++pl)
 			{
         		float f = (Main.Randy.nextFloat() - .2F) * 1.4F;
@@ -163,13 +163,13 @@ public static class FloaterBlock_Item extends ItemBlock
 			if(world.isRemote){return false;}
 			
 			world.setBlockState(pos, floater, 123);
-			Texty.Sound_Server(world, pos, SoundEvents.BLOCK_STONE_PLACE, 1F, 1F);
+			ModUtil.Sound_Server(world, pos, SoundEvents.BLOCK_STONE_PLACE, 1F, 1F);
 
-			if(Texty.isValid(state, world, pos.up())){
+			if(ModUtil.isValid(world, pos.up())){
 				world.setBlockState(pos.up(), ItemRegistry.BalloonBlock.getDefaultState(), 123);    			
 			}
 			else{
-				Texty.itemdrop(world, pos, ItemRegistry.BalloonBlock);
+				ModUtil.itemdrop(world, pos, ItemRegistry.BalloonBlock);
 			}
 			return true;
 		}

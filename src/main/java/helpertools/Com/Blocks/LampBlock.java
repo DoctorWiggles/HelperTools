@@ -3,7 +3,7 @@ package helpertools.Com.Blocks;
 import helpertools.Com.ItemRegistry;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -117,17 +117,17 @@ public static class LampFunctions{
 	}
 	
 	public static void off(World world, BlockPos pos){
-		Texty.Sound_Server(world, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF,  0.3F, 0.5F);
+		ModUtil.Sound_Server(world, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF,  0.3F, 0.5F);
 		world.setBlockState(pos, off, 123);		
 	}
 	
 	public static void on(World world, BlockPos pos){
-		Texty.Sound_Server(world, pos, SoundEvents.ENTITY_CHICKEN_EGG,  0.3F, 0.5F);
+		ModUtil.Sound_Server(world, pos, SoundEvents.ENTITY_CHICKEN_EGG,  0.3F, 0.5F);
 		world.setBlockState(pos, on, 123);		
 	}
 	
 	public static void perm(World world, BlockPos pos){
-		Texty.Sound_Server(world, pos, SoundEvents.ENTITY_CHICKEN_EGG,  0.3F, 0.5F);
+		ModUtil.Sound_Server(world, pos, SoundEvents.ENTITY_CHICKEN_EGG,  0.3F, 0.5F);
 		world.setBlockState(pos, perm, 123);		
 	}
 	

@@ -14,7 +14,7 @@ import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Com.Items.Item_MirageHusk;
 import helpertools.Com.Tools.ItemStaffofExpansion;
 import helpertools.Com.Tools.ItemStaffofTransformation;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -55,12 +55,12 @@ public class Mirage_Server_Message implements IMessage {
     			if(pos == null){return null;}
     			Mirage_Client_Message packet = 
     					new Mirage_Client_Message((int)pos.getX(), (int)pos.getY(), (int)pos.getZ());
-    			Texty.Sound_Server(player, SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, 0.5F);  
+    			ModUtil.Sound_Server(player, SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, 0.5F);  
     			
     			return packet;
     		}           
     		else{
-    			Texty.Sound_Server(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, 1.0F);  
+    			ModUtil.Sound_Server(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, 1.0F);  
     			husk.Create_Mirage(stack, player, world);
     			return null;
     		}

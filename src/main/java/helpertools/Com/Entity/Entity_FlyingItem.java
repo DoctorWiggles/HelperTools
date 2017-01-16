@@ -1,7 +1,7 @@
 package helpertools.Com.Entity;
 
 import helpertools.Com.ItemRegistry;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 
 import javax.annotation.Nullable;
 
@@ -151,7 +151,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
         {
         	BlockPos pos = this.getPosition();
         	for (int i = 0; i < this.rand.nextInt(3); ++i)
-        		Texty.Particle(3F,this, EnumParticleTypes.SPELL_WITCH, 0 , 0, 0);
+        		ModUtil.Particle(3F,this, EnumParticleTypes.SPELL_WITCH, 0 , 0, 0);
             this.motionY *= 0.6000000238418579D;
         }
     }

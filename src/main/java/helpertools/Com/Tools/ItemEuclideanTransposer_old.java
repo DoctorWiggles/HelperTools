@@ -6,7 +6,7 @@ import helpertools.Com.Blocks.TileEntityTranscriber;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import helpertools.Utils.Whitelist_Util;
 
 import java.util.List;
@@ -90,7 +90,7 @@ public class ItemEuclideanTransposer_old extends ToolBase_Patterns
 		int mode = getMode(itemStack);
 		if(Config.ToolModeMesseges){
 			String Messy = whatModeString(itemStack) + " Mode";
-			Texty.print(living, TextFormatting.GRAY + Messy);
+			ModUtil.print(living, TextFormatting.GRAY + Messy);
 		    }
 	}
 	
@@ -317,7 +317,7 @@ public class ItemEuclideanTransposer_old extends ToolBase_Patterns
             }
     		player.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, .2F+py/4);
     		if(!player.worldObj.isRemote){
-    			Texty.print((EntityLivingBase)player, TextFormatting.GRAY + "Pattern Saved");
+    			ModUtil.print((EntityLivingBase)player, TextFormatting.GRAY + "Pattern Saved");
     		}
     		setOffMode(thestaff, 4);
     		return EnumActionResult.SUCCESS;

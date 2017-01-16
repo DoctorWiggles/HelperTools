@@ -2,7 +2,7 @@ package helpertools.Com.Tools;
 
 import helpertools.Com.Config;
 import helpertools.Utils.BlockStateHelper;
-import helpertools.Utils.Texty;
+import helpertools.Utils.ModUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.Enchantment;
@@ -207,18 +207,18 @@ public class ToolBase_Default extends ToolBase{
 			if(NextLevel>Toolmax){
 				setToolLevel(itemStack,0);
 				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.fizz", (float)(1), (float)(1.3));
-				Texty.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
+				ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
 				
 			}
 			if(NextLevel<=Toolmax){
 				setToolLevel(itemStack,NextLevel);
 				//entityLiving.worldObj.playSoundAtEntity(entityLiving, "random.orb", (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
-				Texty.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
+				ModUtil.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 			}
 			
 			 if(Config.ToolPowerMesseges == true){	
 				 String Messy = ("Rank: "+(getToolLevel(itemStack)));
-					Texty.print(entityLiving, TextFormatting.GRAY + Messy);
+					ModUtil.print(entityLiving, TextFormatting.GRAY + Messy);
 				    }
 				    
 			//

@@ -3,7 +3,7 @@
 
 #       #
 # Items #
-item.staffoftransformation2.name=§aMetamorphic Staff
+item.staffoftransformation.name=§aMetamorphic Staff
 item.staffofexpansion.name=§aExpanding Rod
 item.torchlauncher.name=§eTorch Launcher
 item.dynamitebolt.name=§6Dynamite Bolt
@@ -41,7 +41,7 @@ entity.DynamiteBolt.name=Dynamite Bolt
 
 #        #
 # Blocks #
-tile.Imitation Bedrock.name=§7Imitation Bedrock
+tile.ImitationBedrock.name=§7Imitation Bedrock
 tile.StokedPipe.name=Chimney Pipe
 tile.TranscriberBlock.name=§3Euclidean Transcriber
 tile.MagicalFuelBlock.name=§3Magical Lamp

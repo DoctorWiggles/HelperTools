@@ -21,13 +21,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class Item_Block_Balloon extends ItemBlock
 {
-    public final Block blocky;
     @SideOnly(Side.CLIENT)
     private IIcon icon;
 
     public Item_Block_Balloon(Block block)
     {	super(block);
-        this.blocky = block;
     }
 
     public Item_Block_Balloon setUnlocalizedName(String unlocal)
@@ -38,9 +36,9 @@ public class Item_Block_Balloon extends ItemBlock
     
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List par3List, boolean par4)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
       {
-      par3List.add(EnumChatFormatting.ITALIC + "Simple Decoration");
+    	list.add(EnumChatFormatting.ITALIC + "Simple Decoration");
       }
 
 }

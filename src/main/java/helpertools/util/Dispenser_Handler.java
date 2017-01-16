@@ -1,10 +1,10 @@
 package helpertools.util;
 
-import helpertools.Common_Registry;
-import helpertools.entities.BombProjectile_Entity;
-import helpertools.entities.EntityDynamiteProjectile;
-import helpertools.entities.EntityRedTorchProjectile;
-import helpertools.entities.EntityTorchProjectile;
+import helpertools.ModRegistry;
+import helpertools.entities.Bomb_Projectile;
+import helpertools.entities.Dynamite_Projectile;
+import helpertools.entities.RedTorch_Projectile;
+import helpertools.entities.Torch_Projectile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -30,8 +30,8 @@ public class Dispenser_Handler {
 	
     public static void registerVanillaDispenserBehaviors()
     {
-        BlockDispenser.dispenseBehaviorRegistry.putObject(Common_Registry.bomb, new DispenserBehaviour());
-        BlockDispenser.dispenseBehaviorRegistry.putObject(Common_Registry.dynamitebolt, new Dynamite_DispenserBehaviour());
+        BlockDispenser.dispenseBehaviorRegistry.putObject(ModRegistry.bomb, new DispenserBehaviour());
+        BlockDispenser.dispenseBehaviorRegistry.putObject(ModRegistry.dynamitebolt, new Dynamite_DispenserBehaviour());
         Item Torchy = Item.getItemFromBlock(Blocks.torch);
         BlockDispenser.dispenseBehaviorRegistry.putObject(Torchy, new Torch_DispenserBehaviour());
         Item RedTorchy = Item.getItemFromBlock(Blocks.redstone_torch);
@@ -73,7 +73,7 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
         amp = scan_local_charms(world, bx, by, bz);
         
         //BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, xh, yh, zh, 2, 2);
-        BombProjectile_Entity entity = new BombProjectile_Entity(world, d0, d1, d2, type, amp*5, xh, yh, zh, 2, 2);
+        Bomb_Projectile entity = new Bomb_Projectile(world, d0, d1, d2, type, amp*5, xh, yh, zh, 2, 2);
         world.spawnEntityInWorld(entity);
         world.playSoundEffect((double)sx + 0.5D, (double)sy + 0.5D, (double)sz + 0.5D, "random.bow", 1.0F,   0.5F);
         
@@ -87,7 +87,7 @@ final static class DispenserBehaviour extends BehaviorDefaultDispenseItem
 	public static int scan_local_charms(World world, int x, int y, int z){
 		int amplify = 0;
 		int check = 0;
-		Block charm = Common_Registry.Charm_block;
+		Block charm = ModRegistry.Charm_block;
 		
 		if(world.getBlock(x, y,z+1) == charm){
 			
@@ -145,7 +145,7 @@ final class Dynamite_DispenserBehaviour extends BehaviorDefaultDispenseItem
         double zh = d2 - sz;
         
         
-        EntityDynamiteProjectile entity = new EntityDynamiteProjectile(world, d0, d1, d2, xh, yh, zh, 2, 2);
+        Dynamite_Projectile entity = new Dynamite_Projectile(world, d0, d1, d2, xh, yh, zh, 2, 2);
         world.spawnEntityInWorld(entity);
         world.playSoundEffect((double)sx + 0.5D, (double)sy + 0.5D, (double)sz + 0.5D, "random.bow", 1.2F,   0.5F);
         
@@ -174,7 +174,7 @@ final class Torch_DispenserBehaviour extends BehaviorDefaultDispenseItem
         double zh = d2 - sz;
         
         
-        EntityTorchProjectile entity = new EntityTorchProjectile(world, d0, d1, d2, xh, yh, zh, 2, 2);
+        Torch_Projectile entity = new Torch_Projectile(world, d0, d1, d2, xh, yh, zh, 2, 2);
         world.spawnEntityInWorld(entity);
         world.playSoundEffect((double)sx + 0.5D, (double)sy + 0.5D, (double)sz + 0.5D, "random.bow", 1.0F,   0.5F);
         
@@ -203,7 +203,7 @@ final class RedTorch_DispenserBehaviour extends BehaviorDefaultDispenseItem
         double zh = d2 - sz;
         
         
-        EntityRedTorchProjectile entity = new EntityRedTorchProjectile(world, d0, d1, d2, xh, yh, zh, 2, 2);
+        RedTorch_Projectile entity = new RedTorch_Projectile(world, d0, d1, d2, xh, yh, zh, 2, 2);
         world.spawnEntityInWorld(entity);
         world.playSoundEffect((double)sx + 0.5D, (double)sy + 0.5D, (double)sz + 0.5D, "random.bow", 1.0F,   0.5F);
         

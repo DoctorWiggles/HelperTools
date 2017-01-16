@@ -1,6 +1,6 @@
 package helpertools.util;
 
-import helpertools.Common_Registry;
+import helpertools.ModRegistry;
 import helpertools.ConfigurationFactory;
 
 import java.util.Random;
@@ -70,7 +70,7 @@ public class Forest_Helper extends Bomb_Helper{
 		 */
 	 	 
 	 	  if(target == Blocks.dirt ||
-	 			  target == Common_Registry.LooseDirtBlock)
+	 			  target == ModRegistry.LooseDirtBlock)
 	 		{
 	 		  world.setBlock(x,y,z, Blocks.grass);}
 	 	  if(target == Blocks.cobblestone)
@@ -151,7 +151,7 @@ public class Forest_Helper extends Bomb_Helper{
 	 Block above = world.getBlock(x, y+1, z);	
 	 Block below = world.getBlock(x, y-1, z);	
 	 
-	 if(target == Common_Registry.LooseDirtBlock){
+	 if(target == ModRegistry.LooseDirtBlock){
 		 world.setBlock(x,y,z, Blocks.dirt);
 	 }
 	 if (chance(2)){ 

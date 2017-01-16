@@ -22,11 +22,11 @@ public class HelpTab extends CreativeTabs
 	@Override
 	public ItemStack getIconItemStack()
 	{
-		return new ItemStack(Common_Registry.staffoftransformation2);
+		return new ItemStack(ModRegistry.staffoftransformation);
 	}
 	@Override
 	public Item getTabIconItem() 
 	{
-		return Common_Registry.staffoftransformation2;
+		return ModRegistry.staffoftransformation;
 	}
 }

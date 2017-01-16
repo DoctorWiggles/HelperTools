@@ -1,6 +1,6 @@
 package helpertools.util;
 
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -14,7 +14,7 @@ public class KeyInputHandler {
     	//Primary " O "
         if(KeyBindings.ding.isPressed()){
             //System.out.println("Primary"); 
-            Helpertoolscore.network.sendToServer(new NetworkMessage("Primary"));
+            Main.network.sendToServer(new NetworkMessage("Primary"));
             }
         /**
         //Primary p

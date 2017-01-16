@@ -1,9 +1,9 @@
 package helpertools.gui;
 
 import helpertools.ConfigurationFactory;
-import helpertools.Helpertoolscore;
-import helpertools.tools.ItemStaffofExpansion;
-import helpertools.tools.ItemStaffofTransformation2;
+import helpertools.Main;
+import helpertools.tools.Staff_Expansion;
+import helpertools.tools.Staff_Transformation;
 import helpertools.tools.Item_Bubblegun_2;
 
 import java.awt.Point;

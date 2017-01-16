@@ -3,8 +3,8 @@ package helpertools.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import helpertools.tools.ItemStaffofExpansion;
-import helpertools.tools.ItemStaffofTransformation2;
+import helpertools.tools.Staff_Expansion;
+import helpertools.tools.Staff_Transformation;
 import ibxm.Player;
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -43,18 +43,18 @@ public class NetworkMessage implements IMessage {
             EntityPlayerMP theplayer = ctx.getServerHandler().playerEntity;
             ItemStack heldItem = theplayer.inventory.getCurrentItem();
             
-            if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
-            	if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
+            if ((heldItem == null) || (!(heldItem.getItem() instanceof Staff_Expansion))) {
+            	if ((heldItem == null) ||!(heldItem.getItem() instanceof Staff_Transformation)){
             	//System.out.println("Returned null Erra!!!"); 
   		      return null;
             	}
   		    }
-            if(heldItem.getItem() instanceof ItemStaffofExpansion){
-            	ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+            if(heldItem.getItem() instanceof Staff_Expansion){
+            	Staff_Expansion  Tool = (Staff_Expansion)heldItem.getItem();
             	Tool.ToolEmpower(heldItem, theplayer);
             }
-            if(heldItem.getItem() instanceof ItemStaffofTransformation2){
-            	ItemStaffofTransformation2  Tool = (ItemStaffofTransformation2)heldItem.getItem();
+            if(heldItem.getItem() instanceof Staff_Transformation){
+            	Staff_Transformation  Tool = (Staff_Transformation)heldItem.getItem();
             	Tool.ToolEmpower(heldItem, theplayer);
             }
   		 

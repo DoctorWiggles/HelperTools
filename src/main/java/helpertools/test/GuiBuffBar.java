@@ -1,7 +1,7 @@
 package helpertools.test;
 
-import helpertools.Helpertoolscore;
-import helpertools.tools.ItemStaffofExpansion;
+import helpertools.Main;
+import helpertools.tools.Staff_Expansion;
 
 import java.awt.Point;
 import java.lang.reflect.Field;
@@ -130,7 +130,7 @@ public class GuiBuffBar extends Gui
       **/
   }
 
-  private void drawHudFrame(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, ItemStaffofExpansion tool, int modo) {
+  private void drawHudFrame(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, Staff_Expansion tool, int modo) {
 
       int xSize = 38+2;
       int ySize = 26+2;
@@ -155,7 +155,7 @@ public class GuiBuffBar extends Gui
 	  
   }
   
-  private void drawModeIcons(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, ItemStaffofExpansion tool, int modo) {
+  private void drawModeIcons(int xPos, int yPos, ResourceLocation backgroundimage, ItemStack heldItem, Staff_Expansion tool, int modo) {
 	  int xSize = 38+2;
       int ySize = 26+2;
 
@@ -177,7 +177,7 @@ public class GuiBuffBar extends Gui
       	GL11.glPopMatrix();
 	}
   
-  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, ItemStack heldItem, ItemStaffofExpansion tool, int Empowerment){
+  private void drawEmpoweredBar(int xPos, int yPos, ResourceLocation Image, ItemStack heldItem, Staff_Expansion tool, int Empowerment){
 	  
       int xSize = Empowerment*7+1; 
 
@@ -215,11 +215,11 @@ public class GuiBuffBar extends Gui
     **/
       
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
-		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
+		 if ((heldItem == null) || (!(heldItem.getItem() instanceof Staff_Expansion))) {
 		      return;
 		    }
 		 
-		 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+		 Staff_Expansion  Tool = (Staff_Expansion)heldItem.getItem();
 		 //ItemStack stacky = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 		 ItemStack StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 		 //ItemStack StackyHelper = new ItemStack (Helpertoolscore.euclideantransposer,0, 0);		 

@@ -2,10 +2,10 @@ package helpertools.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import helpertools.Common_Registry;
+import helpertools.ModRegistry;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
-import helpertools.entities.EntityDynamiteProjectile;
+import helpertools.Main;
+import helpertools.entities.Dynamite_Projectile;
 
 import java.util.List;
 import java.util.Random;

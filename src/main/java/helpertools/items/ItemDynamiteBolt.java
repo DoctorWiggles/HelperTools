@@ -3,7 +3,7 @@ package helpertools.items;
 import java.util.List;
 
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,10 +14,10 @@ import net.minecraft.world.World;
 
 public class ItemDynamiteBolt extends Item {
 
-	  public ItemDynamiteBolt() {
+	  public ItemDynamiteBolt(String name) {
 	       super();
 	       this.maxStackSize = 16;  
-	       setUnlocalizedName("dynamitebolt");
+	       setUnlocalizedName(name);
 	       //setCreativeTab(Helpertoolscore.HelperTools);
 	       setCreativeTab(HelpTab.HelperTools);
 	       setTextureName("helpertools:Darrow");

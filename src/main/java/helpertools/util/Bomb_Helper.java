@@ -1,6 +1,6 @@
 package helpertools.util;
 
-import helpertools.Common_Registry;
+import helpertools.ModRegistry;
 import helpertools.ConfigurationFactory;
 
 import java.util.Random;
@@ -266,7 +266,7 @@ public class Bomb_Helper {
 	 Block below2 = world.getBlock(x, y-2, z);
 	 
 	  if(target == Blocks.dirt ||
-			  target == Common_Registry.LooseDirtBlock)
+			  target == ModRegistry.LooseDirtBlock)
 		{
 		  world.setBlock(x,y,z, Blocks.grass);}
 	  if(target == Blocks.cobblestone)
@@ -461,7 +461,7 @@ public class Bomb_Helper {
 	 if(target == Blocks.grass)
 		{world.setBlock(x,y,z, Blocks.dirt);}
 	 
-	 if(target == Blocks.dirt ||target == Common_Registry.LooseDirtBlock )
+	 if(target == Blocks.dirt ||target == ModRegistry.LooseDirtBlock )
 		{ world.setBlock(x,y,z, Blocks.sand);}
 	 
 	 if(target == Blocks.stone_stairs)
@@ -665,7 +665,7 @@ public class Bomb_Helper {
 	 int ig2 = rand.nextInt(30);
 	 int ig3 = rand.nextInt(80);
 	 
-	 if(target == Common_Registry.LooseDirtBlock){
+	 if(target == ModRegistry.LooseDirtBlock){
 		 world.setBlock(x,y,z, Blocks.dirt);
 	 }
 	 if (chance(2)){ 

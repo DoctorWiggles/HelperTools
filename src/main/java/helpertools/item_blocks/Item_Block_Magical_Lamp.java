@@ -21,13 +21,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class Item_Block_Magical_Lamp extends ItemBlock
 {
-    public final Block blocky;
     @SideOnly(Side.CLIENT)
     private IIcon icon;
 
     public Item_Block_Magical_Lamp(Block block)
     {	super(block);
-        this.blocky = block;
     }
 
     public Item_Block_Magical_Lamp setUnlocalizedName(String unlocal)

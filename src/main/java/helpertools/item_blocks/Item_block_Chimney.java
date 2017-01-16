@@ -21,13 +21,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class Item_block_Chimney extends ItemBlock
 {
-    public final Block blocky;
     @SideOnly(Side.CLIENT)
     private IIcon icon;
 
     public Item_block_Chimney(Block block)
     {	super(block);
-        this.blocky = block;
     }
 
     public Item_block_Chimney setUnlocalizedName(String unlocal)

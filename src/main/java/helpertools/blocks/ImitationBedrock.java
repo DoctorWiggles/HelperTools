@@ -3,7 +3,7 @@ package helpertools.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 
 import java.util.Random;
 
@@ -19,10 +19,10 @@ import net.minecraft.world.World;
 
 public class ImitationBedrock extends Block
 {
-    public ImitationBedrock()
+    public ImitationBedrock(String Unlocal)
     {
         super(Material.rock);
-        this.setBlockName("Imitation Bedrock");        
+        this.setBlockName(Unlocal);        
         //this.setCreativeTab(CreativeTabs.tabBlock);
         setCreativeTab(HelpTab.HelperTools);
         this.setBlockTextureName("bedrock");

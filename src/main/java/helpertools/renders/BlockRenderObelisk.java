@@ -2,7 +2,7 @@ package helpertools.renders;
 
 import org.lwjgl.opengl.GL11;
 
-import helpertools.models.ModelObeliskBLock;
+import helpertools.models.Model_ObeliskBLock;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -16,10 +16,10 @@ import net.minecraft.world.World;
 public class BlockRenderObelisk extends TileEntitySpecialRenderer {
     
     //The model of your block
-    private final ModelObeliskBLock model;
+    private final Model_ObeliskBLock model;
    
     public BlockRenderObelisk() {
-            this.model = new ModelObeliskBLock();
+            this.model = new Model_ObeliskBLock();
     }
    
     private void adjustRotatePivotViaMeta(World world, int x, int y, int z) {

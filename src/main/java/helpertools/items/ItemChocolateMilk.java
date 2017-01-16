@@ -20,9 +20,9 @@ public class ItemChocolateMilk extends ItemFood
 {
 	//private PotionEffect[] effects;
 
-    public ItemChocolateMilk(int healAmount, float saturationModifier, boolean wolvesFavorite)
+    public ItemChocolateMilk(int healAmount, float saturationModifier, boolean wolvesFavorite, String name)
     {	super(healAmount, saturationModifier, wolvesFavorite);
-    this.setUnlocalizedName("chocolatemilk");
+    this.setUnlocalizedName(name);
     setTextureName("helpertools:ChocolateMilk");
     setCreativeTab(HelpTab.HelperTools);
     this.maxStackSize = 16;  

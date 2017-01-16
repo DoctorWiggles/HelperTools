@@ -1,6 +1,6 @@
 package helpertools.blocks;
 
-import helpertools.Common_Registry;
+import helpertools.ModRegistry;
 import helpertools.HelpTab;
 
 import java.util.Random;
@@ -57,7 +57,7 @@ public class Floater_Block extends Block
         return this.icons[side];
     }
     
-    Block balloon = Common_Registry.Balloon;
+    Block balloon = ModRegistry.Balloon;
     
     public int onBlockPlaced(World world, int x, int y, int z, int p_149660_5_, float f1, float f2, float f3, int p_149660_9_)
     {

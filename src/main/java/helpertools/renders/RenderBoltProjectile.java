@@ -1,7 +1,7 @@
 package helpertools.renders;
 
-import helpertools.entities.EntityBoltProjectile;
-import helpertools.models.ModelBoltProjectile1;
+import helpertools.entities.Bolt_Projectile;
+import helpertools.models.Model_BoltProjectile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -19,12 +19,12 @@ import org.lwjgl.opengl.GL12;
 public class RenderBoltProjectile extends Render
 {
 	//
-	private ModelBoltProjectile1 ModelBoltProjectile1;
+	private Model_BoltProjectile ModelBoltProjectile1;
 	
 	public RenderBoltProjectile()
 	{
 		
-		ModelBoltProjectile1 = new ModelBoltProjectile1();
+		ModelBoltProjectile1 = new Model_BoltProjectile();
 	}
 	
 	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap2.png"); 
@@ -37,7 +37,7 @@ public class RenderBoltProjectile extends Render
      * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRenderEntityBoltProjectile(EntityBoltProjectile entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRenderEntityBoltProjectile(Bolt_Projectile entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
         this.bindEntityTexture(entity);
         GL11.glPushMatrix();
@@ -108,7 +108,7 @@ public class RenderBoltProjectile extends Render
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(EntityBoltProjectile p_110775_1_)
+    protected ResourceLocation getEntityTexture(Bolt_Projectile p_110775_1_)
     {
         return arrowTextures;
     }
@@ -118,7 +118,7 @@ public class RenderBoltProjectile extends Render
      */
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
-        return this.getEntityTexture((EntityBoltProjectile)p_110775_1_);
+        return this.getEntityTexture((Bolt_Projectile)p_110775_1_);
     }
 
     /**
@@ -129,6 +129,6 @@ public class RenderBoltProjectile extends Render
      */
     public void doRender(Entity entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
-        this.doRenderEntityBoltProjectile((EntityBoltProjectile)entity, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+        this.doRenderEntityBoltProjectile((Bolt_Projectile)entity, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 }

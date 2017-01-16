@@ -18,11 +18,11 @@ public class ItemMilkBottle extends Item
 {
    
 
-    public ItemMilkBottle()
+    public ItemMilkBottle(String name)
     {
     	super();        
         this.maxStackSize = 16;  
-	    setUnlocalizedName("bottledmilk");
+	    setUnlocalizedName(name);
         setCreativeTab(HelpTab.HelperTools);
 	    setTextureName("helpertools:BottledMilk");
     }

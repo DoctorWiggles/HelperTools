@@ -21,13 +21,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class Charm_block_item extends ItemBlock
 {
-    public final Block blocky;
     @SideOnly(Side.CLIENT)
     private IIcon icon;
 
     public Charm_block_item(Block block)
     {	super(block);
-        this.blocky = block;
     }
 
     public Charm_block_item setUnlocalizedName(String unlocal)

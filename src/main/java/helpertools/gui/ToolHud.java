@@ -1,9 +1,9 @@
 package helpertools.gui;
 
 import helpertools.ConfigurationFactory;
-import helpertools.Helpertoolscore;
-import helpertools.tools.ItemStaffofExpansion;
-import helpertools.tools.ItemStaffofTransformation2;
+import helpertools.Main;
+import helpertools.tools.Staff_Expansion;
+import helpertools.tools.Staff_Transformation;
 
 import java.awt.Point;
 import java.lang.reflect.Field;
@@ -146,9 +146,9 @@ public class ToolHud extends Gui
     int yPos = 20;
     
       ItemStack heldItem = this.mc.thePlayer.inventory.getCurrentItem();
-		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemStaffofExpansion))) {
+		 if ((heldItem == null) || (!(heldItem.getItem() instanceof Staff_Expansion))) {
 			 
-			 if ((heldItem == null) ||!(heldItem.getItem() instanceof ItemStaffofTransformation2)){
+			 if ((heldItem == null) ||!(heldItem.getItem() instanceof Staff_Transformation)){
 		      return;
 			 }
 		    }
@@ -161,16 +161,16 @@ public class ToolHud extends Gui
 		 
 		 
 		 //Exchange Stave Castings
-		 if(heldItem.getItem() instanceof ItemStaffofTransformation2){
-			 ItemStaffofTransformation2  Tool = (ItemStaffofTransformation2)heldItem.getItem();
+		 if(heldItem.getItem() instanceof Staff_Transformation){
+			 Staff_Transformation  Tool = (Staff_Transformation)heldItem.getItem();
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
 			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
 			 backgroundimage = new ResourceLocation("helpertools" + ":" + "textures/client/gui/HudTab_3.png");
 		 }
 		//Expanding Stave Casting
-		 if(heldItem.getItem() instanceof ItemStaffofExpansion){
-			 ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+		 if(heldItem.getItem() instanceof Staff_Expansion){
+			 Staff_Expansion  Tool = (Staff_Expansion)heldItem.getItem();
 			 Empowerment = Tool.getToolLevel(heldItem);
 			 Modo = Tool.getMode(heldItem);
 			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock(heldItem)),0, Tool.returnTMeta(heldItem));
@@ -203,8 +203,7 @@ public class ToolHud extends Gui
   private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
   private static final Vec3 field_82884_b = Vec3.createVectorHelper(0.20000000298023224D, 1.0D, -0.699999988079071D).normalize();
   private static final Vec3 field_82885_c = Vec3.createVectorHelper(-0.20000000298023224D, 1.0D, 0.699999988079071D).normalize();
-  private static final String __OBFID = "CL_00000629";
-  
+    
   private static FloatBuffer setColorBuffer(float p_74521_0_, float p_74521_1_, float p_74521_2_, float p_74521_3_)
   {
       colorBuffer.clear();

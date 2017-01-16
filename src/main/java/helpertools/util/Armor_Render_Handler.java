@@ -1,6 +1,6 @@
 package helpertools.util;
 
-import helpertools.Common_Registry;
+import helpertools.ModRegistry;
 import helpertools.items.Armor_Mystic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -68,7 +68,7 @@ public class Armor_Render_Handler {
 			//GL11.glTranslatef(-0.14F, -0.52F, 0F);
 			
 			//renderIcon(Armor_Mystic.getIIcon);
-			renderIcon(Common_Registry.mystic_mask.getIcon(stack, 0));
+			renderIcon(ModRegistry.mystic_mask.getIcon(stack, 0));
 		
 		
 	}

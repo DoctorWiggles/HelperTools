@@ -21,13 +21,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TranscriberBlock_Item extends ItemBlock
 {
-    public final Block blocky;
     @SideOnly(Side.CLIENT)
     private IIcon icon;
 
     public TranscriberBlock_Item(Block block)
     {	super(block);
-        this.blocky = block;
     }
 
     public TranscriberBlock_Item setUnlocalizedName(String unlocal)

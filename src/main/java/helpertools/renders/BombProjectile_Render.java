@@ -1,22 +1,19 @@
 package helpertools.renders;
 
-import helpertools.Common_Registry;
-import helpertools.Helpertoolscore;
-import helpertools.entities.BombProjectile_Entity;
-import helpertools.entities.EntityDirtBombProjectile;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import helpertools.ModRegistry;
+import helpertools.entities.Bomb_Projectile;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BombProjectile_Render extends Render
@@ -31,11 +28,11 @@ public class BombProjectile_Render extends Render
 
     
     public IIcon text (int type){    
-    return Common_Registry.bomb.getIconFromDamage(type);	
+    return ModRegistry.bomb.getIconFromDamage(type);	
     }
     
     //===============================================================================================//
-    public void doRender(BombProjectile_Entity ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRender(Bomb_Projectile ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
     	 try{
         GL11.glPushMatrix();
@@ -75,12 +72,12 @@ public class BombProjectile_Render extends Render
     }
     
     
-    protected ResourceLocation getEntityTexture(BombProjectile_Entity p_110775_1_)
+    protected ResourceLocation getEntityTexture(Bomb_Projectile p_110775_1_)
     {        return TextureMap.locationItemsTexture;         }
 
     protected ResourceLocation getEntityTexture(Entity ent)
-    {        return this.getEntityTexture((BombProjectile_Entity)ent);    }
+    {        return this.getEntityTexture((Bomb_Projectile)ent);    }
     
     public void doRender(Entity ent, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {        this.doRender((BombProjectile_Entity)ent, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);    }
+    {        this.doRender((Bomb_Projectile)ent, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);    }
 }

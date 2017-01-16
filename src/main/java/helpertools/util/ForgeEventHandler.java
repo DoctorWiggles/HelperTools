@@ -1,7 +1,7 @@
 package helpertools.util;
-import helpertools.Common_Registry;
-import helpertools.Helpertoolscore;
-import helpertools.entities.BombProjectile_Entity;
+import helpertools.ModRegistry;
+import helpertools.Main;
+import helpertools.entities.Bomb_Projectile;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
@@ -69,7 +69,7 @@ public class ForgeEventHandler {
 		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemGlassBottle))) {
 		      return;
 		    }
-		 Item Bottled = Common_Registry.bottledmilk;
+		 Item Bottled = ModRegistry.bottledmilk;
 		 
 		 
 		 if (heldItem.stackSize-- == 1)

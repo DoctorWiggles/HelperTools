@@ -3,9 +3,9 @@ package helpertools.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import helpertools.HelpTab;
-import helpertools.Helpertoolscore;
+import helpertools.Main;
 import helpertools.blocks.tile_entities.TileEntityIllusion;
-import helpertools.entities.EntityDynamiteProjectile;
+import helpertools.entities.Dynamite_Projectile;
 
 import java.util.List;
 import java.util.Random;

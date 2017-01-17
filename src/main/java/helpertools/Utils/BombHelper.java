@@ -7,11 +7,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSnow;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class BombHelper {
 	
@@ -41,7 +46,14 @@ public class BombHelper {
 		}
 		
 	}
-	
+	public static void Void_Sphere(World world, BlockPos pos, int radius){
+		
+		for (BlockPos location : Sphere_Shape(pos, radius)) {
+			//ModUtil.dropblock(world, location);
+			placer(world, location, Blocks.AIR);
+		}
+	}
+		
 	public static void Place_Block(World world, IBlockState block, BlockPos pos, boolean flag){
 		
 		if(ModUtil.isValid(world, pos)){
@@ -97,25 +109,58 @@ public class BombHelper {
 		}
 		
 	}
+	public static void Frost_Sphere(World world, BlockPos pos, int radius){
+		
+		try{
+		Boolean hell = (boolean)ReflectionHelper.getPrivateValue(WorldProvider.class, world.provider, "isHellWorld");
+		if(hell){radius = radius -2;}}catch(Exception e){}
+		
+		for (BlockPos location : Sphere_Shape(pos, radius)) {
+
+			BlockPos PosAbove = location.add(0,1,0);
+			IBlockState above = world.getBlockState(PosAbove);
+			BlockPos PosBelow = location.add(0,-1,0);
+			IBlockState below = world.getBlockState(PosBelow);	
+
+			IBlockState state = world.getBlockState(location);
+
+			Block target = state.getBlock();
+			int roll = Main.Randy.nextInt(100);
+			
+			
+			if(above.getBlock().isAir(above, world, PosAbove) && target.isBlockSolid(world, location, EnumFacing.UP)
+				||	 above.getBlock().isAir(above, world, PosAbove) && state.getMaterial() == Material.LEAVES)		
+				{
+					placer(world, PosAbove, Blocks.SNOW_LAYER);}
+			else if(target == Blocks.SNOW_LAYER){
+				
+				int snowlevel = state.getBlock().getMetaFromState(state);
+				if(snowlevel == 7)placer(world, location, Blocks.SNOW);
+				else world.setBlockState(location, Blocks.SNOW_LAYER.getStateFromMeta(snowlevel+1));
+				
+			}
+			if(state == Blocks.FARMLAND)placer(world, location, Blocks.DIRT);
+			if(state.getMaterial() == Material.PLANTS ||
+					state.getMaterial() == Material.VINE){
+				ModUtil.Destructables(world, location);
+				placer(world, location, Blocks.AIR);				
+			}
+			if(target == Blocks.ICE && roll <= 8)placer(world, location, Blocks.PACKED_ICE);			
+			if(target == Blocks.WATER ||target == Blocks.FLOWING_WATER&& roll <= 35 )
+				placer(world, location, Blocks.ICE);
+			
+			if(target == Blocks.LAVA )placer(world, location, Blocks.OBSIDIAN);
+			if(target == Blocks.FLOWING_LAVA && roll <= 30)placer(world, location, Blocks.COBBLESTONE);	
+			if(target == Blocks.FIRE)placer(world, location, Blocks.AIR);	
+			
+			
+			
+		}
+	}
 	
 	public static void placer(World world, BlockPos location, Block block){
 		world.setBlockState(location, block.getDefaultState());	
-	}
-	
-	public static void Miracle_Convert(World world, BlockPos pos, IBlockState target, IBlockState dye, int chance){
-		IBlockState state = world.getBlockState(pos);		
-		if(state == target){
-			world.setBlockState(pos, dye);			
-		}		
-	}
-	public static void Miracle_ADD(World world, BlockPos pos, IBlockState target, IBlockState dye, int chance){
-		IBlockState state = world.getBlockState(pos);		
-		if(state == target){
-			world.setBlockState(pos, dye);			
-		}
-		
-	}
-	
+	}	
 	public static void Grow(World world, BlockPos pos){	
 		IBlockState state = world.getBlockState(pos);
 		

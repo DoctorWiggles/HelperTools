@@ -92,6 +92,7 @@ public class ModUtil {
 	}
 	
 	//========================= Spawn Item =============================//
+	/** Drop an itemstack **/
 	public static void itemdrop(World world, BlockPos pos,  ItemStack stack){
 		if(world.isRemote){return;}
 		EntityItem entity = new EntityItem(world, 0, 0, 0, stack);
@@ -99,13 +100,19 @@ public class ModUtil {
 		world.spawnEntityInWorld(entity);
 		
 	}
-	
+	/** Drop an item block **/
 	public static void itemdrop(World world, BlockPos pos, Block block){
 		if(world.isRemote){return;}
 		EntityItem entity = new EntityItem(world, 0, 0, 0, new ItemStack(block));
 		entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 		world.spawnEntityInWorld(entity);
 		
+	}
+	/** Drop an a block in the world as an item **/
+	public static void dropblock(World world, BlockPos pos){
+		
+		IBlockState state = world.getBlockState(pos);		
+		state.getBlock().dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
 	}
 	
 	//========================== Whitelist Util =================================//
@@ -138,6 +145,11 @@ public class ModUtil {
 			(State.getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
 		}  
 
+	}
+	
+	public static boolean isAir(World world, IBlockState state, BlockPos pos){
+		
+		return state.getBlock().isAir(state, world, pos);
 	}
 
 

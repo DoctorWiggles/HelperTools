@@ -363,7 +363,7 @@ public class ItemStaffofTransformation extends ToolBase_Default
 		SoundType soundtype = returnTBlock_FromState(stack).getSoundType();
         ModUtil.Sound_Blocks(world, player, soundtype.getPlaceSound(), (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 		
-        (world.getBlockState(pos).getBlock()).dropBlockAsItem(world, pos, world.getBlockState(pos), 0);      		
+        world.getBlockState(pos).getBlock().dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
   		world.setBlockState(pos, BlockStateHelper.returnState(getTBlock(stack)), 02);    		
   		
   		int crackid = (getTBlock(stack));

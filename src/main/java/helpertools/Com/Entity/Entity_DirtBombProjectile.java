@@ -170,14 +170,27 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
     	  j2 = j2-3;
     	  j3 = j3-3;
       }
-      //BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 4);
-      //BombHelper.Void_Sphere(world, mop.getBlockPos(), 10);
       
-      //BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
+      int type = 6;
       
-      BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6);
-      BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3);
-      
+      if(type == 0){
+    	  BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(), 4);
+      }
+      if(type == 9){
+    	  BombHelper.Void_Sphere(world, mop.getBlockPos(), 5);
+      }
+      if(type == 4){
+    	  BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
+      }
+      if(type == 5){
+    	  BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6);
+    	  BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3);
+      }
+      if(type == 6){
+    	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 6, false);
+    	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 4, true);
+    	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 3, false);
+      }
       /*
       //creates a static area to place dirt, becuase i'm dumb ;^)
       //top section

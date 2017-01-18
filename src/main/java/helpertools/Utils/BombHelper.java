@@ -158,6 +158,46 @@ public class BombHelper {
 		}
 	}
 	
+	public static void Desert_Sphere(World world, BlockPos pos, int radius, boolean flag){
+		
+		for (BlockPos location : Sphere_Shape(pos, radius)) {			
+			BlockPos PosAbove = location.add(0,1,0);
+			IBlockState above = world.getBlockState(PosAbove);
+			BlockPos PosBelow = location.add(0,-1,0);
+			IBlockState below = world.getBlockState(PosBelow);	
+
+			IBlockState state = world.getBlockState(location);
+			Block target = state.getBlock();
+			int roll = Main.Randy.nextInt(100);
+			
+			if(target == Blocks.TALLGRASS || target == Blocks.RED_FLOWER){
+				if(below != target && roll <= 5)placer(world, location, Blocks.DEADBUSH);
+			}
+			if(target == Blocks.DEADBUSH && roll <= 10)placer(world, location, Blocks.CACTUS);
+			if(target == Blocks.STONE && roll <= 50)placer(world, location, Blocks.COBBLESTONE);
+			if(target == Blocks.GRASS && roll <= 50 || target == Blocks.GRASS && flag)placer(world, location, Blocks.DIRT);
+			if(target == Blocks.DIRT || target == ItemRegistry.LooseDirtBlock)placer(world, location, Blocks.SAND);
+			
+			if(target == Blocks.STONE_STAIRS && roll <= 50){
+				world.setBlockState(location, Blocks.SANDSTONE_STAIRS.getStateFromMeta(target.getMetaFromState(state)));
+			}		
+			if(target == Blocks.ICE && roll <= 12 ||
+					target == Blocks.ICE && flag)placer(world, location, Blocks.WATER);
+			if(target == Blocks.COBBLESTONE && roll <= 12)placer(world, location, Blocks.SAND);
+			if(target == Blocks.COBBLESTONE && roll <= 25)placer(world, location, Blocks.SANDSTONE);
+			if(target == Blocks.PACKED_ICE && roll <= 25)placer(world, location, Blocks.ICE);
+			if(target == Blocks.SNOW_LAYER){
+				int meta = target.getMetaFromState(state);
+				if(meta >0)world.setBlockState(location, Blocks.SNOW_LAYER.getStateFromMeta(meta -1));
+				else placer(world, location, Blocks.AIR);
+			}			
+			if(target == Blocks.SNOW){
+				world.setBlockState(location, Blocks.SNOW_LAYER.getStateFromMeta(3));
+			}
+			
+		}
+	}
+	
 	public static void placer(World world, BlockPos location, Block block){
 		world.setBlockState(location, block.getDefaultState());	
 	}	

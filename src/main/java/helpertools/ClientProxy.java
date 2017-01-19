@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent e) {
 		super.init(e);
-
+		
 		RenderRegistry.registerItemRenderer();
 		RenderRegistry.registerBlockRenderer();		
 		Render_Entity.register_entity_renderer();

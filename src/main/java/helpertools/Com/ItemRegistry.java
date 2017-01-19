@@ -10,7 +10,7 @@ import helpertools.Com.Blocks.TileEntityTranscriber;
 import helpertools.Com.Blocks.TranscriberBlock;
 import helpertools.Com.Items.Chest_Debugger;
 import helpertools.Com.Items.ItemChocolateMilk;
-import helpertools.Com.Items.ItemDirtBomb;
+import helpertools.Com.Items.Item_Bomb;
 import helpertools.Com.Items.ItemDynamiteBolt;
 import helpertools.Com.Items.ItemMilkBottle;
 import helpertools.Com.Items.Item_MirageHusk;
@@ -54,7 +54,7 @@ public class ItemRegistry {
 		reg(crossbow_tool = new ItemTorchLauncher(Config.Crossbow_Matt, "crossbow_item"));		
 		//reg(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
 		reg(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"));
-		reg(dirtbomb = new ItemDirtBomb( "dirtbomb_item"));
+		reg(dirtbomb = new Item_Bomb("bomb_item"));
 		reg(miragehusk = new Item_MirageHusk("miragehusk_item", Mystic_Material));
 		reg(shadecore = new Chest_Debugger("shadecore"));
 	

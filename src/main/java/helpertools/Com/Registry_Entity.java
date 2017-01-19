@@ -1,7 +1,7 @@
 package helpertools.Com;
 
 import helpertools.Main;
-import helpertools.Com.Entity.Entity_DirtBombProjectile;
+import helpertools.Com.Entity.Entity_BombProjectile;
 import helpertools.Com.Entity.Entity_DynamiteProjectile;
 import helpertools.Com.Entity.Entity_FlyingItem;
 import helpertools.Com.Entity.Entity_Mirage;
@@ -22,7 +22,7 @@ public class Registry_Entity {
 		 reg(Entity_TorchProjectile.class, "TorchBolt", 10);
 		 reg(Entity_RedTorchProjectile.class, "RedTorchBolt", 11);
 		 reg(Entity_DynamiteProjectile.class, "DynamiteBolt", 12);
-		 reg(Entity_DirtBombProjectile.class, "DirtBomb", 13);
+		 reg(Entity_BombProjectile.class, "DirtBomb", 13);
 		
 		 reg(Entity_FlyingItem.class, "FlyingItem", 14, 010201,327238 );		 
 		 reg(Entity_Mirage.class, "Mirage", 15, 010201,327238);

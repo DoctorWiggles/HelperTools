@@ -1,0 +1,6 @@
+{
+    "parent":"helpertools:item/standard_item",
+    "textures": {
+        "layer0": "helpertools:items/bomb_6"
+    }
+}

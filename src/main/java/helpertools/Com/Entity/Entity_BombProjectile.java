@@ -1,87 +1,97 @@
 package helpertools.Com.Entity;
 
+import helpertools.Main;
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
-import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.BombHelper;
 
-import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class Entity_DirtBombProjectile extends EntityThrowable{
+public class Entity_BombProjectile extends EntityThrowable{
 	
-	//a buch of junk we probably don't need	
-	private int xTile = -1;
-    private int yTile = -1;
-    private int zTile = -1;
-    private Block inTile;
-    protected boolean inGround;
-    public int throwableShake;
-    /** The entity that threw this throwable item. */
-    private EntityLivingBase thrower;
-    private String throwerName;
-    private int ticksInGround;
-    private int ticksInAir;
-
-   public Entity_DirtBombProjectile(World world) {
+	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(Entity_BombProjectile.class, DataSerializers.VARINT);
+	public int Type;
+	
+	
+   public Entity_BombProjectile(World world) {
        super(world);
    }
 
-   public Entity_DirtBombProjectile(World world, EntityPlayer player) {
+   public Entity_BombProjectile(World world, EntityPlayer player) {
        super(world,player);
    }
-
-   @Override
-   protected void entityInit() {
-
+   
+   public Entity_BombProjectile(World world, EntityPlayer player, int type) {
+       super(world,player);
+       this.Type = type;
+       this.setType(type);
    }
+
+   protected void entityInit() {
+		super.entityInit();
+		this.dataManager.register(TYPE, Integer.valueOf(0));
+	}
+   
+   public int getType() {
+		return this.dataManager.get(TYPE).intValue();
+	}
+   
+   public void setType(int par1) {
+		this.dataManager.set(TYPE, Integer.valueOf(par1));
+	}
+   
+   public void readEntityFromNBT(NBTTagCompound tag) {
+		super.readEntityFromNBT(tag);
+		if (tag.hasKey("Type")) {
+			int b0 = tag.getInteger("Type");
+			this.setType(b0);
+		}
+	}
+
+	public void writeEntityToNBT(NBTTagCompound tag) {
+		super.writeEntityToNBT(tag);
+		tag.setInteger("Type", this.getType());
+	}
+	
    //flying particle effect
    public void onUpdate()
    {
-	   int i;
-       super.onUpdate();
-       for (i = 0; i < 1; ++i)
-       {
-    	   this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, 0 , 0);
-           this.worldObj.spawnParticle(EnumParticleTypes.CLOUD, this.posX + this.motionX * (double)i / 4.0D, this.posY + .8+ this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0, .1 , 0);
-          
-       }  
+       super.onUpdate();       
+       if(this.getType() != 7){
+    	   this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX + this.motionX * (double)1 / 4.0D, this.posY + .8+ this.motionY * (double)1 / 4.0D, this.posZ + this.motionZ * (double)1 / 4.0D, 0, 0 , 0);
+    	   this.worldObj.spawnParticle(EnumParticleTypes.CLOUD, this.posX + this.motionX * (double)1 / 4.0D, this.posY + .8+ this.motionY * (double)1 / 4.0D, this.posZ + this.motionZ * (double)1 / 4.0D, 0, .1 , 0);
+    	   }
+    	   else{
+    		   short i;
+    		   for (i = 0; i < 20; ++i)
+    	       {
+    	    	   this.worldObj.spawnParticle(EnumParticleTypes.PORTAL,
+    	    			   this.posX + this.motionX * (double)i / 4.0D,
+    	    			   this.posY + .8+ this.motionY * (double)i / 4.0D,
+    	    			   this.posZ + this.motionZ * (double)i / 4.0D, 0, 0 , 0);
+    	           
+    	          
+    	       } 
+    	   }
    }
    
-   public byte Type = 0;
-   //special bombs
-   @Override
-   public void readEntityFromNBT(NBTTagCompound nbt) {
-	   nbt.setByte("Type", this.Type);
-   }
-
-   @Override
-   public void writeEntityToNBT(NBTTagCompound nbt) {
-	   this.Type = nbt.getByte("Type");
-   }
    
-   //protected Random rand;
-   protected static Random growrand = new Random();
    
    @Override
   protected void onImpact(RayTraceResult mop) {
@@ -114,13 +124,13 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 				for (int lp = 0; lp < short1; ++lp)
 		       {
 		           double d6 = (double)lp / ((double)short1 - 1.0D);
-		           float f = (this.growrand.nextFloat()*3) ;
-		           float f1 = (this.growrand .nextFloat()*3 );
-		           float f2 = (this.growrand .nextFloat()*3 );
+		           float f = (Main.Randy.nextFloat()*3) ;
+		           float f1 = (Main.Randy.nextFloat()*3 );
+		           float f2 = (Main.Randy.nextFloat()*3 );
 		           
-		           float p1 = (this.growrand .nextFloat()/5 ) ;
-		           float p = (this.growrand .nextFloat()-.5F )/5 ;
-		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;		
+		           float p1 = (Main.Randy.nextFloat()/5 ) ;
+		           float p = (Main.Randy.nextFloat()-.5F )/5 ;
+		           float p2 = (Main.Randy.nextFloat()-.5F )/5 ;		
 		           
 		           world.spawnParticle(EnumParticleTypes.CLOUD, i4+f-.5, j4+f1+.5, k4+f2+.5, p, p1, p2);
 		        }
@@ -129,12 +139,12 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
 				for (int lp = 0; lp < short2; ++lp)
 		       {
 		           double d6 = (double)lp / ((double)short1 - 1.0D);
-		           float f = (this.growrand.nextFloat()*4) ;
-		           float f1 = (this.growrand .nextFloat()*4 );
-		           float f2 = (this.growrand .nextFloat()*4 );		          
-		           float p1 = (this.growrand .nextFloat()/3 ) ;
-		           float p = (this.growrand .nextFloat()-.5F )/5 ;
-		           float p2 = (this.growrand .nextFloat()-.5F )/5 ;
+		           float f = (Main.Randy.nextFloat()*4) ;
+		           float f1 = (Main.Randy .nextFloat()*4 );
+		           float f2 = (Main.Randy.nextFloat()*4 );		          
+		           float p1 = (Main.Randy.nextFloat()/3 ) ;
+		           float p = (Main.Randy.nextFloat()-.5F )/5 ;
+		           float p2 = (Main.Randy.nextFloat()-.5F )/5 ;
 		           
 		           world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, i4+f-.5, j4+f1, k4+f2+.5, p, p1, p2);
 		           
@@ -171,26 +181,35 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
     	  j3 = j3-3;
       }
       
-      int type = 6;
       
-      if(type == 0){
+      if(Type == 0){
     	  BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(), 4);
       }
-      if(type == 9){
-    	  BombHelper.Void_Sphere(world, mop.getBlockPos(), 5);
+      if(Type == 1){
+    	  BombHelper.Block_Sphere(world, Blocks.SAND.getDefaultState(), mop.getBlockPos(), 4);
       }
-      if(type == 4){
+      if(Type == 2){
+    	  BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 4);
+      }
+      if(Type == 3){
     	  BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
       }
-      if(type == 5){
+      if(Type == 4){
     	  BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6);
     	  BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3);
       }
-      if(type == 6){
+      if(Type == 5){
     	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 6, false);
     	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 4, true);
     	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 3, false);
       }
+      
+      if(Type == 7){
+    	  BombHelper.Void_Sphere(world, mop.getBlockPos(), 5);
+      }
+      
+     
+      
       /*
       //creates a static area to place dirt, becuase i'm dumb ;^)
       //top section
@@ -200,8 +219,6 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
       //bottom section
       block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
     	*/
-      //Ensures the entity itself is deleted once its objective is reached
-      //otherwise it will slide along the ground for a while
       this.setDead();
 	   }
    }
@@ -217,7 +234,7 @@ public class Entity_DirtBombProjectile extends EntityThrowable{
  					//randomizer for unique dirt mounds
  					BlockPos pos = new BlockPos(x1+U, y1+1+l, z1+G);
  					if(flag){
- 						int ig = growrand.nextInt(6);
+ 						int ig = Main.Randy.nextInt(6);
  						if (ig >= 2){ 					
  							place_block(pos, pblock, dirtblock);
  						}}

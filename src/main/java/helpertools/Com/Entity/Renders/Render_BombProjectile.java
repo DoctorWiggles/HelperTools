@@ -1,5 +1,7 @@
 package helpertools.Com.Entity.Renders;
 
+import helpertools.Main;
+import helpertools.Com.Entity.Entity_BombProjectile;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -14,24 +16,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderDirtBombProjectile extends Render
+public class Render_BombProjectile extends Render
 {
-    protected final Item field_177084_a;
-    private final RenderItem field_177083_e;
+    protected final Item item;
+    private final RenderItem renderitem;
 
-    public RenderDirtBombProjectile(RenderManager p_i46137_1_, Item p_i46137_2_, RenderItem p_i46137_3_)
+    public Render_BombProjectile(RenderManager render, Item item, RenderItem renderitem)
     {
-        super(p_i46137_1_);
-        this.field_177084_a = p_i46137_2_;
-        this.field_177083_e = p_i46137_3_;
+        super(render);
+        this.item = item;
+        this.renderitem = renderitem;
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity>) and this method has signature public void func_76986_a(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doe
-     */
     public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float partialTicks)
     {
         GlStateManager.pushMatrix();
@@ -41,15 +37,17 @@ public class RenderDirtBombProjectile extends Render
         GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        this.field_177083_e.renderItem(this.func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
+        this.renderitem.renderItem(this.getstack(entity), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, p_76986_8_, partialTicks);
     }
 
-    public ItemStack func_177082_d(Entity p_177082_1_)
-    {
-        return new ItemStack(this.field_177084_a, 1, 0);
+    public ItemStack getstack(Entity entity){
+    	
+    	Entity_BombProjectile e = (Entity_BombProjectile)entity;
+    	return new ItemStack(this.item, 1, e.getType());
+    	
     }
 
     /**

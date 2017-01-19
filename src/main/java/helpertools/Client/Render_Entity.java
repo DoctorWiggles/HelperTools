@@ -1,14 +1,14 @@
 package helpertools.Client;
 
 import helpertools.Com.ItemRegistry;
-import helpertools.Com.Entity.Entity_DirtBombProjectile;
+import helpertools.Com.Entity.Entity_BombProjectile;
 import helpertools.Com.Entity.Entity_DynamiteProjectile;
 import helpertools.Com.Entity.Entity_FlyingItem;
 import helpertools.Com.Entity.Entity_Mirage;
 import helpertools.Com.Entity.Entity_RedTorchProjectile;
 import helpertools.Com.Entity.Entity_TorchProjectile;
 import helpertools.Com.Entity.Phantom_Cube;
-import helpertools.Com.Entity.Renders.RenderDirtBombProjectile;
+import helpertools.Com.Entity.Renders.Render_BombProjectile;
 import helpertools.Com.Entity.Renders.RenderDynamiteProjectile;
 import helpertools.Com.Entity.Renders.RenderRedTorchProjectile;
 import helpertools.Com.Entity.Renders.RenderTorchProjectile;
@@ -38,7 +38,7 @@ public class Render_Entity {
         
         reg(Entity_RedTorchProjectile.class, new RenderRedTorchProjectile(render));
         
-        reg(Entity_DirtBombProjectile.class, new RenderDirtBombProjectile(render, ItemRegistry.dirtbomb, Item));
+        reg(Entity_BombProjectile.class, new Render_BombProjectile(render, ItemRegistry.dirtbomb, Item));
        
 		reg(Entity_FlyingItem.class, new Render_FlyingItem(render, ItemRegistry.miragehusk, Item));
 				

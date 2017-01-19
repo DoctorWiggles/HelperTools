@@ -41,7 +41,7 @@ public class Config_Gui extends GuiConfig {
 
 			//Add categories to config GUI
 			list.add(categoryElement(Config.Durability,"Tool Damage, atk Speed, and Durabilty","Tool Durability"));
-			list.add(categoryElement(Config.GUI,"Gui Elements and Text Messeges","GUI Options"));
+			list.add(categoryElement(Config.GUI,"Gui Elements and Text Messeges","Visual Options"));
 			list.add(categoryElement(Config.Blockz,"Modify Block Recipes","Bock Recipes"));
 			list.add(categoryElement(Config.ToolRecipe,"Modify Tool Recipes","Tool Recipes"));
 			list.add(categoryElement(Config.ItemRecipe,"Modify Item Recipes","Item Recipes"));

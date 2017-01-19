@@ -53,6 +53,9 @@ public class Config extends ItemRegistry{
 	public static boolean DirtBomb_Debris = true;
 	public static boolean Use_Wire_Frame_Guides = true;
 	public static boolean Use_Fake_Block_Guides = true;
+	public static boolean Fancy_Expand = true;
+	public static boolean Fancy_Exchange = true;
+	public static boolean Fancy_PatternTool = true;
 	
 	
 	//public static final Section sect_Blocks = new Section("Block Recipes", "block recipes");
@@ -117,7 +120,9 @@ public class Config extends ItemRegistry{
 		ToolPowerMesseges = config.get(GUI, "Tool Power Messeges", false).getBoolean();
 		Use_Wire_Frame_Guides = config.get(GUI, "Use Wire Frames for Hightlighting", true, "Disable for light performance gains").getBoolean();
 		Use_Fake_Block_Guides = config.get(GUI, "Use Fake Blocks for Highlights", true, "This is a huge performance hog, disable it if you have issues displaying it").getBoolean();
-		
+		Fancy_Expand = config.get(GUI, "Fancy Expander Model", true, "Disable to use old 2d sprites").getBoolean();
+		Fancy_Exchange = config.get(GUI, "Fancy Exchange Model", true, "Disable to use old 2d sprites").getBoolean();
+		Fancy_PatternTool = config.get(GUI, "Fancy Euclidean Model", true, "Disable to use old 2d sprites").getBoolean();
 		
 		
 		//sect Block Recipes

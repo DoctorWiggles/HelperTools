@@ -1,6 +1,7 @@
 package helpertools.Client;
 
 import helpertools.Main;
+import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Items.Item_Bomb;
 import net.minecraft.block.Block;
@@ -16,9 +17,12 @@ public final class RenderRegistry {
 		Main.logger.info("Registering Renders");
 		reg(ItemRegistry.chocolatemilk);
 		reg(ItemRegistry.milkbottle);
-		reg(ItemRegistry.pattern_tool);
-		reg(ItemRegistry.expandertool);
-		reg(ItemRegistry.exchange_tool);
+		//reg(ItemRegistry.pattern_tool);
+		//reg(ItemRegistry.expandertool);
+		//reg(ItemRegistry.exchange_tool);
+		Alternates_handler(ItemRegistry.expandertool, Config.Fancy_Expand);
+		Alternates_handler(ItemRegistry.exchange_tool, Config.Fancy_Exchange);
+		Alternates_handler(ItemRegistry.pattern_tool, Config.Fancy_PatternTool);		
 		//reg(ItemRegistry.debug_states_tool);
 		reg(ItemRegistry.dynamitebolt);
 		reg(ItemRegistry.crossbow_tool);
@@ -31,18 +35,6 @@ public final class RenderRegistry {
 			    
 	}
 	
-	/** Locations are created by forge by default for the original unlocalized path or something
-	 * so we need to add our own paths if we want to reference would be other named paths
-	 * for meta or something aasdfasdf
-	public static void registerVariants() {
-		
-		 ModelBakery.registerItemVariants(ItemRegistry.dirtbomb,
-				 entry("bomb_item_0"), entry("bomb_item_1"),
-				 entry("bomb_item_2"), entry("bomb_item_3"),
-				 entry("bomb_item_4"), entry("bomb_item_5"),
-				 entry("bomb_item_6"), entry("bomb_item_7"));
-	}
-	**/
 	/** Master shortcut method for meta items
 	 * Creates a resource path
 	 * Then registers the item to that path
@@ -58,6 +50,16 @@ public final class RenderRegistry {
 			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
 			(item, i, entry(item.getUnlocalizedName().substring(5)+"_"+i));		
 		}
+	}
+	
+	public static void Alternates_handler(Item item, boolean flag){	
+			String alt = "";
+			if(!flag) alt = "_alt";
+			
+			ModelBakery.registerItemVariants(item, entry(item.getUnlocalizedName().substring(5)+alt));
+			
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
+			(item, 0, entry(item.getUnlocalizedName().substring(5)+alt));	
 	}
 	
 	
@@ -99,15 +101,6 @@ public final class RenderRegistry {
 	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
 	    (item, meta, new ModelResourceLocation(path + file, "inventory"));
 	    //Main.logger.info(path + file, "inventory");
-	}
-	/** Convience registry for meta items **/
-	@Deprecated
-	public static void range_reg(Item item, int range) {
-		for (int i = 0; i < range; i ++) {
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
-		//(item, i, new ModelResourceLocation(path + item.getUnlocalizedName().substring(5)+"_"+i, "inventory"));
-		(item, i, new ModelResourceLocation(path + item.getUnlocalizedName().substring(5)+"_"+i, "inventory"));
-		}
 	}
 
 	public static void reg(Block block) {

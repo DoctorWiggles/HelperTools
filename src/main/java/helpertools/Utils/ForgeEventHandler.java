@@ -55,6 +55,7 @@ public class ForgeEventHandler {
 
 		 event.setCanceled(true);
 	}
+	
 	/**https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/core/loot/LootHandler.java**/
 	@SubscribeEvent
 	public void Table_Additives(LootTableLoadEvent e){

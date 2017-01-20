@@ -17,9 +17,6 @@ public final class RenderRegistry {
 		Main.logger.info("Registering Renders");
 		reg(ItemRegistry.chocolatemilk);
 		reg(ItemRegistry.milkbottle);
-		//reg(ItemRegistry.pattern_tool);
-		//reg(ItemRegistry.expandertool);
-		//reg(ItemRegistry.exchange_tool);
 		Alternates_handler(ItemRegistry.expandertool, Config.Fancy_Expand);
 		Alternates_handler(ItemRegistry.exchange_tool, Config.Fancy_Exchange);
 		Alternates_handler(ItemRegistry.pattern_tool, Config.Fancy_PatternTool);		
@@ -33,8 +30,26 @@ public final class RenderRegistry {
 		
 		
 			    
-	}
+	}	
 	
+	public static void registerBlockRenderer(){
+		reg(ItemRegistry.falseBedrock);
+		reg(ItemRegistry.transcriberBlock);
+		reg(ItemRegistry.LooseDirtBlock);
+		reg(ItemRegistry.BalloonBlock);
+		reg(ItemRegistry.LampBlock);
+		reg(ItemRegistry.LampBlock_on);
+		reg(ItemRegistry.LampBlock_perm);
+		reg(ItemRegistry.FloaterBlock);
+		
+	}
+
+//===========================Short cut Methods========================================//
+
+	public static String modid = Main.MODID;
+	public static String path = Main.PATH;
+	
+
 	/** Master shortcut method for meta items
 	 * Creates a resource path
 	 * Then registers the item to that path
@@ -52,37 +67,21 @@ public final class RenderRegistry {
 		}
 	}
 	
+	/** Swaps model resource locations **/
 	public static void Alternates_handler(Item item, boolean flag){	
-			String alt = "";
-			if(!flag) alt = "_alt";
-			
-			ModelBakery.registerItemVariants(item, entry(item.getUnlocalizedName().substring(5)+alt));
-			
-			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
-			(item, 0, entry(item.getUnlocalizedName().substring(5)+alt));	
+		String alt = "";
+		if(!flag) alt = "_alt";
+
+		ModelBakery.registerItemVariants(item, entry(item.getUnlocalizedName().substring(5)+alt));
+
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register
+		(item, 0, entry(item.getUnlocalizedName().substring(5)+alt));	
 	}
-	
-	
+
+
 	public static ModelResourceLocation entry(String file){
 		return new ModelResourceLocation(path + file, "inventory");		
 	}
-	
-	public static void registerBlockRenderer(){
-		reg(ItemRegistry.falseBedrock);
-		reg(ItemRegistry.transcriberBlock);
-		reg(ItemRegistry.LooseDirtBlock);
-		reg(ItemRegistry.BalloonBlock);
-		reg(ItemRegistry.LampBlock);
-		reg(ItemRegistry.LampBlock_on);
-		reg(ItemRegistry.LampBlock_perm);
-		reg(ItemRegistry.FloaterBlock);
-		
-	}
-
-	//==========================================================================//
-
-	public static String modid = Main.MODID;
-	public static String path = Main.PATH;
 	
 
 	public static void reg(Item item) {

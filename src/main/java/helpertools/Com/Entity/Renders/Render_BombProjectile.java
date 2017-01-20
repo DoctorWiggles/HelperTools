@@ -1,7 +1,7 @@
 package helpertools.Com.Entity.Renders;
 
 import helpertools.Main;
-import helpertools.Com.Entity.Entity_BombProjectile;
+import helpertools.Com.Entity.Projectile_Bomb;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -45,7 +45,7 @@ public class Render_BombProjectile extends Render
 
     public ItemStack getstack(Entity entity){
     	
-    	Entity_BombProjectile e = (Entity_BombProjectile)entity;
+    	Projectile_Bomb e = (Projectile_Bomb)entity;
     	return new ItemStack(this.item, 1, e.getType());
     	
     }

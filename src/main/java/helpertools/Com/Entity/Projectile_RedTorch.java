@@ -16,14 +16,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class Entity_RedTorchProjectile extends EntityThrowable{
+public class Projectile_RedTorch extends EntityThrowable{
 
 	
-   public Entity_RedTorchProjectile(World world) {
+   public Projectile_RedTorch(World world) {
        super(world);
    }
 
-   public Entity_RedTorchProjectile(World world, EntityPlayer entityPlayer) {
+   public Projectile_RedTorch(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
    

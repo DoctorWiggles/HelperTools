@@ -72,9 +72,6 @@ public class Main {
 		proxy.postInit(e);
 	}
 	
-	public static void print(Object messege){
-		System.out.println("Helper Tools Debug : " + messege);
-	}
 
 	
 }

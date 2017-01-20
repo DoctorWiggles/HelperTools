@@ -48,6 +48,13 @@ public class RecipeFactory extends Config{
 		GameRegistry.addRecipe(new ShapelessOreRecipe(output,recipe));
 		
 	}
+	public static void Bomb(Boolean flag, ItemStack output, Object item){
+		ShapedRecipe(flag, output,new Object[]{
+		    	"SSS",
+	    		"SWS",
+	    		"SSS", 'S', item, 'W', Items.GUNPOWDER});
+	}
+	
 	
 	public static void RegisterRecipes(){
 		Main.logger.info("Loading Recipes");
@@ -115,6 +122,18 @@ public class RecipeFactory extends Config{
 	    	"SSS",
     		"SWS",
     		"SSS", 'S', Blocks.DIRT, 'W', Items.GUNPOWDER});
+	    //Bombs
+	    Bomb(Recipe_DirtBombs, new ItemStack(dirtbomb, Output_DirtBombs,0), Blocks.DIRT);
+	    Bomb(Recipe_SandBombs, new ItemStack(dirtbomb, Output_SandBombs,1), Blocks.SAND);
+	    Bomb(Recipe_GravelBombs, new ItemStack(dirtbomb, Output_GravelBombs,2), Blocks.GRAVEL);
+	    Bomb(Recipe_PlantBombs, new ItemStack(dirtbomb, Output_PlantBombs,3), new ItemStack(Items.DYE, 1, 15));
+	    Bomb(Recipe_SnowBombs, new ItemStack(dirtbomb, Output_SnowBombs,4), Items.SNOWBALL);
+	    ShapelessRecipe(Recipe_DesertBombs,new ItemStack(dirtbomb, Output_DesertBombs , 5), new Object[]{
+	    	new ItemStack(dirtbomb, 1, 3), Blocks.SAND});
+	    ShapelessRecipe(Recipe_MushroomBombs,new ItemStack(dirtbomb, Output_MushroomBombs , 6), new Object[]{
+	    	new ItemStack(dirtbomb, 1, 3), Blocks.MYCELIUM});
+	    Bomb(Recipe_VoidBombs, new ItemStack(dirtbomb, Output_VoidBombs,7), Items.ENDER_PEARL);
+	    
 	    
 	    ShapedRecipe(Recipe_MirageHusk, new ItemStack(miragehusk,1,0),new Object[]{
 			"TXT",
@@ -129,7 +148,7 @@ public class RecipeFactory extends Config{
     		" L ", 's', "sandstone", 'L', "gemLapis"});
 		
 		ShapelessRecipe(Recipe_Fake_Bedrock,new ItemStack(falseBedrock, Output_False_Bedrock , 0), new Object[]{
-			"cobblestone", "cobblestone", "cobblestone", Blocks.COAL_BLOCK });
+			"cobblestone", "cobblestone", "cobblestone", Blocks.COAL_BLOCK});
 			    	
 		
 		//Items

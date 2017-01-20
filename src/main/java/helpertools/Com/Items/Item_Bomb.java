@@ -4,7 +4,7 @@ package helpertools.Com.Items;
 import java.util.List;
 
 import helpertools.Com.ItemRegistry;
-import helpertools.Com.Entity.Entity_BombProjectile;
+import helpertools.Com.Entity.Projectile_Bomb;
 import helpertools.Utils.HelpTab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -101,7 +101,7 @@ public class Item_Bomb extends Item {
 
 		if (!worldIn.isRemote)
 		{
-			Entity_BombProjectile Bomb = new Entity_BombProjectile(worldIn, playerIn, stack.getMetadata());
+			Projectile_Bomb Bomb = new Projectile_Bomb(worldIn, playerIn, stack.getMetadata());
 			Bomb.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 			worldIn.spawnEntityInWorld(Bomb);
 		}

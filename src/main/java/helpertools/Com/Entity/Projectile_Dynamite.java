@@ -26,14 +26,14 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class Entity_DynamiteProjectile extends EntityThrowable{
+public class Projectile_Dynamite extends EntityThrowable{
 
 	
-   public Entity_DynamiteProjectile(World world) {
+   public Projectile_Dynamite(World world) {
        super(world);
    }
 
-   public Entity_DynamiteProjectile(World world, EntityPlayer entityPlayer) {
+   public Projectile_Dynamite(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
    

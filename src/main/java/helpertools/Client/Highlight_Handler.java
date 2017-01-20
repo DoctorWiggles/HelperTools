@@ -10,11 +10,11 @@ import org.lwjgl.opengl.GL11;
 
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
-import helpertools.Com.Blocks.FloaterBlock.FloaterBlock_Item;
-import helpertools.Com.Entity.Phantom_Cube;
-import helpertools.Com.Tools.ItemEuclideanTransposer;
-import helpertools.Com.Tools.ItemStaffofExpansion;
-import helpertools.Com.Tools.ItemStaffofTransformation;
+import helpertools.Com.Blocks.Block_Floater.FloaterBlock_Item;
+import helpertools.Com.Entity.FX_Phantom_Cube;
+import helpertools.Com.Tools.Staff_EuclideanTransposer;
+import helpertools.Com.Tools.Staff_Expansion;
+import helpertools.Com.Tools.Staff_Transformation;
 import helpertools.Com.Tools.ToolBase_Patterns;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.ModUtil;
@@ -97,12 +97,12 @@ public class Highlight_Handler {
 		
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
-			if(player.getHeldItemMainhand().getItem() instanceof ItemStaffofTransformation){
+			if(player.getHeldItemMainhand().getItem() instanceof Staff_Transformation){
 				hand = EnumHand.MAIN_HAND;
 			}
 		}
 		if(player.getHeldItemOffhand() != null){
-			if(player.getHeldItemOffhand().getItem() instanceof ItemStaffofTransformation){
+			if(player.getHeldItemOffhand().getItem() instanceof Staff_Transformation){
 				hand = EnumHand.OFF_HAND;
 			}
 		}	
@@ -118,7 +118,7 @@ public class Highlight_Handler {
 					BlockPos pos = mouseOver.getBlockPos();
 					IBlockState state = world.getBlockState(pos); 
 					
-					ItemStaffofTransformation staff = (ItemStaffofTransformation)held;
+					Staff_Transformation staff = (Staff_Transformation)held;
 					fluctuate();
 					
 					Set<BlockPos> positions = staff.Mode_Function(heldstack, player, pos, theface, true);
@@ -144,12 +144,12 @@ public class Highlight_Handler {
 		
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
-			if(player.getHeldItemMainhand().getItem() instanceof ItemStaffofExpansion){
+			if(player.getHeldItemMainhand().getItem() instanceof Staff_Expansion){
 				hand = EnumHand.MAIN_HAND;
 			}
 		}
 		if(player.getHeldItemOffhand() != null){
-			if(player.getHeldItemOffhand().getItem() instanceof ItemStaffofExpansion){
+			if(player.getHeldItemOffhand().getItem() instanceof Staff_Expansion){
 				hand = EnumHand.OFF_HAND;
 			}
 		}	
@@ -165,7 +165,7 @@ public class Highlight_Handler {
 					BlockPos pos = mouseOver.getBlockPos();
 					IBlockState state = world.getBlockState(pos); 
 					
-					ItemStaffofExpansion staff = (ItemStaffofExpansion)held;
+					Staff_Expansion staff = (Staff_Expansion)held;
 					fluctuate();
 					IBlockState blocky = BlockStateHelper.returnState(staff.getTBlock(heldstack));
 					
@@ -177,7 +177,7 @@ public class Highlight_Handler {
 							Render_Outlines(evt, blocky, location, 180, 240, 180, 3.5F*this.scale);
 							}
 							if(Config.Use_Fake_Block_Guides){
-							Phantom_Cube cube = new Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
+							FX_Phantom_Cube cube = new FX_Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
 							world.spawnEntityInWorld(cube);
 							}
 							
@@ -198,12 +198,12 @@ public class Highlight_Handler {
 		
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
-			if(player.getHeldItemMainhand().getItem() instanceof ItemEuclideanTransposer){
+			if(player.getHeldItemMainhand().getItem() instanceof Staff_EuclideanTransposer){
 				hand = EnumHand.MAIN_HAND;
 			}
 		}
 		if(player.getHeldItemOffhand() != null){
-			if(player.getHeldItemOffhand().getItem() instanceof ItemEuclideanTransposer){
+			if(player.getHeldItemOffhand().getItem() instanceof Staff_EuclideanTransposer){
 				hand = EnumHand.OFF_HAND;
 			}
 		}	
@@ -222,7 +222,7 @@ public class Highlight_Handler {
 							
 					IBlockState state = world.getBlockState(pos); 
 					
-					ItemEuclideanTransposer staff = (ItemEuclideanTransposer)held;
+					Staff_EuclideanTransposer staff = (Staff_EuclideanTransposer)held;
 					fluctuate();
 					pos = staff.apply_Offset(heldstack, player, world, pos, theface, false);
 					
@@ -280,7 +280,7 @@ public class Highlight_Handler {
 	}
 	
 	
-	public void Eu_Cubes(World world, EntityPlayer player, BlockPos pos,ItemStack heldstack, double X, double Y, double Z, int NBT, ItemEuclideanTransposer staff, RenderWorldLastEvent evt, IBlockState state){
+	public void Eu_Cubes(World world, EntityPlayer player, BlockPos pos,ItemStack heldstack, double X, double Y, double Z, int NBT, Staff_EuclideanTransposer staff, RenderWorldLastEvent evt, IBlockState state){
 		
 		BlockPos pos2 = pos.add(X, Y, Z);
 		IBlockState states = BlockStateHelper.returnState(staff.getTBlock(heldstack, NBT));		
@@ -292,7 +292,7 @@ public class Highlight_Handler {
 		if(Config.Use_Fake_Block_Guides){
 			//false_block(evt, world, pos2, player, states);
 			
-			Phantom_Cube cube = new Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
+			FX_Phantom_Cube cube = new FX_Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
 			world.spawnEntityInWorld(cube);
 		
 		}

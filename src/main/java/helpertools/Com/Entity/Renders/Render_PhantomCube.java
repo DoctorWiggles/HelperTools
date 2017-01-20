@@ -2,7 +2,7 @@ package helpertools.Com.Entity.Renders;
 
 import org.lwjgl.opengl.GL11;
 
-import helpertools.Com.Entity.Phantom_Cube;
+import helpertools.Com.Entity.FX_Phantom_Cube;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class Render_PhantomCube extends Render<Phantom_Cube>
+public class Render_PhantomCube extends Render<FX_Phantom_Cube>
 {
     public Render_PhantomCube(RenderManager renderManagerIn)
     {
@@ -32,7 +32,7 @@ public class Render_PhantomCube extends Render<Phantom_Cube>
     }
 
     
-    public void doRender(Phantom_Cube entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void doRender(FX_Phantom_Cube entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         if (entity.getBlock() != null)
         {
@@ -78,7 +78,7 @@ public class Render_PhantomCube extends Render<Phantom_Cube>
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(Phantom_Cube entity)
+    protected ResourceLocation getEntityTexture(FX_Phantom_Cube entity)
     {
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }

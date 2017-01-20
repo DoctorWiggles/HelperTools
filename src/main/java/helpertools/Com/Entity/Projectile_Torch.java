@@ -13,14 +13,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class Entity_TorchProjectile extends EntityThrowable{
+public class Projectile_Torch extends EntityThrowable{
 
 	
-   public Entity_TorchProjectile(World world) {
+   public Projectile_Torch(World world) {
        super(world);
    }
    EntityPlayer person;
-   public Entity_TorchProjectile(World world, EntityPlayer entityPlayer) {
+   public Projectile_Torch(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
    

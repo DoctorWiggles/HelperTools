@@ -11,12 +11,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
+/** Lists to manually modify normally awkward block items
+ * that other base method seems to inconsistently return in these cases **/
 public class Whitelist_Util {
 	
 	
 	String Tcon = "TConstruct";
 	static String Chisel = "chisel";
 	
+	/** Checks if whitelist object is present then adjust's it meta value accordingly **/
 	public static boolean Block_Whitelist(Block block, EntityPlayer player, int meta){
 		
 		if(!InventoryUtil.hasItem(Item.getItemFromBlock(block), player.inventory)){
@@ -77,7 +80,7 @@ public class Whitelist_Util {
 			return last_stack;
 	}
 	
-	
+	/** Consumes the flagged item **/
 	public static void Consume_Whitelist(ItemStack stack, EntityPlayer player, Block block, int meta){
 		
 		if(block instanceof BlockLeaves){

@@ -3,9 +3,9 @@ package helpertools.Com.Tools;
 import helpertools.Main;
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
-import helpertools.Com.Entity.Entity_DynamiteProjectile;
-import helpertools.Com.Entity.Entity_RedTorchProjectile;
-import helpertools.Com.Entity.Entity_TorchProjectile;
+import helpertools.Com.Entity.Projectile_Dynamite;
+import helpertools.Com.Entity.Projectile_RedTorch;
+import helpertools.Com.Entity.Projectile_Torch;
 import helpertools.Utils.InventoryUtil;
 import helpertools.Utils.ModUtil;
 import net.minecraft.block.Block;
@@ -246,17 +246,17 @@ public class ToolBase_Crossbow extends ToolBase{
 	    	switch(getMode(stack))
 			{
 				case 0:
-					SHOT = new Entity_TorchProjectile(world,player);					
+					SHOT = new Projectile_Torch(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 				break;
 				case 1:
-					SHOT = new Entity_RedTorchProjectile(world,player);					
+					SHOT = new Projectile_RedTorch(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 				break;
 				case 2:
-					SHOT = new Entity_DynamiteProjectile(world,player);					
+					SHOT = new Projectile_Dynamite(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
 					world.spawnEntityInWorld(SHOT);
 				break;					

@@ -27,9 +27,9 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemTorchLauncher extends ToolBase_Crossbow{
+public class Tool_TorchLauncher extends ToolBase_Crossbow{
 
-   public ItemTorchLauncher(ToolMaterial material, String unlocalizedName) {
+   public Tool_TorchLauncher(ToolMaterial material, String unlocalizedName) {
        super(material);
        this.maxStackSize = 1;
        this.damageVsEntity = 3;

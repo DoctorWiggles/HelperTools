@@ -2,7 +2,7 @@ package helpertools.Com.Blocks;
 
 import helpertools.Main;
 import helpertools.Com.ItemRegistry;
-import helpertools.Com.Blocks.TranscriberBlock.TranscriberBlock_Item;
+import helpertools.Com.Blocks.Block_Transcriber.TranscriberBlock_Item;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.ModUtil;
@@ -34,9 +34,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class FloaterBlock extends Block{
+public class Block_Floater extends Block{
 	
-	public FloaterBlock(String unlocalizedName) {
+	public Block_Floater(String unlocalizedName) {
         super(Material.CLOTH);
         this.setUnlocalizedName(unlocalizedName);
         this.setCreativeTab(HelpTab.HelperTools);

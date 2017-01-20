@@ -3,7 +3,7 @@ package helpertools.Com.Tools;
 import helpertools.Main;
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
-import helpertools.Com.Blocks.TileEntityTranscriber;
+import helpertools.Com.Blocks.TileEntity_Transcriber;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
 import helpertools.Utils.InventoryUtil;
@@ -36,9 +36,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemEuclideanTransposer extends ToolBase_Patterns
+public class Staff_EuclideanTransposer extends ToolBase_Patterns
 {
-    public ItemEuclideanTransposer(ToolMaterial material, String unlocalizedName)
+    public Staff_EuclideanTransposer(ToolMaterial material, String unlocalizedName)
     {
     	super (material); 
 	    setUnlocalizedName(unlocalizedName);
@@ -262,7 +262,7 @@ public class ItemEuclideanTransposer extends ToolBase_Patterns
 		}
 		//Transcriber offsets
 		if(world.getBlockState(pos).getBlock() == ItemRegistry.transcriberBlock){
-			TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(pos);
+			TileEntity_Transcriber tile = (TileEntity_Transcriber)world.getTileEntity(pos);
 			if (tile != null)
             {
 				pos2 = pos2.add(tile.offX, tile.offY, tile.offZ);

@@ -85,7 +85,6 @@ public class Entity_Mirage extends EntityLiving{
 	
 	public void onUpdate(){
 		super.onUpdate();
-		//this.setDead();
 		
 		if(!this.worldObj.isRemote){
 			if(this.getPlayer() != null){

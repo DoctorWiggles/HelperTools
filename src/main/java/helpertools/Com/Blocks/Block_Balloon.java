@@ -20,11 +20,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BalloonBlock extends Block
+public class Block_Balloon extends Block
 {
 	protected static final AxisAlignedBB HitBox = new AxisAlignedBB(0.2D, 0.0D, 0.2D, 0.8D, 1.0D, 0.8D);
 	
-    public BalloonBlock(String unlocal)
+    public Block_Balloon(String unlocal)
     {
     	super(Material.CIRCUITS);
         this.setUnlocalizedName(unlocal);

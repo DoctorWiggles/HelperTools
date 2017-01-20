@@ -1,7 +1,6 @@
 package helpertools.Com.Entity.Renders;
 
-
-import helpertools.Com.Entity.Entity_RedTorchProjectile;
+import helpertools.Com.Entity.Projectile_Torch;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
@@ -12,27 +11,26 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class RenderRedTorchProjectile extends Render
+public class Render_TorchProjectile extends Render
 {
 	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap.png"); 
 	protected ModelBase Model_Bolt = new Model_BoltProjectile();
 	
-	public RenderRedTorchProjectile(RenderManager render)
+	public Render_TorchProjectile(RenderManager renderu)
     {
-        super(render);
+        super(renderu);
         this.shadowSize = 0.2F;
     }
+	
 
-	
-	
-    public void doRender(Entity_RedTorchProjectile entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRender(Projectile_Torch entity, double off_X, double off_Y, double off_Z, float fl_1, float fl_2)
     {
         this.bindEntityTexture(entity);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
-        GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
-       
+        GL11.glTranslatef((float)off_X, (float)off_Y, (float)off_Z);
+        GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * fl_2 - 90.0F, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * fl_2, 0.0F, 0.0F, 1.0F);
+        //Tessellator tessellator = Tessellator.instance;
         byte b0 = 0;
         float f2 = 0.0F;
         float f3 = 0.5F;
@@ -44,6 +42,15 @@ public class RenderRedTorchProjectile extends Render
         float f9 = (float)(10 + b0 * 10) / 32.0F;
         float f10 = 0.05625F;
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        /**
+        float f11 = (float)entity.arrowShake - p_76986_9_;
+
+        if (f11 > 0.0F)
+        {
+            float f12 = -MathHelper.sin(f11 * 3.0F) * f11;
+            GL11.glRotatef(f12, 0.0F, 0.0F, 1.0F);
+        }
+         **/
         GL11.glRotatef(45.0F, 1.0F, 0.0F, 0.0F);
         GL11.glScalef(f10, f10, f10);
         GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
@@ -55,29 +62,31 @@ public class RenderRedTorchProjectile extends Render
             GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
         }
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/TorchRedtextpmap.png"));  
-        
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/Torchtexpmap.png"));  
         GL11.glRotatef(47F, 10F, 0.0F, 0.0F);
         GL11.glRotatef(89F, 0F, 10F, 0.0F);
         GL11.glScalef(25, 25, 25);
+        //Model_BoltProjectile.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
         Model_Bolt.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
     }
 
-    protected ResourceLocation getEntityTexture(Entity_RedTorchProjectile p_110775_1_)
+    protected ResourceLocation getEntityTexture(Projectile_Torch ent)
     {
         return arrowTextures;
     }
 
-    protected ResourceLocation getEntityTexture(Entity p_110775_1_)
+    
+    protected ResourceLocation getEntityTexture(Entity ent)
     {
-        return this.getEntityTexture((Entity_RedTorchProjectile)p_110775_1_);
+        return this.getEntityTexture((Projectile_Torch)ent);
     }
 
-    public void doRender(Entity entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    
+    public void doRender(Entity entity, double off_X, double off_Y, double off_Z, float fl_1, float fl_2)
     {
-        this.doRender((Entity_RedTorchProjectile)entity, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+        this.doRender((Projectile_Torch)entity, off_X, off_Y, off_Z, fl_1, fl_2);
     }
 }

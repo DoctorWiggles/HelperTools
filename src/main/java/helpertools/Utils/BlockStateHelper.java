@@ -7,15 +7,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+/** Bunch of BlockState Shortcut Utils 
+ * Most seem to be vanilla now though
+ * **/
 public class BlockStateHelper {
-	/**
-	Butchered up from Block.class methods
-	Work around since nbt can't store states
-	Hopefully works
-	 * **/
-	
-	//int meta= (world.getBlockState(pos2).getBlock()).getStateId(world.getBlockState(pos2));
-	
+		
 	/**Extract an ID integer from a blockstate**/
 	public static int returnID(World world, BlockPos pos ){
 		int GET = 0;		

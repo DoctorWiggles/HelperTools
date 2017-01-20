@@ -5,7 +5,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraft.client.settings.KeyBinding;
 
 /** http://www.minecraftforge.net/wiki/Key_Binding **/
-public class KeyBindings {
+public class Key_Bindings {
 
     // Declare two KeyBindings, ping and pong
     public static KeyBinding ding;    

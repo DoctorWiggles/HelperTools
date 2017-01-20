@@ -24,18 +24,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-/** Consolidating class to simplify the text process **/
+/** Various shortcut method utilities **/
 public class ModUtil {
-	/*
-	public void print(EntityLivingBase living, String Messy){
-		ITextComponent chatmessy = new TextComponentTranslation(TextFormatting.GRAY + Messy, new Object[0]);
-		((EntityPlayer)living).addChatComponentMessage(chatmessy);
-	}
-	*/
-	public static void whatSides(World world){
-		if(world.isRemote){System.out.println("Client");}
-		if(!world.isRemote){System.out.println("Server");}
-	}
 	
 	/** Send a messege to a player.	  
 	 * @param living The target to send the messege to
@@ -50,16 +40,10 @@ public class ModUtil {
 		print((EntityLivingBase)player, text);
 	}
 	
-	public static void print(Object text){
-		System.out.println(text);
-	}
 	
 	
 	//============================ Sound Routines ==========================//
-	public static void playSound(EntityPlayer player,SoundEvent event, Float volume, Float pitch){
-		player.worldObj.playSound(player, player.getPosition(), 
-				event, SoundCategory.NEUTRAL,volume, pitch);
-	}
+	
 	public static void Sound_Server(World world,EntityPlayer player,SoundEvent event, Float volume, Float pitch){
 		world.playSound(null, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
 				event, SoundCategory.PLAYERS, volume, pitch);

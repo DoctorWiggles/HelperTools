@@ -18,9 +18,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+/** Bomb Logic **/
 public class BombHelper {
 	
-	
+	/** Basic Sphere shape to create **/
 	public static Set<BlockPos> Sphere_Shape(BlockPos pos, int radius){
 		Set<BlockPos> positions = new HashSet<BlockPos>();
 		
@@ -50,7 +51,8 @@ public class BombHelper {
 		
 		for (BlockPos location : Sphere_Shape(pos, radius)) {
 			//ModUtil.dropblock(world, location);
-			placer(world, location, Blocks.AIR);
+			if(world.getBlockState(location)!= Blocks.BEDROCK.getDefaultState()){
+				placer(world, location, Blocks.AIR);}
 		}
 	}
 		
@@ -94,7 +96,7 @@ public class BombHelper {
 			if(target == Blocks.REEDS && above.getBlock().isAir(above, world, PosAbove) && roll <= 20){
 				placer(world, PosAbove, Blocks.REEDS);				
 			}
-			if(target == Blocks.DEADBUSH && roll <= 6){	
+			if(target == Blocks.DEADBUSH && roll <= 24){	
 				world.setBlockState(location, Blocks.SAPLING.getStateFromMeta(3));	
 				Grow(world, location);
 				Grow(world, location);
@@ -198,9 +200,46 @@ public class BombHelper {
 		}
 	}
 	
+	public static void Mushroom_Sphere(World world, BlockPos pos, int radius){
+
+		for (BlockPos location : Sphere_Shape(pos, radius)) {			
+			BlockPos PosAbove = location.add(0,1,0);
+			IBlockState above = world.getBlockState(PosAbove);
+			BlockPos PosBelow = location.add(0,-1,0);
+			IBlockState below = world.getBlockState(PosBelow);	
+
+			IBlockState state = world.getBlockState(location);
+			Block target = state.getBlock();
+			int roll = Main.Randy.nextInt(100);
+			
+		if(state.getMaterial()== Material.PLANTS || state.getMaterial() == Material.VINE
+				|| state.getMaterial() == Material.CACTUS){
+			//placer(world, location, Blocks.LAVA);
+			if(target != below.getBlock() && roll <10
+					&& target != Blocks.BROWN_MUSHROOM && target != Blocks.RED_MUSHROOM ){
+				
+				if(roll <= 2){placer(world, location, Blocks.RED_MUSHROOM);}
+				else{ placer(world, location, Blocks.BROWN_MUSHROOM);}
+				placer(world, PosBelow, Blocks.MYCELIUM);
+			}
+		}
+			
+		
+		if(target == Blocks.GRASS && roll <= 60)placer(world, location, Blocks.MYCELIUM);
+		if(target == Blocks.DIRT && roll <= 6)placer(world, location, Blocks.MYCELIUM);
+		if(target == Blocks.STONE && roll <= 6)placer(world, location, Blocks.COBBLESTONE);
+		if(target == Blocks.BROWN_MUSHROOM || target == Blocks.RED_MUSHROOM){
+			if( roll <= 12)Grow(world, location);
+		}
+		
+		
+		}
+	}
+	/** shortcut **/
 	public static void placer(World world, BlockPos location, Block block){
 		world.setBlockState(location, block.getDefaultState());	
 	}	
+	/** Bonemeal function **/
 	public static void Grow(World world, BlockPos pos){	
 		IBlockState state = world.getBlockState(pos);
 		

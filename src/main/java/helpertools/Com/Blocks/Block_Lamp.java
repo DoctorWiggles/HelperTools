@@ -31,13 +31,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class LampBlock extends Block{
+public class Block_Lamp extends Block{
 
 	protected static final AxisAlignedBB HitBox = new AxisAlignedBB(0.2D, 0.0D, 0.2D, 0.8D, 1.0D, 0.8D);
 	
 	private final boolean isOn;
 	
-	public LampBlock(String unlocal, boolean isOn)
+	public Block_Lamp(String unlocal, boolean isOn)
 	{
 		super(Material.GLASS);
 		this.setUnlocalizedName(unlocal);

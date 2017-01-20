@@ -185,20 +185,20 @@ public class Item_MirageHusk extends ItemArmor{
 	
 	public void Create_Mirage(ItemStack stack, EntityPlayer player, World world){		
 		if(world.isRemote){return;}	
-			this.Destroy_Old_Mirage(stack, player, world);
+		this.Destroy_Old_Mirage(stack, player, world);
 		try{
-			
-		BlockPos pos = player.getPosition();
-		UUID ID = player.getUniqueID();
-		if(ID == null){return;}
-		
-		Entity_Mirage mob = new Entity_Mirage(world,ID, player);
-		mob.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);
-		this.setShade(stack, mob.getUniqueID());
-		world.spawnEntityInWorld(mob);
-		damageHat(player, stack);
+
+			BlockPos pos = player.getPosition();
+			UUID ID = player.getUniqueID();
+			if(ID == null){return;}
+
+			Entity_Mirage mob = new Entity_Mirage(world,ID, player);
+			mob.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);
+			this.setShade(stack, mob.getUniqueID());
+			world.spawnEntityInWorld(mob);
+			damageHat(player, stack);
 		}catch(Exception e){}
-		
+
 	}
 	
 	public void Destroy_Old_Mirage(ItemStack stack, EntityPlayer player, World world){

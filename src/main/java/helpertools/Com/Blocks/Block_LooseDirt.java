@@ -1,5 +1,6 @@
 package helpertools.Com.Blocks;
 
+import helpertools.Com.ItemRegistry;
 import helpertools.Utils.HelpTab;
 
 import java.util.Random;
@@ -14,13 +15,13 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class LooseDirtBlock extends BlockFalling
+public class Block_LooseDirt extends BlockFalling
 {
 	//mostly vanilla code but occasionally checks to transform into vanilla dirt
     public static boolean fallInstantly;
     private static final String __OBFID = "CL_00000240";    
 
-    public LooseDirtBlock(String unlocalizedName)
+    public Block_LooseDirt(String unlocalizedName)
     {
         super(Material.GRASS);
         setCreativeTab(HelpTab.HelperTools);
@@ -28,7 +29,7 @@ public class LooseDirtBlock extends BlockFalling
         this.setTickRandomly(true);
     }
 
-    public LooseDirtBlock(Material materialIn)
+    public Block_LooseDirt(Material materialIn)
     {
         super(materialIn);
     }
@@ -48,23 +49,21 @@ public class LooseDirtBlock extends BlockFalling
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
-        {
-            this.checkFallable(worldIn, pos);
-            
-            
-				if(fall_check(worldIn, pos.down(), state)){	
-					//returns falling dirt to vanilla dirt if it's on solid terrain
-					int ig = growrand.nextInt(10);
-					if (ig >=2){
-						if(!worldIn.isAirBlock(pos.down()) &&
-								!worldIn.isAirBlock(pos.down(2))){ 
+    	if (!worldIn.isRemote)
+    	{
+    		this.checkFallable(worldIn, pos);
+
+
+    		if(fall_check(worldIn, pos.down(), state)){	
+    			//returns falling dirt to vanilla dirt if it's on solid terrain
+    				if(!worldIn.isAirBlock(pos.down())){ 
+    					if(worldIn.getBlockState(pos.down()).getBlock() != ItemRegistry.LooseDirtBlock){
+    						worldIn.setBlockState(pos, Blocks.DIRT.getDefaultState(), 2);
+    					}
     				
-        		worldIn.setBlockState(pos, Blocks.DIRT.getDefaultState(), 0123);
-						}
     			}}
-            //else this.checkFallable(worldIn, pos);
-        }
+    		//else this.checkFallable(worldIn, pos);
+    	}
     }
     //uproots--crushes some nonsolid blocks below
     public boolean fall_check (World world, BlockPos pos, IBlockState state){

@@ -1,23 +1,23 @@
 package helpertools.Com;
 
 import helpertools.Main;
-import helpertools.Com.Blocks.BalloonBlock;
-import helpertools.Com.Blocks.FalseBedrock;
-import helpertools.Com.Blocks.FloaterBlock;
-import helpertools.Com.Blocks.LampBlock;
-import helpertools.Com.Blocks.LooseDirtBlock;
-import helpertools.Com.Blocks.TileEntityTranscriber;
-import helpertools.Com.Blocks.TranscriberBlock;
+import helpertools.Com.Blocks.Block_Balloon;
+import helpertools.Com.Blocks.Block_FalseBedrock;
+import helpertools.Com.Blocks.Block_Floater;
+import helpertools.Com.Blocks.Block_Lamp;
+import helpertools.Com.Blocks.Block_LooseDirt;
+import helpertools.Com.Blocks.TileEntity_Transcriber;
+import helpertools.Com.Blocks.Block_Transcriber;
 import helpertools.Com.Items.Chest_Debugger;
 import helpertools.Com.Items.ItemChocolateMilk;
 import helpertools.Com.Items.Item_Bomb;
 import helpertools.Com.Items.ItemDynamiteBolt;
 import helpertools.Com.Items.ItemMilkBottle;
 import helpertools.Com.Items.Item_MirageHusk;
-import helpertools.Com.Tools.ItemEuclideanTransposer;
-import helpertools.Com.Tools.ItemStaffofExpansion;
-import helpertools.Com.Tools.ItemStaffofTransformation;
-import helpertools.Com.Tools.ItemTorchLauncher;
+import helpertools.Com.Tools.Staff_EuclideanTransposer;
+import helpertools.Com.Tools.Staff_Expansion;
+import helpertools.Com.Tools.Staff_Transformation;
+import helpertools.Com.Tools.Tool_TorchLauncher;
 import helpertools.Utils.HelpTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -48,10 +48,10 @@ public class ItemRegistry {
 		
 		reg(chocolatemilk = new ItemChocolateMilk(3, 0.5f, true, "chocolatemilk_item"));
 		reg(milkbottle = new ItemMilkBottle("bottledmilk_item"));
-		reg(expandertool = new ItemStaffofExpansion(Config.ExpRod_Matt, "expander_item"));
-		reg(exchange_tool = new ItemStaffofTransformation(Config.Exchange_Matt, "exchange_item"));
-		reg(pattern_tool = new ItemEuclideanTransposer(Config.Pattern_Matt, "pattern_item"));
-		reg(crossbow_tool = new ItemTorchLauncher(Config.Crossbow_Matt, "crossbow_item"));		
+		reg(expandertool = new Staff_Expansion(Config.ExpRod_Matt, "expander_item"));
+		reg(exchange_tool = new Staff_Transformation(Config.Exchange_Matt, "exchange_item"));
+		reg(pattern_tool = new Staff_EuclideanTransposer(Config.Pattern_Matt, "pattern_item"));
+		reg(crossbow_tool = new Tool_TorchLauncher(Config.Crossbow_Matt, "crossbow_item"));		
 		//reg(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
 		reg(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"));
 		reg(dirtbomb = new Item_Bomb("bomb_item"));
@@ -88,21 +88,21 @@ public class ItemRegistry {
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
-		reg(falseBedrock = new FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F));
-		reg(LooseDirtBlock = new LooseDirtBlock("loosedirt_block"));
-		custom(transcriberBlock = new TranscriberBlock("transcriber_block"),
-				TranscriberBlock_Item = new TranscriberBlock.TranscriberBlock_Item(transcriberBlock));	
-		reg(BalloonBlock = new BalloonBlock("balloon_block"));
-		custom(LampBlock = new LampBlock("lamp_block", false),
-				LampBlock_Item = new LampBlock.LampBlock_Item(LampBlock));
-		reg(LampBlock_on = new LampBlock("lamp_block_on", true));
-		reg(LampBlock_perm = new LampBlock("lamp_block_perm", true));
-		custom(FloaterBlock = new FloaterBlock("floater_block"),
-				FloaterBlock_Item = new FloaterBlock.FloaterBlock_Item(FloaterBlock));
+		reg(falseBedrock = new Block_FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F));
+		reg(LooseDirtBlock = new Block_LooseDirt("loosedirt_block"));
+		custom(transcriberBlock = new Block_Transcriber("transcriber_block"),
+				TranscriberBlock_Item = new Block_Transcriber.TranscriberBlock_Item(transcriberBlock));	
+		reg(BalloonBlock = new Block_Balloon("balloon_block"));
+		custom(LampBlock = new Block_Lamp("lamp_block", false),
+				LampBlock_Item = new Block_Lamp.LampBlock_Item(LampBlock));
+		reg(LampBlock_on = new Block_Lamp("lamp_block_on", true));
+		reg(LampBlock_perm = new Block_Lamp("lamp_block_perm", true));
+		custom(FloaterBlock = new Block_Floater("floater_block"),
+				FloaterBlock_Item = new Block_Floater.FloaterBlock_Item(FloaterBlock));
 		
         
         //Tiles
-        GameRegistry.registerTileEntity(TileEntityTranscriber.class, TileEntityTranscriber.publicName);
+        GameRegistry.registerTileEntity(TileEntity_Transcriber.class, TileEntity_Transcriber.publicName);
 		
 	}
 	//Updated Registry Interface

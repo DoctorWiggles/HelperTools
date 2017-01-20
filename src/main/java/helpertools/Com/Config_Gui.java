@@ -20,16 +20,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class Config_Gui extends GuiConfig {
 
-	//Simple version	
-	/*
-	public Config_Gui(GuiScreen parent) {
-		super(parent,
-				new ConfigElement(Config.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(),
-				Main.MODID, false, false, GuiConfig.getAbridgedConfigPath(Config.config.toString()));
-	}  
-	*/
 	
-	//Complex version
 		public Config_Gui(GuiScreen parent) {
 			super(parent, getConfigElements(), Main.MODID, false, false,
 					TextFormatting.BLUE +""+ TextFormatting.ITALIC +"HelperTools Configuration");
@@ -40,12 +31,14 @@ public class Config_Gui extends GuiConfig {
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
 
 			//Add categories to config GUI
-			list.add(categoryElement(Config.Durability,"Tool Damage, atk Speed, and Durabilty","Tool Durability"));
-			list.add(categoryElement(Config.GUI,"Gui Elements and Text Messeges","Visual Options"));
-			list.add(categoryElement(Config.Blockz,"Modify Block Recipes","Bock Recipes"));
-			list.add(categoryElement(Config.ToolRecipe,"Modify Tool Recipes","Tool Recipes"));
-			list.add(categoryElement(Config.ItemRecipe,"Modify Item Recipes","Item Recipes"));
-			list.add(categoryElement(Config.Generation,"Modify Generation","Generation"));
+			list.add(categoryElement(Config.Durability,"Tool Material Properties","Tool Durability"));
+			list.add(categoryElement(Config.Functions,"Tool Functions","Tool Functions"));
+			list.add(categoryElement(Config.GUI,"Visual Elements","Visual Options"));			
+			list.add(categoryElement(Config.Blockz,"Block Recipes","Bock Recipes"));
+			list.add(categoryElement(Config.ToolRecipe,"Tool Recipes","Tool Recipes"));
+			list.add(categoryElement(Config.ItemRecipe,"Item Recipes","Item Recipes"));
+			list.add(categoryElement(Config.BombRecipe,"Bomb Recipes","Bomb Recipes"));
+			list.add(categoryElement(Config.Generation,"World Generation","Generation"));
 			
 			return list;
 		}

@@ -11,9 +11,9 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;
 
-public class FalseBedrock extends Block {
+public class Block_FalseBedrock extends Block {
 
-    public FalseBedrock(String unlocalizedName, Material material, float hardness, float resistance) {
+    public Block_FalseBedrock(String unlocalizedName, Material material, float hardness, float resistance) {
         super(material);
         this.setUnlocalizedName(unlocalizedName);
         setCreativeTab(HelpTab.HelperTools);
@@ -27,11 +27,11 @@ public class FalseBedrock extends Block {
         //this.setLightOpacity(16);
     }
 
-    public FalseBedrock(String unlocalizedName, float hardness, float resistance) {
+    public Block_FalseBedrock(String unlocalizedName, float hardness, float resistance) {
         this(unlocalizedName, Material.ROCK, hardness, resistance);
     }
 
-    public FalseBedrock(String unlocalizedName) {
+    public Block_FalseBedrock(String unlocalizedName) {
         this(unlocalizedName, 2.0f, 10.0f);
     }
     

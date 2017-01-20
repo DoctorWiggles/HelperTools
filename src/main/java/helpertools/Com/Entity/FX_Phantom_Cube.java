@@ -30,13 +30,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class Phantom_Cube extends Entity
+public class FX_Phantom_Cube extends Entity
 {
     private IBlockState fallTile;
     public NBTTagCompound tileEntityData;
-    protected static final DataParameter<BlockPos> ORIGIN = EntityDataManager.<BlockPos>createKey(Phantom_Cube.class, DataSerializers.BLOCK_POS);
+    protected static final DataParameter<BlockPos> ORIGIN = EntityDataManager.<BlockPos>createKey(FX_Phantom_Cube.class, DataSerializers.BLOCK_POS);
 
-    public Phantom_Cube(World worldIn)
+    public FX_Phantom_Cube(World worldIn)
     {
         super(worldIn);
         this.particleMaxAge = 5;
@@ -45,7 +45,7 @@ public class Phantom_Cube extends Entity
     protected int particleMaxAge;
     protected int particleAge;
     
-    public Phantom_Cube(World worldIn, double x, double y, double z, IBlockState fallingBlockState)
+    public FX_Phantom_Cube(World worldIn, double x, double y, double z, IBlockState fallingBlockState)
     {
         super(worldIn);
         this.fallTile = fallingBlockState;

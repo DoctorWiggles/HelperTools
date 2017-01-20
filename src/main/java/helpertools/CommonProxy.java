@@ -25,12 +25,12 @@ public class CommonProxy {
 		
 		/** Configs **/
     	Config.configOptions(e);
-		//Config.InitialConfig(e);
-		//Config.PostConfig(e);
     	//ID = 0; ID++
 		/** Networking & Packets **/
     	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel(Main.MODID); 	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
+    	//Messeges for syncing tool functions
     	Main.network.registerMessage(Tool_Message.Handler.class, Tool_Message.class, 0, Side.SERVER);  // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+    	//Messeges for syncing Shadows
     	Main.network.registerMessage(Mirage_Server_Message.Handler.class, Mirage_Server_Message.class, 1, Side.SERVER); 
     	Main.network.registerMessage(Mirage_Client_Message.Dummy_Handler.class, Mirage_Client_Message.class, 2, Side.SERVER); //Dummy Required less explosions
     	

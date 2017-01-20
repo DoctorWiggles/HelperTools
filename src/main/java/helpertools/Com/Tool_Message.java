@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import helpertools.Com.Tools.ItemEuclideanTransposer;
-import helpertools.Com.Tools.ItemStaffofExpansion;
-import helpertools.Com.Tools.ItemStaffofTransformation;
+import helpertools.Com.Tools.Staff_EuclideanTransposer;
+import helpertools.Com.Tools.Staff_Expansion;
+import helpertools.Com.Tools.Staff_Transformation;
 import helpertools.Com.Tools.ToolBase;
 import helpertools.Utils.ModUtil;
 import ibxm.Player;
@@ -54,20 +54,20 @@ public class Tool_Message implements IMessage {
             		return null;
             }
             
-            if(heldItem.getItem() instanceof ItemStaffofExpansion){
-            	ItemStaffofExpansion  Tool = (ItemStaffofExpansion)heldItem.getItem();
+            if(heldItem.getItem() instanceof Staff_Expansion){
+            	Staff_Expansion  Tool = (Staff_Expansion)heldItem.getItem();
             	Tool.ToolEmpower(heldItem, player);
             	return null;
             }
             
-            if(heldItem.getItem() instanceof ItemStaffofTransformation){
-            	ItemStaffofTransformation  Tool = (ItemStaffofTransformation)heldItem.getItem();
+            if(heldItem.getItem() instanceof Staff_Transformation){
+            	Staff_Transformation  Tool = (Staff_Transformation)heldItem.getItem();
             	Tool.ToolEmpower(heldItem, player);
             	return null;
             }
             
-            if(heldItem.getItem() instanceof ItemEuclideanTransposer){
-            	ItemEuclideanTransposer  Tool = (ItemEuclideanTransposer)heldItem.getItem();
+            if(heldItem.getItem() instanceof Staff_EuclideanTransposer){
+            	Staff_EuclideanTransposer  Tool = (Staff_EuclideanTransposer)heldItem.getItem();
             	Tool.rotateCorner(heldItem, player);
             	return null;
             }

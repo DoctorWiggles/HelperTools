@@ -36,9 +36,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 
 
-public class TranscriberBlock extends Block implements ITileEntityProvider
+public class Block_Transcriber extends Block implements ITileEntityProvider
 {
-    public TranscriberBlock(String unlocalizedName){
+    public Block_Transcriber(String unlocalizedName){
     
         super(Material.CLAY);
         this.setUnlocalizedName(unlocalizedName);
@@ -54,7 +54,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityTranscriber();
+        return new TileEntity_Transcriber();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class TranscriberBlock extends Block implements ITileEntityProvider
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
 
-    	TileEntityTranscriber tile = (TileEntityTranscriber)world.getTileEntity(pos);
+    	TileEntity_Transcriber tile = (TileEntity_Transcriber)world.getTileEntity(pos);
 
     	if (tile != null)
     	{

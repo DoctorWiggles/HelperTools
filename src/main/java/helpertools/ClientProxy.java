@@ -2,11 +2,11 @@ package helpertools;
 
 import helpertools.Client.Armor_Render_Handler;
 import helpertools.Client.Highlight_Handler;
-import helpertools.Client.KeyBindings;
-import helpertools.Client.KeyInputHandler;
+import helpertools.Client.Key_Bindings;
+import helpertools.Client.KeyInput_Handler;
 import helpertools.Client.RenderRegistry;
 import helpertools.Client.Render_Entity;
-import helpertools.Client.ToolHud;
+import helpertools.Client.Tool_Hud;
 import helpertools.Com.Config;
 import helpertools.Com.Mirage_Client_Message;
 import helpertools.Com.Registry_Entity;
@@ -24,9 +24,9 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent e) {
 		super.preInit(e);
 		
-		FMLCommonHandler.instance().bus().register(new KeyInputHandler());
-		KeyBindings.init();  
-		MinecraftForge.EVENT_BUS.register(new ToolHud(Minecraft.getMinecraft()));
+		FMLCommonHandler.instance().bus().register(new KeyInput_Handler());
+		Key_Bindings.init();  
+		MinecraftForge.EVENT_BUS.register(new Tool_Hud(Minecraft.getMinecraft()));
 		Main.network.registerMessage(Mirage_Client_Message.Handler.class, Mirage_Client_Message.class, 2, Side.CLIENT); 
 		//RenderRegistry.Bakery_Advance();
 	}

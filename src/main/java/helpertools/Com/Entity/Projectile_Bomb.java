@@ -23,21 +23,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class Entity_BombProjectile extends EntityThrowable{
+public class Projectile_Bomb extends EntityThrowable{
 	
-	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(Entity_BombProjectile.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(Projectile_Bomb.class, DataSerializers.VARINT);
 	public int Type;
 	
 	
-   public Entity_BombProjectile(World world) {
+   public Projectile_Bomb(World world) {
        super(world);
    }
 
-   public Entity_BombProjectile(World world, EntityPlayer player) {
+   public Projectile_Bomb(World world, EntityPlayer player) {
        super(world,player);
    }
    
-   public Entity_BombProjectile(World world, EntityPlayer player, int type) {
+   public Projectile_Bomb(World world, EntityPlayer player, int type) {
        super(world,player);
        this.Type = type;
        this.setType(type);
@@ -150,76 +150,78 @@ public class Entity_BombProjectile extends EntityThrowable{
 		           
 		       }
 	   }
-	   
-	   //server block placement
+
 	   if(!world.isRemote){
-	  //The block it lands on in the world
-      //once it has hit anything
-      //create and explosion
+
 		   world.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
-      
-      	int blockX = mop.getBlockPos().getX();
-  		int blockY = mop.getBlockPos().getY();
-  		int blockZ = mop.getBlockPos().getZ();
-      
-      int P = 3;
-      int i1 = blockX-1;
-      int j1 = blockY;
-      int k1 = blockZ-2;
-      
-      int i2 = blockX-2;
-      int j2 = blockY+1;
-      int k2 = blockZ-1;
-      
-      int i3 = blockX-1;
-      int j3 = blockY+1;
-      int k3 = blockZ-1;
-      ////////////////
-      if(sideHit == EnumFacing.DOWN){
-    	  j1 = j1-3;
-    	  j2 = j2-3;
-    	  j3 = j3-3;
-      }
-      
-      
-      if(Type == 0){
-    	  BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(), 4);
-      }
-      if(Type == 1){
-    	  BombHelper.Block_Sphere(world, Blocks.SAND.getDefaultState(), mop.getBlockPos(), 4);
-      }
-      if(Type == 2){
-    	  BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 4);
-      }
-      if(Type == 3){
-    	  BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
-      }
-      if(Type == 4){
-    	  BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6);
-    	  BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3);
-      }
-      if(Type == 5){
-    	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 6, false);
-    	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 4, true);
-    	  BombHelper.Desert_Sphere(world, mop.getBlockPos(), 3, false);
-      }
-      
-      if(Type == 7){
-    	  BombHelper.Void_Sphere(world, mop.getBlockPos(), 5);
-      }
-      
-     
-      
-      /*
-      //creates a static area to place dirt, becuase i'm dumb ;^)
-      //top section
-      block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
-      //mid section
-      block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
-      //bottom section
-      block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
-    	*/
-      this.setDead();
+
+		   int blockX = mop.getBlockPos().getX();
+		   int blockY = mop.getBlockPos().getY();
+		   int blockZ = mop.getBlockPos().getZ();
+
+		   int P = 3;
+		   int i1 = blockX-1;
+		   int j1 = blockY;
+		   int k1 = blockZ-2;
+
+		   int i2 = blockX-2;
+		   int j2 = blockY+1;
+		   int k2 = blockZ-1;
+
+		   int i3 = blockX-1;
+		   int j3 = blockY+1;
+		   int k3 = blockZ-1;
+		   ////////////////
+		   if(sideHit == EnumFacing.DOWN){
+			   j1 = j1-3;
+			   j2 = j2-3;
+			   j3 = j3-3;
+		   }
+
+
+		   if(Type == 0){
+			   BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(), 4);
+		   }
+		   if(Type == 1){
+			   BombHelper.Block_Sphere(world, Blocks.SAND.getDefaultState(), mop.getBlockPos(), 4);
+		   }
+		   if(Type == 2){
+			   BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 4);
+		   }
+		   if(Type == 3){
+			   BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
+		   }
+		   if(Type == 4){
+			   BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6);
+			   BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3);
+		   }
+		   if(Type == 5){
+			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 6, false);
+			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 4, true);
+			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 3, false);
+		   }
+		   if(Type == 6){
+			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 6);
+			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 4);
+			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 3);
+		   }
+
+		   if(Type == 7){
+			   BombHelper.Void_Sphere(world, mop.getBlockPos(), 5);
+		   }
+
+
+
+		   /*
+      		//creates a static area to place dirt, becuase i'm dumb ;^)
+      		//top section
+      		block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
+      		//mid section
+      		block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
+      		//bottom section
+      		block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
+		    */
+		   this.setDead();
 	   }
    }
    

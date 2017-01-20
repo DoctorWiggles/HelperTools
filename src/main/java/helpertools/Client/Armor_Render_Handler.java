@@ -76,18 +76,7 @@ public class Armor_Render_Handler {
 	}
 
 	public static enum RenderType {
-		/**
-		 * Render Type for the player's body, translations apply on the player's rotation.
-		 * Sneaking is not handled and should be done during the render.
-		 * @see IBaubleRender.Helper
-		 */
 		BODY,
-
-		/**
-		 * Render Type for the player's body, translations apply on the player's head rotations.
-		 * Sneaking is not handled and should be done during the render.~
-		 * @see IBaubleRender.Helper
-		 */
 		HEAD;
 	}
 }

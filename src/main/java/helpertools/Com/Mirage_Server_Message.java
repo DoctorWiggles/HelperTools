@@ -7,6 +7,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import helpertools.Main;
@@ -52,7 +53,10 @@ public class Mirage_Server_Message implements IMessage {
 
     		if(!player.isSneaking()){ 	
     			BlockPos pos = husk.Swap_Mirage(stack, player, world);
-    			if(pos == null){return null;}
+    			if(husk.getMirage(stack, world) == null){return null;}
+    			if(pos == null){
+    				if(Config.ToolModeMesseges)ModUtil.print(player,TextFormatting.GRAY, "Your shadow is too far");
+    				return null;}
     			Mirage_Client_Message packet = 
     					new Mirage_Client_Message((int)pos.getX(), (int)pos.getY(), (int)pos.getZ());
     			ModUtil.Sound_Server(player, SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, 0.5F);  

@@ -26,7 +26,8 @@ public final class RenderRegistry {
 		//reg(ItemRegistry.dirtbomb);
 		Meta_Resource_handler(ItemRegistry.dirtbomb, Item_Bomb.max_types);
 		reg(ItemRegistry.miragehusk);
-		reg(ItemRegistry.shadecore);
+		//reg(ItemRegistry.shadecore);
+		reg(ItemRegistry.bomb_charm);
 		
 		
 			    

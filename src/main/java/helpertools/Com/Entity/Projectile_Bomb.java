@@ -27,6 +27,7 @@ public class Projectile_Bomb extends EntityThrowable{
 	
 	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(Projectile_Bomb.class, DataSerializers.VARINT);
 	public int Type;
+	public int Amplify;
 	
 	
    public Projectile_Bomb(World world) {
@@ -37,10 +38,11 @@ public class Projectile_Bomb extends EntityThrowable{
        super(world,player);
    }
    
-   public Projectile_Bomb(World world, EntityPlayer player, int type) {
+   public Projectile_Bomb(World world, EntityPlayer player, int type, int amp) {
        super(world,player);
        this.Type = type;
        this.setType(type);
+       this.Amplify= amp;
    }
 
    protected void entityInit() {
@@ -62,11 +64,16 @@ public class Projectile_Bomb extends EntityThrowable{
 			int b0 = tag.getInteger("Type");
 			this.setType(b0);
 		}
+		if (tag.hasKey("Amplify")) {
+			int b0 = tag.getInteger("Amplify");
+			this.setType(b0);
+		}
 	}
 
 	public void writeEntityToNBT(NBTTagCompound tag) {
 		super.writeEntityToNBT(tag);
 		tag.setInteger("Type", this.getType());
+		tag.setInteger("Amplify", this.getType());
 	}
 	
    //flying particle effect
@@ -153,7 +160,7 @@ public class Projectile_Bomb extends EntityThrowable{
 
 	   if(!world.isRemote){
 
-		   world.createExplosion(this, this.posX, this.posY, this.posZ, (float)1.9, false);
+		   world.createExplosion(this, this.posX, this.posY, this.posZ, (float)3, false);
 
 		   int blockX = mop.getBlockPos().getX();
 		   int blockY = mop.getBlockPos().getY();
@@ -177,42 +184,47 @@ public class Projectile_Bomb extends EntityThrowable{
 			   j2 = j2-3;
 			   j3 = j3-3;
 		   }
-
+		   int amp = Amplify;
 
 		   if(Type == 0){
-			   BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(), 4);
+			   //BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(), 1, true);
+			   BombHelper.Block_Sphere(world, ItemRegistry.LooseDirtBlock.getDefaultState(), mop.getBlockPos(),2+amp, true);
 		   }
 		   if(Type == 1){
-			   BombHelper.Block_Sphere(world, Blocks.SAND.getDefaultState(), mop.getBlockPos(), 4);
+			   //BombHelper.Block_Sphere(world, Blocks.SAND.getDefaultState(), mop.getBlockPos(), 1, false);
+			   BombHelper.Block_Sphere(world, Blocks.SAND.getDefaultState(), mop.getBlockPos(), 2+amp, true);
 		   }
 		   if(Type == 2){
-			   BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 4);
+			   //BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 1, false);
+			   BombHelper.Block_Sphere(world, Blocks.GRAVEL.getDefaultState(), mop.getBlockPos(), 2+amp, true);
 		   }
 		   if(Type == 3){
-			   BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 4);
+			   BombHelper.Miracle_Sphere(world, mop.getBlockPos(), 3+amp);
 		   }
 		   if(Type == 4){
-			   BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6);
-			   BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3);
+			   BombHelper.Frost_Sphere(world, mop.getBlockPos(), 6+amp);
+			   BombHelper.Frost_Sphere(world, mop.getBlockPos(), 3+amp);
 		   }
 		   if(Type == 5){
-			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 6, false);
-			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 4, true);
-			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 3, false);
+			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 6+amp, false);
+			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 4+amp, true);
+			   BombHelper.Desert_Sphere(world, mop.getBlockPos(), 3+amp, false);
 		   }
 		   if(Type == 6){
-			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 6);
-			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 4);
-			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 3);
+			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 6+amp);
+			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 4+amp);
+			   BombHelper.Mushroom_Sphere(world, mop.getBlockPos(), 3+amp);
 		   }
 
 		   if(Type == 7){
-			   BombHelper.Void_Sphere(world, mop.getBlockPos(), 5);
+			   BombHelper.Void_Sphere(world, mop.getBlockPos(), 2+amp);
+		   }
+		   if(Type == 8){
+			   BombHelper.Block_Sphere(world, Blocks.DIRT.getDefaultState(), mop.getBlockPos(),2+amp, true);
 		   }
 
 
-
-		   /*
+		   /**
       		//creates a static area to place dirt, becuase i'm dumb ;^)
       		//top section
       		block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
@@ -220,7 +232,7 @@ public class Projectile_Bomb extends EntityThrowable{
       		block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
       		//bottom section
       		block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
-		    */
+		    **/
 		   this.setDead();
 	   }
    }

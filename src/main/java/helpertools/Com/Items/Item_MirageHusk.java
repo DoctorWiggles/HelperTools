@@ -91,7 +91,7 @@ public class Item_MirageHusk extends ItemArmor{
     
     public void damageHat(EntityPlayer player, ItemStack stack){
 		if(player.capabilities.isCreativeMode){return;}		
-		stack.damageItem(1, player);
+		stack.damageItem(Config.Shadow_Cost, player);
 		
 		if(stack.getItemDamage() <= 0){
 			player.inventory.setInventorySlotContents(39, null);			
@@ -171,6 +171,9 @@ public class Item_MirageHusk extends ItemArmor{
 		
 		BlockPos M = mob.getPosition();
 		BlockPos P = player.getPosition();
+		
+		int distance = (int)player.getDistanceToEntity(mob);
+		if(!(distance < 120 || player.capabilities.isCreativeMode)){ return null;}
 		
 		//System.out.println(player.getDistanceToEntity(mob));
 		damageHat(player, stack);

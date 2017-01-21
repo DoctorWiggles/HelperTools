@@ -32,6 +32,11 @@
       },
       {
         "type": "item",
+        "name": "helpertools:bomb_charm",
+        "weight": 10
+      },
+      {
+        "type": "item",
         "name": "helpertools:chocolatemilk_item",
         "weight": 15,
         "functions": [{

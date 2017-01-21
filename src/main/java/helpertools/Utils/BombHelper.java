@@ -40,10 +40,11 @@ public class BombHelper {
 	}
 	
 	
-	public static void Block_Sphere(World world, IBlockState block, BlockPos pos, int radius){
+	public static void Block_Sphere(World world, IBlockState block, BlockPos pos, int radius, boolean flag){
 		
-		for (BlockPos location : Sphere_Shape(pos, radius)) {			
-			Place_Block(world, block, location, false);
+		for (BlockPos location : Sphere_Shape(pos, radius)) {
+			int roll = Main.Randy.nextInt(100);
+			if(roll <80 || flag)Place_Block(world, block, location, false);
 		}
 		
 	}

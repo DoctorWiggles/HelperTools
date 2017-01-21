@@ -13,6 +13,7 @@ import helpertools.Com.Items.ItemChocolateMilk;
 import helpertools.Com.Items.Item_Bomb;
 import helpertools.Com.Items.ItemDynamiteBolt;
 import helpertools.Com.Items.ItemMilkBottle;
+import helpertools.Com.Items.Item_BombCharm;
 import helpertools.Com.Items.Item_MirageHusk;
 import helpertools.Com.Tools.Staff_EuclideanTransposer;
 import helpertools.Com.Tools.Staff_Expansion;
@@ -40,7 +41,8 @@ public class ItemRegistry {
 	public static Item dynamitebolt;
 	public static Item dirtbomb;
 	public static Item miragehusk;
-	public static Item shadecore;
+	//public static Item shadecore;
+	public static Item bomb_charm;
 	
 
 	public static void createItems() {
@@ -55,16 +57,12 @@ public class ItemRegistry {
 		//reg(debug_states_tool = new Debug_States( "debug_states_item"),"debug_states_item");
 		reg(dynamitebolt = new ItemDynamiteBolt( "dynamitebolt_item"));
 		reg(dirtbomb = new Item_Bomb("bomb_item"));
-		reg(miragehusk = new Item_MirageHusk("miragehusk_item", Mystic_Material));
-		reg(shadecore = new Chest_Debugger("shadecore"));
-	
+		reg(miragehusk = new Item_MirageHusk("miragehusk_item", Config.Mystic_Material));
+		//reg(shadecore = new Chest_Debugger("shadecore"));
+		reg(bomb_charm = new Item_BombCharm("bomb_charm"));	
 		
 	}
-	public static ArmorMaterial Mystic_Material = 
-			EnumHelper.addArmorMaterial("Mystic", Main.PATH+"Mystic",
-					12, new int[]{2, 2, 2, 2},
-					35, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0);
-	
+		
 	//Updated Registry Interface
 	public static void reg(Item item){
 		

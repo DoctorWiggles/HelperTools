@@ -13,6 +13,7 @@ item.bottledmilk_item.name=Bottle of Milk
 item.chocolatemilk_item.name=Chocolate Milk
 item.debug_states_item.name=State Debugger
 item.miragehusk_item.name=§5Mirage Husk
+item.bomb_charm.name=Bomb Charm
 item.bomb_item_0.name=Dirt Bomb
 item.bomb_item_1.name=Sand Bomb
 item.bomb_item_2.name=Gravel Bomb
@@ -21,6 +22,7 @@ item.bomb_item_4.name=Frost Bomb
 item.bomb_item_5.name=Desert Bomb
 item.bomb_item_6.name=Mushroom Bomb
 item.bomb_item_7.name=§5Void Bomb
+item.bomb_item_8.name=Sticky Dirt Bomb
 
 #
 item.crossbow_item.name=Torch Launcher

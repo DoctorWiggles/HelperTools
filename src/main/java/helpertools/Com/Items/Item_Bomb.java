@@ -6,6 +6,7 @@ import java.util.List;
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Entity.Projectile_Bomb;
 import helpertools.Utils.HelpTab;
+import helpertools.Utils.InventoryUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Item_Bomb extends Item {
 
-	public static int max_types = 8;
+	public static int max_types = 9;
 
 	public Item_Bomb(String unlocalizedName) {
 		super();
@@ -69,6 +70,9 @@ public class Item_Bomb extends Item {
 			list.add(TextFormatting.ITALIC + "Vaporizes the area :(");
 			list.add(TextFormatting.ITALIC + "Creative only");
 			break;
+		case 8:
+			list.add(TextFormatting.ITALIC + "Not effected by gravity");
+			break;
 			
 		}
 
@@ -88,24 +92,26 @@ public class Item_Bomb extends Item {
 
 
 	@Override	  
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
 	{
 		float f = 6.0F;
 		f = (f * f + f * 2.0F) / 3.0F;
 
-		if (!playerIn.capabilities.isCreativeMode)
+		if (!player.capabilities.isCreativeMode)
 		{
 			--stack.stackSize;
 		}
 
 
-		if (!worldIn.isRemote)
+		if (!world.isRemote)
 		{
-			Projectile_Bomb Bomb = new Projectile_Bomb(worldIn, playerIn, stack.getMetadata());
-			Bomb.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-			worldIn.spawnEntityInWorld(Bomb);
+			int amp = InventoryUtil.Bomb_Charm_Scan(player.inventory);
+			
+			Projectile_Bomb Bomb = new Projectile_Bomb(world, player, stack.getMetadata(), amp);
+			Bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+			world.spawnEntityInWorld(Bomb);
 		}
-		worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT,
+		world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT,
 				SoundCategory.PLAYERS, .4F, itemRand.nextFloat() * 0.4F + 0.8F);
 
 		return new ActionResult(EnumActionResult.SUCCESS, stack);

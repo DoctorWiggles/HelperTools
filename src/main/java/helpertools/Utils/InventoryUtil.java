@@ -1,5 +1,8 @@
 package helpertools.Utils;
 
+import helpertools.Com.ItemRegistry;
+import helpertools.Com.Items.Item_BombCharm;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,6 +68,23 @@ public class InventoryUtil{
 	            return true;
 	        }
 	    }
+	  
+	  public static int Bomb_Charm_Scan( InventoryPlayer entity)
+	  {	int highest = 0;  			
+
+	  	for (int i = 0; i < entity.mainInventory.length; ++i)
+	  	{	        	
+		  if (entity.mainInventory[i] != null && 
+				  entity.mainInventory[i].getItem() instanceof Item_BombCharm)
+		  {	
+			  Item_BombCharm charm = (Item_BombCharm)entity.mainInventory[i].getItem();
+			  int newest = charm.getsize(entity.mainInventory[i]);
+			  if(newest > highest){highest = newest;}
+		  }
+	  }
+
+	  return highest;
+	  }
 	  
 	  public static boolean consumeItem(Item item, InventoryPlayer inventory){
 		  return consumeInventoryItemStack(new ItemStack(item),inventory);

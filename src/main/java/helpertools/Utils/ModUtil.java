@@ -31,13 +31,19 @@ public class ModUtil {
 	 * @param living The target to send the messege to
 	 * @param text The ITextCompnent (string with optional formatting)
 	 */
-	public static void print(EntityLivingBase living, String text){
-		ITextComponent chatmessy = new TextComponentTranslation(text, new Object[0]);
+	public static void print(EntityLivingBase living, TextFormatting format, String text){
+		ITextComponent chatmessy = new TextComponentTranslation(format+text, new Object[0]);
 		((EntityPlayer)living).addChatComponentMessage(chatmessy);
 	}
-	
+	public static void print(EntityLivingBase living,String text){
+		print(living, TextFormatting.WHITE, text);
+	}	
 	public static void print(EntityPlayer player, String text){
-		print((EntityLivingBase)player, text);
+		print((EntityLivingBase)player, TextFormatting.WHITE, text);
+	}
+	
+	public static void print(EntityPlayer player, TextFormatting format, String text){
+		print((EntityLivingBase)player, format, text);
 	}
 	
 	

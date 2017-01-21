@@ -5,7 +5,9 @@ import java.util.List;
 
 import helpertools.Main;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
@@ -34,6 +36,7 @@ public class Config extends ItemRegistry{
 	public static ToolMaterial Exchange_Matt;
 	public static ToolMaterial Pattern_Matt;
 	public static ToolMaterial Crossbow_Matt;
+	public static ArmorMaterial Mystic_Material;
 	public static int Durability_ExpandingTool;
 	public static int Durability_ExchangingTool;
 	public static int Durability_PatternTool;
@@ -53,9 +56,12 @@ public class Config extends ItemRegistry{
 	public static boolean Fancy_Exchange;
 	public static boolean Fancy_PatternTool;
 	
-	public static String Functions = "Functions";
+	public static String  Functions = "Functions";
 	public static boolean ExchangeReturns;	
 	public static boolean DirtBomb_Debris;
+	public static int 	  BombCharm_Level;
+	public static boolean BombCharm_Ward;
+	public static int     Shadow_Cost;
 	
 	public static String Blockz ="Block Recipes";
 	public static boolean Recipe_EuclideanBlock;
@@ -83,6 +89,7 @@ public class Config extends ItemRegistry{
 	public static boolean Recipe_String_For_Dynamite;
 	public static boolean Recipe_Slime_For_Dynamite;
 	public static int     Output_Dynamite;
+	public static boolean Recipe_BombCharm;
 	
 	//bombs
 	public static String BombRecipe = "Bomb Recipes";
@@ -94,6 +101,7 @@ public class Config extends ItemRegistry{
 	public static boolean Recipe_DesertBombs;	
 	public static boolean Recipe_MushroomBombs;
 	public static boolean Recipe_VoidBombs;
+	public static boolean Recipe_StickyBombs;
 	
 	public static int Output_DirtBombs;
 	public static int Output_SandBombs;
@@ -103,6 +111,7 @@ public class Config extends ItemRegistry{
 	public static int Output_DesertBombs;
 	public static int Output_MushroomBombs;
 	public static int Output_VoidBombs;
+	public static int Output_StickyBombs;
 		
 	
 	public static String Generation ="Generation";
@@ -118,6 +127,8 @@ public class Config extends ItemRegistry{
 	
 	
 	
+	
+	
 	//=============================================================================//
 	public static void syncConfig (){
 		
@@ -126,13 +137,14 @@ public class Config extends ItemRegistry{
 		Durability_ExchangingTool  = config.get(Durability, dura+"ExchangingTool", 1024).getInt();
 		Durability_PatternTool  = config.get(Durability, dura+"PatternTool", 1240).getInt();
 		Durability_CrossbowTool  = config.get(Durability, dura+"CrossbowTool", 1428).getInt();
+		Durability_MirageHusk = config.get(Durability, dura+"Mirage Husk", 12,"Scales by x10").getInt();
 		Tool_Attack_Damage  = config.get(Durability, "Tool Attack Damage", 4, "Play around with attack damage and speed, from slow yet heavy hitter or quick but week attacks").getDouble();
 		Tool_Attack_Speed  = config.get(Durability, "Tool Attack Speed", -3.2F, "-4F = 0 Attacks per second, -3F = 1, 0F = 4 Attacks per second").getDouble();
 		
 		
 		//sect Extra settings
 		RenderToolHuds  = config.get(GUI, "Tool Huds",true, "Enables Tools heads up displays").getBoolean();
-		ToolModeMesseges = config.get(GUI, "Tool Mode Messeges", true).getBoolean();
+		ToolModeMesseges = config.get(GUI, "Tool Mode Messeges", true,"Most Tool text messeges").getBoolean();
 		ToolPowerMesseges = config.get(GUI, "Tool Power Messeges", false).getBoolean();
 		Use_Wire_Frame_Guides = config.get(GUI, "Use Wire Frames for Hightlighting", true, "Disable for light performance gains").getBoolean();
 		Use_Fake_Block_Guides = config.get(GUI, "Use Fake Blocks for Highlights", true, "This is a huge performance hog, disable it if you have issues displaying it").getBoolean();
@@ -166,7 +178,9 @@ public class Config extends ItemRegistry{
 		Recipe_String_For_Dynamite = config.get(ItemRecipe, rec+"String For Dynamite", true).getBoolean();
 		Recipe_Slime_For_Dynamite = config.get(ItemRecipe, rec+"Slime For Dynamite", true).getBoolean();
 		Output_Dynamite  = config.get(ItemRecipe, output+"Dynamite", 4).getInt();
+		Recipe_BombCharm= config.get(ItemRecipe, rec+"Bomb Charms", true).getBoolean();
 		
+		//bomb recipes
 		Recipe_DirtBombs = config.get(BombRecipe, rec+"Dirt Bombs", true).getBoolean();
 		Recipe_SandBombs = config.get(BombRecipe, rec+"Sand Bombs", true).getBoolean();
 		Recipe_GravelBombs = config.get(BombRecipe, rec+"Gravel Bombs", true).getBoolean();
@@ -175,6 +189,7 @@ public class Config extends ItemRegistry{
 		Recipe_SnowBombs = config.get(BombRecipe, rec+"Snow Bombs", true).getBoolean();
 		Recipe_MushroomBombs = config.get(BombRecipe, rec+"Mushroom Bombs", true).getBoolean();
 		Recipe_VoidBombs = config.get(BombRecipe, rec+"Void Bombs", false).getBoolean();
+		Recipe_StickyBombs = config.get(BombRecipe, rec+"Sticky Bombs", true).getBoolean();
 		
 		Output_DirtBombs  = config.get(BombRecipe, output+"Dirt Bombs", 6).getInt();
 		Output_SandBombs  = config.get(BombRecipe, output+"Sand Bombs", 6).getInt();
@@ -184,11 +199,15 @@ public class Config extends ItemRegistry{
 		Output_DesertBombs  = config.get(BombRecipe, output+"Desert Bombs", 2).getInt();
 		Output_MushroomBombs  = config.get(BombRecipe, output+"Mushroom Bombs", 2).getInt();
 		Output_VoidBombs  = config.get(BombRecipe, output+"Void Bombs", 4).getInt();
+		Output_StickyBombs  = config.get(BombRecipe, output+"Sticky Bombs", 6).getInt();
 		
 		
 		//Tool functions
 		ExchangeReturns = config.get(Functions, "Exchange Tool Returns", true, "Allows the Exchange tool to drop swapped blocks, disable for creative usage etc").getBoolean();
-		DirtBomb_Debris = config.get(Functions, "Bomb Debris", true, "Toggles most of block items dropped by bombs, disable if you have performance issues").getBoolean();
+		//DirtBomb_Debris = config.get(Functions, "Bomb Debris", true, "Toggles most of block items dropped by bombs, disable if you have performance issues").getBoolean();
+		BombCharm_Ward = config.get(Functions, "Bomb Charm Ward", true, "Allows the Bomb Charm to Prevent Explosion Deaths").getBoolean();
+		BombCharm_Level  = config.get(Functions, "Bomb Charm Max Level", 5, "Set the level cap for non-creative charms").getInt();
+		Shadow_Cost  = config.get(Functions, "MirageHusk Shadow Cost", 1, "How much summoning and using a shadow should cost durability wise").getInt();
 		
 		//sect Generation
 		Extra_Dungeon_Loot = config.get(Generation, "Extra Dungeon Loot", true,"Adds some tools and items to most generating chests").getBoolean();
@@ -208,7 +227,8 @@ public class Config extends ItemRegistry{
 			Exchange_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 			Pattern_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
 			Crossbow_Matt = EnumHelper.addToolMaterial("ExpRodMaterial", 0, Durability_ExpandingTool, 0.8F, 4F, 15);
-				
+			Mystic_Material = EnumHelper.addArmorMaterial("Mystic", Main.PATH+"Mystic",
+					Durability_MirageHusk, new int[]{2, 2, 2, 2},35, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0);	
 				
 			}
 	

@@ -42,8 +42,8 @@ public class Chest_Debugger extends Item{
         if (tileentity instanceof TileEntityChest)   
         {
         	//ResourceLocation location = ModLootTables.Dungeon_Additive;
-        	//ResourceLocation location = LootTableList.CHESTS_SPAWN_BONUS_CHEST;
-        	ResourceLocation location = LootTableList.CHESTS_END_CITY_TREASURE;
+        	ResourceLocation location = LootTableList.CHESTS_SPAWN_BONUS_CHEST;
+        	//ResourceLocation location = LootTableList.CHESTS_END_CITY_TREASURE;
         	
         	
             ((TileEntityChest)tileentity).setLootTable(location, Main.Randy.nextLong());

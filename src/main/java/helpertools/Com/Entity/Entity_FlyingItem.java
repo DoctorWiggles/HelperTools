@@ -28,7 +28,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.base.Optional;
-
+/** May or may not be 100% recycled bat code with spooky item spice **/
 public class Entity_FlyingItem extends EntityAmbientCreature
 {
     private static final DataParameter<Byte> HANGING = EntityDataManager.<Byte>createKey(Entity_FlyingItem.class, DataSerializers.BYTE);

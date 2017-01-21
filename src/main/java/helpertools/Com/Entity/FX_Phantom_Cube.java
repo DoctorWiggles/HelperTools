@@ -29,6 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/** Oddly enough the entity isn't any worse on performance than directly accessing the renderer**/
 @SideOnly(Side.CLIENT)
 public class FX_Phantom_Cube extends Entity
 {

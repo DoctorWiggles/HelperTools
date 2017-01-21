@@ -28,9 +28,6 @@ public class Projectile_RedTorch extends EntityThrowable{
    }
    
    
-   @Override
-   protected void entityInit() { }
-   
    public void onUpdate()
    {
 	   int i;
@@ -43,14 +40,7 @@ public class Projectile_RedTorch extends EntityThrowable{
     	   //this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0.0D, 0.0D, 0.0D, new int[0]);
        }   
    }
-   
-   //uniqueness for each projectile entity
-   //Requires customs packets so I won't do that.
-   @Override
-   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
-   @Override
-   public void writeEntityToNBT(NBTTagCompound nbttagcompound) { }
-   
+      
    /** Compacted Block Dropper method **/
    public void drop_blockItem(World world, BlockPos pos1){
 	   
@@ -65,20 +55,14 @@ public class Projectile_RedTorch extends EntityThrowable{
 	   //set to false prevents reshaping face, in case of hitting a grassblock sideways
 	   if (flag){
 	   switch(sideHit){
-	   case UP: //p_State = p_Block.getDefaultState();			   
+	   case UP: //p_State = p_Block.getDefaultState();
 		   break;
-	   case DOWN: 
-		   break;
-	   case NORTH: meta = 4;
-		   break;
-	   case SOUTH: meta = 3;
-		   break;
-	   case EAST: meta = 1;
-		   break;
-	   case WEST: meta = 2;
-		   break;
-	   default:
-		break;	   
+	   case DOWN:  				 break;
+	   case NORTH: meta = 4;	 break;
+	   case SOUTH: meta = 3; 	 break;
+	   case EAST:  meta = 1;	 break;
+	   case WEST:  meta = 2;	 break;
+	   default:					 break;	   
 	   }
 	   }
 	   p_State = p_Block.getStateFromMeta(meta); 	 
@@ -130,20 +114,13 @@ public class Projectile_RedTorch extends EntityThrowable{
 	   BlockPos pos2 = pos1;
 	   
 	   switch(sideHit){
-	   case UP: pos2 = pos1.up();
-		   break;
-	   case DOWN: pos2 = pos1.down();
-		   break;
-	   case NORTH: pos2 = pos1.north();
-		   break;
-	   case SOUTH: pos2 = pos1.south();
-		   break;
-	   case EAST: pos2 = pos1.east();
-		   break;
-	   case WEST: pos2 = pos1.west();
-		   break;
-	   default:
-		break;	   
+	   case UP: pos2 = pos1.up(); break;
+	   case DOWN: pos2 = pos1.down(); break;
+	   case NORTH: pos2 = pos1.north();  break;
+	   case SOUTH: pos2 = pos1.south();  break;
+	   case EAST: pos2 = pos1.east();break;
+	   case WEST: pos2 = pos1.west(); break;
+	   default: break;	   
 	   }	
 	   if(world.getBlockState(pos1).getBlock() == Blocks.TNT){
 		   world.setBlockToAir(pos1);
@@ -195,9 +172,4 @@ public class Projectile_RedTorch extends EntityThrowable{
    }
    
    
-   
-   
-   
-
-  
 }

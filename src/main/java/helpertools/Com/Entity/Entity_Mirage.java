@@ -68,8 +68,7 @@ public class Entity_Mirage extends EntityLiving{
     }
 	
 	protected void entityInit() {
-		super.entityInit();			
-		
+		super.entityInit();		
 		this.dataManager.register(player, String.valueOf(""));
 	}
 	

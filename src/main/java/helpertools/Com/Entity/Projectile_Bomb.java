@@ -92,8 +92,6 @@ public class Projectile_Bomb extends EntityThrowable{
     	    			   this.posX + this.motionX * (double)i / 4.0D,
     	    			   this.posY + .8+ this.motionY * (double)i / 4.0D,
     	    			   this.posZ + this.motionZ * (double)i / 4.0D, 0, 0 , 0);
-    	           
-    	          
     	       } 
     	   }
    }
@@ -222,67 +220,10 @@ public class Projectile_Bomb extends EntityThrowable{
 		   if(Type == 8){
 			   BombHelper.Block_Sphere(world, Blocks.DIRT.getDefaultState(), mop.getBlockPos(),2+amp, true);
 		   }
-
-
-		   /**
-      		//creates a static area to place dirt, becuase i'm dumb ;^)
-      		//top section
-      		block_placement(worldObj, pblock, dirtblock, i1, j1, k1, 5, 3, 1, true);
-      		//mid section
-      		block_placement(worldObj, pblock, dirtblock, i2, j2, k2, 3, 5, 1, true);
-      		//bottom section
-      		block_placement(worldObj, pblock, dirtblock, i3, j3, k3, 3, 3, 1, false);
-		    **/
+		   
 		   this.setDead();
 	   }
    }
-   
-   //sets up the area to place blocks
-   public void block_placement(World world,Block pblock, Block dirtblock, int x1, int y1, int z1, int G2, int U2, int l2, boolean flag){
-	    for (int G = 0; G < G2; ++G)
- 		{
- 			for (int U = 0; U < U2; ++U)
- 			{
- 				for (int l = 0; l <l2; ++l)
- 				{
- 					//randomizer for unique dirt mounds
- 					BlockPos pos = new BlockPos(x1+U, y1+1+l, z1+G);
- 					if(flag){
- 						int ig = Main.Randy.nextInt(6);
- 						if (ig >= 2){ 					
- 							place_block(pos, pblock, dirtblock);
- 						}}
-  					if(!flag){
-  						place_block(pos, pblock, dirtblock);
-  					}
-   	  
-  					}}}
-	   
-	   }
-  
-	//place the block
-   //goes through a couple checks to displace -- crush non solids
-   public void place_block (BlockPos pos, Block pblock, Block dirtblock){
-
-		if(worldObj.isAirBlock(pos)   	  
-				||  worldObj.getBlockState(pos).getMaterial()== Material.PLANTS
-				||  worldObj.getBlockState(pos).getMaterial()== Material.LAVA
-				||  worldObj.getBlockState(pos).getMaterial()== Material.WATER)
-		{
-			worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
-		}
-		if(worldObj.getBlockState(pos).getMaterial()== Material.PLANTS
-				|| worldObj.getBlockState(pos).getMaterial()== Material.VINE
-				|| worldObj.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER){
-			(worldObj.getBlockState(pos).getBlock()).dropBlockAsItem(worldObj, pos, worldObj.getBlockState(pos), 0);			
-			worldObj.setBlockState(pos, pblock.getDefaultState(), 012);
-		}
-		
-		else {
-			if(Config.DirtBomb_Debris){
-			dirtblock.dropBlockAsItem(worldObj, pos, dirtblock.getDefaultState(), 0);
-		}}
-   }
-   
+     
    
 }

@@ -23,6 +23,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 /** Various shortcut method utilities **/
 public class ModUtil {
@@ -68,6 +71,16 @@ public class ModUtil {
 	}
 	public static void Sound_Server(EntityLivingBase living,SoundEvent event, Float volume, Float pitch){
 		Sound_Server(living.worldObj, (EntityPlayer)living, event, pitch, pitch);
+	}
+	
+	//=============================================================//
+	
+	public static TargetPoint Message_Point(EntityPlayer player, int range){
+		BlockPos pos = player.getPosition();
+		WorldProvider provider= player.worldObj.provider;
+		NetworkRegistry.TargetPoint point =
+				new TargetPoint(provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range);
+		return point;
 	}
 	
 	

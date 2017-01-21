@@ -23,12 +23,7 @@ public class Projectile_Torch extends EntityThrowable{
    public Projectile_Torch(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
-   
-   
-   @Override
-   protected void entityInit() { 
-   }
-   
+     
    public void onUpdate()
    {
 	   int i;
@@ -41,13 +36,6 @@ public class Projectile_Torch extends EntityThrowable{
     	   //this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, 0.0D, 0.0D, 0.0D, new int[0]);
        }   
    }
-   
-   //uniqueness for each projectile entity
-   //Requires customs packets so I won't do that.
-   @Override
-   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
-   @Override
-   public void writeEntityToNBT(NBTTagCompound nbttagcompound) { }
    
    /** Compacted Block Dropper method **/
    public void drop_blockItem(World world, BlockPos pos1){
@@ -65,18 +53,12 @@ public class Projectile_Torch extends EntityThrowable{
 	   switch(sideHit){
 	   case UP: //p_State = p_Block.getDefaultState();			   
 		   break;
-	   case DOWN: 
-		   break;
-	   case NORTH: meta = 4;
-		   break;
-	   case SOUTH: meta = 3;
-		   break;
-	   case EAST: meta = 1;
-		   break;
-	   case WEST: meta = 2;
-		   break;
-	   default:
-		break;	   
+	   case DOWN:  break;
+	   case NORTH: meta = 4; break;
+	   case SOUTH: meta = 3; break;
+	   case EAST:  meta = 1; break;
+	   case WEST:  meta = 2; break;
+	   default:              break;	   
 	   }
 	   }
 	   
@@ -180,14 +162,7 @@ public class Projectile_Torch extends EntityThrowable{
 		   return;
 	   }
 	   
-	
-	
    }
    
-   
-   
-   
-   
-
   
 }

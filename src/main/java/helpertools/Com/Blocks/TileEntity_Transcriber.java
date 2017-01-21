@@ -44,7 +44,6 @@ public class TileEntity_Transcriber extends TileEntity implements ITickable {
   		readFromNBT(pkt.getNbtCompound());
   	}
 
-  	
     
     @Override
     public NBTTagCompound getUpdateTag()

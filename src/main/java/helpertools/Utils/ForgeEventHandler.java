@@ -7,6 +7,7 @@ import helpertools.Com.ItemRegistry;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
@@ -100,7 +101,7 @@ public class ForgeEventHandler {
 		}
 		if(!event.getSource().isExplosion()){return;}
 		EntityPlayer player = (EntityPlayer)event.getEntityLiving();
-		
+				
 		Float Damage = event.getAmount();
 		
 		Float Experience = player.experience;
@@ -118,6 +119,7 @@ public class ForgeEventHandler {
 			player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 80, 1));
 			event.setCanceled(true);
 			ModUtil.print(player,TextFormatting.DARK_RED, "Bomb charm activated");
+			ModUtil.Sound_Server(player, SoundEvents.ENTITY_WITHER_SPAWN, 1F, 2.5F);						
 			}
 		}
 		

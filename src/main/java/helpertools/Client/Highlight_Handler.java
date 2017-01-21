@@ -80,10 +80,7 @@ public class Highlight_Handler {
 						
 						fluctuate();
 						Render_Outlines(evt, state, pos, 240, 180, 240, 3F*this.scale);
-					}
-				
-			
-
+					}				
 				}
 		} catch(Exception e){}
 	}
@@ -126,12 +123,9 @@ public class Highlight_Handler {
 						for (BlockPos location : positions) {
 							Render_Outlines(evt, state, location, 180, 240, 180, 3.5F*this.scale);
 							
-							
 						}
 					}
-			
-
-		}
+			}
 		} catch(Exception e){}
 		
 	}

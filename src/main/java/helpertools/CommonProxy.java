@@ -7,7 +7,6 @@ import helpertools.Com.Mirage_Server_Message;
 import helpertools.Com.RecipeFactory;
 import helpertools.Com.Registry_Entity;
 import helpertools.Com.Tool_Message;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,14 +24,15 @@ public class CommonProxy {
 		
 		/** Configs **/
     	Config.configOptions(e);
-    	//ID = 0; ID++
+    	int ID = 0; //ID++;
 		/** Networking & Packets **/
     	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel(Main.MODID); 	//registerMessage(MyMessageHandler.class, MyMessage.class, packetID, receivingSide)
-    	//Messeges for syncing tool functions
-    	Main.network.registerMessage(Tool_Message.Handler.class, Tool_Message.class, 0, Side.SERVER);  // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
-    	//Messeges for syncing Shadows
-    	Main.network.registerMessage(Mirage_Server_Message.Handler.class, Mirage_Server_Message.class, 1, Side.SERVER); 
-    	Main.network.registerMessage(Mirage_Client_Message.Dummy_Handler.class, Mirage_Client_Message.class, 2, Side.SERVER); //Dummy Required less explosions
+    	//Messages for syncing tool functions
+    	Main.network.registerMessage(Tool_Message.Handler.class, Tool_Message.class, ID++, Side.SERVER);  // network.registerMessage(SecondMessage.Handler.class, SecondMessage.class, 1, Side.CLIENT);
+    	//Messages for syncing Shadows
+    	Main.network.registerMessage(Mirage_Server_Message.Handler.class, Mirage_Server_Message.class, ID++, Side.SERVER); 
+    	Main.network.registerMessage(Mirage_Client_Message.Dummy_Handler.class, Mirage_Client_Message.class, ID++, Side.SERVER); //Dummy Required less explosions
+    	//Main.network.registerMessage(Charm_Effect_Message.Dummy_Handler.class, Charm_Effect_Message.class, ID++, Side.SERVER); //Huh... weird, couldn't get packet to fire 
     	
     	ItemRegistry.createItems();
 		ItemRegistry.createBlocks();

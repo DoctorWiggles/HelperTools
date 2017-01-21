@@ -32,10 +32,10 @@ public class Config extends ItemRegistry{
 		}	
 	
 	public static String Durability ="Durability";
-	public static ToolMaterial ExpRod_Matt;
-	public static ToolMaterial Exchange_Matt;
-	public static ToolMaterial Pattern_Matt;
-	public static ToolMaterial Crossbow_Matt;
+	public static ToolMaterial  ExpRod_Matt;
+	public static ToolMaterial  Exchange_Matt;
+	public static ToolMaterial  Pattern_Matt;
+	public static ToolMaterial  Crossbow_Matt;
 	public static ArmorMaterial Mystic_Material;
 	public static int Durability_ExpandingTool;
 	public static int Durability_ExchangingTool;
@@ -46,7 +46,7 @@ public class Config extends ItemRegistry{
 	public static double Tool_Attack_Speed;
 	
 		
-	public static String GUI ="GUI";
+	public static String  GUI ="GUI";
 	public static boolean RenderToolHuds;
 	public static boolean ToolModeMesseges;
 	public static boolean ToolPowerMesseges;
@@ -63,14 +63,21 @@ public class Config extends ItemRegistry{
 	public static boolean BombCharm_Ward;
 	public static int     Shadow_Cost;
 	
-	public static String Blockz ="Block Recipes";
+	public static String  Blockz ="Block Recipes";
 	public static boolean Recipe_EuclideanBlock;
-	public static boolean Recipe_Fake_Bedrock;
-	public static int 	  Output_False_Bedrock;
+	public static boolean Recipe_Fake_Bedrock;	
 	public static boolean Recipe_Podzol;
+	public static boolean Recipe_Lamp;
+	public static boolean Recipe_Floater;
+	public static boolean Recipe_Balloon;
+	
+	public static int Output_False_Bedrock;
+	public static int Output_Lamp;
+	public static int Output_Balloon;
 	
 	
-	public static String ToolRecipe ="Tool Recipes";
+	
+	public static String  ToolRecipe ="Tool Recipes";
 	public static boolean Diamonds_forTools;
 	public static boolean Pearls_forTools;
 	public static boolean Emeralds_forTools;
@@ -78,12 +85,12 @@ public class Config extends ItemRegistry{
 	public static boolean Recipe_MirageHusk;
 	
 	public static boolean Repairs_allowed;
-	public static int Expander_Amount;
-	public static int Exchanger_Amount;
-	public static int Pattern_Amount;
-	public static int Crossbow_Amount;
+	public static int     Expander_Amount;
+	public static int     Exchanger_Amount;
+	public static int     Pattern_Amount;
+	public static int     Crossbow_Amount;
 	
-	public static String ItemRecipe ="Item Recipes";
+	public static String  ItemRecipe ="Item Recipes";
 	public static boolean Recipe_BottledMilk;
 	public static boolean Recipe_Chocolatemilk;
 	public static boolean Recipe_String_For_Dynamite;
@@ -114,7 +121,7 @@ public class Config extends ItemRegistry{
 	public static int Output_StickyBombs;
 		
 	
-	public static String Generation ="Generation";
+	public static String  Generation ="Generation";
 	public static boolean Extra_Dungeon_Loot;
 	public static boolean No_Fun_Allowed;
 	
@@ -124,10 +131,7 @@ public class Config extends ItemRegistry{
 	public static String output = TextFormatting.BLUE + "Output " +TextFormatting.GRAY;
 	public static String bomb_rec = TextFormatting.BLUE + "Output " +TextFormatting.GRAY;
 	public static String repairs = TextFormatting.DARK_PURPLE + "Repair Amount: " +TextFormatting.GRAY;
-	
-	
-	
-	
+		
 	
 	//=============================================================================//
 	public static void syncConfig (){
@@ -156,8 +160,14 @@ public class Config extends ItemRegistry{
 		//sect Block Recipes
 		Recipe_EuclideanBlock = config.get(Blockz, rec+"EuclideanBlock", true).getBoolean();
 		Recipe_Fake_Bedrock = config.get(Blockz, rec+"Fake Bedrock", true).getBoolean();
-		Output_False_Bedrock  = config.get(Blockz, output+"False Bedrock", 4).getInt();
 		Recipe_Podzol = config.get(Blockz, rec+"Podzol", true).getBoolean();
+		Recipe_Lamp = config.get(Blockz, rec+"Lamp", true).getBoolean();		
+		Recipe_Balloon = config.get(Blockz, rec+"Balloon", true).getBoolean();		
+		Recipe_Floater = config.get(Blockz, rec+"Floater", true).getBoolean();
+		
+		Output_False_Bedrock  = config.get(Blockz, output+"False Bedrock", 4).getInt();
+		Output_Lamp  = config.get(Blockz, output+"Lamp", 1).getInt();
+		Output_Balloon  = config.get(Blockz, output+"Balloon", 4).getInt();
 		
 		
 		//sect Tool Recipes

@@ -27,7 +27,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class Projectile_Dynamite extends EntityThrowable{
-
 	
    public Projectile_Dynamite(World world) {
        super(world);
@@ -36,26 +35,6 @@ public class Projectile_Dynamite extends EntityThrowable{
    public Projectile_Dynamite(World world, EntityPlayer entityPlayer) {
        super(world,entityPlayer);
    }
-   
-   
-   @Override
-   protected void entityInit() { }
-   
-   public void onUpdate()
-   {
-	   int i;
-       super.onUpdate();
-       for (i = 0; i < 2; ++i)
-       {}
-   }
-   
-   //uniqueness for each projectile entity
-   //Requires customs packets so I won't do that.
-   @Override
-   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
-   @Override
-   public void writeEntityToNBT(NBTTagCompound nbttagcompound) { }
-   
    
    /** Called whenever the entities hitbox touches another box, being an entitie's or block. **/
    @Override

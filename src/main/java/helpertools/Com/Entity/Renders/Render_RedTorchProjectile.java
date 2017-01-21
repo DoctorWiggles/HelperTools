@@ -23,8 +23,6 @@ public class Render_RedTorchProjectile extends Render
         this.shadowSize = 0.2F;
     }
 
-	
-	
     public void doRender(Projectile_RedTorch entity, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
         this.bindEntityTexture(entity);

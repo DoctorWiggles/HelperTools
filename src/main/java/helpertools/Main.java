@@ -31,7 +31,7 @@ public class Main {
 	public static final String MODID = "helpertools";
 	public static final String PATH = MODID + ":";
 	public static final String MODNAME = "HelperTools";
-	public static final String VERSION = "v3.0c";
+	public static final String VERSION = "v4.0";
 	public static final String GUIFactory  = "helpertools.Com.Config_Factory";
 	public static final Logger logger = LogManager.getLogger(Main.MODID);
 
@@ -42,7 +42,6 @@ public class Main {
 	public static Main instance = new Main();
 	public static Random Randy = new Random();
 	
-	//Proxy Sorting
 	@SidedProxy(clientSide="helpertools.ClientProxy", serverSide="helpertools.CommonProxy")
 	public static CommonProxy proxy;
 	

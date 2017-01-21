@@ -9,6 +9,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
@@ -154,10 +155,14 @@ public class Mod_Recipes extends Config{
 					
 					charm.setlevel(future_output, level+1);
 					switch(level+1){
-						case 2:future_output.setStackDisplayName("ÅòaPulsing Bomb Charm (+2)"); break;
-						case 3:future_output.setStackDisplayName("ÅòeGreater Bomb Charm (+3)"); break;
-						case 4:future_output.setStackDisplayName("Åò9Grand Bomb Charm (+4)"); break;
-						case 5:future_output.setStackDisplayName("ÅòdMaster Bomb Charm (+5)"); break;
+						case 2:future_output.setStackDisplayName(
+								TextFormatting.GREEN+"Pulsing Bomb Charm (+2)"); break;
+						case 3:future_output.setStackDisplayName(
+								TextFormatting.YELLOW+"Greater Bomb Charm (+3)"); break;
+						case 4:future_output.setStackDisplayName(
+								TextFormatting.BLUE+"Grand Bomb Charm (+4)"); break;
+						case 5:future_output.setStackDisplayName(
+								TextFormatting.DARK_PURPLE+"Master Bomb Charm (+5)"); break;
 					}
 					
 				}

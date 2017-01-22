@@ -1,7 +1,11 @@
 package helpertools;
 
-import helpertools.Client.Armor_Render_Handler;
+import java.util.Map;
+
+import helpertools.Client.Armor_Layer_Handler;
+import helpertools.Client.Armor_Render_Handler_old;
 import helpertools.Client.Highlight_Handler;
+import helpertools.Client.Husk_Render_Layer;
 import helpertools.Client.Key_Bindings;
 import helpertools.Client.KeyInput_Handler;
 import helpertools.Client.RenderRegistry;
@@ -11,6 +15,12 @@ import helpertools.Com.Config;
 import helpertools.Com.Mirage_Client_Message;
 import helpertools.Com.Registry_Entity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderArmorStand;
+import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.RenderSkeleton;
+import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -38,15 +48,41 @@ public class ClientProxy extends CommonProxy {
 		RenderRegistry.registerItemRenderer();
 		RenderRegistry.registerBlockRenderer();		
 		Render_Entity.register_entity_renderer();
-		MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
+		//MinecraftForge.EVENT_BUS.register(new Armor_Render_Handler());
+		Player_Layer_Injection();
+		Entity_Layer_Injection();
 		MinecraftForge.EVENT_BUS.register(new Highlight_Handler());
-		
+				
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent e) {
 		super.postInit(e);
 	}
+	
+	//Add more render layers to a player
+	private void Player_Layer_Injection() {
+		try{
+		Map<String, RenderPlayer> skinMap = Minecraft.getMinecraft().getRenderManager().getSkinMap();
+		RenderPlayer render;
+		render = skinMap.get("default");
+		render.addLayer(new Husk_Render_Layer());
+
+		render = skinMap.get("slim");
+		render.addLayer(new Husk_Render_Layer());
+		}catch(Exception e){System.out.println("Helper Tools had an accident adding player layers, please report this issue!: "+e);}
+	}
+	
+	
+	private void Entity_Layer_Injection() {
+		try{					
+		Render render =Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntitySkeleton.class);
+		RenderSkeleton stand_render= (RenderSkeleton)render;		
+		stand_render.addLayer(new Husk_Render_Layer());
+		
+		}catch(Exception e){System.out.println("Helper Tools had an accident adding Skeleton layers, please report this issue!: "+e);}
+	}
+	
 
 }
 

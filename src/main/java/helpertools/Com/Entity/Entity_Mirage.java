@@ -1,5 +1,6 @@
 package helpertools.Com.Entity;
 
+import helpertools.Com.Config;
 import helpertools.Utils.ModUtil;
 
 import java.util.UUID;
@@ -19,6 +20,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,12 +35,14 @@ public class Entity_Mirage extends EntityLiving{
 		super(worldIn);
 		this.setID(ID);
 		//Was too hard to setup transparent items
-		//this.setHeldItem(EnumHand.MAIN_HAND, player.getHeldItemMainhand());
-		//this.setHeldItem(EnumHand.OFF_HAND, player.getHeldItemOffhand());
-		//this.setArmor(EntityEquipmentSlot.HEAD, player);
-		//this.setArmor(EntityEquipmentSlot.CHEST, player);
-		//this.setArmor(EntityEquipmentSlot.LEGS, player);
-		//this.setArmor(EntityEquipmentSlot.FEET, player);
+		if(Config.Render_Mirage_Gear){
+		this.setHeldItem(EnumHand.MAIN_HAND, player.getHeldItemMainhand());
+		this.setHeldItem(EnumHand.OFF_HAND, player.getHeldItemOffhand());
+		this.setArmor(EntityEquipmentSlot.HEAD, player);
+		this.setArmor(EntityEquipmentSlot.CHEST, player);
+		this.setArmor(EntityEquipmentSlot.LEGS, player);
+		this.setArmor(EntityEquipmentSlot.FEET, player);
+		}
 	}
 				
 	protected void initEntityAI()

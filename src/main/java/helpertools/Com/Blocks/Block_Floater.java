@@ -1,7 +1,9 @@
 package helpertools.Com.Blocks;
 
 import helpertools.Main;
+import helpertools.Com.Floater_Message;
 import helpertools.Com.ItemRegistry;
+import helpertools.Com.Mirage_Server_Message;
 import helpertools.Com.Blocks.Block_Transcriber.TranscriberBlock_Item;
 import helpertools.Utils.BlockStateHelper;
 import helpertools.Utils.HelpTab;
@@ -123,7 +125,7 @@ public static class FloaterBlock_Item extends ItemBlock
 		if(player.isSneaking()){
 			BlockPos pos = player.getPosition().down();
 			IBlockState state = world.getBlockState(pos); 
-			Place_Floater(state, world, pos);
+			//Place_Floater(state, world, pos);
 			if(!player.capabilities.isCreativeMode && Place_Floater(state, world, pos)){
 				--stack.stackSize;}
 			
@@ -131,13 +133,19 @@ public static class FloaterBlock_Item extends ItemBlock
 		}
 
 		if(!player.isSneaking()){ 
+			if(world.isRemote){
 			RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;			
 			BlockPos pos = mouseOver.getBlockPos();
-			IBlockState state = world.getBlockState(pos); 
+			IBlockState state = world.getBlockState(pos);
+			
+			Place_Floater(state, world, pos);
+			Main.network.sendToServer(new Floater_Message(pos.getX(), pos.getY(),pos.getZ()));
+			}
+			/**
 			if(Place_Floater(state, world, pos)){
 				if(!player.capabilities.isCreativeMode)
 				--stack.stackSize;}
-			
+			**/
 			return new ActionResult(EnumActionResult.SUCCESS, stack);
 		}
 		
@@ -160,13 +168,14 @@ public static class FloaterBlock_Item extends ItemBlock
     					0, 0, 0,Block.getStateId(floater));	
     			}
 					
-			if(world.isRemote){return false;}
+			if(!world.isRemote){
 			
 			world.setBlockState(pos, floater, 123);
 			ModUtil.Sound_Server(world, pos, SoundEvents.BLOCK_STONE_PLACE, 1F, 1F);
+			}
 
 			if(ModUtil.isValid(world, pos.up())){
-				world.setBlockState(pos.up(), ItemRegistry.BalloonBlock.getDefaultState(), 123);    			
+				if(!world.isRemote){ world.setBlockState(pos.up(), ItemRegistry.BalloonBlock.getDefaultState(), 123);  }  			
 			}
 			else{
 				ModUtil.itemdrop(world, pos, ItemRegistry.BalloonBlock);

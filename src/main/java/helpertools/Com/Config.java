@@ -55,6 +55,7 @@ public class Config extends ItemRegistry{
 	public static boolean Fancy_Expand;
 	public static boolean Fancy_Exchange;
 	public static boolean Fancy_PatternTool;
+	public static boolean Render_Mirage_Gear;
 	
 	public static String  Functions = "Functions";
 	public static boolean ExchangeReturns;	
@@ -123,6 +124,7 @@ public class Config extends ItemRegistry{
 	
 	public static String  Generation ="Generation";
 	public static boolean Extra_Dungeon_Loot;
+	public static int Spooky_Skeletons;
 	public static boolean No_Fun_Allowed;
 	
 	
@@ -131,6 +133,8 @@ public class Config extends ItemRegistry{
 	public static String output = TextFormatting.BLUE + "Output " +TextFormatting.GRAY;
 	public static String bomb_rec = TextFormatting.BLUE + "Output " +TextFormatting.GRAY;
 	public static String repairs = TextFormatting.DARK_PURPLE + "Repair Amount: " +TextFormatting.GRAY;
+	
+	
 		
 	
 	//=============================================================================//
@@ -155,6 +159,7 @@ public class Config extends ItemRegistry{
 		Fancy_Expand = config.get(GUI, "Fancy Expander Model", true, "Disable to use old 2d sprites").getBoolean();
 		Fancy_Exchange = config.get(GUI, "Fancy Exchange Model", true, "Disable to use old 2d sprites").getBoolean();
 		Fancy_PatternTool = config.get(GUI, "Fancy Euclidean Model", true, "Disable to use old 2d sprites").getBoolean();
+		Render_Mirage_Gear = config.get(GUI, "Render Mirage Gear", true, "Disable if you don't like shadow's wearing gear").getBoolean();
 		
 		
 		//sect Block Recipes
@@ -167,7 +172,7 @@ public class Config extends ItemRegistry{
 		
 		Output_False_Bedrock  = config.get(Blockz, output+"False Bedrock", 4).getInt();
 		Output_Lamp  = config.get(Blockz, output+"Lamp", 1).getInt();
-		Output_Balloon  = config.get(Blockz, output+"Balloon", 4).getInt();
+		Output_Balloon  = config.get(Blockz, output+"Balloon", 6).getInt();
 		
 		
 		//sect Tool Recipes
@@ -222,6 +227,7 @@ public class Config extends ItemRegistry{
 		//sect Generation
 		Extra_Dungeon_Loot = config.get(Generation, "Extra Dungeon Loot", true,"Adds some tools and items to most generating chests").getBoolean();
 		No_Fun_Allowed = config.get(Generation, "No Fun Allowed", false,"Enable if you don't Like Haunted Items Flying away").getBoolean();
+		Spooky_Skeletons  = config.get(Generation, "Spooky Skeletons", 5,"Chance x/1000 for Skeletons to spawn with a mask").getInt();
 		
 		PostConfig();
 		if(config.hasChanged())

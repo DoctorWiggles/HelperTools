@@ -37,7 +37,7 @@ public class Block_Balloon extends Block
     
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Item.getItemFromBlock(this);
+        return null;
     }
     
     public boolean isOpaqueCube(IBlockState state)

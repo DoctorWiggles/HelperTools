@@ -4,10 +4,12 @@ package helpertools.Utils;
 import helpertools.Main;
 import helpertools.Com.Config;
 import helpertools.Com.ItemRegistry;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,7 @@ import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class ForgeEventHandler {
@@ -54,6 +57,21 @@ public class ForgeEventHandler {
          }
 
 		 event.setCanceled(true);
+	}
+	
+	@SubscribeEvent
+	public void Extra_Spooky_Skeletons(LivingSpawnEvent event){
+		
+		if(Config.Spooky_Skeletons == 0 || event.isCanceled()){ return;}
+		if(!(event.getEntity() instanceof EntitySkeleton)){return;}
+		if(Config.Spooky_Skeletons >= Main.Randy.nextInt(1000)){
+			EntitySkeleton spooky = (EntitySkeleton)event.getEntity();
+			ItemStack stack = new ItemStack(ItemRegistry.miragehusk);
+			spooky.setCustomNameTag(TextFormatting.DARK_PURPLE + Spooky_Names.Get_Name());
+			stack.setStackDisplayName(spooky.getCustomNameTag());
+			spooky.setItemStackToSlot(EntityEquipmentSlot.HEAD, stack);
+		}
+		
 	}
 	
 	/**https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/core/loot/LootHandler.java**/

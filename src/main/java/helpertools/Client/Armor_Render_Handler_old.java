@@ -29,7 +29,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.eventbus.Subscribe;
 
 /**Originally Derived from Botania Baubles**/
-public class Armor_Render_Handler {
+public class Armor_Render_Handler_old {
 
 	static RenderItem Item = Minecraft.getMinecraft().getRenderItem();
 

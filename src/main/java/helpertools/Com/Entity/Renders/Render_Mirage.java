@@ -1,6 +1,8 @@
 package helpertools.Com.Entity.Renders;
 
 import helpertools.Main;
+import helpertools.Client.Husk_Render_Layer;
+import helpertools.Com.Config;
 import helpertools.Com.Entity.Entity_Mirage;
 
 import java.util.UUID;
@@ -74,28 +76,37 @@ public class Render_Mirage extends Render{
 	
 	public Render_Player_Mirage(RenderManager renderManagerIn, boolean flag) {
 		super(renderManagerIn, new ModelPlayer(0, flag), 0.5f);
-		
-		//this.addLayer(new LayerHeldItem(this));
-		//this.addLayer(new LayerBipedArmor(this));
+		if(Config.Render_Mirage_Gear){
+		this.addLayer(new LayerHeldItem(this));
+		this.addLayer(new LayerBipedArmor(this));
+		this.addLayer(new Husk_Render_Layer());}
 		this.addLayer(new LayerArrow(this));
 	}
 	
 	
-	
+	//I have no idea what I'm doing here :^)
 	public void doRender(EntityLiving entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
 		GL11.glPushMatrix();			
 		GL11.glTranslatef(0F, 0.05F, 0F);
 		Float f = 0.92F;
 		GL11.glScalef(f, f, f);
-		GL11.glEnable(GL11.GL_BLEND); 
+		GL11.glEnable(GL11.GL_BLEND); 		
 		//GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE); 
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
 		//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
 		//float alpha = (entity.getHealth()/40)+0.2F;
 		float alpha = 0.5F;
 		
-		Float f2 = 0.5F;
+		//Float f2 = 0.5F;
+		//GlStateManager.color(f2, f2, f2);
+		
+		Float f2 = 0.4F;
+		GlStateManager.color(f2, f2, f2);
+		
+		//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
+		//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
 		GL11.glColor4f(f2,f2, f2,alpha);  
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
         GL11.glDisable(GL11.GL_BLEND);

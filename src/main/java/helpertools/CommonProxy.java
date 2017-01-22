@@ -1,6 +1,7 @@
 package helpertools;
 
 import helpertools.Com.Config;
+import helpertools.Com.Floater_Message;
 import helpertools.Com.ItemRegistry;
 import helpertools.Com.Mirage_Client_Message;
 import helpertools.Com.Mirage_Server_Message;
@@ -32,6 +33,7 @@ public class CommonProxy {
     	//Messages for syncing Shadows
     	Main.network.registerMessage(Mirage_Server_Message.Handler.class, Mirage_Server_Message.class, ID++, Side.SERVER); 
     	Main.network.registerMessage(Mirage_Client_Message.Dummy_Handler.class, Mirage_Client_Message.class, ID++, Side.SERVER); //Dummy Required less explosions
+    	Main.network.registerMessage(Floater_Message.Handler.class, Floater_Message.class, ID++, Side.SERVER); //Dummy Required less explosions
     	//Main.network.registerMessage(Charm_Effect_Message.Dummy_Handler.class, Charm_Effect_Message.class, ID++, Side.SERVER); //Huh... weird, couldn't get packet to fire 
     	
     	ItemRegistry.createItems();

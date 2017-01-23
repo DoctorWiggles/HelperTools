@@ -10,6 +10,7 @@ There is currently an expanding tool, a block swapping tool and a crossbow which
 
 * [MCF Thread](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/2323990)
 * [Tutorials and other credits](http://pastebin.com/zDakG6ay)
+* [Wiki](https://github.com/DoctorWiggles/HelperTools/wiki)
 
 ##Modpack Permissions
 

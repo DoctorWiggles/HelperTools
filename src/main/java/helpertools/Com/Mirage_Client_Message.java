@@ -67,7 +67,7 @@ public class Mirage_Client_Message implements IMessage {
         @Override
         public IMessage onMessage(Mirage_Client_Message mess, MessageContext ctx) {
         	 	
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            EntityPlayer player = Minecraft.getMinecraft().player;
             if(player == null) return null;
             
             int x = mess.x;

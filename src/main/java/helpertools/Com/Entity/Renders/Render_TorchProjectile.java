@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL12;
 
 public class Render_TorchProjectile extends Render
 {
-	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/Bolttexpmap.png"); 
+	private static final ResourceLocation arrowTextures = new ResourceLocation("helpertools", "textures/models/bolttexpmap.png"); 
 	protected ModelBase Model_Bolt = new Model_BoltProjectile();
 	
 	public Render_TorchProjectile(RenderManager renderu)
@@ -62,7 +62,7 @@ public class Render_TorchProjectile extends Render
             GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
         }
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/Torchtexpmap.png"));  
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("helpertools", "textures/models/torchtexpmap.png"));  
         GL11.glRotatef(47F, 10F, 0.0F, 0.0F);
         GL11.glRotatef(89F, 0F, 10F, 0.0F);
         GL11.glScalef(25, 25, 25);

@@ -1,5 +1,5 @@
 {
-    "parent":"helpertools:block/Crossbow_Unloaded",
+    "parent":"helpertools:block/crossbow_unloaded",
     "display": {
     "thirdperson_righthand": {
         "rotation": [ 0, 180, 358 ],
@@ -42,13 +42,13 @@
     }
 },
 "overrides": [        
-        {   "predicate": { "mode": 4},
-            "model": "helpertools:item/crossbow_item_4" },
-        {   "predicate": { "mode": 3},
-            "model": "helpertools:item/crossbow_item_3" },
+        {   "predicate": { "mode": 1},
+            "model": "helpertools:item/crossbow_item_1" },
         {   "predicate": { "mode": 2},
             "model": "helpertools:item/crossbow_item_2" },
-        {   "predicate": { "mode": 1},
-            "model": "helpertools:item/crossbow_item_1" }
+        {   "predicate": { "mode": 3},
+            "model": "helpertools:item/crossbow_item_3" },
+        {   "predicate": { "mode": 4},
+            "model": "helpertools:item/crossbow_item_4" }
     ]
 }

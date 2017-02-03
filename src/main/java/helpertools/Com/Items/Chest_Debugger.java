@@ -3,6 +3,7 @@ package helpertools.Com.Items;
 import helpertools.Main;
 import helpertools.Com.ModLootTables;
 import helpertools.Utils.HelpTab;
+import helpertools.Utils.InventoryUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -31,9 +32,10 @@ public class Chest_Debugger extends Item{
 	
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse( EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
 	{
-		
+		ItemStack stack = player.getHeldItem(hand);
+				
 		//world.setBlockState(pos, Blocks.CHEST.getDefaultState());
 		IBlockState iblockstate = Blocks.CHEST.getDefaultState();
 		world.setBlockState(pos, Blocks.CHEST.correctFacing(world, pos, iblockstate), 2);

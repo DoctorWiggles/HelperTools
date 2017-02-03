@@ -70,7 +70,7 @@ public class Block_Transcriber extends Block implements ITileEntityProvider
         return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
     }
     
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,  EnumFacing side, float hitX, float hitY, float hitZ)
     {
 
     	TileEntity_Transcriber tile = (TileEntity_Transcriber)world.getTileEntity(pos);
@@ -79,7 +79,7 @@ public class Block_Transcriber extends Block implements ITileEntityProvider
     	{
     		ItemStack itemstack = player.inventory.getCurrentItem();
 
-    		if (itemstack != null)
+    		if (!itemstack.isEmpty())
     		{
     			return false;
     		}

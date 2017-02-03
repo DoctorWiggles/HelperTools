@@ -23,6 +23,7 @@ item.bomb_item_5.name=Desert Bomb
 item.bomb_item_6.name=Mushroom Bomb
 item.bomb_item_7.name=§5Void Bomb
 item.bomb_item_8.name=Sticky Dirt Bomb
+item.shadecore.name=Chest Placer
 
 #
 item.crossbow_item.name=Torch Launcher
@@ -42,7 +43,7 @@ entity.helpertools.Mirage.name=Mirage
 
 #        #
 # Blocks #
-tile.falseBedrock_block.name=§7Imitation Bedrock
+tile.falsebedrock_block.name=§7Imitation Bedrock
 tile.transcriber_block.name=§3Euclidean Transcriber
 tile.balloon_block.name=Balloon
 tile.lamp_block.name=§3Magical Lamp

@@ -110,7 +110,7 @@ public class ToolBase_Patterns extends ToolBase{
 	
 	public void rotateCorner(ItemStack stack, EntityPlayer player){
 		int current = getCorner(stack);
-		World world = player.worldObj;
+		World world = player.world;
 		if(!player.isSneaking()){
 			if(current+1 == 8){setCorner(stack, 4);
 			ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));

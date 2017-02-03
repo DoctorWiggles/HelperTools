@@ -1,29 +1,23 @@
 package helpertools.Com.Tools;
 
-import helpertools.Com.Entity.Renders.Models_Crossbow;
 import helpertools.Utils.HelpTab;
-import helpertools.Utils.ModUtil;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -38,28 +32,20 @@ public class Tool_TorchLauncher extends ToolBase_Crossbow{
        setCreativeTab(HelpTab.HelperTools);
        this.addPropertyOverride(new ResourceLocation("mode"), new IItemPropertyGetter()
        {
-           @SideOnly(Side.CLIENT)
-           public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn)
+    	   @SideOnly(Side.CLIENT)
+           public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
            {
         	   if(entityIn == null){
-        	   		return 0.0F;
+        	   		return 0F;
            	   	}
            		if(entityIn instanceof EntityPlayer && entityIn.getHeldItemMainhand() == stack
            			|| entityIn instanceof EntityPlayer && entityIn.getHeldItemOffhand() == stack){
         	   		if(getTload(stack)== 0){
-        	   			return 0.0F;
-        	   		}/*
-        	   		switch(getMode(stack)){
-        	   		case 0:	return 0.1F;				 
-					case 1: return 0.2F;
-					case 2: return 0.3F;
-					case 3: return 0.4F;
-					default: return 0.0F;
-        	   		}
-        	   		*/
+        	   			return 0F;
+        	   		}        	   		
         	   		return getMode(stack)+1;
            		}
-       		 return 0.0F;}
+       		 return 0F;}
        });
        
    }
@@ -123,7 +109,7 @@ public class Tool_TorchLauncher extends ToolBase_Crossbow{
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
    {
 	   EntityPlayer player = (EntityPlayer) entityLiving;
-	   World world = entityLiving.worldObj;
+	   World world = entityLiving.world;
 	   boolean flag = false;
 	   if(!world.isRemote){
 		  
@@ -139,10 +125,11 @@ public class Tool_TorchLauncher extends ToolBase_Crossbow{
    }
    
    @Override
-   public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+   public ActionResult<ItemStack> onItemRightClick( World world, EntityPlayer player, EnumHand hand)
    {
+	   ItemStack stack = player.getHeldItem(hand);
 	   
-	   if(player.worldObj.isRemote){
+	   if(player.world.isRemote){
 		   if(!player.isSneaking() && getTload(stack) ==2){
 		   world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F));
 		   }

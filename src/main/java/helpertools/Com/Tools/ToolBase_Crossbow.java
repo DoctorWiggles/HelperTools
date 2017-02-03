@@ -225,7 +225,7 @@ public class ToolBase_Crossbow extends ToolBase{
 	    /** Static special effect clause **/
 		public void Transfer_Effect(ItemStack stack, EntityPlayer player){
 	    	Float sound = Main.Randy.nextFloat()+ 5F;
-	    	ModUtil.Sound_Server(player.worldObj, player, SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
+	    	ModUtil.Sound_Server(player.world, player, SoundEvents.ENTITY_CHICKEN_EGG, 3F, .3F);
 	    	if(Config.ToolModeMesseges){
 			ModUtil.print(player, TextFormatting.GRAY + whatModeString(stack)+" loaded");
 	    	}			
@@ -248,22 +248,22 @@ public class ToolBase_Crossbow extends ToolBase{
 				case 0:
 					SHOT = new Projectile_Torch(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
-					world.spawnEntityInWorld(SHOT);
+					world.spawnEntity(SHOT);
 				break;
 				case 1:
 					SHOT = new Projectile_RedTorch(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
-					world.spawnEntityInWorld(SHOT);
+					world.spawnEntity(SHOT);
 				break;
 				case 2:
 					SHOT = new Projectile_Dynamite(world,player);					
 					SHOT.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, vel, 1.0F);
-					world.spawnEntityInWorld(SHOT);
+					world.spawnEntity(SHOT);
 				break;					
 				case 3:
 					EntityArrow entityarrow = itemarrow.createArrow(world, itemstack, player); 
 					entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, vel+1, 1.0F);
-					world.spawnEntityInWorld(entityarrow);
+					world.spawnEntity(entityarrow);
 				break;		   
 			}
 	    	

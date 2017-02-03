@@ -37,8 +37,10 @@ public class Item_BombCharm extends Item{
     }
 	
 	@Override	  
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
+		ItemStack stack = player.getHeldItem(hand);
+			
 		int max = getlevel(stack);
 		if(max > Config.BombCharm_Level){max = Config.BombCharm_Level;}
 		int cur = getsize(stack);
@@ -48,14 +50,14 @@ public class Item_BombCharm extends Item{
 			if(cur+5 >= 30){
 				setsize(stack, 0);
 				if(Config.ToolModeMesseges){
-					if(!player.worldObj.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: off");
+					if(!player.world.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: off");
 					ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
 				}
 			}
 			else{ 
 				setsize(stack, cur+5);
 				if(Config.ToolModeMesseges){
-					if(!player.worldObj.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: +"+(cur+5));
+					if(!player.world.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: +"+(cur+5));
 					ModUtil.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 				}
 				}
@@ -64,14 +66,14 @@ public class Item_BombCharm extends Item{
 			if(cur>= max){
 				setsize(stack, 0);
 				if(Config.ToolModeMesseges){
-					if(!player.worldObj.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: off");
+					if(!player.world.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: off");
 					ModUtil.Sound_Server(world, player, SoundEvents.BLOCK_LAVA_EXTINGUISH, (float)(1), (float)(1.3));
 				}
 			}
 			else{
 				setsize(stack, cur+1);
 				if(Config.ToolModeMesseges){
-					if(!player.worldObj.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: +"+(cur+1));
+					if(!player.world.isRemote)ModUtil.print(player,TextFormatting.GRAY, "Boost: +"+(cur+1));
 					ModUtil.Sound_Server(world, player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, (float)(.8), (float)( itemRand.nextFloat()*.75+.2));
 				}
 			}

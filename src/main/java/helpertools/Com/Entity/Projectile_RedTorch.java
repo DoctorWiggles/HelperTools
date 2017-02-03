@@ -75,14 +75,14 @@ public class Projectile_RedTorch extends EntityThrowable{
    @Override
   protected void onImpact(RayTraceResult mop) {
 	   
-	   if (this.worldObj.isRemote){ return;}
+	   if (this.world.isRemote){ return;}
 	   if(mop.entityHit != null){
 	    	  Entity_Impact(mop);
 	    	  return;
 	      }
 	   
 	      EnumFacing sideHit = mop.sideHit; //face of a block
-	      World world = this.worldObj;
+	      World world = this.world;
 	      BlockPos pos1 = mop.getBlockPos();
 	      Block P_Block = Blocks.REDSTONE_TORCH;
 	      IBlockState P_State = Blocks.TORCH.getDefaultState();
@@ -126,7 +126,7 @@ public class Projectile_RedTorch extends EntityThrowable{
 		   world.setBlockToAir(pos1);
 		   EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world,
 				   (double)((float)pos1.getX() + 0.5F), (double)((float)pos1.getY() + 0.5F), (double)((float)pos1.getZ() + 0.5F), getThrower());
-		   world.spawnEntityInWorld(entitytntprimed);
+		   world.spawnEntity(entitytntprimed);
 		   //world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
 		   world.playSound((EntityPlayer)null, entitytntprimed.posX, entitytntprimed.posY, entitytntprimed.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		  

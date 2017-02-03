@@ -63,8 +63,8 @@ public class Tool_Hud extends Gui
 	  if(Config.RenderToolHuds == false){
 		  return;}
 
-	  EntityPlayerSP player = this.mc.thePlayer;
-	  World world = player.worldObj;
+	  EntityPlayerSP player = this.mc.player;
+	  World world = player.world;
 	  ItemStack hat = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 	  //if(!player.isSneaking())return;
 	  
@@ -126,7 +126,7 @@ public class Tool_Hud extends Gui
     int yPos = 20;
     int offhandPos = 0;
     	
-    	EntityPlayerSP player = this.mc.thePlayer;
+    	EntityPlayerSP player = this.mc.player;
     	ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
       
 	if ((heldItem == null) || (!(heldItem.getItem() instanceof ToolBase))) {		
@@ -141,7 +141,7 @@ public class Tool_Hud extends Gui
 		 int Empowerment = 0;
 		 int Modo = 0;
 		 ItemStack StackyHelper = null;
-		 ResourceLocation backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/Expand_Tab.png");
+		 ResourceLocation backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/expand_tab.png");
 		 
 		 
 		 //Exchange Stave Castings		 
@@ -151,8 +151,8 @@ public class Tool_Hud extends Gui
 			 Modo = Tool.getMode(heldItem);
 			 int meta = Tool.returnTMeta(heldItem);
 			 meta = PillarAdjust(Tool.returnTBlock_FromState(heldItem), meta);
-			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, meta);
-			 backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/Exchange_Tab.png");
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),1, meta);
+			 backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/exchange_tab.png");
 			 
 			 draw_things(xPos, yPos, backgroundimage, Modo, Empowerment, StackyHelper);
 			 return;
@@ -165,7 +165,7 @@ public class Tool_Hud extends Gui
 			 Modo = Tool.getMode(heldItem);
 			 int meta = Tool.returnTMeta(heldItem);
 			 meta = PillarAdjust(Tool.returnTBlock_FromState(heldItem), meta);
-			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),0, meta);
+			 StackyHelper = new ItemStack (Item.getItemFromBlock(Tool.returnTBlock_FromState(heldItem)),1, meta);
 			 
 			 draw_things(xPos, yPos, backgroundimage, Modo, Empowerment, StackyHelper);
 			 return;
@@ -178,7 +178,7 @@ public class Tool_Hud extends Gui
 			 if(rotation >3){rotation = rotation -4;}
 			 
 			 
-			 backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/EU_Tab.png");
+			 backgroundimage = new ResourceLocation(Main.PATH + "textures/client/gui/eu_tab.png");
 			 
 			 drawHudFrame(xPos-2, yPos-4, 8, 6, 24, 28, backgroundimage);
 			 

@@ -81,14 +81,14 @@ public class Projectile_Bomb extends EntityThrowable{
    {
        super.onUpdate();       
        if(this.getType() != 7){
-    	   this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX + this.motionX * (double)1 / 4.0D, this.posY + .8+ this.motionY * (double)1 / 4.0D, this.posZ + this.motionZ * (double)1 / 4.0D, 0, 0 , 0);
-    	   this.worldObj.spawnParticle(EnumParticleTypes.CLOUD, this.posX + this.motionX * (double)1 / 4.0D, this.posY + .8+ this.motionY * (double)1 / 4.0D, this.posZ + this.motionZ * (double)1 / 4.0D, 0, .1 , 0);
+    	   this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX + this.motionX * (double)1 / 4.0D, this.posY + .8+ this.motionY * (double)1 / 4.0D, this.posZ + this.motionZ * (double)1 / 4.0D, 0, 0 , 0);
+    	   this.world.spawnParticle(EnumParticleTypes.CLOUD, this.posX + this.motionX * (double)1 / 4.0D, this.posY + .8+ this.motionY * (double)1 / 4.0D, this.posZ + this.motionZ * (double)1 / 4.0D, 0, .1 , 0);
     	   }
     	   else{
     		   short i;
     		   for (i = 0; i < 20; ++i)
     	       {
-    	    	   this.worldObj.spawnParticle(EnumParticleTypes.PORTAL,
+    	    	   this.world.spawnParticle(EnumParticleTypes.PORTAL,
     	    			   this.posX + this.motionX * (double)i / 4.0D,
     	    			   this.posY + .8+ this.motionY * (double)i / 4.0D,
     	    			   this.posZ + this.motionZ * (double)i / 4.0D, 0, 0 , 0);
@@ -107,7 +107,7 @@ public class Projectile_Bomb extends EntityThrowable{
 	   Block pblock = ItemRegistry.LooseDirtBlock;
 	   Block dirtblock = Blocks.DIRT;      
 	   EnumFacing sideHit = mop.sideHit;
-	   World world = this.worldObj;
+	   World world = this.world;
 	   
 	   //valid_hit(worldObj, mop);
 	   

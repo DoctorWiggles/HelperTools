@@ -40,9 +40,9 @@ public class Projectile_Dynamite extends EntityThrowable{
    @Override
   protected void onImpact(RayTraceResult mop) {
 	   
-	   if (this.worldObj.isRemote){ return;}	  
+	   if (this.world.isRemote){ return;}	  
 	      
-	     this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)4, true);
+	     this.world.createExplosion(this, this.posX, this.posY, this.posZ, (float)4, true);
 	      
 	     this.setDead();
 	   

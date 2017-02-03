@@ -62,7 +62,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
     {
         super.entityInit();
         this.dataManager.register(HANGING, Byte.valueOf((byte)0));
-        this.getDataManager().register(ITEM, Optional.<ItemStack>absent());
+        this.getDataManager().register(ITEM, ItemStack.EMPTY);
     }
 
     /**
@@ -145,7 +145,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
             this.motionX = 0.0D;
             this.motionY = 0.0D;
             this.motionZ = 0.0D;
-            this.posY = (double)MathHelper.floor_double(this.posY) + 1.0D - (double)this.height;
+            this.posY = (double)MathHelper.floor(this.posY) + 1.0D - (double)this.height;
         }
         else
         {
@@ -164,28 +164,28 @@ public class Entity_FlyingItem extends EntityAmbientCreature
 
         if (this.getIsBatHanging())
         {
-            if (this.worldObj.getBlockState(blockpos1).isNormalCube())
+            if (this.world.getBlockState(blockpos1).isNormalCube())
             {
                 if (this.rand.nextInt(200) == 0)
                 {
                     this.rotationYawHead = (float)this.rand.nextInt(360);
                 }
 
-                if (this.worldObj.getNearestPlayerNotCreative(this, 4.0D) != null)
+                if (this.world.getNearestPlayerNotCreative(this, 4.0D) != null)
                 {
                     this.setIsBatHanging(false);
-                    this.worldObj.playEvent((EntityPlayer)null, 1025, blockpos, 0);
+                    this.world.playEvent((EntityPlayer)null, 1025, blockpos, 0);
                 }
             }
             else
             {
                 this.setIsBatHanging(false);
-                this.worldObj.playEvent((EntityPlayer)null, 1025, blockpos, 0);
+                this.world.playEvent((EntityPlayer)null, 1025, blockpos, 0);
             }
         }
         else
         {
-            if (this.spawnPosition != null && (!this.worldObj.isAirBlock(this.spawnPosition) || this.spawnPosition.getY() < 1))
+            if (this.spawnPosition != null && (!this.world.isAirBlock(this.spawnPosition) || this.spawnPosition.getY() < 1))
             {
                 this.spawnPosition = null;
             }
@@ -206,7 +206,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
             this.moveForward = 0.5F;
             this.rotationYaw += f1;
 
-            if (this.rand.nextInt(100) == 0 && this.worldObj.getBlockState(blockpos1).isNormalCube())
+            if (this.rand.nextInt(100) == 0 && this.world.getBlockState(blockpos1).isNormalCube())
             {
                 this.setIsBatHanging(true);
             }
@@ -240,7 +240,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
     }
     
     public boolean captured(Entity Host){
-    	if (!Host.worldObj.isRemote)
+    	if (!Host.world.isRemote)
         {
     	//can we pick it up yet
     	if(cannotPickup())return false;	
@@ -272,28 +272,21 @@ public class Entity_FlyingItem extends EntityAmbientCreature
     
     //=========================== store item nbt ==========================//
     
-    public static final DataParameter<Optional<ItemStack>> ITEM = 
-    		EntityDataManager.<Optional<ItemStack>>createKey(Entity_FlyingItem.class, DataSerializers.OPTIONAL_ITEM_STACK);
-    
-    
+    private static final DataParameter<ItemStack> ITEM = 
+    		EntityDataManager.<ItemStack>createKey(Entity_FlyingItem.class, DataSerializers.OPTIONAL_ITEM_STACK);
 
-    public ItemStack getEntityItem(){
-
-    	ItemStack itemstack = (ItemStack)((Optional)this.getDataManager().get(ITEM)).orNull();
-
-    	if (itemstack == null)
-    	{ return new ItemStack(Blocks.STONE); }
-    	else
-    	{ return itemstack; }
+    public ItemStack getEntityItem()
+    {
+        return (ItemStack)this.getDataManager().get(ITEM);
     }
 
     /**
      * Sets the ItemStack for this entity
      */
-    public void setEntityItemStack(@Nullable ItemStack stack)
+    public void setEntityItemStack(ItemStack stack)
     {
-    	this.getDataManager().set(ITEM, Optional.fromNullable(stack));
-    	this.getDataManager().setDirty(ITEM);
+        this.getDataManager().set(ITEM, stack);
+        this.getDataManager().setDirty(ITEM);
     }
 
 
@@ -310,9 +303,9 @@ public class Entity_FlyingItem extends EntityAmbientCreature
         }
         
         NBTTagCompound nbttagcompound = compound.getCompoundTag("Item");
-        this.setEntityItemStack(ItemStack.loadItemStackFromNBT(nbttagcompound));
+        this.setEntityItemStack(new ItemStack(nbttagcompound));
 
-        ItemStack item = this.getDataManager().get(ITEM).orNull();
+        if (this.getEntityItem().isEmpty()) {this.setDead(); }
         
     }
 
@@ -325,7 +318,7 @@ public class Entity_FlyingItem extends EntityAmbientCreature
         compound.setByte("BatFlags", ((Byte)this.dataManager.get(HANGING)).byteValue());
         compound.setShort("PickupDelay", (short)this.delayBeforeCanPickup);
         
-        if (this.getEntityItem() != null)
+        if (!this.getEntityItem().isEmpty())
         {
             compound.setTag("Item", this.getEntityItem().writeToNBT(new NBTTagCompound()));
         }
@@ -333,8 +326,6 @@ public class Entity_FlyingItem extends EntityAmbientCreature
     
     protected boolean canDespawn(){ return false;}
     
-    
-    public static void func_189754_b(DataFixer p_189754_0_){EntityLiving.func_189752_a(p_189754_0_, "Bat");}
     
     public float getEyeHeight(){return this.height / 2.0F;}
 

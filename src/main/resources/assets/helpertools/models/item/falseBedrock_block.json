@@ -1,4 +1,4 @@
-{    "parent":"helpertools:block/falseBedrock_block",
+{    "parent":"helpertools:block/falsebedrock_block",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

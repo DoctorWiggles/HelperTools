@@ -31,18 +31,19 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemRegistry {
 
-	public static Item chocolatemilk;
-	public static Item milkbottle;
-	public static Item expandertool;
-	public static Item exchange_tool;
-	public static Item pattern_tool;
-	public static Item crossbow_tool;	
-	public static Item debug_states_tool;
-	public static Item dynamitebolt;
-	public static Item dirtbomb;
-	public static Item miragehusk;
-	//public static Item shadecore;
-	public static Item bomb_charm;
+	public static Item
+	chocolatemilk,
+	milkbottle,
+	expandertool,
+	exchange_tool,
+	pattern_tool,
+	crossbow_tool,	
+	debug_states_tool,
+	dynamitebolt,
+	dirtbomb,
+	miragehusk,
+	//shadecore,
+	bomb_charm;
 	
 
 	public static void createItems() {
@@ -72,21 +73,24 @@ public class ItemRegistry {
 
 	//public static 
 	
-	public static Block falseBedrock;
-	public static Block transcriberBlock;
-	public static Item  TranscriberBlock_Item;
-	public static Block LooseDirtBlock;	
-	public static Block BalloonBlock;
-	public static Block LampBlock;
-	public static Item  LampBlock_Item;
-	public static Block LampBlock_on;
-	public static Block LampBlock_perm;
-	public static Block FloaterBlock;
-	public static Item  FloaterBlock_Item;
+	public static Block
+	falseBedrock,
+	transcriberBlock,	
+	LooseDirtBlock,	
+	BalloonBlock,
+	LampBlock,
+	LampBlock_on,
+	LampBlock_perm,
+	FloaterBlock;
+	
+	public static Item  
+	FloaterBlock_Item,
+	TranscriberBlock_Item,
+	LampBlock_Item;
 	
 	public static void createBlocks(){
 		Main.logger.info("Registering blocks");
-		reg(falseBedrock = new Block_FalseBedrock("falseBedrock_block", Material.ROCK ,15F,20F));
+		reg(falseBedrock = new Block_FalseBedrock("falsebedrock_block", Material.ROCK ,15F,20F));
 		reg(LooseDirtBlock = new Block_LooseDirt("loosedirt_block"));
 		custom(transcriberBlock = new Block_Transcriber("transcriber_block"),
 				TranscriberBlock_Item = new Block_Transcriber.TranscriberBlock_Item(transcriberBlock));	

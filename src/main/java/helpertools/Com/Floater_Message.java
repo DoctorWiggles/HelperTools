@@ -59,7 +59,7 @@ public class Floater_Message implements IMessage {
            
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
            
-            World world = player.worldObj;
+            World world = player.world;
             BlockPos pos = new BlockPos(message.x,message.y,message.z);
             
             if(Block_Floater.FloaterBlock_Item.Place_Floater(world.getBlockState(pos), world, pos)){

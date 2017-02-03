@@ -1,5 +1,5 @@
 {
-    "parent":"helpertools:block/Crossbow_Torches",
+    "parent":"helpertools:block/crossbow_torches",
     "display": {
     "thirdperson_righthand": {
         "rotation": [ 0, 180, 358 ],

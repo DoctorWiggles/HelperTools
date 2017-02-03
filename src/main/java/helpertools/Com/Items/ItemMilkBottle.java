@@ -59,7 +59,7 @@ public class ItemMilkBottle extends Item
         {
             return stack;
         }
-        else if (--stack.stackSize <= 0)
+        else if (stack.getCount()-1 <= 0)
         {
             return new ItemStack(Items.GLASS_BOTTLE);
         }

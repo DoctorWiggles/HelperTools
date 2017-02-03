@@ -94,7 +94,7 @@ public class Staff_Expansion extends ToolBase_Default
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
     	{ 	
 			ModeSound(entityLiving, stack);
-			if (!entityLiving.worldObj.isRemote) {
+			if (!entityLiving.world.isRemote) {
 				nextMode(stack);
 				ModeText(entityLiving, stack);
 				return true;
@@ -106,7 +106,7 @@ public class Staff_Expansion extends ToolBase_Default
 
 	//Block to select	
 	public void select_Block(ItemStack stack, EntityPlayer player, BlockPos pos){
-		World world = player.worldObj;
+		World world = player.world;
 		setTBlock(stack, BlockStateHelper.returnID(world, pos)); 
 		setTMeta(stack, BlockStateHelper.getMetafromState(world, pos)); 	
 
@@ -115,8 +115,9 @@ public class Staff_Expansion extends ToolBase_Default
 		setOffMode(stack, 4);
 	}
 	
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse( EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
 	{	
+		ItemStack stack = player.getHeldItem(hand);
 
 		if(player.isSneaking()){
 			select_Block(stack, player, pos);
@@ -136,7 +137,7 @@ public class Staff_Expansion extends ToolBase_Default
 	@Nullable
 	public Set<BlockPos> Mode_Function(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
 
-		if(!player.isSneaking()&& BlockStateHelper.getBlockfromState(player.worldObj, pos) != Blocks.AIR){
+		if(!player.isSneaking()&& BlockStateHelper.getBlockfromState(player.world, pos) != Blocks.AIR){
 			switch(getMode(stack)){
 
 			case 2:				 
@@ -156,7 +157,7 @@ public class Staff_Expansion extends ToolBase_Default
 	}
 	//Area to place blocks
 	public Set<BlockPos> Pillar_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
-		World world = player.worldObj;
+		World world = player.world;
 		Set<BlockPos> positions = new HashSet<BlockPos>();
 		int pillar = (getToolLevel(stack)+ 3);
 		int x1 = pos.getX();
@@ -204,7 +205,7 @@ public class Staff_Expansion extends ToolBase_Default
 
 	//Area to place blocks
 	public Set<BlockPos> Wall_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
-		World world = player.worldObj;
+		World world = player.world;
 		Set<BlockPos> positions = new HashSet<BlockPos>();
 		int wall = (getToolLevel(stack)+ 2); 
 		int x1 = pos.getX();
@@ -281,7 +282,7 @@ public class Staff_Expansion extends ToolBase_Default
 
 	//Area to place blocks
 	public Set<BlockPos> Matching_Mode(ItemStack stack, EntityPlayer player, BlockPos pos, EnumFacing theface, boolean simulation){
-		World world = player.worldObj;
+		World world = player.world;
 		Set<BlockPos> positions = new HashSet<BlockPos>();
 		int wall = (getToolLevel(stack)+ 2); 
 		int x1 = pos.getX();
@@ -376,14 +377,14 @@ public class Staff_Expansion extends ToolBase_Default
 
 		if(player.capabilities.isCreativeMode){return true;}
 
-		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(stack)),0, returnTMeta(stack)); 
+		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(stack)),1, returnTMeta(stack)); 
 		Boolean whitelist_flag;
 		whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(stack), player, returnTMeta(stack));
-		if( player.inventory.hasItemStack(stacky) || whitelist_flag)
+		if( InventoryUtil.scanStack(stacky ,player.inventory) || whitelist_flag)
 		{
 			if(simulation){return true;}
 
-			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+			if(!whitelist_flag)InventoryUtil.consumeStack(stacky, player.inventory); 
 			if(whitelist_flag){
 				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(stack), returnTMeta(stack));
 			}

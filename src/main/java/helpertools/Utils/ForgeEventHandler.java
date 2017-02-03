@@ -40,13 +40,13 @@ public class ForgeEventHandler {
 		    }
 		
 		ItemStack heldItem = event.getEntityPlayer().inventory.getCurrentItem();
-		 if ((heldItem == null) || (!(heldItem.getItem() instanceof ItemGlassBottle))) {
+		 if ((heldItem.isEmpty()) || (!(heldItem.getItem() instanceof ItemGlassBottle))) {
 		      return;
 		    }
 		 Item Bottled = ItemRegistry.milkbottle;
 		 
 		 
-		 if (heldItem.stackSize-- == 1)
+		 if (heldItem.getCount()-1 == 1)
          {
 			 event.getEntityPlayer().inventory.setInventorySlotContents(event.getEntityPlayer().inventory.currentItem, new ItemStack(Bottled));
          }
@@ -64,7 +64,7 @@ public class ForgeEventHandler {
 		
 		if(Config.Spooky_Skeletons == 0 || event.isCanceled()){ return;}
 		if(!(event.getEntity() instanceof EntitySkeleton)){return;}
-		if(Config.Spooky_Skeletons >= Main.Randy.nextInt(1000)){
+		if(Config.Spooky_Skeletons >= Main.Randy.nextInt(1)){
 			EntitySkeleton spooky = (EntitySkeleton)event.getEntity();
 			ItemStack stack = new ItemStack(ItemRegistry.miragehusk);
 			spooky.setCustomNameTag(TextFormatting.DARK_PURPLE + Spooky_Names.Get_Name());
@@ -130,9 +130,9 @@ public class ForgeEventHandler {
 		
 		if(Damage >= Health){
 			
-			if(InventoryUtil.StackScan(new ItemStack(ItemRegistry.bomb_charm), player.inventory) != -1){
+			if(InventoryUtil.scanStack(new ItemStack(ItemRegistry.bomb_charm), player.inventory)){
 			
-			InventoryUtil.consumeInventoryItemStack(new ItemStack(ItemRegistry.bomb_charm), player.inventory);
+			InventoryUtil.consumeStack(new ItemStack(ItemRegistry.bomb_charm), player.inventory);
 			player.setHealth(2F);
 			player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 80, 1));
 			event.setCanceled(true);

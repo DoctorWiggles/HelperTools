@@ -95,7 +95,7 @@ public class TileEntity_Transcriber extends TileEntity implements ITickable {
 	    	int j4 = pos.getY();
 	    	int k4 = pos.getZ();
 
-        if(worldObj.isRemote){
+        if(world.isRemote){
         	int i = growrand.nextInt(2);
         	//if(i ==1){
         	 short short1 =1;
@@ -123,28 +123,28 @@ public class TileEntity_Transcriber extends TileEntity implements ITickable {
 		           EnumParticleTypes outside = EnumParticleTypes.REDSTONE;
 		           
 		           
-		           this.worldObj.spawnParticle(center, finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 2F, 0, 0); 
+		           this.world.spawnParticle(center, finX+f+.2+2, finY+2+.5+f1, finZ+f2+.3+2, 2F, 0, 0); 
 		           
 		           
 		           for (int G2 = 0; G2 < 5; ++G2)
 		           {
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3, s_X, s_Y, s_Z);		        	   
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3+4, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3+4,s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3, s_X, s_Y, s_Z);		        	   
+		        	   this.world.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1, finZ+f2+.3+4, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3+4,s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+G2, finY+.5+f1+4, finZ+f2+.3, s_X, s_Y, s_Z);
 		           }
 		           for (int G3 = 0; G3 < 3; ++G3)
 		           {
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1+4, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+4, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2, finY+.5+f1, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+4, finY+.5+f1, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2, finY+.5+f1+4, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+4, finZ+f2+.3+G3+1, s_X, s_Y, s_Z);
 		           
 		        	   //verticals
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3+4, s_X, s_Y, s_Z);
-		        	   this.worldObj.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3+4, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2, finY+.5+f1+G3+1, finZ+f2+.3+4, s_X, s_Y, s_Z);
+		        	   this.world.spawnParticle(outside, finX+f+.2+4, finY+.5+f1+G3+1, finZ+f2+.3+4, s_X, s_Y, s_Z);
 		        	  
 		           }
 		           

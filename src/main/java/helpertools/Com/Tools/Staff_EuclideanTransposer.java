@@ -78,7 +78,7 @@ public class Staff_EuclideanTransposer extends ToolBase_Patterns
 		if (entityLiving.isSneaking()&& getOffMode(stack)== 2)
     	{ 	
 			ModeSound(entityLiving, stack);
-			if (!entityLiving.worldObj.isRemote) {
+			if (!entityLiving.world.isRemote) {
 				
 				nextMode(stack);
 				ModeText(entityLiving, stack);
@@ -133,8 +133,10 @@ public class Staff_EuclideanTransposer extends ToolBase_Patterns
 		    }
 	}
 	
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse( EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing theface, float hitX, float hitY, float hitZ)
 	{	
+		ItemStack stack = player.getHeldItem(hand);
+		
 		changed = false;
 		setOffMode(stack, 0);
 		
@@ -229,7 +231,7 @@ public class Staff_EuclideanTransposer extends ToolBase_Patterns
 					
 		}}}
 		player.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.5F, .2F+Main.Randy.nextFloat()/4);
-		if(!player.worldObj.isRemote){
+		if(!player.world.isRemote){
 			ModUtil.print((EntityLivingBase)player, TextFormatting.GRAY + "Pattern Saved");
 		}
 
@@ -305,14 +307,14 @@ public class Staff_EuclideanTransposer extends ToolBase_Patterns
 
 		if(player.capabilities.isCreativeMode){return true;}
 
-		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(stack, NBT)),0, returnTMeta(stack, NBT)); 
+		ItemStack stacky = new ItemStack (Item.getItemFromBlock(returnTBlock_FromState(stack, NBT)),1, returnTMeta(stack, NBT)); 
 		Boolean whitelist_flag;
 		whitelist_flag = Whitelist_Util.Block_Whitelist(returnTBlock_FromState(stack, NBT), player, returnTMeta(stack, NBT));
-		if( player.inventory.hasItemStack(stacky) || whitelist_flag)
+		if( InventoryUtil.scanStack(stacky ,player.inventory) || whitelist_flag)
 		{
 			if(simulation){return true;}
 
-			if(!whitelist_flag)InventoryUtil.consumeInventoryItemStack(stacky, player.inventory); 
+			if(!whitelist_flag)InventoryUtil.consumeStack(stacky, player.inventory); 
 			if(whitelist_flag){
 				Whitelist_Util.Consume_Whitelist(stacky, player, returnTBlock_FromState(stack, NBT), returnTMeta(stack, NBT));
 			}

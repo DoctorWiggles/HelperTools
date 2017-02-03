@@ -43,7 +43,7 @@ public class Mirage_Server_Message implements IMessage {
     		final EntityPlayerMP player = ctx.getServerHandler().playerEntity;            
     		if(player == null) return null;
 
-    		World world = player.worldObj;
+    		World world = player.world;
     		ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
     		if(stack == null) return null;
 

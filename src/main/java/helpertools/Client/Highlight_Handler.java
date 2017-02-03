@@ -53,7 +53,7 @@ public class Highlight_Handler {
 		if(!Config.Use_Wire_Frame_Guides){return;}
 		try {
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayerSP player = mc.thePlayer;
+		EntityPlayerSP player = mc.player;
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
 			if(player.getHeldItemMainhand().getItem() instanceof FloaterBlock_Item){
@@ -70,7 +70,7 @@ public class Highlight_Handler {
 				ItemStack heldstack = player.getHeldItem(hand);
 				Item held = heldstack.getItem();
 
-				World world = player.worldObj;
+				World world = player.world;
 
 				if (!player.isSneaking()) {
 					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
@@ -90,7 +90,7 @@ public class Highlight_Handler {
 		if(!Config.Use_Wire_Frame_Guides){return;}
 		try{
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayerSP player = mc.thePlayer;
+		EntityPlayerSP player = mc.player;
 		
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
@@ -107,7 +107,7 @@ public class Highlight_Handler {
 		
 				ItemStack heldstack = player.getHeldItem(hand);
 				Item held = heldstack.getItem();
-				World world = player.worldObj;
+				World world = player.world;
 
 				if (!player.isSneaking()) {
 					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
@@ -132,9 +132,10 @@ public class Highlight_Handler {
 	
 	@SubscribeEvent
 	public void ExpandingTool_Highlight(RenderWorldLastEvent evt) {
+		
 		try{
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayerSP player = mc.thePlayer;
+		EntityPlayerSP player = mc.player;
 		
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
@@ -151,7 +152,7 @@ public class Highlight_Handler {
 		
 				ItemStack heldstack = player.getHeldItem(hand);
 				Item held = heldstack.getItem();
-				World world = player.worldObj;
+				World world = player.world;
 
 				if (!player.isSneaking()) {
 					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
@@ -172,7 +173,7 @@ public class Highlight_Handler {
 							}
 							if(Config.Use_Fake_Block_Guides){
 							FX_Phantom_Cube cube = new FX_Phantom_Cube(world,location.getX(),location.getY(),location.getZ(),blocky);							
-							world.spawnEntityInWorld(cube);
+							world.spawnEntity(cube);
 							}
 							
 						}
@@ -188,7 +189,7 @@ public class Highlight_Handler {
 	public void Euclidean_Highlight(RenderWorldLastEvent evt) {
 		try{
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayerSP player = mc.thePlayer;
+		EntityPlayerSP player = mc.player;
 		
 		EnumHand hand = null;
 		if(player.getHeldItemMainhand() != null){
@@ -205,14 +206,14 @@ public class Highlight_Handler {
 		
 				ItemStack heldstack = player.getHeldItem(hand);
 				Item held = heldstack.getItem();
-				World world = player.worldObj;
+				World world = player.world;
 
 				if (!player.isSneaking()) {
 					RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
 					EnumFacing theface = mouseOver.sideHit;
 					BlockPos pos = mouseOver.getBlockPos();
 					
-					if(BlockStateHelper.getBlockfromState(player.worldObj, pos) == Blocks.AIR){return;}
+					if(BlockStateHelper.getBlockfromState(player.world, pos) == Blocks.AIR){return;}
 							
 					IBlockState state = world.getBlockState(pos); 
 					
@@ -287,7 +288,7 @@ public class Highlight_Handler {
 			//false_block(evt, world, pos2, player, states);
 			
 			FX_Phantom_Cube cube = new FX_Phantom_Cube(world,pos2.getX(),pos2.getY(),pos2.getZ(), states);							
-			world.spawnEntityInWorld(cube);
+			world.spawnEntity(cube);
 		
 		}
 		if(Config.Use_Wire_Frame_Guides){
@@ -341,7 +342,7 @@ public class Highlight_Handler {
 	//Highlighter
 	public void Render_Outlines (RenderWorldLastEvent event, IBlockState state, BlockPos pos, int r, int g, int b, float f){
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayerSP player = mc.thePlayer;
+		EntityPlayerSP player = mc.player;
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.disableTexture2D();
@@ -353,10 +354,10 @@ public class Highlight_Handler {
             double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
             double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
 
-            AxisAlignedBB slightlyLargeBB = state.getSelectedBoundingBox(player.worldObj, pos)
+            AxisAlignedBB slightlyLargeBB = state.getSelectedBoundingBox(player.world, pos)
                     .expand(0.005, 0.005, 0.005)
                     .offset(-d0, -d1, -d2);
-            RenderGlobal.func_189697_a(slightlyLargeBB, (float) r/255F, (float) g/255F, (float) b/255F, (float) 100/255F);
+            RenderGlobal.drawSelectionBoundingBox(slightlyLargeBB, (float) r/255F, (float) g/255F, (float) b/255F, (float) 100/255F);
         
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);

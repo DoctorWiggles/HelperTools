@@ -23,8 +23,8 @@ public class HelpTab extends CreativeTabs
 		return new ItemStack(ItemRegistry.exchange_tool);
 	}
 	@Override
-	public Item getTabIconItem() 
+	public ItemStack getTabIconItem() 
 	{
-		return ItemRegistry.exchange_tool;
+		return new ItemStack(ItemRegistry.exchange_tool);
 	}
 }

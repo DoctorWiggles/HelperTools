@@ -36,7 +36,7 @@ public class ModUtil {
 	 */
 	public static void print(EntityLivingBase living, TextFormatting format, String text){
 		ITextComponent chatmessy = new TextComponentTranslation(format+text, new Object[0]);
-		((EntityPlayer)living).addChatComponentMessage(chatmessy);
+		((EntityPlayer)living).sendMessage(chatmessy);
 	}
 	public static void print(EntityLivingBase living,String text){
 		print(living, TextFormatting.WHITE, text);
@@ -67,17 +67,17 @@ public class ModUtil {
 				event, SoundCategory.BLOCKS, volume, pitch);
 	}
 	public static void Sound_Server(EntityPlayer player,SoundEvent event, Float volume, Float pitch){
-		Sound_Server(player.worldObj, player, event, pitch, pitch);
+		Sound_Server(player.world, player, event, pitch, pitch);
 	}
 	public static void Sound_Server(EntityLivingBase living,SoundEvent event, Float volume, Float pitch){
-		Sound_Server(living.worldObj, (EntityPlayer)living, event, pitch, pitch);
+		Sound_Server(living.world, (EntityPlayer)living, event, pitch, pitch);
 	}
 	
 	//=============================================================//
 	
 	public static TargetPoint Message_Point(EntityPlayer player, int range){
 		BlockPos pos = player.getPosition();
-		WorldProvider provider= player.worldObj.provider;
+		WorldProvider provider= player.world.provider;
 		NetworkRegistry.TargetPoint point =
 				new TargetPoint(provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range);
 		return point;
@@ -87,7 +87,7 @@ public class ModUtil {
 	//========================Particle Routines =====================//
 	public static void Particle(Float f, Entity Host, EnumParticleTypes type, double x, double y, double z){
 		Random rand = Main.Randy;
-		Host.worldObj.spawnParticle(type, 
+		Host.world.spawnParticle(type, 
 				Host.posX + (rand.nextDouble() - 0.5D)*f * (double)Host.width, 
 				Host.posY + (rand.nextDouble() * (double)Host.height), 
 				Host.posZ + (rand.nextDouble() - 0.5D)*f * (double)Host.width,
@@ -100,7 +100,7 @@ public class ModUtil {
 		if(world.isRemote){return;}
 		EntityItem entity = new EntityItem(world, 0, 0, 0, stack);
 		entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		
 	}
 	/** Drop an item block **/
@@ -108,7 +108,7 @@ public class ModUtil {
 		if(world.isRemote){return;}
 		EntityItem entity = new EntityItem(world, 0, 0, 0, new ItemStack(block));
 		entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		
 	}
 	/** Drop an a block in the world as an item **/

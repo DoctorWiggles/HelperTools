@@ -33,7 +33,7 @@ public class Whitelist_Util {
 		
 		if(block instanceof BlockLeaves){
 			ItemStack stacky  = new ItemStack (block,0, meta-4);
-			if(InventoryUtil.StackScan(stacky, player.inventory) >0){return true;
+			if(InventoryUtil.scanStack(stacky, player.inventory)){return true;
 			}
 		  }
 		
@@ -48,7 +48,7 @@ public class Whitelist_Util {
 			if(block instanceof BlockSlab && meta >= 8){
 				stacky = new ItemStack (block,0, meta - 8);
 			  }
-			if(InventoryUtil.StackScan(stacky, player.inventory) >0){return true;
+			if(InventoryUtil.scanStack(stacky, player.inventory)){return true;
 				}
 				
 			}
@@ -85,7 +85,7 @@ public class Whitelist_Util {
 		
 		if(block instanceof BlockLeaves){
 			ItemStack stacky  = new ItemStack (block,0, meta-4);
-			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
+			InventoryUtil.consumeStack(stacky, player.inventory);
 		  }
 		
 		if(block instanceof BlockRotatedPillar
@@ -99,7 +99,7 @@ public class Whitelist_Util {
 			if(block instanceof BlockSlab && meta >= 8){
 				stacky = new ItemStack (block,0, meta - 8);
 			  }
-			InventoryUtil.consumeInventoryItemStack(stacky, player.inventory);
+			InventoryUtil.consumeStack(stacky, player.inventory);
 				
 			}
 	}

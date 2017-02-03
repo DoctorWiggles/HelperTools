@@ -56,7 +56,10 @@ public class Block_Lamp extends Block{
 	}
 	
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {return HitBox;}	
+    {return HitBox;}
+	@Nullable
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+	{return HitBox;}
 	public boolean isFullCube(IBlockState state){return false;}	
 	public boolean isOpaqueCube(IBlockState state){return false;}	
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
@@ -78,7 +81,8 @@ public class Block_Lamp extends Block{
 		LampFunctions.redstone_toggle(world, state, pos);
 	}
 
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	 public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,  EnumFacing side, float hitX, float hitY, float hitZ)
+	 {	ItemStack heldItem = player.getHeldItem(hand);
 		LampFunctions.power(world, pos, state, player, heldItem);
 		return true;        
 	}
@@ -96,7 +100,7 @@ public static class LampFunctions{
 	
 	
 	public static void power(World world, BlockPos pos, IBlockState state, EntityPlayer player, @Nullable ItemStack stack){
-		if(player.worldObj.isRemote){return;}
+		if(player.world.isRemote){return;}
 		if(player.capabilities.isCreativeMode){
 			if(state == off){
 				perm(world, pos); return;}
@@ -111,7 +115,7 @@ public static class LampFunctions{
 		if (stack.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH) && state == off)
 		{
 			InventoryPlayer inv = player.inventory;
-			InventoryUtil.consumeInventoryItemStack(stack, inv);
+			InventoryUtil.consumeStack(stack, inv);
 			perm(world, pos); return;
 		}
 	}

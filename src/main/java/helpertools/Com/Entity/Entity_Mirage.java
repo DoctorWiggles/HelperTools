@@ -56,16 +56,16 @@ public class Entity_Mirage extends EntityLiving{
 	}
 	
 	public void setHeld(EntityPlayer player){
-		if(player.getHeldItemMainhand() != null){
+		if(!player.getHeldItemMainhand().isEmpty()){
 			this.setHeldItem(EnumHand.MAIN_HAND, player.getHeldItemMainhand().copy());
 		}
-		if(player.getHeldItemOffhand() != null){
+		if(!player.getHeldItemOffhand().isEmpty()){
 			this.setHeldItem(EnumHand.OFF_HAND, player.getHeldItemOffhand().copy());
 		}
 	}
 	
 	public void setArmor(EntityEquipmentSlot slot, EntityPlayer player){
-		if(player.getItemStackFromSlot(slot) != null){
+		if(!player.getItemStackFromSlot(slot).isEmpty()){
 		this.setItemStackToSlot(slot, player.getItemStackFromSlot(slot).copy());
 		}
 	}
@@ -85,7 +85,7 @@ public class Entity_Mirage extends EntityLiving{
 	public void onUpdate(){
 		super.onUpdate();
 		
-		if(!this.worldObj.isRemote){
+		if(!this.world.isRemote){
 			if(this.getPlayer() != null){
 				EntityLivingBase player = this.getPlayer();
 				if(player.isSneaking()){
@@ -110,7 +110,7 @@ public class Entity_Mirage extends EntityLiving{
     {
         try{
             UUID uuid = this.getplayerID();
-            return uuid == null ? null : this.worldObj.getPlayerEntityByUUID(uuid);
+            return uuid == null ? null : this.world.getPlayerEntityByUUID(uuid);
         }
         catch (IllegalArgumentException var2)
         {

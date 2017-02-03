@@ -1,5 +1,5 @@
 {
-    "parent":"helpertools:block/Crossbow_Arrows",
+    "parent":"helpertools:block/crossbow_arrows",
     "display": {
     "thirdperson_righthand": {
         "rotation": [ 0, 180, 358 ],

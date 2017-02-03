@@ -115,7 +115,7 @@ public class BombHelper {
 	public static void Frost_Sphere(World world, BlockPos pos, int radius){
 		
 		try{
-		Boolean hell = (boolean)ReflectionHelper.getPrivateValue(WorldProvider.class, world.provider, "isHellWorld");
+		Boolean hell = ReflectionHelper.getPrivateValue(WorldProvider.class, world.provider, "isHellWorld");
 		if(hell){radius = radius -2;}}catch(Exception e){}
 		
 		for (BlockPos location : Sphere_Shape(pos, radius)) {

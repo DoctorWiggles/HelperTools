@@ -1,5 +1,5 @@
 {
-    "parent":"helpertools:block/Crossbow_Dynamite",
+    "parent":"helpertools:block/crossbow_dynamite",
     "display": {
     "thirdperson_righthand": {
         "rotation": [ 0, 180, 358 ],

@@ -17,8 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -79,9 +82,9 @@ public class Item_Bomb extends Item {
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List list) {
+	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		for (int i = 0; i < max_types; i ++) {
-			list.add(new ItemStack(item, 1, i));
+			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
 
@@ -92,24 +95,26 @@ public class Item_Bomb extends Item {
 
 
 	@Override	  
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
+		ItemStack stack = player.getHeldItem(hand);
+			
 		float f = 6.0F;
 		f = (f * f + f * 2.0F) / 3.0F;
 
 		if (!player.capabilities.isCreativeMode)
 		{
-			--stack.stackSize;
+			stack.shrink(1);
 		}
 
 
 		if (!world.isRemote)
 		{
-			int amp = InventoryUtil.Bomb_Charm_Scan(player.inventory);
+			int amp = InventoryUtil.charmScan(player.inventory);
 			
 			Projectile_Bomb Bomb = new Projectile_Bomb(world, player, stack.getMetadata(), amp);
 			Bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-			world.spawnEntityInWorld(Bomb);
+			world.spawnEntity(Bomb);
 		}
 		world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT,
 				SoundCategory.PLAYERS, .4F, itemRand.nextFloat() * 0.4F + 0.8F);

@@ -1,8 +1,8 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "helpertools:blocks/Crossbow_Tool_Body",
-        "1": "helpertools:blocks/Crossbow_Tool_Ammo"
+        "0": "helpertools:blocks/crossbow_tool_body",
+        "1": "helpertools:blocks/crossbow_tool_ammo"
     },
     "elements": [
         {

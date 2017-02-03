@@ -72,14 +72,14 @@ public class Projectile_Torch extends EntityThrowable{
    @Override
   protected void onImpact(RayTraceResult mop) {
 	   
-	   if (this.worldObj.isRemote){ return;}
+	   if (this.world.isRemote){ return;}
 	   if(mop.entityHit != null){
 	    	  Entity_Impact(mop);
 	    	  return;
 	      }
 	   
 	      EnumFacing sideHit = mop.sideHit; //face of a block
-	      World world = this.worldObj;
+	      World world = this.world;
 	      BlockPos pos1 = mop.getBlockPos();
 	      Block P_Block = Blocks.TORCH;
 	      IBlockState P_State = Blocks.TORCH.getDefaultState();

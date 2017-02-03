@@ -9,6 +9,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -36,7 +37,7 @@ public class Mod_Recipes extends Config{
 
 			ItemStack req_stack_0 = (ItemStack) input.get(0);
 			ItemStack req_stack_1 = (ItemStack) input.get(1);
-			ItemStack future_output = null;
+			ItemStack future_output = ItemStack.EMPTY;
 
 			Item req_item_0 = req_stack_0.getItem();
 
@@ -49,7 +50,7 @@ public class Mod_Recipes extends Config{
 			{
 				ItemStack slot_stack = inv.getStackInSlot(x);
 
-				if (slot_stack != null)
+				if (!slot_stack.isEmpty())
 				{	
 					compare = slot_stack.getItem();
 					if(compare == req_item_0){
@@ -67,7 +68,7 @@ public class Mod_Recipes extends Config{
 				}
 			}
 			if(matched_1 && matched_0 && emptyslots >inv.getSizeInventory()-2 -additive){
-				if (future_output == null) return false;
+				if (future_output.isEmpty()) return false;
 
 				output = repair(future_output, additive);
 				return true;
@@ -104,7 +105,7 @@ public class Mod_Recipes extends Config{
 				ArrayList<Object> required = new ArrayList<Object>(input);
 
 				ItemStack req_stack_0 = (ItemStack) input.get(0);
-				ItemStack future_output = null;
+				ItemStack future_output = ItemStack.EMPTY;
 
 				Item req_item_0 = req_stack_0.getItem();
       
@@ -119,7 +120,7 @@ public class Mod_Recipes extends Config{
 				{
 					ItemStack slot_stack = inv.getStackInSlot(x);
 
-					if (slot_stack != null)
+					if (slot_stack.isEmpty())
 					{	
 						compare = slot_stack.getItem();
 						if(compare == req_item_0){
@@ -241,10 +242,10 @@ static class Mod_recipe implements IRecipe{
 			public ArrayList<Object> getInput(){ return this.input; }
 
 			@Override
-			public ItemStack[] getRemainingItems(InventoryCrafting inv) //getRecipeLeftovers
-			{
-				return ForgeHooks.defaultRecipeGetRemainingItems(inv);
-			}		
+		    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) //getRecipeLeftovers
+		    {
+		        return ForgeHooks.defaultRecipeGetRemainingItems(inv);
+		    }	
 
 		}
 

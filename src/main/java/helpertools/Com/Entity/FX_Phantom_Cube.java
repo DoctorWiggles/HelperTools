@@ -178,7 +178,7 @@ public class FX_Phantom_Cube extends Entity
     @SideOnly(Side.CLIENT)
     public World getWorldObj()
     {
-        return this.worldObj;
+        return this.world;
     }
 
     /**

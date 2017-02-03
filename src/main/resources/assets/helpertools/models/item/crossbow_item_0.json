@@ -1,14 +1,14 @@
 {
-    "parent":"helpertools:block/Crossbow_Unloaded",
+    "parent":"helpertools:block/crossbow_unloaded",
     "display": {
     "thirdperson_righthand": {
-        "rotation": [ 0, 0, 0 ],
-        "translation": [ 0.00, 0.00, 0.00 ],
+        "rotation": [ 0, 180, 358 ],
+        "translation": [ 0.00, 4.50, -2.00 ],
         "scale": [ 1.00, 1.00, 1.00 ]
     },
     "thirdperson_lefthand": {
-        "rotation": [ 0, 0, 0 ],
-        "translation": [ 0.00, 0.00, 0.00 ],
+        "rotation": [ 0, 180, 2 ],
+        "translation": [ 0.00, 4.25, -2.00 ],
         "scale": [ 1.00, 1.00, 1.00 ]
     },
     "firstperson_righthand": {
@@ -22,9 +22,9 @@
         "scale": [ 1.05, 1.05, 1.05 ]
     },
     "gui": {
-        "rotation": [ 0, 0, 0 ],
-        "translation": [ 0.00, 0.00, 0.00 ],
-        "scale": [ 1.00, 1.00, 1.00 ]
+        "rotation": [ 52, 232, 6 ],
+        "translation": [ -0.75, 3.25, 0.75 ],
+        "scale": [ 1.40, 1.40, 1.40 ]
     },
     "head": {
         "rotation": [ 0, 0, 0 ],
@@ -38,34 +38,7 @@
     },
     "ground": {
         "rotation": [ 0, 0, 0 ],
-        "translation": [ 0.00, 0.00, 0.00 ],
         "scale": [ 1.00, 1.00, 1.00 ]
     }
-        },
-"overrides": [
-        {
-            "predicate": {
-                "mode": 0.1
-            },
-            "model": "helpertools:item/crossbow_item_1"
-        },
-        {
-            "predicate": {
-                "mode": 0.2
-            },
-            "model": "helpertools:item/crossbow_item_2"
-        },
-        {
-            "predicate": {
-                "mode": 0.3
-            },
-            "model": "helpertools:item/crossbow_item_3"
-        },
-        {
-            "predicate": {
-                "mode": 0.4
-            },
-            "model": "helpertools:item/crossbow_item_4"
-        }
-    ]
+}
 }

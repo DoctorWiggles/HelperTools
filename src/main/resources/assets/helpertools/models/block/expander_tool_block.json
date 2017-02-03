@@ -1,9 +1,9 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "helpertools:blocks/Expand_Tool_Staff",
-        "1": "helpertools:blocks/Expand_Tool_Ornery",
-        "2": "helpertools:blocks/Expand_Tool_Core"
+        "0": "helpertools:blocks/expand_tool_staff",
+        "1": "helpertools:blocks/expand_tool_ornery",
+        "2": "helpertools:blocks/expand_tool_core"
     },
     "elements": [
         {

@@ -119,15 +119,17 @@ public static class FloaterBlock_Item extends ItemBlock
 
 	}
 	
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
-    {
+	@Override	  
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	{
+		ItemStack stack = player.getHeldItem(hand);
+			
 		if(player.isSneaking()){
 			BlockPos pos = player.getPosition().down();
 			IBlockState state = world.getBlockState(pos); 
-			//Place_Floater(state, world, pos);
+			Place_Floater(state, world, pos);
 			if(!player.capabilities.isCreativeMode && Place_Floater(state, world, pos)){
-				--stack.stackSize;}
+				stack.shrink(1);}
 			
 			return new ActionResult(EnumActionResult.SUCCESS, stack);		
 		}

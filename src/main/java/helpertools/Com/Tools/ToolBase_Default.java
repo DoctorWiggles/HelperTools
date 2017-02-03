@@ -195,7 +195,7 @@ public class ToolBase_Default extends ToolBase{
 		}
 		
 		public void ToolEmpower(ItemStack itemStack, EntityLivingBase entityLiving){
-			World world = entityLiving.worldObj;
+			World world = entityLiving.world;
 			EntityPlayer player = (EntityPlayer)entityLiving;
 			
 			int Toolmax = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(32), itemStack);

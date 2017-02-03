@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -54,6 +55,7 @@ public class Item_MirageHusk extends ItemArmor{
       list.add(TextFormatting.ITALIC + "Press again to swap places with your shadow");      
       }
 	
+	
 	public boolean hasCustomEntity(ItemStack stack)
     {
         return true;
@@ -70,10 +72,13 @@ public class Item_MirageHusk extends ItemArmor{
     }
     
  	//Right click Action
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
-    {
-    	if(player.isSneaking()){    
+    @Override	  
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	{
+		ItemStack stack = player.getHeldItem(hand);
+			
+    	if(player.isSneaking()){ 
+    		System.out.println("here");
     		Create_Mirage(stack, player, world);
     		
     		ModUtil.Sound_Server(player, SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.2F, 1.0F);}
@@ -94,7 +99,7 @@ public class Item_MirageHusk extends ItemArmor{
 		stack.damageItem(Config.Shadow_Cost, player);
 		
 		if(stack.getItemDamage() <= 0){
-			player.inventory.setInventorySlotContents(39, null);			
+			player.inventory.setInventorySlotContents(39, ItemStack.EMPTY);			
 		}
 		
 	}
@@ -107,8 +112,8 @@ public class Item_MirageHusk extends ItemArmor{
     
     //Default Data Setter
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isheld) {  
-    	
-    	if(world.isRemote){return;}
+    	    	
+    	if(world.isRemote){return;}    	
     	
     	if (!stack.hasTagCompound()) {    		
     		stack.setTagCompound(new NBTTagCompound()); 
@@ -186,7 +191,8 @@ public class Item_MirageHusk extends ItemArmor{
 		return null;
 	}
 	
-	public void Create_Mirage(ItemStack stack, EntityPlayer player, World world){		
+	public void Create_Mirage(ItemStack stack, EntityPlayer player, World world){	
+		
 		if(world.isRemote){return;}	
 		this.Destroy_Old_Mirage(stack, player, world);
 		try{
@@ -194,13 +200,14 @@ public class Item_MirageHusk extends ItemArmor{
 			BlockPos pos = player.getPosition();
 			UUID ID = player.getUniqueID();
 			if(ID == null){return;}
-
 			Entity_Mirage mob = new Entity_Mirage(world,ID, player);
 			mob.setLocationAndAngles(pos.getX()+0.5,pos.getY(), pos.getZ()+0.5, 0, 0);
 			this.setShade(stack, mob.getUniqueID());
-			world.spawnEntityInWorld(mob);
+			world.spawnEntity(mob);
 			damageHat(player, stack);
-		}catch(Exception e){}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
 	}
 	

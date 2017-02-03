@@ -1,25 +1,20 @@
 package helpertools;
 
-import java.util.Map;
-
-import helpertools.Client.Armor_Layer_Handler;
-import helpertools.Client.Armor_Render_Handler_old;
 import helpertools.Client.Highlight_Handler;
 import helpertools.Client.Husk_Render_Layer;
-import helpertools.Client.Key_Bindings;
 import helpertools.Client.KeyInput_Handler;
+import helpertools.Client.Key_Bindings;
 import helpertools.Client.RenderRegistry;
 import helpertools.Client.Render_Entity;
 import helpertools.Client.Tool_Hud;
-import helpertools.Com.Config;
 import helpertools.Com.Mirage_Client_Message;
-import helpertools.Com.Registry_Entity;
+
+import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderArmorStand;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RenderSkeleton;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -77,8 +72,8 @@ public class ClientProxy extends CommonProxy {
 	private void Entity_Layer_Injection() {
 		try{					
 		Render render =Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntitySkeleton.class);
-		RenderSkeleton stand_render= (RenderSkeleton)render;		
-		stand_render.addLayer(new Husk_Render_Layer());
+		RenderSkeleton skele_render= (RenderSkeleton)render;		
+		skele_render.addLayer(new Husk_Render_Layer());
 		
 		}catch(Exception e){System.out.println("Helper Tools had an accident adding Skeleton layers, please report this issue!: "+e);}
 	}

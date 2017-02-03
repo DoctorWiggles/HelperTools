@@ -15,6 +15,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -34,10 +35,8 @@ public class Entity_Mirage extends EntityLiving{
 	public Entity_Mirage(World worldIn, UUID ID, EntityPlayer player) {
 		super(worldIn);
 		this.setID(ID);
-		//Was too hard to setup transparent items
 		if(Config.Render_Mirage_Gear){
-		this.setHeldItem(EnumHand.MAIN_HAND, player.getHeldItemMainhand());
-		this.setHeldItem(EnumHand.OFF_HAND, player.getHeldItemOffhand());
+		this.setHeld(player);
 		this.setArmor(EntityEquipmentSlot.HEAD, player);
 		this.setArmor(EntityEquipmentSlot.CHEST, player);
 		this.setArmor(EntityEquipmentSlot.LEGS, player);
@@ -56,8 +55,19 @@ public class Entity_Mirage extends EntityLiving{
 		this.dataManager.register(player, String.valueOf(""));
 	}
 	
+	public void setHeld(EntityPlayer player){
+		if(player.getHeldItemMainhand() != null){
+			this.setHeldItem(EnumHand.MAIN_HAND, player.getHeldItemMainhand().copy());
+		}
+		if(player.getHeldItemOffhand() != null){
+			this.setHeldItem(EnumHand.OFF_HAND, player.getHeldItemOffhand().copy());
+		}
+	}
+	
 	public void setArmor(EntityEquipmentSlot slot, EntityPlayer player){
-		this.setItemStackToSlot(slot, player.getItemStackFromSlot(slot));
+		if(player.getItemStackFromSlot(slot) != null){
+		this.setItemStackToSlot(slot, player.getItemStackFromSlot(slot).copy());
+		}
 	}
 	
 	public boolean canBePushed(){return false;}
@@ -65,7 +75,13 @@ public class Entity_Mirage extends EntityLiving{
     protected void collideWithNearbyEntities(){}
     public boolean canBreatheUnderwater(){return true;}
     public boolean isPushedByWater(){return false;}
-	
+    
+    @Override
+    protected boolean canDropLoot(){ return false;}
+    @Override
+    protected void dropEquipment(boolean flag, int chance) {}
+    
+    @Override
 	public void onUpdate(){
 		super.onUpdate();
 		

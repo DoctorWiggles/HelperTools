@@ -9,7 +9,7 @@ import com.google.common.collect.Sets;
 
 public class Spooky_Names {
 	
-	/** Note - I just grabbed random slavic names
+	/** Note - I just grabbed random slavic baby names
 	 * I have no idea if these mean something offensive :^)
 	 */
 	static Set<String> Random_Names = Sets.newHashSet(new String[] {

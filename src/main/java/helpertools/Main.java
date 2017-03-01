@@ -31,7 +31,7 @@ public class Main {
 	public static final String MODID = "helpertools";
 	public static final String PATH = MODID + ":";
 	public static final String MODNAME = "HelperTools";
-	public static final String VERSION = "v4.0b";
+	public static final String VERSION = "v4.1";
 	public static final String GUIFactory  = "helpertools.Com.Config_Factory";
 	public static final Logger logger = LogManager.getLogger(Main.MODID);
 

@@ -1,0 +1,69 @@
+#Chinese Localization
+
+
+#       #
+# Items #
+item.exchange_item.name=§a方块替换魔杖
+item.expander_item.name=§a多功能建筑魔杖
+item.torchlauncher_item.name=§e火把发射器
+item.dynamitebolt_item.name=§6炸药箭
+item.pattern_item.name=§3欧氏方块区域建筑魔杖
+item.dirtbomb_item.name=泥土炸弹
+item.bottledmilk_item.name=瓶装牛奶
+item.chocolatemilk_item.name=巧克力瓶装牛奶
+item.debug_states_item.name=状态调整
+item.miragehusk_item.name=§5幻影位移面具
+item.bomb_charm.name=炸弹首饰
+item.bomb_item_0.name=泥土炸弹
+item.bomb_item_1.name=沙子炸弹
+item.bomb_item_2.name=沙砾炸弹
+item.bomb_item_3.name=草地炸弹
+item.bomb_item_4.name=霜雪炸弹
+item.bomb_item_5.name=沙漠炸弹
+item.bomb_item_6.name=菌丝炸弹
+item.bomb_item_7.name=§5虚空炸弹
+item.bomb_item_8.name=粘性泥土炸弹
+
+#
+item.crossbow_item.name=火把发射器
+item.crossbow_item_Torch.name=§e§o火把 §r发射器
+item.crossbow_item_Redstone.name=§4§o红石火把 §r发射器
+item.crossbow_item_Dynamite.name=§6§o炸药箭 §r发射器
+item.crossbow_item_Arrow.name=§o箭 §r发射器
+
+#          #
+# Entities #
+entity.helpertools.TorchBolt.name=飞行的火把
+entity.helpertools.RedTorchBolt.name=飞行的红石火把
+entity.helpertools.DynamiteBolt.name=飞行的炸药箭
+entity.helpertools.FlyingItem.name=面具骚灵
+entity.helpertools.Mirage.name=蜃影
+
+
+#        #
+# Blocks #
+tile.falseBedrock_block.name=§7仿基岩
+tile.transcriber_block.name=§3欧氏方块区域建筑定位器
+tile.balloon_block.name=气球
+tile.lamp_block.name=§3魔法灯
+tile.lamp_block_on.name=§3开启的魔法灯
+tile.lamp_block_perm.name=§3自发光魔法灯
+tile.floater_block.name=浮子
+
+
+tile.loosedirt_block.name=浮土
+tile.SugarBlock.name=方糖
+
+#        #
+#Keybinds#
+key.ding=魔杖控制按键
+key.dong=制造蜃影
+key.categories.helpertools=§9§o辅助工具
+
+
+#      #
+# Tabs #
+
+#Current
+itemGroup.HelperTools=§9§o辅助工具
+

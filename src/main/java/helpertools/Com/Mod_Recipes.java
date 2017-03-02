@@ -120,7 +120,7 @@ public class Mod_Recipes extends Config{
 				{
 					ItemStack slot_stack = inv.getStackInSlot(x);
 
-					if (slot_stack.isEmpty())
+					if (!(slot_stack.isEmpty()))
 					{	
 						compare = slot_stack.getItem();
 						if(compare == req_item_0){

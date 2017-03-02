@@ -64,7 +64,7 @@ public class ForgeEventHandler {
 		
 		if(Config.Spooky_Skeletons == 0 || event.isCanceled()){ return;}
 		if(!(event.getEntity() instanceof EntitySkeleton)){return;}
-		if(Config.Spooky_Skeletons >= Main.Randy.nextInt(1)){
+		if(Config.Spooky_Skeletons >= Main.Randy.nextInt(1000)){
 			EntitySkeleton spooky = (EntitySkeleton)event.getEntity();
 			ItemStack stack = new ItemStack(ItemRegistry.miragehusk);
 			spooky.setCustomNameTag(TextFormatting.DARK_PURPLE + Spooky_Names.Get_Name());

@@ -132,8 +132,13 @@ public class Item_BombCharm extends Item{
 
 	//=================================================================//
 	
-	public int getlevel(ItemStack itemStack) {
-		return itemStack.getTagCompound().getInteger("level");
+	public int getlevel(ItemStack stack) {
+		if (!stack.hasTagCompound()) {
+    		stack.setTagCompound(new NBTTagCompound());
+    		stack.getTagCompound().setInteger("level", 1);   
+    		stack.getTagCompound().setInteger("size", 0); 
+    	}
+		return stack.getTagCompound().getInteger("level");
 	} 
 	public void setlevel(ItemStack itemStack, int Value){
    		itemStack.getTagCompound().setInteger("level",  Value );
